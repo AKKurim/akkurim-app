@@ -54,6 +54,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   sqflite: ^2.4.1
+  country_flags: ^3.2.0
 
 
 dev_dependencies:

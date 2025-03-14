@@ -11,15 +11,15 @@ class LocaleDropdown extends ConsumerWidget {
     final appSettings = ref.watch(appSettingsPProvider);
 
     return appSettings.when(
-      data: (appSettings) => DropdownButton(
-        value: appSettings.locale,
-        items: SupportedLocalizations.supportedLocales
-            .map((locale) => DropdownMenuItem(
+      data: (appSettings) => DropdownMenu(
+        initialSelection: appSettings.locale,
+        dropdownMenuEntries: SupportedLocalizations.supportedLocales
+            .map((locale) => DropdownMenuEntry(
                   value: locale,
-                  child: Text(locale.languageCode.toUpperCase()),
+                  label: locale.languageCode.toUpperCase(),
                 ))
             .toList(),
-        onChanged: (Locale? locale) {
+        onSelected: (Locale? locale) {
           ref
               .read(appSettingsPProvider.notifier)
               .updateLocale(locale!.languageCode);
