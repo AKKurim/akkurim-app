@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'widgets/theme_mode_row.dart';
 import 'l10n/supported_localizations.dart';
 import 'providers/app_settings_provider.dart';
+import 'screens/home_screen.dart';
 
 void main() async {
   runApp(
@@ -44,36 +44,6 @@ class MyApp extends ConsumerWidget {
       home: appSettings.maybeWhen(
           orElse: () => CircularProgressIndicator(),
           data: (appSettings) => HomeScreen()),
-    );
-  }
-}
-
-class HomeScreen extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appSettings = ref.watch(appSettingsPProvider);
-
-    return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.appTitle)),
-      body: Center(
-          child: switch (appSettings) {
-        AsyncData(:final value) => ThemeModeRow(),
-        AsyncError(:final error, :final stackTrace) =>
-          Text('Error: $error $stackTrace'),
-        _ => CircularProgressIndicator(),
-      }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref.read(appSettingsPProvider.notifier).updateLocale(
-                appSettings.maybeWhen(
-                    data: (appSettings) => appSettings.locale == Locale('en')
-                        ? Locale('cs').languageCode
-                        : Locale('en').languageCode,
-                    orElse: () => Locale('cs').languageCode),
-              );
-        },
-        child: Icon(Icons.add),
-      ),
     );
   }
 }

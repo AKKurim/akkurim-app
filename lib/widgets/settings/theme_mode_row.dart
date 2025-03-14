@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'theme_mode_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../providers/app_settings_provider.dart';
+import '../../providers/app_settings_provider.dart';
 
 class ThemeModeRow extends ConsumerWidget {
   const ThemeModeRow({super.key});

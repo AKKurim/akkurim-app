@@ -24,4 +24,6 @@
     "@displayMode": {
         "description": "The label for the display mode selection (light or dark)"
     }
+
+    
 }
