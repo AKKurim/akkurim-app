@@ -5,5 +5,7 @@
     "logout": "Odhlásit se",
     "settings": "Nastavení",
     "language": "Jazyk",
-    "displayMode": "Režim zobrazení"
+    "displayMode": "Režim zobrazení",
+    "email": "E-mail",
+    "password": "Heslo"
 }

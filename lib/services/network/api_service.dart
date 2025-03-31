@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../utils/utils.dart';
 import 'package:supertokens_flutter/dio.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 
 class ApiService {
   // Private constructor
@@ -22,6 +23,7 @@ class ApiService {
         onResponse,
     void Function(DioException e, ErrorInterceptorHandler handler)? onError,
   }) {
+    SuperTokens.init(apiDomain: baseUrl, apiBasePath: '/auth');
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       connectTimeout: connectTimeout ?? const Duration(seconds: 30),

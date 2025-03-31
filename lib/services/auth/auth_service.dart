@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supertokens_flutter/supertokens.dart';
@@ -26,14 +24,31 @@ enum AuthStateEnum {
 class AuthService extends _$AuthService {
   @override
   AuthState build() {
-    return AuthState(AuthStateEnum.initial, RoleEnum.unknown);
+    state = AuthState(AuthStateEnum.initial, RoleEnum.unknown);
+    Future.wait([
+      SuperTokens.doesSessionExist(),
+      SuperTokens.getAccessTokenPayloadSecurely(),
+    ]).then((value) {
+      bool sessionExists = value[0] as bool;
+      Map<String, dynamic> accessTokenPayload =
+          value[1] as Map<String, dynamic>;
+      if (sessionExists) {
+        // String role = accessTokenPayload["role"];
+        // RoleEnum roleEnum = RoleEnum.values
+        //     .firstWhere((e) => e.toString().split('.')[1] == role);
+        RoleEnum roleEnum = RoleEnum.trainer;
+        state = AuthState(AuthStateEnum.authenticated, roleEnum);
+        // TODO change the role seleciton
+      } else {
+        state = AuthState(AuthStateEnum.initial, RoleEnum.unknown);
+      }
+    });
+    return state;
   }
 
   Future<void> login({required String email, required String password}) async {
     state = AuthState(AuthStateEnum.loading, RoleEnum.unknown);
     ApiService apiService = ApiService.instance;
-    apiService.configureDio(
-        baseUrl: 'https://${kDebugMode ? 'dev' : ''}api.akkurim.cz');
 
     var res = await apiService.postRequest(
       "/auth/signin",
@@ -44,6 +59,7 @@ class AuthService extends _$AuthService {
         ],
       },
     ).onError((error, stackTrace) {
+      print(error);
       return Response(
         requestOptions: RequestOptions(path: ""),
         statusCode: 500,
@@ -73,11 +89,22 @@ class AuthService extends _$AuthService {
       state =
           AuthState(AuthStateEnum.error, RoleEnum.unknown, error: errorString);
     } else {
-      Map<String, dynamic> accessTokenPayload =
-          await SuperTokens.getAccessTokenPayloadSecurely();
-      String role = accessTokenPayload["role"];
+      print(SuperTokens.doesSessionExist());
+      // Map<String, dynamic> accessTokenPayload =
+      //     await SuperTokens.getAccessTokenPayloadSecurely().onError(
+      //   (error, stackTrace) {
+      //     print(error);
+      //     state = AuthState(AuthStateEnum.error, RoleEnum.unknown,
+      //         error: "Error getting access token payload");
+      //     return {};
+      //   },
+      // );
+      // String role = accessTokenPayload["role"];
+      // TODO fix this I guess?
+      String role = 'trainer';
+      print(RoleEnum.trainer.toString());
       RoleEnum roleEnum =
-          RoleEnum.values.firstWhere((e) => e.toString() == role);
+          RoleEnum.values.firstWhere((e) => e.toString().split('.')[1] == role);
       state = AuthState(AuthStateEnum.authenticated, roleEnum);
     }
   }

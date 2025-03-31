@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'home_screen.dart';
-import '../services/auth_service.dart';
+import '../screens/home_screen.dart';
+import '../services/auth/auth_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../widgets/settings/locale_dropdown.dart';
 
 class LoginScreen extends HookConsumerWidget {
   const LoginScreen({super.key});
@@ -37,6 +39,10 @@ class LoginScreen extends HookConsumerWidget {
     });
 
     return Scaffold(
+      appBar: AppBar(
+        leading: null,
+        actions: [LocaleDropdown()],
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -48,8 +54,8 @@ class LoginScreen extends HookConsumerWidget {
               children: [
                 TextField(
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.email,
                   ),
                 ),
                 Row(
@@ -58,8 +64,8 @@ class LoginScreen extends HookConsumerWidget {
                       child: TextField(
                         controller: passwordController,
                         obscureText: !showPaassword.value,
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.password,
                           // hide the password input
                         ),
                       ),
@@ -88,7 +94,7 @@ class LoginScreen extends HookConsumerWidget {
                           password: passwordController.text,
                         );
                   },
-                  child: const Text('Login'),
+                  child: Text(AppLocalizations.of(context)!.login),
                 ),
               ],
             ),

@@ -6,8 +6,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'l10n/supported_localizations.dart';
 import 'providers/app_settings_provider.dart';
 import 'screens/home_screen.dart';
+import 'services/network/api_service.dart';
+import 'package:flutter/foundation.dart';
+import './services/auth/auth_service.dart';
+import './screens/login_screen.dart';
+import 'package:supertokens_flutter/supertokens.dart';
 
 void main() async {
+  ApiService apiService = ApiService.instance;
+  apiService.configureDio(
+      baseUrl: 'https://${kDebugMode ? 'dev' : ''}api.akkurim.cz');
   runApp(
     ProviderScope(
       child: MyApp(),
@@ -21,6 +29,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appSettings = ref.watch(appSettingsPProvider);
+    final authService = ref.watch(authServiceProvider);
 
     return MaterialApp(
       title: Config.appName,
@@ -43,7 +52,10 @@ class MyApp extends ConsumerWidget {
           orElse: () => ThemeData.dark()),
       home: appSettings.maybeWhen(
           orElse: () => CircularProgressIndicator(),
-          data: (appSettings) => HomeScreen()),
+          data: (appSettings) =>
+              authService.state == AuthStateEnum.authenticated
+                  ? const HomeScreen()
+                  : const LoginScreen()),
     );
   }
 }

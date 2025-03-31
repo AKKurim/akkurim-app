@@ -23,6 +23,14 @@
     "displayMode": "Display mode",
     "@displayMode": {
         "description": "The label for the display mode selection (light or dark)"
+    },
+    "email": "Email",
+    "@email": {
+        "description": "The label for the email input field"
+    },
+    "password": "Password",
+    "@password": {
+        "description": "The label for the password input field"
     }
 
     
