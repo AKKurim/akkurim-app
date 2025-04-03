@@ -7,5 +7,6 @@
     "language": "Jazyk",
     "displayMode": "Režim zobrazení",
     "email": "E-mail",
-    "password": "Heslo"
+    "password": "Heslo",
+    "member": "{count, plural, =1{{count} člen} few{{count} členové} other{{count} členů}}"
 }

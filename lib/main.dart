@@ -10,7 +10,6 @@ import 'services/network/api_service.dart';
 import 'package:flutter/foundation.dart';
 import './services/auth/auth_service.dart';
 import './screens/login_screen.dart';
-import 'package:supertokens_flutter/supertokens.dart';
 
 void main() async {
   ApiService apiService = ApiService.instance;

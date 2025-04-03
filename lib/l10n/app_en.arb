@@ -31,7 +31,16 @@
     "password": "Password",
     "@password": {
         "description": "The label for the password input field"
+    },
+    "member": "{count, plural, =1{1 member} other {{count} members}}",
+    "@member": {
+        "description": "The label for the number of members in the club",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "description": "The number of members in the club"
+            }
+        }
     }
-
     
 }
