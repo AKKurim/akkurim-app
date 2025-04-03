@@ -1,6 +1,6 @@
 import "package:drift/drift.dart";
 import 'package:flutter/material.dart' as fm;
-import '../utils/config.dart';
+import '../../utils/config.dart';
 
 class AppSetting extends Table {
   IntColumn get id => integer().autoIncrement()();

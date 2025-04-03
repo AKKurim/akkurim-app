@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import '../../models/app_settings.dart';
+import '../../models/local/app_settings.dart';
 import '../../utils/config.dart';
 
 part 'drift_database.g.dart';

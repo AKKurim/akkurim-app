@@ -10,6 +10,7 @@ import 'services/network/api_service.dart';
 import 'package:flutter/foundation.dart';
 import './services/auth/auth_service.dart';
 import './screens/login_screen.dart';
+import './models/auth/progress_enum.dart';
 
 void main() async {
   ApiService apiService = ApiService.instance;
@@ -50,11 +51,10 @@ class MyApp extends ConsumerWidget {
           },
           orElse: () => ThemeData.dark()),
       home: appSettings.maybeWhen(
-          orElse: () => CircularProgressIndicator(),
-          data: (appSettings) =>
-              authService.state == AuthStateEnum.authenticated
-                  ? const HomeScreen()
-                  : const LoginScreen()),
+          orElse: () => null,
+          data: (appSettings) => authService.state == ProgressEnum.authenticated
+              ? const HomeScreen()
+              : const LoginScreen()),
     );
   }
 }

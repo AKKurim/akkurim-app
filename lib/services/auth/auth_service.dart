@@ -10,6 +10,18 @@ part 'auth_service.g.dart';
 
 @riverpod
 class AuthService extends _$AuthService {
+  String _getTenantFromToken({required Map<String, dynamic> tokenPayload}) {
+    assert(tokenPayload['st-role']['v']!.length == 1);
+    return tokenPayload['st-role']['v'][0]!.split('_')[0];
+  }
+
+  RoleEnum _getRoleFromToken({required Map tokenPayload}) {
+    assert(tokenPayload['st-role']['v']!.length == 1);
+    final roleStr = tokenPayload['st-role']['v'][0]!.split('_')[1];
+    return RoleEnum.values
+        .firstWhere((e) => e.toString().split('.')[1] == roleStr);
+  }
+
   @override
   AuthState build() {
     state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
@@ -17,20 +29,21 @@ class AuthService extends _$AuthService {
       SuperTokens.doesSessionExist(),
       SuperTokens.getAccessTokenPayloadSecurely(),
     ]).then((value) {
-      bool sessionExists = value[0] as bool;
-      Map<String, dynamic> accessTokenPayload =
+      final bool sessionExists = value[0] as bool;
+      final Map<String, dynamic> accessTokenPayload =
           value[1] as Map<String, dynamic>;
+
       if (sessionExists) {
-        // String role = accessTokenPayload["role"];
-        // RoleEnum roleEnum = RoleEnum.values
-        //     .firstWhere((e) => e.toString().split('.')[1] == role);
-        RoleEnum roleEnum = RoleEnum.trainer;
-        state = AuthState(ProgressEnum.authenticated, roleEnum);
-        // TODO change the role seleciton
+        state = AuthState(
+          ProgressEnum.authenticated,
+          _getRoleFromToken(tokenPayload: accessTokenPayload),
+          tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
+        );
       } else {
         state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
       }
     });
+
     return state;
   }
 
@@ -47,7 +60,6 @@ class AuthService extends _$AuthService {
         ],
       },
     ).onError((error, stackTrace) {
-      print(error);
       return Response(
         requestOptions: RequestOptions(path: ""),
         statusCode: 500,
@@ -77,23 +89,21 @@ class AuthService extends _$AuthService {
       state =
           AuthState(ProgressEnum.error, RoleEnum.unknown, error: errorString);
     } else {
-      print(SuperTokens.doesSessionExist());
-      // Map<String, dynamic> accessTokenPayload =
-      //     await SuperTokens.getAccessTokenPayloadSecurely().onError(
-      //   (error, stackTrace) {
-      //     print(error);
-      //     state = AuthState(ProgressEnum.error, RoleEnum.unknown,
-      //         error: "Error getting access token payload");
-      //     return {};
-      //   },
-      // );
-      // String role = accessTokenPayload["role"];
-      // TODO fix this I guess?
-      String role = 'trainer';
-      print(RoleEnum.trainer.toString());
-      RoleEnum roleEnum =
-          RoleEnum.values.firstWhere((e) => e.toString().split('.')[1] == role);
-      state = AuthState(ProgressEnum.authenticated, roleEnum);
+      // actual successful login is here
+      Future.wait([
+        SuperTokens.doesSessionExist(),
+        SuperTokens.getAccessTokenPayloadSecurely(),
+      ]).then((value) {
+        final bool sessionExists = value[0] as bool;
+        final Map<String, dynamic> accessTokenPayload =
+            value[1] as Map<String, dynamic>;
+        assert(sessionExists);
+        state = AuthState(
+          ProgressEnum.authenticated,
+          _getRoleFromToken(tokenPayload: accessTokenPayload),
+          tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
+        );
+      });
     }
   }
 

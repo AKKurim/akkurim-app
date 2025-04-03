@@ -5,6 +5,7 @@ import '../screens/home_screen.dart';
 import '../services/auth/auth_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../widgets/settings/locale_dropdown.dart';
+import '../models/auth/progress_enum.dart';
 
 class LoginScreen extends HookConsumerWidget {
   const LoginScreen({super.key});
@@ -16,19 +17,19 @@ class LoginScreen extends HookConsumerWidget {
     var showPaassword = useState(false);
 
     ref.listen(authServiceProvider, (previous, next) {
-      if (next.state == AuthStateEnum.initial) {
+      if (next.state == ProgressEnum.initial) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const LoginScreen(),
           ),
         );
-      } else if (next.state == AuthStateEnum.authenticated) {
+      } else if (next.state == ProgressEnum.authenticated) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
           ),
         );
-      } else if (next.state == AuthStateEnum.error) {
+      } else if (next.state == ProgressEnum.error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(next.error ?? 'Login failed'),
@@ -99,7 +100,7 @@ class LoginScreen extends HookConsumerWidget {
               ],
             ),
           ),
-          if (ref.watch(authServiceProvider).state == AuthStateEnum.loading)
+          if (ref.watch(authServiceProvider).state == ProgressEnum.loading)
             Container(
               color: Colors.black.withValues(alpha: 0.5),
               child: const Center(
