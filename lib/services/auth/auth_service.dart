@@ -1,30 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supertokens_flutter/supertokens.dart';
-import '../../models/role_enum.dart';
+import '../../models/auth/role_enum.dart';
 import '../network/api_service.dart';
+import '../../models/auth/progress_enum.dart';
+import '../../models/auth/auth_state.dart';
 
 part 'auth_service.g.dart';
-
-class AuthState {
-  final AuthStateEnum state;
-  final RoleEnum role;
-  String? error;
-  AuthState(this.state, this.role, {this.error});
-}
-
-enum AuthStateEnum {
-  initial,
-  loading,
-  authenticated,
-  error,
-}
 
 @riverpod
 class AuthService extends _$AuthService {
   @override
   AuthState build() {
-    state = AuthState(AuthStateEnum.initial, RoleEnum.unknown);
+    state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
     Future.wait([
       SuperTokens.doesSessionExist(),
       SuperTokens.getAccessTokenPayloadSecurely(),
@@ -37,17 +25,17 @@ class AuthService extends _$AuthService {
         // RoleEnum roleEnum = RoleEnum.values
         //     .firstWhere((e) => e.toString().split('.')[1] == role);
         RoleEnum roleEnum = RoleEnum.trainer;
-        state = AuthState(AuthStateEnum.authenticated, roleEnum);
+        state = AuthState(ProgressEnum.authenticated, roleEnum);
         // TODO change the role seleciton
       } else {
-        state = AuthState(AuthStateEnum.initial, RoleEnum.unknown);
+        state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
       }
     });
     return state;
   }
 
   Future<void> login({required String email, required String password}) async {
-    state = AuthState(AuthStateEnum.loading, RoleEnum.unknown);
+    state = AuthState(ProgressEnum.loading, RoleEnum.unknown);
     ApiService apiService = ApiService.instance;
 
     var res = await apiService.postRequest(
@@ -67,7 +55,7 @@ class AuthService extends _$AuthService {
       );
     });
     if (res.statusCode != 200) {
-      state = AuthState(AuthStateEnum.error, RoleEnum.unknown,
+      state = AuthState(ProgressEnum.error, RoleEnum.unknown,
           error: res.statusMessage);
       return;
     }
@@ -76,7 +64,7 @@ class AuthService extends _$AuthService {
     Map<String, dynamic> body = res.data;
     if (body["status"]!.contains("ERROR")) {
       if (body["status"]!.contains("WRONG_CREDENTIALS_ERROR")) {
-        state = AuthState(AuthStateEnum.error, RoleEnum.unknown,
+        state = AuthState(ProgressEnum.error, RoleEnum.unknown,
             error: "Wrong credentials");
         return;
       }
@@ -87,14 +75,14 @@ class AuthService extends _$AuthService {
         }
       }
       state =
-          AuthState(AuthStateEnum.error, RoleEnum.unknown, error: errorString);
+          AuthState(ProgressEnum.error, RoleEnum.unknown, error: errorString);
     } else {
       print(SuperTokens.doesSessionExist());
       // Map<String, dynamic> accessTokenPayload =
       //     await SuperTokens.getAccessTokenPayloadSecurely().onError(
       //   (error, stackTrace) {
       //     print(error);
-      //     state = AuthState(AuthStateEnum.error, RoleEnum.unknown,
+      //     state = AuthState(ProgressEnum.error, RoleEnum.unknown,
       //         error: "Error getting access token payload");
       //     return {};
       //   },
@@ -105,12 +93,12 @@ class AuthService extends _$AuthService {
       print(RoleEnum.trainer.toString());
       RoleEnum roleEnum =
           RoleEnum.values.firstWhere((e) => e.toString().split('.')[1] == role);
-      state = AuthState(AuthStateEnum.authenticated, roleEnum);
+      state = AuthState(ProgressEnum.authenticated, roleEnum);
     }
   }
 
   Future<void> logout() async {
     await SuperTokens.signOut();
-    state = AuthState(AuthStateEnum.initial, RoleEnum.unknown);
+    state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
   }
 }
