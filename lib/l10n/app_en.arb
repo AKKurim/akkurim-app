@@ -4,17 +4,25 @@
     "@appTitle": {
         "description": "The title of the application"
     },
+    "confirmButton": "Confirm",
+    "@confirmation": {
+        "description": "The label for the confirm button"
+    },
+    "cancelButton": "Cancel",
+    "@cancelButton": {
+        "description": "The label for the cancel button"
+    },
     "login": "Login",
     "@login": {
         "description": "The label for the login button"
     },
     "logout": "Logout",
     "@logout": {
-        "description": "The label for the logout button"
+        "description": "The label for the logout dialog"
     },
-    "settings": "Settings",
-    "@settings": {
-        "description": "The label for the settings button"
+    "logoutConfirmation": "Are you sure you want to log out?",
+    "@logoutConfirmation": {
+        "description": "The confirmation message for logging out"
     },
     "language": "Language",
     "@language": {
@@ -32,15 +40,64 @@
     "@password": {
         "description": "The label for the password input field"
     },
-    "member": "{count, plural, =1{1 member} other {{count} members}}",
-    "@member": {
-        "description": "The label for the number of members in the club",
+    "homeScreenTitle": "Welcome {name}",
+    "@homeScreenTitle": {
+        "description": "The welcome message on the home screen",
         "placeholders": {
-            "count": {
-                "type": "int",
-                "description": "The number of members in the club"
+            "name": {
+                "description": "The name of the user",
+                "type": "String"
             }
         }
+    },
+    "homeNavBar": "Home",
+    "@homeNavBar": {
+        "description": "The label for the home navigation bar"
+    },
+    "screen1Title": "Screen 1",
+    "@screen1Title": {
+        "description": "The title of screen 1"
+    },
+    "screen2Title": "Screen 2",
+    "@screen2Title": {
+        "description": "The title of screen 2"
+    },
+    "eventsScreenTitle": "Events",
+    "@eventsScreenTitle": {
+        "description": "The title of the events screen"
+    },
+    "membersScreenTitle": "{count, plural, =1{1 member} other{{count} members}}",
+    "@membersScreenTitle": {
+        "description": "The label for the members screen",
+        "placeholders": {
+            "count": {
+                "description": "The number of members",
+                "type": "int"
+            }
+        }
+    },
+    "membersNavBar" : "Members",
+    "@membersNavBar" : {
+        "description": "The label for the members navigation bar"
+    },
+    "settingsScreenTitle": "Settings",
+    "@settingsScreenTitle": {
+        "description": "The title of the settings screen"
+    },
+    "addMember": "Add Member",
+    "@addMember": {
+        "description": "The label for the add member button"
+    },
+    "editMember": "Edit Member",
+    "@editMember": {
+        "description": "The label for the edit member button"
+    },
+    "deleteMember": "Delete Member",
+    "@deleteMember": {
+        "description": "The label for the delete member button"
+    },
+    "confirmDeleteMember": "Are you sure you want to delete this member?",
+    "@confirmDeleteMember": {
+        "description": "The confirmation message for deleting a member"
     }
-    
 }

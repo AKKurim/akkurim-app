@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'l10n/supported_localizations.dart';
 import 'providers/app_settings_provider.dart';
-import 'screens/home_screen.dart';
+import 'screens/_main_screen_manager.dart';
 import 'services/network/api_service.dart';
 import 'package:flutter/foundation.dart';
 import './services/auth/auth_service.dart';
@@ -53,7 +53,7 @@ class MyApp extends ConsumerWidget {
       home: appSettings.maybeWhen(
           orElse: () => null,
           data: (appSettings) => authService.state == ProgressEnum.authenticated
-              ? const HomeScreen()
+              ? const MainScreenManager()
               : const LoginScreen()),
     );
   }

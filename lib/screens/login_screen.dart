@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../screens/home_screen.dart';
+import '../screens/_main_screen_manager.dart';
 import '../services/auth/auth_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../widgets/settings/locale_dropdown.dart';
@@ -26,7 +26,7 @@ class LoginScreen extends HookConsumerWidget {
       } else if (next.state == ProgressEnum.authenticated) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
+            builder: (context) => const MainScreenManager(),
           ),
         );
       } else if (next.state == ProgressEnum.error) {

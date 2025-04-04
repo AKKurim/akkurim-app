@@ -14,7 +14,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings),
+        title: Text(AppLocalizations.of(context)!.settingsScreenTitle),
         actions: [
           IconButton(
             icon: const Icon(
@@ -22,13 +22,37 @@ class SettingsScreen extends ConsumerWidget {
               color: Colors.red,
             ),
             onPressed: () {
-              ref.read(authServiceProvider.notifier).logout().then((_) {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
-              });
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => AlertDialog(
+                  title: Text(AppLocalizations.of(context)!.logout),
+                  content:
+                      Text(AppLocalizations.of(context)!.logoutConfirmation),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        ref.read(authServiceProvider.notifier).logout();
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(AppLocalizations.of(context)!.confirmButton),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(AppLocalizations.of(context)!.cancelButton),
+                    ),
+                  ],
+                ),
+              );
             },
           ),
         ],

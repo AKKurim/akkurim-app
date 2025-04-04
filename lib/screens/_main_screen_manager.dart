@@ -5,8 +5,10 @@ import '../screens/screen_1.dart';
 import '../screens/screen_2.dart';
 import '../screens/screen_3.dart';
 import '../screens/screen_4.dart';
+import '../screens/settings_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class MainScreenManager extends StatelessWidget {
+class MainScreenManager extends HookWidget {
   const MainScreenManager({super.key});
 
   @override
@@ -19,32 +21,64 @@ class MainScreenManager extends StatelessWidget {
       const Screen4(),
     ];
     final List<String> titles = [
-      'Home',
-      'Screen 1',
-      'Screen 2',
-      'Screen 3',
-      'Screen 4',
-      // TODO
+      AppLocalizations.of(context)!.homeScreenTitle("TODO"),
+      AppLocalizations.of(context)!.screen1Title,
+      AppLocalizations.of(context)!.screen2Title,
+      AppLocalizations.of(context)!.eventsScreenTitle,
+      AppLocalizations.of(context)!.membersScreenTitle(2),
     ];
-    final List<BottomNavigationBarItem> bottomNavigationBarItems = [
-      // Add your bottom navigation bar items here
+    final List<NavigationDestination> bottomNavigationBarItems = [
+      NavigationDestination(
+        icon: const Icon(Icons.home),
+        selectedIcon: const Icon(Icons.home_outlined),
+        label: AppLocalizations.of(context)!.homeNavBar,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.screen_share, color: Colors.transparent),
+        label: AppLocalizations.of(context)!.screen1Title,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.screen_share, color: Colors.transparent),
+        label: AppLocalizations.of(context)!.screen2Title,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.event),
+        label: AppLocalizations.of(context)!.eventsScreenTitle,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.people),
+        label: AppLocalizations.of(context)!.membersNavBar,
+      ),
     ];
     var currentIndex = useState(0);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(titles[currentIndex.value]),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: IndexedStack(
         index: currentIndex.value,
         children: screens,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: bottomNavigationBarItems,
-        currentIndex: currentIndex.value,
-        onTap: (index) {
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: currentIndex.value,
+        onDestinationSelected: (int index) {
           currentIndex.value = index;
         },
+        destinations: bottomNavigationBarItems,
       ),
     );
   }

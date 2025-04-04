@@ -1,12 +1,27 @@
 {
     "@@locale": "cs",
     "appTitle": "Správa atletického klubu",
+    "confirmButton": "Potvrdit",
+    "cancelButton": "Zrušit",
     "login": "Přihlásit se",
-    "logout": "Odhlásit se",
+    "logout": "Odhlášení",
+    "logoutConfirmation": "Opravdu se chcete odhlásit?",
     "settings": "Nastavení",
     "language": "Jazyk",
     "displayMode": "Režim zobrazení",
     "email": "E-mail",
     "password": "Heslo",
-    "member": "{count, plural, =1{{count} člen} few{{count} členové} other{{count} členů}}"
+    "homeScreenTitle": "Vítejte {name}",
+    "homeNavBar": "Domů",
+    "screen1Title": "Obrazovka 1",
+    "screen2Title": "Obrazovka 2",
+    "eventsScreenTitle": "Akce",
+    "membersScreenTitle": "{count, plural, =1{{count} člen} few{{count} členové} other{{count} členů}}",
+    "membersNavBar": "Členové",
+    "settingsScreenTitle": "Nastavení",
+    "addMember": "Přidat člena",
+    "editMember": "Upravit člena",
+    "deleteMember": "Smazat člena",
+    "confirmDeleteMember": "Opravdu chcete smazat tohoto člena?"
+
 }
