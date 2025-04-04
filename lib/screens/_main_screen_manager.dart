@@ -29,8 +29,8 @@ class MainScreenManager extends HookWidget {
     ];
     final List<NavigationDestination> bottomNavigationBarItems = [
       NavigationDestination(
-        icon: const Icon(Icons.home),
-        selectedIcon: const Icon(Icons.home_outlined),
+        icon: const Icon(Icons.home_outlined),
+        selectedIcon: const Icon(Icons.home),
         label: AppLocalizations.of(context)!.homeNavBar,
       ),
       NavigationDestination(
@@ -42,11 +42,13 @@ class MainScreenManager extends HookWidget {
         label: AppLocalizations.of(context)!.screen2Title,
       ),
       NavigationDestination(
-        icon: const Icon(Icons.event),
+        icon: const Icon(Icons.event_outlined),
+        selectedIcon: const Icon(Icons.event),
         label: AppLocalizations.of(context)!.eventsScreenTitle,
       ),
       NavigationDestination(
-        icon: const Icon(Icons.people),
+        icon: const Icon(Icons.people_outline),
+        selectedIcon: const Icon(Icons.people),
         label: AppLocalizations.of(context)!.membersNavBar,
       ),
     ];
