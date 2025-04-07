@@ -6,7 +6,7 @@ import '../screens/screen_2.dart';
 import '../screens/screen_3.dart';
 import '../screens/screen_4.dart';
 import '../screens/settings_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class MainScreenManager extends HookWidget {
   const MainScreenManager({super.key});
