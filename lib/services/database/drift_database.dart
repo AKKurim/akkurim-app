@@ -4,6 +4,7 @@ import '../../models/local_db/app_settings.dart';
 import '../../utils/config.dart';
 
 part 'drift_database.g.dart';
+// TODO import all models
 
 @DriftDatabase(tables: [AppSetting])
 class AppDatabase extends _$AppDatabase {
