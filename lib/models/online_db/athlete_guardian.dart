@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-class AthleteGuardians extends Table {
+class AthleteGuardian extends Table {
   TextColumn get athleteId => text().withLength(min: 36, max: 36)();
   TextColumn get guardianId => text().withLength(min: 36, max: 36)();
   DateTimeColumn get createdAt => dateTime()();

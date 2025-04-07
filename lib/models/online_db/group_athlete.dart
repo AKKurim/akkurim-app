@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-class GroupAthletes extends Table {
+class GroupAthlete extends Table {
   TextColumn get groupId => text().withLength(min: 36, max: 36)();
   TextColumn get athleteId => text().withLength(min: 36, max: 36)();
   DateTimeColumn get createdAt => dateTime()();
