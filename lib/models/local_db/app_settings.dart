@@ -1,6 +1,7 @@
 import "package:drift/drift.dart";
-import 'package:flutter/material.dart' as fm;
 import '../../utils/config.dart';
+import 'package:flutter/material.dart' as fm;
+import '../views/app_settings_view.dart';
 
 class AppSetting extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -15,16 +16,4 @@ class AppSetting extends Table {
           themeMode.toString() == "dark" ? Config.darkTheme : Config.lightTheme,
     );
   }
-}
-
-class AppSettingsView {
-  final int id;
-  final fm.Locale locale;
-  final fm.ThemeData themeData;
-
-  AppSettingsView({
-    required this.id,
-    required this.locale,
-    required this.themeData,
-  });
 }
