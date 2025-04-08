@@ -7,6 +7,7 @@ import '../screens/screen_3.dart';
 import '../screens/screen_4.dart';
 import '../screens/settings_screen.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
+import '../widgets/sync_icon.dart';
 
 class MainScreenManager extends HookWidget {
   const MainScreenManager({super.key});
@@ -58,6 +59,7 @@ class MainScreenManager extends HookWidget {
       appBar: AppBar(
         title: Text(titles[currentIndex.value]),
         actions: [
+          const SyncIcon(),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {

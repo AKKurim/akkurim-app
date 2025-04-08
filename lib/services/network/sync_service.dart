@@ -1,8 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:dio/dio.dart';
 import 'package:supertokens_flutter/dio.dart';
 import 'package:eventflux/eventflux.dart';
 import '../../providers/app_settings_provider.dart';
@@ -27,27 +25,24 @@ class SyncService extends _$SyncService {
   @override
   Future<SyncState> build() async {
     final connectivityResult = await Connectivity().checkConnectivity();
-    final db = await ref.watch(databaseProvider.future);
-    final remoteConfig = await ref.watch(remoteConfigProvider.future);
-    final toSyncData = await db.rawQuery('SELECT COUNT(*) FROM sync_q');
-    final toSync = Sqflite.firstIntValue(toSyncData) ?? 0;
+    //final db = ref.read(dbProvider);
 
-    Connectivity().onConnectivityChanged.listen(
-      (result) async {
-        state = AsyncValue.data(
-          state.value!.copyWith(
-            connectivityResult: result.last,
-          ),
-        );
-        _syncData(
-            forceDownloadCheck:
-                true); //force download on app start (provider creation)
-      },
-    );
+    // Connectivity().onConnectivityChanged.listen(
+    //   (result) async {
+    //     state = AsyncValue.data(
+    //       state.value!.copyWith(
+    //         connectivityResult: result.last,
+    //       ),
+    //     );
+    //     _syncData(
+    //         forceDownloadCheck:
+    //             true); //force download on app start (provider creation)
+    //   },
+    // );
 
-    EventFlux.instance.connect(
-        EventFluxConnectionType.get, "${Config.}/v1/sse/listen",
-        onSuccessCallback: (EventFluxResponse? response) {
+    EventFlux.instance
+        .connect(EventFluxConnectionType.get, "${Config.baseUrl}/v1/sse/listen",
+            onSuccessCallback: (EventFluxResponse? response) {
       response?.stream?.listen((event) {
         print("Event: $event");
         print("x" + event.data + "x");
@@ -57,7 +52,7 @@ class SyncService extends _$SyncService {
 
     return SyncState(
       connectivityResult: connectivityResult.first,
-      toSync: toSync,
+      toSync: 0, // TODO
       isUploading: false,
       isDownloading: false,
       lastSyncedAt:
