@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
 class DisciplineType extends Table {
-  IntColumn get id => integer().customConstraint("PRIMARY_KEY")();
+  IntColumn get id => integer().customConstraint("PRIMARY KEY")();
   TextColumn get name => text()();
   TextColumn get description => text().nullable()();
   TextColumn get nameEn => text().nullable()();

@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 
 class Training extends Table {
-  TextColumn get id => text().withLength(min: 36, max: 36)
-      .customConstraint("PRIMARY_KEY")();
+  TextColumn get id =>
+      text().withLength(min: 36, max: 36).customConstraint("PRIMARY KEY")();
   DateTimeColumn get datetime => dateTime()();
   TextColumn get groupId => text().withLength(min: 36, max: 36)();
   TextColumn get description => text().nullable()();

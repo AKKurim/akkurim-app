@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 
 class TrainingTime extends Table {
   TextColumn get id =>
-      text().withLength(min: 36, max: 36).customConstraint("PRIMARY_KEY")();
+      text().withLength(min: 36, max: 36).customConstraint("PRIMARY KEY")();
   TextColumn get day => text()();
   TextColumn get summerTime => text()();
   TextColumn get winterTime => text()();

@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 
 class MeetEvent extends Table {
   TextColumn get id =>
-      text().withLength(min: 36, max: 36).customConstraint("PRIMARY_KEY")();
+      text().withLength(min: 36, max: 36).customConstraint("PRIMARY KEY")();
   TextColumn get meetId => text()();
   TextColumn get meetType => text()();
   IntColumn get disciplineId => integer()();
