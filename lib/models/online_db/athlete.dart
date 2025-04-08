@@ -1,8 +1,7 @@
 import 'package:drift/drift.dart';
 
 class Athlete extends Table {
-  TextColumn get id =>
-      text().withLength(min: 36, max: 36).customConstraint("PRIMARY KEY")();
+  TextColumn get id => text().withLength(min: 36, max: 36)();
   TextColumn get birthNumber => text().unique()();
   TextColumn get firstName => text()();
   TextColumn get lastName => text()();
@@ -18,4 +17,7 @@ class Athlete extends Table {
   TextColumn get athleteStatusId => text().withLength(min: 36, max: 36)();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

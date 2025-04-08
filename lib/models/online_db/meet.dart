@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
 class Meet extends Table {
-  TextColumn get id => text().customConstraint("PRIMARY KEY")();
+  TextColumn get id => text()();
   TextColumn get name => text()();
   DateTimeColumn get startAt => dateTime()();
   DateTimeColumn get endAt => dateTime()();
@@ -9,4 +9,7 @@ class Meet extends Table {
   TextColumn get organizer => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

@@ -5,6 +5,7 @@ import 'package:supertokens_flutter/dio.dart';
 import 'package:eventflux/eventflux.dart';
 import '../../providers/app_settings_provider.dart';
 import '../../utils/config.dart';
+import '../../providers/db_provider.dart';
 
 part 'sync_service.g.dart';
 part 'sync_service.freezed.dart';
@@ -25,7 +26,9 @@ class SyncService extends _$SyncService {
   @override
   Future<SyncState> build() async {
     final connectivityResult = await Connectivity().checkConnectivity();
-    //final db = ref.read(dbProvider);
+    final db = ref.read(dbProvider);
+    final res = db.select(db.athlete).getSingleOrNull();
+    print("SyncService: $res");
 
     // Connectivity().onConnectivityChanged.listen(
     //   (result) async {

@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
 class Discipline extends Table {
-  IntColumn get id => integer().customConstraint("PRIMARY KEY")();
+  IntColumn get id => integer()();
   IntColumn get disciplineTypeId => integer()();
   TextColumn get description => text()();
   TextColumn get shortDescription => text()();
@@ -9,4 +9,7 @@ class Discipline extends Table {
   TextColumn get shortDescriptionEn => text()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

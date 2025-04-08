@@ -77,9 +77,27 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (Migrator m) async {
+          await m.createAll();
+        },
+        onUpgrade: (Migrator m, int from, int to) async {
+          // This is called when the database is opened and the schema version
+          // is higher than the previous version.
+          print('Upgrading database from $from to $to');
+          try {
+            await m.createAll();
+          } catch (e) {
+            print('Error creating tables: $e');
+          }
+        },
+      );
 
   static QueryExecutor _openConnection() {
+    print('Opening database connection');
     return driftDatabase(
       name: Config.dbName,
       native: const DriftNativeOptions(

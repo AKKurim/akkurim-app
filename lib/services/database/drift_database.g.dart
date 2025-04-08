@@ -229,9 +229,7 @@ class $SyncQueueTable extends SyncQueue
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'PRIMARY KEY');
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _endpointMeta =
       const VerificationMeta('endpoint');
   @override
@@ -1495,8 +1493,7 @@ class $AthleteStatusTable extends AthleteStatus
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY)KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -1566,7 +1563,7 @@ class $AthleteStatusTable extends AthleteStatus
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   AthleteStatusData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -1811,8 +1808,7 @@ class $AthleteTable extends Athlete with TableInfo<$AthleteTable, AthleteData> {
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _birthNumberMeta =
       const VerificationMeta('birthNumber');
   @override
@@ -2576,9 +2572,7 @@ class $CategoryTable extends Category
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'PRIMARY KEY');
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _sexMeta = const VerificationMeta('sex');
   @override
   late final GeneratedColumn<int> sex = GeneratedColumn<int>(
@@ -3008,9 +3002,7 @@ class $ClubTable extends Club with TableInfo<$ClubTable, ClubData> {
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -3321,9 +3313,7 @@ class $DisciplineTypeTable extends DisciplineType
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'PRIMARY KEY');
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -3702,9 +3692,7 @@ class $DisciplineTable extends Discipline
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'PRIMARY KEY');
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _disciplineTypeIdMeta =
       const VerificationMeta('disciplineTypeId');
   @override
@@ -4711,8 +4699,7 @@ class $GroupTable extends Group with TableInfo<$GroupTable, GroupData> {
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -5123,8 +5110,7 @@ class $GuardianTable extends Guardian
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _firstNameMeta =
       const VerificationMeta('firstName');
   @override
@@ -5513,8 +5499,7 @@ class $ItemTypeTable extends ItemType
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -5786,8 +5771,7 @@ class $ItemTable extends Item with TableInfo<$ItemTable, ItemData> {
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -6268,8 +6252,7 @@ class $MeetEventTable extends MeetEvent
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _meetIdMeta = const VerificationMeta('meetId');
   @override
   late final GeneratedColumn<String> meetId = GeneratedColumn<String>(
@@ -6742,9 +6725,7 @@ class $MeetTable extends Meet with TableInfo<$MeetTable, MeetData> {
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -7165,9 +7146,7 @@ class $RemoteConfigTable extends RemoteConfig
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'PRIMARY KEY');
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _urgentMessageMeta =
       const VerificationMeta('urgentMessage');
   @override
@@ -7477,8 +7456,7 @@ class $SchoolYearTable extends SchoolYear
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -7535,7 +7513,7 @@ class $SchoolYearTable extends SchoolYear
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => const {};
   @override
   SchoolYearData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -7751,8 +7729,7 @@ class $SignUpFormStatusTable extends SignUpFormStatus
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -8069,8 +8046,7 @@ class $SignUpFormTable extends SignUpForm
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _birthNumberMeta =
       const VerificationMeta('birthNumber');
   @override
@@ -9116,8 +9092,7 @@ class $TrainerStatusTable extends TrainerStatus
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -9432,8 +9407,7 @@ class $TrainerTable extends Trainer with TableInfo<$TrainerTable, TrainerData> {
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _athleteIdMeta =
       const VerificationMeta('athleteId');
   @override
@@ -10169,8 +10143,7 @@ class $TrainingTimeTable extends TrainingTime
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _dayMeta = const VerificationMeta('day');
   @override
   late final GeneratedColumn<String> day = GeneratedColumn<String>(
@@ -10850,8 +10823,7 @@ class $TrainingTable extends Training
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _datetimeMeta =
       const VerificationMeta('datetime');
   @override
@@ -11255,8 +11227,7 @@ class $WebPostTable extends WebPost with TableInfo<$WebPostTable, WebPostData> {
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'PRIMARY KEY');
+      requiredDuringInsert: true);
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
