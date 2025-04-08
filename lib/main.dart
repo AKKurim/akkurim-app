@@ -7,6 +7,7 @@ import 'l10n/supported_localizations.dart';
 import 'providers/app_settings_provider.dart';
 import 'screens/_main_screen_manager.dart';
 import 'services/network/api_service.dart';
+import 'package:flutter/foundation.dart';
 import './services/auth/auth_service.dart';
 import './screens/login_screen.dart';
 import './models/auth/progress_enum.dart';
@@ -14,8 +15,7 @@ import './models/auth/progress_enum.dart';
 void main() async {
   ApiService apiService = ApiService.instance;
   apiService.configureDio(
-    baseUrl: Config.baseUrl,
-  );
+      baseUrl: 'https://${kDebugMode ? 'dev' : ''}api.akkurim.cz');
   runApp(
     ProviderScope(
       child: MyApp(),

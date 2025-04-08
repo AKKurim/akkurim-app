@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 
 class SignUpForm extends Table {
   TextColumn get id =>
-      text().withLength(min: 36, max: 36).customConstraint("PRIMARY KEY")();
+      text().withLength(min: 36, max: 36).customConstraint("PRIMARY_KEY")();
   TextColumn get birthNumber => text()();
   TextColumn get firstName => text()();
   TextColumn get lastName => text()();
