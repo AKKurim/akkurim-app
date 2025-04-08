@@ -25,24 +25,24 @@ class AuthService extends _$AuthService {
   @override
   AuthState build() {
     state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
-    Future.wait([
-      SuperTokens.doesSessionExist(),
-      SuperTokens.getAccessTokenPayloadSecurely(),
-    ]).then((value) {
-      final bool sessionExists = value[0] as bool;
-      final Map<String, dynamic> accessTokenPayload =
-          value[1] as Map<String, dynamic>;
+    // Future.wait([
+    //   SuperTokens.doesSessionExist(),
+    //   SuperTokens.getAccessTokenPayloadSecurely()
+    // ]).then((value) {
+    //   final bool sessionExists = value[0] as bool;
+    //   final Map<String, dynamic> accessTokenPayload =
+    //       value[1] as Map<String, dynamic>;
 
-      if (sessionExists) {
-        state = AuthState(
-          ProgressEnum.authenticated,
-          _getRoleFromToken(tokenPayload: accessTokenPayload),
-          tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
-        );
-      } else {
-        state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
-      }
-    });
+    //   if (sessionExists) {
+    //     state = AuthState(
+    //       ProgressEnum.authenticated,
+    //       _getRoleFromToken(tokenPayload: accessTokenPayload),
+    //       tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
+    //     );
+    //   } else {
+    //     state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
+    //   }
+    // });
 
     return state;
   }

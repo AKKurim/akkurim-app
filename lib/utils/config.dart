@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Config {
+  static const baseUrl = "https://${kDebugMode ? 'dev' : ''}api.akkurim.cz";
+
   static const String appName = 'Athletics Club Manager';
   static const String dbName = 'athletics_club_manager';
 

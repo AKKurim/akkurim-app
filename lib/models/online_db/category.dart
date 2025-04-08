@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
 class Category extends Table {
-  IntColumn get id => integer().customConstraint("PRIMARY_KEY")();
+  IntColumn get id => integer().customConstraint("PRIMARY KEY")();
   IntColumn get sex => integer()();
   TextColumn get description => text()();
   TextColumn get shortDescription => text()();

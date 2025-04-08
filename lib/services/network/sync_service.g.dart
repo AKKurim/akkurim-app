@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_service.dart';
+part of 'sync_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authServiceHash() => r'0db0eb75a71c986200e3fcec0d2fe90a00fc7089';
+String _$syncServiceHash() => r'6459f2cfac512ebedcb5651f5f51e2a5e8da3583';
 
-/// See also [AuthService].
-@ProviderFor(AuthService)
-final authServiceProvider =
-    AutoDisposeNotifierProvider<AuthService, AuthState>.internal(
-  AuthService.new,
-  name: r'authServiceProvider',
+/// See also [SyncService].
+@ProviderFor(SyncService)
+final syncServiceProvider =
+    AutoDisposeAsyncNotifierProvider<SyncService, SyncState>.internal(
+  SyncService.new,
+  name: r'syncServiceProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authServiceHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$syncServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AuthService = AutoDisposeNotifier<AuthState>;
+typedef _$SyncService = AutoDisposeAsyncNotifier<SyncState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

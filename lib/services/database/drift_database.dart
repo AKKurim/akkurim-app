@@ -77,11 +77,11 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 1;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
-      name: Config.dbName,
+      name: 'test.db',
       native: const DriftNativeOptions(
           // By default, `driftDatabase` from `package:drift_flutter` stores the
           // database files in `getApplicationDocumentsDirectory()`.
@@ -92,3 +92,35 @@ class AppDatabase extends _$AppDatabase {
 }
 
 final database = AppDatabase();
+final Map<String, Table> modelMap = {
+  'sync_queue': SyncQueue(),
+  'app_setting': AppSetting(),
+  'athlete_guardian': AthleteGuardian(),
+  'athlete_meet_event': AthleteMeetEvent(),
+  'athlete_sign_up_form': AthleteSignUpForm(),
+  'athlete_status': AthleteStatus(),
+  'athlete': Athlete(),
+  'category': Category(),
+  'club': Club(),
+  'discipline_type': DisciplineType(),
+  'discipline': Discipline(),
+  'group_athlete': GroupAthlete(),
+  'group_trainer': GroupTrainer(),
+  'group': Group(),
+  'guardian': Guardian(),
+  'item_type': ItemType(),
+  'item': Item(),
+  'meet_event': MeetEvent(),
+  'meet': Meet(),
+  'remote_config': RemoteConfig(),
+  'school_year': SchoolYear(),
+  'sign_up_form_status': SignUpFormStatus(),
+  'sign_up_form': SignUpForm(),
+  'trainer_status': TrainerStatus(),
+  'trainer': Trainer(),
+  'training_athlete': TrainingAthlete(),
+  'training_time': TrainingTime(),
+  'training_trainer': TrainingTrainer(),
+  'training': Training(),
+  'web_post': WebPost(),
+};
