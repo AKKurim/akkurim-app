@@ -10,12 +10,17 @@ import 'services/network/api_service.dart';
 import './services/auth/auth_service.dart';
 import './screens/login_screen.dart';
 import './models/auth/progress_enum.dart';
+import 'dart:ui';
 
 void main() async {
   ApiService apiService = ApiService.instance;
   apiService.configureDio(
     baseUrl: Config.baseUrl,
   );
+  PlatformDispatcher.instance.onError = (error, stack) {
+    print("Error: $error");
+    return true;
+  };
   runApp(
     ProviderScope(
       child: MyApp(),

@@ -6,20 +6,10 @@ import 'package:eventflux/eventflux.dart';
 import '../../providers/app_settings_provider.dart';
 import '../../utils/config.dart';
 import '../../providers/db_provider.dart';
+import './api_service.dart';
+import '../../models/other/sync_state.dart';
 
 part 'sync_service.g.dart';
-part 'sync_service.freezed.dart';
-
-@freezed
-class SyncState with _$SyncState {
-  const factory SyncState({
-    required ConnectivityResult connectivityResult,
-    required int toSync,
-    required bool isUploading,
-    required bool isDownloading,
-    required DateTime lastSyncedAt,
-  }) = _SyncState;
-}
 
 @riverpod
 class SyncService extends _$SyncService {
