@@ -13,7 +13,7 @@ class AppSettingsP extends _$AppSettingsP {
   @override
   Stream<AppSettingsView> build() async* {
     final db = ref.read(dbProvider);
-    await db.select(db.syncQueue).getSingleOrNull() ??
+    await db.select(db.appSetting).getSingleOrNull() ??
         await db.into(db.appSetting).insert(
               AppSettingCompanion(
                 id: Value(1),
