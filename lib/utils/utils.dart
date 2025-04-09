@@ -26,4 +26,17 @@ class Utils {
     }
     return false;
   }
+
+  static String tzOffsetMap(String tz) {
+    switch (tz) {
+      case 'UTC':
+        return 'Z';
+      case 'Europe/Prague':
+        return '+02:00';
+      case 'Europe/Berlin':
+        return '+02:00';
+    }
+    // TODO: Add more timezones from wiki
+    return '+00:00';
+  }
 }

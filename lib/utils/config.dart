@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 class Config {
   static const String baseUrl =
       'https://${kDebugMode ? 'dev' : ''}api.akkurim.cz';
+  static const String apiVersion = '/v1';
 
   static const String appName = 'Athletics Club Manager';
   static const String dbName = 'athletics_club_manager';

@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_settings_provider.dart';
+part of 'temp.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appSettingsPHash() => r'1cf447ed08aeec485f856f3189f425ca4ba46e0a';
+String _$syncServiceHash() => r'f994e2cb77f40a998bb177f3dbc58bf456fc4748';
 
-/// See also [AppSettingsP].
-@ProviderFor(AppSettingsP)
-final appSettingsPProvider =
-    AutoDisposeStreamNotifierProvider<AppSettingsP, AppSettingsView>.internal(
-  AppSettingsP.new,
-  name: r'appSettingsPProvider',
+/// See also [SyncService].
+@ProviderFor(SyncService)
+final syncServiceProvider =
+    AutoDisposeAsyncNotifierProvider<SyncService, SyncState>.internal(
+  SyncService.new,
+  name: r'syncServiceProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appSettingsPHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$syncServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AppSettingsP = AutoDisposeStreamNotifier<AppSettingsView>;
+typedef _$SyncService = AutoDisposeAsyncNotifier<SyncState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

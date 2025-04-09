@@ -31,4 +31,4 @@ final modelMap = {
   'training_trainer': database.trainingTrainer,
   'training': database.training,
   'web_post': database.webPost,
-}
+};

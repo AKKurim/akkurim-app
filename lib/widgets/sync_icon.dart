@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import "package:flutter/material.dart";
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../services/network/sync_service.dart';
+import '../services/network/temp.dart';
 import '../providers/app_settings_provider.dart';
 
 class SyncIcon extends ConsumerWidget {

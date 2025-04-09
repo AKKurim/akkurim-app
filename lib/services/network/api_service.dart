@@ -28,6 +28,7 @@ class ApiService {
       baseUrl: baseUrl,
       connectTimeout: connectTimeout ?? const Duration(seconds: 30),
       receiveTimeout: receiveTimeout ?? const Duration(seconds: 30),
+      validateStatus: (status) => status! < 500,
       headers: defaultHeaders ??
           {
             'Content-Type': 'application/json',
@@ -77,6 +78,36 @@ class ApiService {
       Map<String, dynamic>? queryParameters}) async {
     try {
       Response response = await _dio.post(
+        endpoint,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> putRequest(String endpoint,
+      {Map<String, dynamic>? data,
+      Map<String, dynamic>? queryParameters}) async {
+    try {
+      Response response = await _dio.put(
+        endpoint,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> deleteRequest(String endpoint,
+      {Map<String, dynamic>? data,
+      Map<String, dynamic>? queryParameters}) async {
+    try {
+      Response response = await _dio.delete(
         endpoint,
         data: data,
         queryParameters: queryParameters,
