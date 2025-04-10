@@ -1,10 +1,10 @@
-import 'package:ak_kurim_app/services/database/drift_database.dart';
-import 'package:ak_kurim_app/utils/config.dart';
+import '../services/database/drift_database.dart';
+import '../utils/config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/views/app_settings_view.dart';
 import 'package:drift/drift.dart';
-import '../providers/db_provider.dart';
+import './db_provider.dart';
 
 part 'app_settings_provider.g.dart';
 
