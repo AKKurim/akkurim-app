@@ -107,7 +107,7 @@ class SyncIcon extends ConsumerWidget {
                 child: value.isUploading
                     ? const Icon(
                         Icons.cloud_upload,
-                        color: Colors.blue,
+                        color: Colors.yellow,
                       )
                     : const Icon(
                         Icons.cloud_download,

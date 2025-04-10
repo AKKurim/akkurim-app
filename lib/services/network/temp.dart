@@ -28,7 +28,18 @@ class SyncService extends _$SyncService {
     return resCount.length;
   }
 
+  ConnectivityResult _getConnectivityResult(List<ConnectivityResult> data) {
+    if (data.contains(ConnectivityResult.wifi)) {
+      return ConnectivityResult.wifi;
+    }
+    if (data.contains(ConnectivityResult.mobile)) {
+      return ConnectivityResult.mobile;
+    }
+    return ConnectivityResult.none;
+  }
+
   Future<void> _checkForUpdates() async {
+    print('Checking for updates');
     final db = ref.read(dbProvider);
     ApiService api = ApiService.instance;
     final lastUpdated = await _getLastUpdated();
@@ -65,30 +76,36 @@ class SyncService extends _$SyncService {
   @override
   Future<SyncState> build() async {
     final connectivityResult = await Connectivity().checkConnectivity();
-    if (_isConnected(connectivityResult.last)) {
-      await _checkForUpdates();
-    }
-
     Connectivity().onConnectivityChanged.listen(
       (result) async {
+        final connRes = _getConnectivityResult(result);
         state = AsyncValue.data(
           state.value!.copyWith(
-            connectivityResult: result.last,
+            connectivityResult: connRes,
           ),
         );
-        print(state.value!.connectivityResult);
-        _syncData(forceDownloadCheck: true);
+        if (_isConnected(connRes)) {
+          _syncData(forceDownloadCheck: true);
+        }
       },
     );
-    EventFlux.instance.connect(EventFluxConnectionType.get,
-        "${Config.baseUrl + Config.apiVersion}/sse/listen",
-        onSuccessCallback: (EventFluxResponse? response) {
-      response?.stream?.listen((event) {
-        print("Event: $event");
-        print("x" + event.data + "x");
-        print(event);
-      });
-    });
+    EventFlux.instance.connect(
+      EventFluxConnectionType.get,
+      "${Config.baseUrl + Config.apiVersion}/sse/listen",
+      onSuccessCallback: (EventFluxResponse? response) {
+        response?.stream?.listen(
+          (event) {
+            // TODO handle event
+            print("Event: $event");
+            print("x" + event.data + "x");
+            print(event);
+            if (event.data.isNotEmpty) {
+              _syncData(forceDownloadCheck: true);
+            }
+          },
+        );
+      },
+    );
 
     final count = await _getToSyncCount();
     return SyncState(
@@ -126,7 +143,6 @@ class SyncService extends _$SyncService {
   bool _isConnected(ConnectivityResult result) {
     final appSettings = ref.watch(appSettingsPProvider);
     return result == ConnectivityResult.wifi ||
-        result == ConnectivityResult.vpn ||
         (result == ConnectivityResult.mobile &&
             appSettings.whenData((data) {
                   return data.useMobileData;
@@ -136,6 +152,7 @@ class SyncService extends _$SyncService {
 
   Future<void> _syncData({bool forceDownloadCheck = false}) async {
     print("Syncing data");
+    print(forceDownloadCheck);
     if ((state.value!.toSync == 0 && !forceDownloadCheck) ||
         state.value!.isUploading ||
         state.value!.isDownloading ||
@@ -204,73 +221,76 @@ class SyncService extends _$SyncService {
       );
     }
 
-    await _checkForUpdates(); // checks for updates from server
-    int count = await _getToSyncCount();
-    state = AsyncValue.data(state.value!.copyWith(
-      toSync: count,
-      isDownloading: true,
-      isUploading: false,
-    ));
+    if (forceDownloadCheck) {
+      print("---------------------------------");
+      await _checkForUpdates(); // checks for updates from server
+      int count = await _getToSyncCount();
+      state = AsyncValue.data(state.value!.copyWith(
+        toSync: count,
+        isDownloading: true,
+        isUploading: false,
+      ));
 
-    final downloadData = await (db.select(db.syncQueue)
-          ..where(
-            (tbl) => tbl.doneAt.isNull(),
-          )
-          ..where(
-            (tbl) => tbl.method.equals('get'),
-          ))
-        .get();
-    final downloadFutures = downloadData.map((data) async {
-      try {
-        final res = await api.getRequest(
-          "${Config.apiVersion}${data.endpoint}",
-          queryParameters: json.decode(data.data!) as Map<String, dynamic>,
-        );
-        if (res.statusCode == 200) {
-          return {
-            'id': data.id,
-            'data': res.data,
-            'table': json.decode(data.data!)['table_name'],
-          };
-        }
-      } catch (error) {
-        print("Error: $error");
-        return null;
-      }
-    }).toList();
-    final downloadResult = await Future.wait(downloadFutures);
-    for (final item in downloadResult) {
-      try {
-        if (item != null) {
-          final data = item['data'] as List<dynamic>;
-          final table = item['table'] as String;
-          final id = item['id'] as int;
-          await db.batch((b) {
-            b.insertAll(
-              modelMap[table] as TableInfo<Table, dynamic>,
-              [
-                for (var item in data)
-                  companionMap[table]!(item) as Insertable<dynamic>
-              ],
-              mode: InsertMode.insertOrReplace,
-            );
-          });
-          await (db.update(db.syncQueue)
-                ..where(
-                  (tbl) => tbl.id.equals(id),
-                ))
-              .write(
-            SyncQueueCompanion(
-              doneAt: Value(DateTime.now()),
-            ),
+      final downloadData = await (db.select(db.syncQueue)
+            ..where(
+              (tbl) => tbl.doneAt.isNull(),
+            )
+            ..where(
+              (tbl) => tbl.method.equals('get'),
+            ))
+          .get();
+      final downloadFutures = downloadData.map((data) async {
+        try {
+          final res = await api.getRequest(
+            "${Config.apiVersion}${data.endpoint}",
+            queryParameters: json.decode(data.data!) as Map<String, dynamic>,
           );
+          if (res.statusCode == 200) {
+            return {
+              'id': data.id,
+              'data': res.data,
+              'table': json.decode(data.data!)['table_name'],
+            };
+          }
+        } catch (error) {
+          print("Error: $error");
+          return null;
         }
-      } catch (error, stack) {
-        print("Error: $error $stack");
+      }).toList();
+      final downloadResult = await Future.wait(downloadFutures);
+      for (final item in downloadResult) {
+        try {
+          if (item != null) {
+            final data = item['data'] as List<dynamic>;
+            final table = item['table'] as String;
+            final id = item['id'] as int;
+            await db.batch((b) {
+              b.insertAll(
+                modelMap[table] as TableInfo<Table, dynamic>,
+                [
+                  for (var item in data)
+                    companionMap[table]!(item) as Insertable<dynamic>
+                ],
+                mode: InsertMode.insertOrReplace,
+              );
+            });
+            await (db.update(db.syncQueue)
+                  ..where(
+                    (tbl) => tbl.id.equals(id),
+                  ))
+                .write(
+              SyncQueueCompanion(
+                doneAt: Value(DateTime.now()),
+              ),
+            );
+          }
+        } catch (error, stack) {
+          print("Error: $error $stack");
+        }
       }
     }
 
-    count = await _getToSyncCount();
+    int count = await _getToSyncCount();
     final lastUpdatedString = await _getLastUpdated();
     state = AsyncValue.data(state.value!.copyWith(
       isDownloading: false,
