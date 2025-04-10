@@ -28,7 +28,6 @@ class Utils {
   }
 
   static String tzOffsetMap(String tz) {
-    print('tz: $tz');
     switch (tz) {
       case 'UTC':
         return 'Z';
@@ -38,6 +37,19 @@ class Utils {
         return '+02:00';
     }
     // TODO: Add more timezones from wiki
+    print('tz: $tz');
     return '+00:00';
+  }
+
+  static DateTime parseBirthNumber(String birthNumber) {
+    final year = int.parse(birthNumber.substring(0, 2));
+    final month = int.parse(birthNumber.substring(2, 4));
+    final day = int.parse(birthNumber.substring(4, 6));
+
+    // Adjust the year based on the month
+    final adjustedYear = year < 30 ? year + 2000 : year + 1900;
+    final adjustedMonth = month > 12 ? month - 50 : month;
+
+    return DateTime(adjustedYear, adjustedMonth, day);
   }
 }

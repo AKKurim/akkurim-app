@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../providers/simple_athlete_provider.dart';
+import '../utils/utils.dart';
 
 class Screen4 extends ConsumerWidget {
   const Screen4({super.key});
@@ -19,10 +20,33 @@ class Screen4 extends ConsumerWidget {
         itemCount: data.length,
         itemBuilder: (context, index) {
           final athlete = data[index];
-          return ListTile(
-            title: Text(
-                '${athlete.athlete.firstName} ${athlete.athlete.lastName}'),
-            subtitle: Text(athlete.club?.name ?? ''),
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            child: ListTile(
+              title: Row(
+                children: [
+                  Text(
+                    '${athlete.athlete.firstName} ${athlete.athlete.lastName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()})',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+              trailing: Chip(
+                label: Text('Active'),
+                backgroundColor: Colors.green.withValues(alpha: 0.2),
+                labelStyle: TextStyle(color: Colors.green),
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                  width: 0.5,
+                ),
+              ),
+            ),
           );
         },
       );
