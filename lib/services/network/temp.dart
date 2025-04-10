@@ -18,64 +18,57 @@ part 'temp.g.dart';
 
 @riverpod
 class SyncService extends _$SyncService {
-  @override
-  Future<SyncState> build() async {
-    print("SyncService build");
-    final connectivityResult = await Connectivity().checkConnectivity();
+  Future<int> _getToSyncCount() async {
     final db = ref.read(dbProvider);
-    if (_isConnected(connectivityResult.last)) {
-      ApiService api = ApiService.instance;
-      final netRes = await api.getRequest('${Config.apiVersion}/sync/tables/');
-      final resLastUpdated = await (db.select(db.syncQueue)
-            ..orderBy([
-              (u) =>
-                  OrderingTerm(expression: u.doneAt, mode: OrderingMode.desc),
-            ])
-            ..where(
-              (tbl) => tbl.doneAt.isNotNull(),
-            )
-            ..limit(1))
-          .getSingleOrNull();
-      String lastUpdated = "2025-01-01 00:00:00.000";
-      if (resLastUpdated != null) {
-        lastUpdated = resLastUpdated.doneAt.toString();
-      }
-      final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
-      lastUpdated += Utils.tzOffsetMap(
-        currentTimeZone,
-      );
-      print("Last updated: $lastUpdated");
-      await db.batch(
-        (b) {
-          b.insertAll(
-            db.syncQueue,
-            [
-              for (var table in netRes.data)
-                SyncQueueCompanion(
-                  endpoint: Value('/sync/'),
-                  method: Value('get'),
-                  data: Value(
-                    json.encode(
-                      {
-                        'table_name': table,
-                        'from_date': lastUpdated,
-                      },
-                    ),
-                  ),
-                  createdAt: Value(DateTime.now()),
-                  updatedAt: Value(DateTime.now()),
-                ),
-            ],
-          );
-        },
-      );
-    }
     List<SyncQueueData> resCount = await (db.select(db.syncQueue)
           ..where(
             (tbl) => tbl.doneAt.isNull(),
           ))
         .get();
-    final count = resCount.length;
+    return resCount.length;
+  }
+
+  Future<void> _checkForUpdates() async {
+    final db = ref.read(dbProvider);
+    ApiService api = ApiService.instance;
+    final lastUpdated = await _getLastUpdated();
+    final netRes = await api
+        .getRequest('${Config.apiVersion}/sync/tables/', queryParameters: {
+      'from_date': lastUpdated,
+    });
+    await db.batch(
+      (b) {
+        b.insertAll(
+          db.syncQueue,
+          [
+            for (var table in netRes.data)
+              SyncQueueCompanion(
+                endpoint: Value('/sync/$table'),
+                method: Value('get'),
+                data: Value(
+                  json.encode(
+                    {
+                      'table_name': table,
+                      'from_date': lastUpdated,
+                    },
+                  ),
+                ),
+                createdAt: Value(DateTime.now()),
+                updatedAt: Value(DateTime.now()),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Future<SyncState> build() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (_isConnected(connectivityResult.last)) {
+      await _checkForUpdates();
+    }
+
     Connectivity().onConnectivityChanged.listen(
       (result) async {
         state = AsyncValue.data(
@@ -83,6 +76,7 @@ class SyncService extends _$SyncService {
             connectivityResult: result.last,
           ),
         );
+        print(state.value!.connectivityResult);
         _syncData(forceDownloadCheck: true);
       },
     );
@@ -96,6 +90,7 @@ class SyncService extends _$SyncService {
       });
     });
 
+    final count = await _getToSyncCount();
     return SyncState(
       connectivityResult: connectivityResult.first,
       toSync: count,
@@ -103,6 +98,29 @@ class SyncService extends _$SyncService {
       isDownloading: false,
       lastSyncedAt: DateTime.now(),
     );
+  }
+
+  Future<String> _getLastUpdated() async {
+    print('Getting last updated');
+    final db = ref.read(dbProvider);
+    final resLastUpdated = await (db.select(db.syncQueue)
+          ..orderBy([
+            (u) => OrderingTerm(expression: u.doneAt, mode: OrderingMode.desc),
+          ])
+          ..where(
+            (tbl) => tbl.doneAt.isNotNull(),
+          )
+          ..limit(1))
+        .getSingleOrNull();
+    String lastUpdated = "2025-01-01 00:00:00.000";
+    if (resLastUpdated != null) {
+      lastUpdated = resLastUpdated.doneAt.toString();
+    }
+    final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
+    lastUpdated += Utils.tzOffsetMap(
+      currentTimeZone,
+    );
+    return lastUpdated;
   }
 
   bool _isConnected(ConnectivityResult result) {
@@ -134,12 +152,14 @@ class SyncService extends _$SyncService {
     ));
     final db = ref.read(dbProvider);
     ApiService api = ApiService.instance;
-    List uploadData = await db.select(db.syncQueue).get();
-    uploadData = uploadData
-        .where(
-          (tbl) => tbl.doneAt == null && tbl.method != 'get',
-        )
-        .toList();
+    List uploadData = await (db.select(db.syncQueue)
+          ..where(
+            (tbl) => tbl.doneAt.isNull(),
+          )
+          ..where(
+            (tbl) => tbl.method.isNotIn(['get']),
+          ))
+        .get();
     print("Upload data: $uploadData");
 
     final uploadFutures = uploadData.map((data) async {
@@ -184,18 +204,26 @@ class SyncService extends _$SyncService {
       );
     }
 
-    print("finished uploading");
+    await _checkForUpdates(); // checks for updates from server
+    int count = await _getToSyncCount();
     state = AsyncValue.data(state.value!.copyWith(
-      toSync: state.value!.toSync - idsToSetDone.length,
+      toSync: count,
       isDownloading: true,
       isUploading: false,
     ));
-    final downloadData = await db.select(db.syncQueue).get()
-      ..where((tbl) => tbl.doneAt == null && tbl.method == 'get');
+
+    final downloadData = await (db.select(db.syncQueue)
+          ..where(
+            (tbl) => tbl.doneAt.isNull(),
+          )
+          ..where(
+            (tbl) => tbl.method.equals('get'),
+          ))
+        .get();
     final downloadFutures = downloadData.map((data) async {
       try {
         final res = await api.getRequest(
-          "${Config.apiVersion}${data.endpoint}${json.decode(data.data!)['table_name']}",
+          "${Config.apiVersion}${data.endpoint}",
           queryParameters: json.decode(data.data!) as Map<String, dynamic>,
         );
         if (res.statusCode == 200) {
@@ -242,15 +270,11 @@ class SyncService extends _$SyncService {
       }
     }
 
-    List<SyncQueueData> resCount = await (db.select(db.syncQueue)
-          ..where(
-            (tbl) => tbl.doneAt.isNull(),
-          ))
-        .get();
-    final count = resCount.length;
+    count = await _getToSyncCount();
+    final lastUpdatedString = await _getLastUpdated();
     state = AsyncValue.data(state.value!.copyWith(
       isDownloading: false,
-      lastSyncedAt: DateTime.now(),
+      lastSyncedAt: DateTime.parse(lastUpdatedString),
       toSync: count,
     ));
     _syncData();

@@ -28,6 +28,7 @@ class Utils {
   }
 
   static String tzOffsetMap(String tz) {
+    print('tz: $tz');
     switch (tz) {
       case 'UTC':
         return 'Z';
