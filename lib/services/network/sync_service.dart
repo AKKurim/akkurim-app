@@ -78,11 +78,21 @@ class SyncService extends _$SyncService {
     Connectivity().onConnectivityChanged.listen(
       (result) async {
         final connRes = _getConnectivityResult(result);
-        state = AsyncValue.data(
-          state.value!.copyWith(
-            connectivityResult: connRes,
-          ),
-        );
+        state = state.value != null
+            ? AsyncValue.data(
+                state.value!.copyWith(
+                  connectivityResult: connRes,
+                ),
+              )
+            : AsyncValue.data(
+                SyncState(
+                  connectivityResult: connRes,
+                  toSync: 0,
+                  isUploading: false,
+                  isDownloading: false,
+                  lastSyncedAt: DateTime.now(),
+                ),
+              );
         if (_isConnected(connRes)) {
           _syncData(forceDownloadCheck: true);
         }
@@ -107,12 +117,13 @@ class SyncService extends _$SyncService {
     );
 
     final count = await _getToSyncCount();
+    final lastUpdatedString = await _getLastUpdated();
     return SyncState(
-      connectivityResult: connectivityResult.first,
+      connectivityResult: connectivityResult.last,
       toSync: count,
       isUploading: false,
       isDownloading: false,
-      lastSyncedAt: DateTime.now(),
+      lastSyncedAt: DateTime.parse(lastUpdatedString),
     );
   }
 

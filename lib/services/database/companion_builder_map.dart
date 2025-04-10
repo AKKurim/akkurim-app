@@ -113,11 +113,6 @@ DisciplineTypeCompanion buildDisciplineTypeCompanion(
       description: row['description'] != null
           ? Value(row['description'])
           : const Value.absent(),
-      nameEn:
-          row['name_en'] != null ? Value(row['name_en']) : const Value.absent(),
-      descriptionEn: row['description_en'] != null
-          ? Value(row['description_en'])
-          : const Value.absent(),
       createdAt: Value(DateTime.parse(row['created_at'])),
       updatedAt: Value(DateTime.parse(row['updated_at'])),
     );

@@ -6,7 +6,6 @@
     "login": "Přihlásit se",
     "logout": "Odhlášení",
     "logoutConfirmation": "Opravdu se chcete odhlásit?",
-    "settings": "Nastavení",
     "language": "Jazyk",
     "displayMode": "Režim zobrazení",
     "email": "E-mail",
@@ -22,6 +21,7 @@
     "addMember": "Přidat člena",
     "editMember": "Upravit člena",
     "deleteMember": "Smazat člena",
-    "confirmDeleteMember": "Opravdu chcete smazat tohoto člena?"
+    "confirmDeleteMember": "Opravdu chcete smazat tohoto člena?",
+    "memberSearchHint": "Hledat členy"
 
 }

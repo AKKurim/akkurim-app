@@ -5,7 +5,7 @@
         "description": "The title of the application"
     },
     "confirmButton": "Confirm",
-    "@confirmation": {
+    "@confirmButton": {
         "description": "The label for the confirm button"
     },
     "cancelButton": "Cancel",
@@ -99,5 +99,9 @@
     "confirmDeleteMember": "Are you sure you want to delete this member?",
     "@confirmDeleteMember": {
         "description": "The confirmation message for deleting a member"
+    },
+    "memberSearchHint": "Search for a member",
+    "@memberSearchHint": {
+        "description": "The hint text for the member search input field"
     }
 }

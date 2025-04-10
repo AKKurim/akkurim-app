@@ -3325,17 +3325,6 @@ class $DisciplineTypeTable extends DisciplineType
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
       'description', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _nameEnMeta = const VerificationMeta('nameEn');
-  @override
-  late final GeneratedColumn<String> nameEn = GeneratedColumn<String>(
-      'name_en', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _descriptionEnMeta =
-      const VerificationMeta('descriptionEn');
-  @override
-  late final GeneratedColumn<String> descriptionEn = GeneratedColumn<String>(
-      'description_en', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -3350,7 +3339,7 @@ class $DisciplineTypeTable extends DisciplineType
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, description, nameEn, descriptionEn, createdAt, updatedAt];
+      [id, name, description, createdAt, updatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -3375,16 +3364,6 @@ class $DisciplineTypeTable extends DisciplineType
           _descriptionMeta,
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('name_en')) {
-      context.handle(_nameEnMeta,
-          nameEn.isAcceptableOrUnknown(data['name_en']!, _nameEnMeta));
-    }
-    if (data.containsKey('description_en')) {
-      context.handle(
-          _descriptionEnMeta,
-          descriptionEn.isAcceptableOrUnknown(
-              data['description_en']!, _descriptionEnMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -3413,10 +3392,6 @@ class $DisciplineTypeTable extends DisciplineType
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      nameEn: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name_en']),
-      descriptionEn: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description_en']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -3435,16 +3410,12 @@ class DisciplineTypeData extends DataClass
   final int id;
   final String name;
   final String? description;
-  final String? nameEn;
-  final String? descriptionEn;
   final DateTime createdAt;
   final DateTime updatedAt;
   const DisciplineTypeData(
       {required this.id,
       required this.name,
       this.description,
-      this.nameEn,
-      this.descriptionEn,
       required this.createdAt,
       required this.updatedAt});
   @override
@@ -3454,12 +3425,6 @@ class DisciplineTypeData extends DataClass
     map['name'] = Variable<String>(name);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
-    }
-    if (!nullToAbsent || nameEn != null) {
-      map['name_en'] = Variable<String>(nameEn);
-    }
-    if (!nullToAbsent || descriptionEn != null) {
-      map['description_en'] = Variable<String>(descriptionEn);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -3473,11 +3438,6 @@ class DisciplineTypeData extends DataClass
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
-      nameEn:
-          nameEn == null && nullToAbsent ? const Value.absent() : Value(nameEn),
-      descriptionEn: descriptionEn == null && nullToAbsent
-          ? const Value.absent()
-          : Value(descriptionEn),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -3490,8 +3450,6 @@ class DisciplineTypeData extends DataClass
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String?>(json['description']),
-      nameEn: serializer.fromJson<String?>(json['nameEn']),
-      descriptionEn: serializer.fromJson<String?>(json['descriptionEn']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
     );
@@ -3503,8 +3461,6 @@ class DisciplineTypeData extends DataClass
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String?>(description),
-      'nameEn': serializer.toJson<String?>(nameEn),
-      'descriptionEn': serializer.toJson<String?>(descriptionEn),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
     };
@@ -3514,17 +3470,12 @@ class DisciplineTypeData extends DataClass
           {int? id,
           String? name,
           Value<String?> description = const Value.absent(),
-          Value<String?> nameEn = const Value.absent(),
-          Value<String?> descriptionEn = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       DisciplineTypeData(
         id: id ?? this.id,
         name: name ?? this.name,
         description: description.present ? description.value : this.description,
-        nameEn: nameEn.present ? nameEn.value : this.nameEn,
-        descriptionEn:
-            descriptionEn.present ? descriptionEn.value : this.descriptionEn,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -3534,10 +3485,6 @@ class DisciplineTypeData extends DataClass
       name: data.name.present ? data.name.value : this.name,
       description:
           data.description.present ? data.description.value : this.description,
-      nameEn: data.nameEn.present ? data.nameEn.value : this.nameEn,
-      descriptionEn: data.descriptionEn.present
-          ? data.descriptionEn.value
-          : this.descriptionEn,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -3549,8 +3496,6 @@ class DisciplineTypeData extends DataClass
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
-          ..write('nameEn: $nameEn, ')
-          ..write('descriptionEn: $descriptionEn, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -3558,8 +3503,7 @@ class DisciplineTypeData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, name, description, nameEn, descriptionEn, createdAt, updatedAt);
+  int get hashCode => Object.hash(id, name, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3567,8 +3511,6 @@ class DisciplineTypeData extends DataClass
           other.id == this.id &&
           other.name == this.name &&
           other.description == this.description &&
-          other.nameEn == this.nameEn &&
-          other.descriptionEn == this.descriptionEn &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -3577,16 +3519,12 @@ class DisciplineTypeCompanion extends UpdateCompanion<DisciplineTypeData> {
   final Value<int> id;
   final Value<String> name;
   final Value<String?> description;
-  final Value<String?> nameEn;
-  final Value<String?> descriptionEn;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   const DisciplineTypeCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
-    this.nameEn = const Value.absent(),
-    this.descriptionEn = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -3594,8 +3532,6 @@ class DisciplineTypeCompanion extends UpdateCompanion<DisciplineTypeData> {
     this.id = const Value.absent(),
     required String name,
     this.description = const Value.absent(),
-    this.nameEn = const Value.absent(),
-    this.descriptionEn = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
   })  : name = Value(name),
@@ -3605,8 +3541,6 @@ class DisciplineTypeCompanion extends UpdateCompanion<DisciplineTypeData> {
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? description,
-    Expression<String>? nameEn,
-    Expression<String>? descriptionEn,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
   }) {
@@ -3614,8 +3548,6 @@ class DisciplineTypeCompanion extends UpdateCompanion<DisciplineTypeData> {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
-      if (nameEn != null) 'name_en': nameEn,
-      if (descriptionEn != null) 'description_en': descriptionEn,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -3625,16 +3557,12 @@ class DisciplineTypeCompanion extends UpdateCompanion<DisciplineTypeData> {
       {Value<int>? id,
       Value<String>? name,
       Value<String?>? description,
-      Value<String?>? nameEn,
-      Value<String?>? descriptionEn,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt}) {
     return DisciplineTypeCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
-      nameEn: nameEn ?? this.nameEn,
-      descriptionEn: descriptionEn ?? this.descriptionEn,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -3652,12 +3580,6 @@ class DisciplineTypeCompanion extends UpdateCompanion<DisciplineTypeData> {
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
-    if (nameEn.present) {
-      map['name_en'] = Variable<String>(nameEn.value);
-    }
-    if (descriptionEn.present) {
-      map['description_en'] = Variable<String>(descriptionEn.value);
-    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -3673,8 +3595,6 @@ class DisciplineTypeCompanion extends UpdateCompanion<DisciplineTypeData> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
-          ..write('nameEn: $nameEn, ')
-          ..write('descriptionEn: $descriptionEn, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -13355,8 +13275,6 @@ typedef $$DisciplineTypeTableCreateCompanionBuilder = DisciplineTypeCompanion
   Value<int> id,
   required String name,
   Value<String?> description,
-  Value<String?> nameEn,
-  Value<String?> descriptionEn,
   required DateTime createdAt,
   required DateTime updatedAt,
 });
@@ -13365,8 +13283,6 @@ typedef $$DisciplineTypeTableUpdateCompanionBuilder = DisciplineTypeCompanion
   Value<int> id,
   Value<String> name,
   Value<String?> description,
-  Value<String?> nameEn,
-  Value<String?> descriptionEn,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
 });
@@ -13388,12 +13304,6 @@ class $$DisciplineTypeTableFilterComposer
 
   ColumnFilters<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get nameEn => $composableBuilder(
-      column: $table.nameEn, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get descriptionEn => $composableBuilder(
-      column: $table.descriptionEn, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -13420,13 +13330,6 @@ class $$DisciplineTypeTableOrderingComposer
   ColumnOrderings<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get nameEn => $composableBuilder(
-      column: $table.nameEn, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get descriptionEn => $composableBuilder(
-      column: $table.descriptionEn,
-      builder: (column) => ColumnOrderings(column));
-
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
@@ -13451,12 +13354,6 @@ class $$DisciplineTypeTableAnnotationComposer
 
   GeneratedColumn<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => column);
-
-  GeneratedColumn<String> get nameEn =>
-      $composableBuilder(column: $table.nameEn, builder: (column) => column);
-
-  GeneratedColumn<String> get descriptionEn => $composableBuilder(
-      column: $table.descriptionEn, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -13495,8 +13392,6 @@ class $$DisciplineTypeTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<String?> description = const Value.absent(),
-            Value<String?> nameEn = const Value.absent(),
-            Value<String?> descriptionEn = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
           }) =>
@@ -13504,8 +13399,6 @@ class $$DisciplineTypeTableTableManager extends RootTableManager<
             id: id,
             name: name,
             description: description,
-            nameEn: nameEn,
-            descriptionEn: descriptionEn,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),
@@ -13513,8 +13406,6 @@ class $$DisciplineTypeTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             required String name,
             Value<String?> description = const Value.absent(),
-            Value<String?> nameEn = const Value.absent(),
-            Value<String?> descriptionEn = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
           }) =>
@@ -13522,8 +13413,6 @@ class $$DisciplineTypeTableTableManager extends RootTableManager<
             id: id,
             name: name,
             description: description,
-            nameEn: nameEn,
-            descriptionEn: descriptionEn,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),

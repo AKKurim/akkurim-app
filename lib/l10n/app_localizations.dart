@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// **'Athletics Club Management'**
   String get appTitle;
 
-  /// No description provided for @confirmButton.
+  /// The label for the confirm button
   ///
   /// In en, this message translates to:
   /// **'Confirm'**
@@ -226,6 +226,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this member?'**
   String get confirmDeleteMember;
+
+  /// The hint text for the member search input field
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a member'**
+  String get memberSearchHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
