@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../providers/filter_providers.dart';
+import '../screens/member_profile.dart';
 import '../utils/utils.dart';
 
 class AthleteListView extends HookConsumerWidget {
@@ -26,13 +27,21 @@ class AthleteListView extends HookConsumerWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: ListTile(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MemberProfile(
+                      athleteId: athlete.athlete.id,
+                    ),
+                  ),
+                ),
                 title: Text(
                   '${athlete.athlete.lastName} ${athlete.athlete.firstName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()})',
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 trailing: Chip(
-                  label: Text('Active'),
+                  label: Text(athlete.athleteStatus.name),
                   backgroundColor: Colors.green.withValues(alpha: 0.2),
                   labelStyle: TextStyle(color: Colors.green),
                   padding:

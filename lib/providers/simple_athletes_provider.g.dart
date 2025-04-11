@@ -6,7 +6,7 @@ part of 'simple_athletes_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$simpleAthletesPHash() => r'43685ae09f8a3302172412a6b56d09c9b664c69b';
+String _$simpleAthletesPHash() => r'6950bc0d0225e94df200b164027c870391f6aa6e';
 
 /// See also [SimpleAthletesP].
 @ProviderFor(SimpleAthletesP)
