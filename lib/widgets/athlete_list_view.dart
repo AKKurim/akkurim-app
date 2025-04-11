@@ -26,21 +26,17 @@ class AthleteListView extends HookConsumerWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: ListTile(
-                title: Row(
-                  children: [
-                    Text(
-                      '${athlete.athlete.lastName} ${athlete.athlete.firstName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()})',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(width: 8),
-                  ],
+                title: Text(
+                  '${athlete.athlete.lastName} ${athlete.athlete.firstName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()})',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 trailing: Chip(
                   label: Text('Active'),
                   backgroundColor: Colors.green.withValues(alpha: 0.2),
                   labelStyle: TextStyle(color: Colors.green),
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../models/views/simple_athlete_view.dart';
 import 'package:diacritic/diacritic.dart';
 import 'simple_athletes_provider.dart';
+import '../utils/config.dart';
+import 'package:drift/drift.dart';
 
 part 'filter_providers.g.dart';
 
@@ -18,7 +20,13 @@ Stream<List<AthleteStatusData>> athleteStatuses(Ref ref) async* {
   yield* (db.select(db.athleteStatus)
         ..where(
           (tbl) => tbl.deletedAt.isNull(),
-        ))
+        )
+        ..orderBy([
+          (tbl) => OrderingTerm(
+                expression: tbl.id,
+                mode: OrderingMode.asc,
+              ),
+        ]))
       .watch();
 }
 

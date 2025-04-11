@@ -37,7 +37,7 @@ class MySearchBar extends HookConsumerWidget {
     }, [searchController]);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: SearchBar(
         controller: searchController,
         hintText: AppLocalizations.of(context)!.memberSearchHint,

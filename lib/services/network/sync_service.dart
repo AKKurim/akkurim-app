@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:eventflux/eventflux.dart';
@@ -141,6 +143,15 @@ class SyncService extends _$SyncService {
     String lastUpdated = "2025-01-01 00:00:00.000";
     if (resLastUpdated != null) {
       lastUpdated = resLastUpdated.doneAt.toString();
+      await (db.delete(db.syncQueue)
+            ..where(
+              (tbl) => tbl.doneAt.isNotNull(),
+            )
+            ..where(
+              (tbl) =>
+                  tbl.doneAt.isSmallerThan(Constant(resLastUpdated.doneAt!)),
+            ))
+          .go(); // TODO test this
     }
     final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
     lastUpdated += Utils.tzOffsetMap(
@@ -270,20 +281,28 @@ class SyncService extends _$SyncService {
               b.insertAll(
                 modelMap[table] as TableInfo<Table, dynamic>,
                 [
-                  for (var item in data)
-                    companionMap[table]!(item) as Insertable<dynamic>
+                  for (var item_ in data)
+                    companionMap[table]!(item_) as Insertable<dynamic>
                 ],
                 mode: InsertMode.insertOrReplace,
               );
             });
+            final lastUpdateAt = data
+                .map((e) => e['updated_at'])
+                .reduce((a, b) => a.compareTo(b) > 0 ? a : b);
             await (db.update(db.syncQueue)
                   ..where(
                     (tbl) => tbl.id.equals(id),
                   ))
                 .write(
               SyncQueueCompanion(
-                doneAt:
-                    Value(DateTime.now()), //TODO latest updatedAt from server
+                doneAt: Value(
+                  DateTime.parse(lastUpdateAt).add(
+                    Duration(
+                        seconds:
+                            1), // because for some reasons I am not getting milliseconds
+                  ),
+                ),
               ),
             );
           }
