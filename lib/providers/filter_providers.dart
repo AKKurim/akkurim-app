@@ -15,7 +15,11 @@ final statusFilterProvider = StateProvider<Set<AthleteStatusData>>((ref) => {});
 @riverpod
 Stream<List<AthleteStatusData>> athleteStatuses(Ref ref) async* {
   final db = ref.watch(dbProvider);
-  yield* db.select(db.athleteStatus).watch();
+  yield* (db.select(db.athleteStatus)
+        ..where(
+          (tbl) => tbl.deletedAt.isNull(),
+        ))
+      .watch();
 }
 
 @riverpod

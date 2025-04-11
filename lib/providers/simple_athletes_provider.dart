@@ -10,7 +10,11 @@ class SimpleAthletesP extends _$SimpleAthletesP {
   @override
   Stream<List<SimpleAthleteView>> build() async* {
     final db = ref.read(dbProvider);
-    final query = db.select(db.athlete).join([
+    final query = (db.select(db.athlete)
+          ..where(
+            (tbl) => tbl.deletedAt.isNull(),
+          ))
+        .join([
       leftOuterJoin(db.athleteStatus,
           db.athleteStatus.id.equalsExp(db.athlete.athleteStatusId)),
       leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
