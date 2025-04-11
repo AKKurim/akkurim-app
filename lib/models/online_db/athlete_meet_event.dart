@@ -6,6 +6,7 @@ class AthleteMeetEvent extends Table {
   TextColumn get result => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get deletedAt => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {athleteId, meetEventId};

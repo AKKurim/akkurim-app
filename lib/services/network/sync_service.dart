@@ -282,7 +282,8 @@ class SyncService extends _$SyncService {
                   ))
                 .write(
               SyncQueueCompanion(
-                doneAt: Value(DateTime.now()),
+                doneAt:
+                    Value(DateTime.now()), //TODO latest updatedAt from server
               ),
             );
           }

@@ -9,14 +9,14 @@ import 'member_screen.dart';
 import '../screens/settings_screen.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../widgets/sync_icon.dart';
-import '../providers/simple_athlete_provider.dart';
+import '../providers/simple_athletes_provider.dart';
 
 class MainScreenManager extends HookConsumerWidget {
   const MainScreenManager({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final simpleAthlete = ref.watch(simpleAthletePProvider);
+    final simpleAthlete = ref.watch(simpleAthletesPProvider);
     var currentIndex = useState(0);
 
     final List<Widget> screens = [

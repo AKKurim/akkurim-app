@@ -3,10 +3,10 @@ import '../models/views/simple_athlete_view.dart';
 import './db_provider.dart';
 import 'package:drift/drift.dart';
 
-part 'simple_athlete_provider.g.dart';
+part 'simple_athletes_provider.g.dart';
 
 @riverpod
-class SimpleAthleteP extends _$SimpleAthleteP {
+class SimpleAthletesP extends _$SimpleAthletesP {
   @override
   Stream<List<SimpleAthleteView>> build() async* {
     final db = ref.read(dbProvider);

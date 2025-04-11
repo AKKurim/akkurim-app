@@ -6,6 +6,7 @@ class TrainingTrainer extends Table {
   TextColumn get presence => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get deletedAt => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {trainingId, trainerId};

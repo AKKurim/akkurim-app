@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'simple_athlete_provider.dart';
+part of 'simple_athletes_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$simpleAthletePHash() => r'6fea474c7ed1a953e0e8db00b23c71e52d9c2ce4';
+String _$simpleAthletesPHash() => r'43685ae09f8a3302172412a6b56d09c9b664c69b';
 
-/// See also [SimpleAthleteP].
-@ProviderFor(SimpleAthleteP)
-final simpleAthletePProvider = AutoDisposeStreamNotifierProvider<SimpleAthleteP,
-    List<SimpleAthleteView>>.internal(
-  SimpleAthleteP.new,
-  name: r'simpleAthletePProvider',
+/// See also [SimpleAthletesP].
+@ProviderFor(SimpleAthletesP)
+final simpleAthletesPProvider = AutoDisposeStreamNotifierProvider<
+    SimpleAthletesP, List<SimpleAthleteView>>.internal(
+  SimpleAthletesP.new,
+  name: r'simpleAthletesPProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$simpleAthletePHash,
+      : _$simpleAthletesPHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SimpleAthleteP = AutoDisposeStreamNotifier<List<SimpleAthleteView>>;
+typedef _$SimpleAthletesP = AutoDisposeStreamNotifier<List<SimpleAthleteView>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

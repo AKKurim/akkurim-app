@@ -8,6 +8,7 @@ class Group extends Table {
   TextColumn get schoolYearId => text().withLength(min: 36, max: 36)();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get deletedAt => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
