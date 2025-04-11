@@ -315,6 +315,7 @@ class SyncService extends _$SyncService {
     int count = await _getToSyncCount();
     final lastUpdatedString = await _getLastUpdated();
     state = AsyncValue.data(state.value!.copyWith(
+      isUploading: false,
       isDownloading: false,
       lastSyncedAt: DateTime.parse(lastUpdatedString),
       toSync: count,

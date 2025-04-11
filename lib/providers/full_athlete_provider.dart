@@ -2,7 +2,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/views/full_athlete_view.dart';
 import './db_provider.dart';
 import '../services/database/drift_database.dart';
+import '../services/network/sync_service.dart';
+import 'dart:convert';
 import 'package:drift/drift.dart';
+import '../utils/utils.dart';
 
 part 'full_athlete_provider.g.dart';
 
@@ -65,6 +68,20 @@ class FullAthleteP extends _$FullAthleteP {
         .write(AthleteCompanion(
       athleteStatusId: Value(statusId),
     ));
-    // TODO add to sync queue
+    var data = await (db.select(db.athlete)
+          ..where(
+            (tbl) => tbl.deletedAt.isNull() & tbl.id.equals(athleteId),
+          ))
+        .getSingle();
+    // the json data for sync must be in a list
+    ref.read(syncServiceProvider.notifier).addToSyncQueue(
+          '/sync/athlete',
+          'post',
+          jsonEncode(
+            {
+              'data': [Utils.convertMapKeysToSnakeCase(data.toJson())]
+            },
+          ),
+        );
   }
 }

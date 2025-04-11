@@ -52,4 +52,20 @@ class Utils {
 
     return DateTime(adjustedYear, adjustedMonth, day);
   }
+
+  static String camelToSnake(String text) {
+    return text
+        .replaceAllMapped(
+            RegExp(r'([a-z])([A-Z])'), (Match m) => '${m[1]}_${m[2]}')
+        .toLowerCase();
+  }
+
+  static Map<String, dynamic> convertMapKeysToSnakeCase(
+      Map<String, dynamic> inputMap) {
+    Map<String, dynamic> result = {};
+    inputMap.forEach((key, value) {
+      result[camelToSnake(key)] = value;
+    });
+    return result;
+  }
 }

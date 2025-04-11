@@ -42,8 +42,19 @@ class AthleteListView extends HookConsumerWidget {
                 ),
                 trailing: Chip(
                   label: Text(athlete.athleteStatus.name),
-                  backgroundColor: Colors.green.withValues(alpha: 0.2),
-                  labelStyle: TextStyle(color: Colors.green),
+                  backgroundColor: switch (athlete.athleteStatus.name) {
+                    'Active' => Colors.green.withValues(alpha: 0.2),
+                    'Pending' => Colors.yellow.withValues(alpha: 0.2),
+                    'Inactive' => Colors.red.withValues(alpha: 0.2),
+                    _ => Colors.grey.withValues(alpha: 0.2),
+                  },
+                  labelStyle: TextStyle(
+                      color: switch (athlete.athleteStatus.name) {
+                    'Active' => Colors.green,
+                    'Pending' => Colors.yellow,
+                    'Inactive' => Colors.red,
+                    _ => Colors.grey,
+                  }),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 ),
