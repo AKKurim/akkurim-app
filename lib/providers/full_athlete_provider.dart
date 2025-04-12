@@ -79,7 +79,9 @@ class FullAthleteP extends _$FullAthleteP {
           'post',
           jsonEncode(
             {
-              'data': [Utils.convertMapKeysToSnakeCase(data.toJson())]
+              'data': [Utils.convertMapKeysToSnakeCase(data.toJson())],
+              'primary_keys': ['id'],
+              'table': 'athlete',
             },
           ),
         );
