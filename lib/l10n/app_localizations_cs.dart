@@ -36,6 +36,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get email => 'E-mail';
 
   @override
+  String get phone => 'Telefon';
+
+  @override
   String get password => 'Heslo';
 
   @override
@@ -87,4 +90,22 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get memberSearchHint => 'Hledat členy';
+
+  @override
+  String get memberProfile => 'Profil člena';
+
+  @override
+  String get activeStatus => 'Aktivní';
+
+  @override
+  String get inactiveStatus => 'Neaktivní';
+
+  @override
+  String get pendingStatus => 'Čekající';
+
+  @override
+  String get archivedStatus => 'Archivován';
+
+  @override
+  String get status => 'Stav';
 }

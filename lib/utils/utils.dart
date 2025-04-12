@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class Utils {
   static bool ensureMinimumVersion(
@@ -67,5 +69,44 @@ class Utils {
       result[camelToSnake(key)] = value;
     });
     return result;
+  }
+
+  static Color getStatusFGColor(String status) {
+    switch (status) {
+      case 'Active':
+        return Colors.green;
+      case 'Pending':
+        return Colors.yellow;
+      case 'Inactive':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  static Color getStatusBGColor(String status) {
+    switch (status) {
+      case 'Active':
+        return Colors.green.withValues(alpha: 0.2);
+      case 'Pending':
+        return Colors.yellow.withValues(alpha: 0.2);
+      case 'Inactive':
+        return Colors.red.withValues(alpha: 0.2);
+      default:
+        return Colors.grey.withValues(alpha: 0.2);
+    }
+  }
+
+  static String getStatusName(String status, BuildContext context) {
+    switch (status) {
+      case 'Active':
+        return AppLocalizations.of(context)!.activeStatus;
+      case 'Pending':
+        return AppLocalizations.of(context)!.pendingStatus;
+      case 'Inactive':
+        return AppLocalizations.of(context)!.inactiveStatus;
+      default:
+        return AppLocalizations.of(context)!.archivedStatus;
+    }
   }
 }

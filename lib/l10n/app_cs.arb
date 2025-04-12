@@ -9,6 +9,7 @@
     "language": "Jazyk",
     "displayMode": "Režim zobrazení",
     "email": "E-mail",
+    "phone": "Telefon",
     "password": "Heslo",
     "homeScreenTitle": "Vítejte {name}",
     "homeNavBar": "Domů",
@@ -22,6 +23,12 @@
     "editMember": "Upravit člena",
     "deleteMember": "Smazat člena",
     "confirmDeleteMember": "Opravdu chcete smazat tohoto člena?",
-    "memberSearchHint": "Hledat členy"
+    "memberSearchHint": "Hledat členy",
+    "memberProfile": "Profil člena",
+    "activeStatus": "Aktivní",
+    "inactiveStatus": "Neaktivní",
+    "pendingStatus": "Čekající",
+    "archivedStatus": "Archivován",
+    "status": "Stav"
 
 }

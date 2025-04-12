@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get email => 'Email';
 
   @override
+  String get phone => 'Phone';
+
+  @override
   String get password => 'Password';
 
   @override
@@ -86,4 +89,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get memberSearchHint => 'Search for a member';
+
+  @override
+  String get memberProfile => 'Member Profile';
+
+  @override
+  String get activeStatus => 'Active';
+
+  @override
+  String get inactiveStatus => 'Inactive';
+
+  @override
+  String get pendingStatus => 'Pending';
+
+  @override
+  String get archivedStatus => 'Archived';
+
+  @override
+  String get status => 'Status';
 }

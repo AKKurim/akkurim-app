@@ -36,6 +36,10 @@
     "@email": {
         "description": "The label for the email input field"
     },
+    "phone": "Phone",
+    "@phone": {
+        "description": "The label for the phone input field"
+    },
     "password": "Password",
     "@password": {
         "description": "The label for the password input field"
@@ -103,5 +107,29 @@
     "memberSearchHint": "Search for a member",
     "@memberSearchHint": {
         "description": "The hint text for the member search input field"
+    },
+    "memberProfile": "Member Profile",
+    "@memberProfile": {
+        "description": "The title of the member profile screen"
+    },
+    "activeStatus": "Active",
+    "@activeStatus": {
+        "description": "The label for the active status"
+    },
+    "inactiveStatus": "Inactive",
+    "@inactiveStatus": {
+        "description": "The label for the inactive status"
+    },
+    "pendingStatus": "Pending",
+    "@PendingStatus": {
+        "description": "The label for the pending status"
+    },
+    "archivedStatus": "Archived",
+    "@ArchivedStatus": {
+        "description": "The label for the archived status"
+    },
+    "status" : "Status",
+    "@status" : {
+        "description": "The label for the status"
     }
 }

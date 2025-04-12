@@ -63,7 +63,6 @@ class FullAthleteP extends _$FullAthleteP {
 
   Future<void> updateAthleteStatus(String athleteId, String statusId) async {
     final db = ref.read(dbProvider);
-    print('Updating athlete status to $statusId for athlete $athleteId');
     await (db.update(db.athlete)..where((tbl) => tbl.id.equals(athleteId)))
         .write(AthleteCompanion(
       athleteStatusId: Value(statusId),

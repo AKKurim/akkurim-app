@@ -149,6 +149,12 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get email;
 
+  /// The label for the phone input field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
   /// The label for the password input field
   ///
   /// In en, this message translates to:
@@ -232,6 +238,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search for a member'**
   String get memberSearchHint;
+
+  /// The title of the member profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Member Profile'**
+  String get memberProfile;
+
+  /// The label for the active status
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeStatus;
+
+  /// The label for the inactive status
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get inactiveStatus;
+
+  /// No description provided for @pendingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingStatus;
+
+  /// No description provided for @archivedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get archivedStatus;
+
+  /// The label for the status
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
