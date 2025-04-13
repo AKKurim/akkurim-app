@@ -14,11 +14,13 @@ class SimpleAthletesP extends _$SimpleAthletesP {
           ..where(
             (tbl) => tbl.deletedAt.isNull(),
           ))
-        .join([
-      leftOuterJoin(db.athleteStatus,
-          db.athleteStatus.id.equalsExp(db.athlete.athleteStatusId)),
-      leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
-    ]);
+        .join(
+      [
+        leftOuterJoin(db.athleteStatus,
+            db.athleteStatus.id.equalsExp(db.athlete.athleteStatusId)),
+        leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
+      ],
+    );
 
     yield* query.watch().map((rows) {
       return rows.map((row) {

@@ -5,6 +5,7 @@ class AuthState {
   final ProgressEnum state;
   final RoleEnum role;
   final String? tenant;
+  String? email;
   String? error;
-  AuthState(this.state, this.role, {this.tenant, this.error});
+  AuthState(this.state, this.role, {this.tenant, this.email, this.error});
 }

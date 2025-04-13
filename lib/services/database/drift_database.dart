@@ -4,6 +4,7 @@ import '../../utils/config.dart';
 
 import '../../models/local_db/app_settings.dart';
 import '../../models/local_db/sync_queue.dart';
+import '../../models/local_db/user_email.dart';
 
 import '../../models/online_db/athlete_guardian.dart';
 import '../../models/online_db/athlete_meet_event.dart';
@@ -40,6 +41,7 @@ part 'drift_database.g.dart';
   tables: [
     AppSetting,
     SyncQueue,
+    UserEmail,
     AthleteGuardian,
     AthleteMeetEvent,
     AthleteSignUpForm,
@@ -77,7 +79,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(

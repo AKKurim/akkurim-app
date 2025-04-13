@@ -3,34 +3,29 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
-class TrainingScreen extends ConsumerWidget {
-  const TrainingScreen({super.key});
+class TrainingScreen extends StatelessWidget {
+  final TabController tabController;
+
+  const TrainingScreen({super.key, required this.tabController});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultTabController(
-      length: 3,
-      child: Column(
-        children: [
-          TabBar(
-            labelColor: Theme.of(context).colorScheme.primary,
-            tabs: const [
-              Tab(text: 'Info'),
-              Tab(text: 'Groups'),
-              Tab(text: 'Performance'),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                Text('TODO: Trainings'),
-                Text('TODO: Guardians'),
-                Text('TODO: Performance'),
-              ],
-            ),
-          )
-        ],
-      ),
+  Widget build(BuildContext context) {
+    return TabBarView(
+      controller: tabController,
+      children: const [
+        Text(
+          'Training Screen',
+          style: TextStyle(fontSize: 24),
+        ),
+        Text(
+          'Training Groups',
+          style: TextStyle(fontSize: 24),
+        ),
+        Text(
+          'Measurements',
+          style: TextStyle(fontSize: 24),
+        ),
+      ],
     );
   }
 }

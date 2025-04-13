@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import '../screens/home_screen.dart';
 import 'training_screen.dart';
 import '../screens/screen_2.dart';
@@ -10,24 +9,47 @@ import '../screens/settings_screen.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../widgets/sync_icon.dart';
 import '../providers/simple_athletes_provider.dart';
+import '../providers/trainer_provider.dart';
 
-class MainScreenManager extends HookConsumerWidget {
+class MainScreenManager extends ConsumerStatefulWidget {
   const MainScreenManager({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final simpleAthlete = ref.watch(simpleAthletesPProvider);
-    var currentIndex = useState(0);
+  ConsumerState<MainScreenManager> createState() => _MainScreenManagerState();
+}
 
-    final List<Widget> screens = [
+class _MainScreenManagerState extends ConsumerState<MainScreenManager>
+    with SingleTickerProviderStateMixin {
+  int currentIndex = 0;
+  late final TabController tabController;
+  late final List<Widget> screens;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this);
+    screens = [
       const HomeScreen(),
-      const TrainingScreen(),
+      TrainingScreen(
+        tabController: tabController,
+      ),
       const Screen2(),
       const Screen3(),
       const MemberScreen(),
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final simpleAthlete = ref.watch(simpleAthletesPProvider);
+    final trainer = ref.watch(currentTrainerProvider);
+    final trainerData = trainer.maybeWhen(
+      orElse: () => null,
+      data: (data) => data,
+    );
     final List<String> titles = [
-      AppLocalizations.of(context)!.homeScreenTitle("TODO change this"),
+      AppLocalizations.of(context)!
+          .homeScreenTitle(trainerData?.simpleAthlete.athlete.firstName ?? ''),
       AppLocalizations.of(context)!.screen1Title,
       AppLocalizations.of(context)!.screen2Title,
       AppLocalizations.of(context)!.eventsScreenTitle,
@@ -66,7 +88,18 @@ class MainScreenManager extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(titles[currentIndex.value]),
+        title: Text(titles[currentIndex]),
+        bottom: currentIndex == 1
+            ? TabBar(
+                controller: tabController,
+                labelColor: Theme.of(context).colorScheme.primary,
+                tabs: const [
+                  Tab(text: 'Trainings'),
+                  Tab(text: 'Groups'),
+                  Tab(text: 'Performance'),
+                ],
+              )
+            : null,
         actions: [
           const SyncIcon(),
           IconButton(
@@ -83,13 +116,16 @@ class MainScreenManager extends HookConsumerWidget {
         ],
       ),
       body: IndexedStack(
-        index: currentIndex.value,
+        index: currentIndex,
         children: screens,
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex.value,
+        selectedIndex: currentIndex,
         onDestinationSelected: (int index) {
-          currentIndex.value = index;
+          setState(() {
+            currentIndex = index;
+            print("Selected index: $currentIndex");
+          });
         },
         destinations: bottomNavigationBarItems,
       ),

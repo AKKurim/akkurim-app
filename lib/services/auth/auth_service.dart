@@ -5,6 +5,9 @@ import '../../models/auth/role_enum.dart';
 import '../network/api_service.dart';
 import '../../models/auth/progress_enum.dart';
 import '../../models/auth/auth_state.dart';
+import '../../providers/db_provider.dart';
+import '../database/drift_database.dart';
+import 'package:drift/drift.dart';
 
 part 'auth_service.g.dart';
 
@@ -25,19 +28,29 @@ class AuthService extends _$AuthService {
   @override
   AuthState build() {
     state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
+    final db = ref.read(dbProvider);
     Future.wait([
       SuperTokens.doesSessionExist(),
       SuperTokens.getAccessTokenPayloadSecurely(),
+      (db.select(db.userEmail)
+            ..orderBy([
+              (tbl) => OrderingTerm(
+                    expression: tbl.id,
+                    mode: OrderingMode.desc,
+                  )
+            ]))
+          .getSingleOrNull(),
     ]).then((value) {
       final bool sessionExists = value[0] as bool;
       final Map<String, dynamic> accessTokenPayload =
           value[1] as Map<String, dynamic>;
-
+      final UserEmailData? userEmail = value[2] as UserEmailData?;
       if (sessionExists) {
         state = AuthState(
           ProgressEnum.authenticated,
           _getRoleFromToken(tokenPayload: accessTokenPayload),
           tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
+          email: userEmail?.email ?? "",
         );
       } else {
         state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
@@ -98,11 +111,21 @@ class AuthService extends _$AuthService {
         final Map<String, dynamic> accessTokenPayload =
             value[1] as Map<String, dynamic>;
         assert(sessionExists);
+        final db = ref.read(dbProvider);
         state = AuthState(
           ProgressEnum.authenticated,
           _getRoleFromToken(tokenPayload: accessTokenPayload),
           tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
+          email: email,
         );
+        Future.wait([
+          db.into(db.userEmail).insert(
+                UserEmailCompanion(
+                  email: Value(email),
+                ),
+                mode: InsertMode.insertOrReplace,
+              ),
+        ]);
       });
     }
   }

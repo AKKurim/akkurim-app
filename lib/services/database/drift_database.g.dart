@@ -585,6 +585,188 @@ class SyncQueueCompanion extends UpdateCompanion<SyncQueueData> {
   }
 }
 
+class $UserEmailTable extends UserEmail
+    with TableInfo<$UserEmailTable, UserEmailData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserEmailTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+      'email', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, email];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_email';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserEmailData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+          _emailMeta, email.isAcceptableOrUnknown(data['email']!, _emailMeta));
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserEmailData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserEmailData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      email: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}email'])!,
+    );
+  }
+
+  @override
+  $UserEmailTable createAlias(String alias) {
+    return $UserEmailTable(attachedDatabase, alias);
+  }
+}
+
+class UserEmailData extends DataClass implements Insertable<UserEmailData> {
+  final int id;
+  final String email;
+  const UserEmailData({required this.id, required this.email});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['email'] = Variable<String>(email);
+    return map;
+  }
+
+  UserEmailCompanion toCompanion(bool nullToAbsent) {
+    return UserEmailCompanion(
+      id: Value(id),
+      email: Value(email),
+    );
+  }
+
+  factory UserEmailData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserEmailData(
+      id: serializer.fromJson<int>(json['id']),
+      email: serializer.fromJson<String>(json['email']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'email': serializer.toJson<String>(email),
+    };
+  }
+
+  UserEmailData copyWith({int? id, String? email}) => UserEmailData(
+        id: id ?? this.id,
+        email: email ?? this.email,
+      );
+  UserEmailData copyWithCompanion(UserEmailCompanion data) {
+    return UserEmailData(
+      id: data.id.present ? data.id.value : this.id,
+      email: data.email.present ? data.email.value : this.email,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserEmailData(')
+          ..write('id: $id, ')
+          ..write('email: $email')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, email);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserEmailData &&
+          other.id == this.id &&
+          other.email == this.email);
+}
+
+class UserEmailCompanion extends UpdateCompanion<UserEmailData> {
+  final Value<int> id;
+  final Value<String> email;
+  const UserEmailCompanion({
+    this.id = const Value.absent(),
+    this.email = const Value.absent(),
+  });
+  UserEmailCompanion.insert({
+    this.id = const Value.absent(),
+    required String email,
+  }) : email = Value(email);
+  static Insertable<UserEmailData> custom({
+    Expression<int>? id,
+    Expression<String>? email,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (email != null) 'email': email,
+    });
+  }
+
+  UserEmailCompanion copyWith({Value<int>? id, Value<String>? email}) {
+    return UserEmailCompanion(
+      id: id ?? this.id,
+      email: email ?? this.email,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserEmailCompanion(')
+          ..write('id: $id, ')
+          ..write('email: $email')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $AthleteGuardianTable extends AthleteGuardian
     with TableInfo<$AthleteGuardianTable, AthleteGuardianData> {
   @override
@@ -12586,6 +12768,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $AppSettingTable appSetting = $AppSettingTable(this);
   late final $SyncQueueTable syncQueue = $SyncQueueTable(this);
+  late final $UserEmailTable userEmail = $UserEmailTable(this);
   late final $AthleteGuardianTable athleteGuardian =
       $AthleteGuardianTable(this);
   late final $AthleteMeetEventTable athleteMeetEvent =
@@ -12627,6 +12810,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
         appSetting,
         syncQueue,
+        userEmail,
         athleteGuardian,
         athleteMeetEvent,
         athleteSignUpForm,
@@ -12987,6 +13171,126 @@ typedef $$SyncQueueTableProcessedTableManager = ProcessedTableManager<
       BaseReferences<_$AppDatabase, $SyncQueueTable, SyncQueueData>
     ),
     SyncQueueData,
+    PrefetchHooks Function()>;
+typedef $$UserEmailTableCreateCompanionBuilder = UserEmailCompanion Function({
+  Value<int> id,
+  required String email,
+});
+typedef $$UserEmailTableUpdateCompanionBuilder = UserEmailCompanion Function({
+  Value<int> id,
+  Value<String> email,
+});
+
+class $$UserEmailTableFilterComposer
+    extends Composer<_$AppDatabase, $UserEmailTable> {
+  $$UserEmailTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get email => $composableBuilder(
+      column: $table.email, builder: (column) => ColumnFilters(column));
+}
+
+class $$UserEmailTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserEmailTable> {
+  $$UserEmailTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get email => $composableBuilder(
+      column: $table.email, builder: (column) => ColumnOrderings(column));
+}
+
+class $$UserEmailTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserEmailTable> {
+  $$UserEmailTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+}
+
+class $$UserEmailTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $UserEmailTable,
+    UserEmailData,
+    $$UserEmailTableFilterComposer,
+    $$UserEmailTableOrderingComposer,
+    $$UserEmailTableAnnotationComposer,
+    $$UserEmailTableCreateCompanionBuilder,
+    $$UserEmailTableUpdateCompanionBuilder,
+    (
+      UserEmailData,
+      BaseReferences<_$AppDatabase, $UserEmailTable, UserEmailData>
+    ),
+    UserEmailData,
+    PrefetchHooks Function()> {
+  $$UserEmailTableTableManager(_$AppDatabase db, $UserEmailTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserEmailTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserEmailTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserEmailTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> email = const Value.absent(),
+          }) =>
+              UserEmailCompanion(
+            id: id,
+            email: email,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String email,
+          }) =>
+              UserEmailCompanion.insert(
+            id: id,
+            email: email,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$UserEmailTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserEmailTable,
+    UserEmailData,
+    $$UserEmailTableFilterComposer,
+    $$UserEmailTableOrderingComposer,
+    $$UserEmailTableAnnotationComposer,
+    $$UserEmailTableCreateCompanionBuilder,
+    $$UserEmailTableUpdateCompanionBuilder,
+    (
+      UserEmailData,
+      BaseReferences<_$AppDatabase, $UserEmailTable, UserEmailData>
+    ),
+    UserEmailData,
     PrefetchHooks Function()>;
 typedef $$AthleteGuardianTableCreateCompanionBuilder = AthleteGuardianCompanion
     Function({
@@ -18931,6 +19235,8 @@ class $AppDatabaseManager {
       $$AppSettingTableTableManager(_db, _db.appSetting);
   $$SyncQueueTableTableManager get syncQueue =>
       $$SyncQueueTableTableManager(_db, _db.syncQueue);
+  $$UserEmailTableTableManager get userEmail =>
+      $$UserEmailTableTableManager(_db, _db.userEmail);
   $$AthleteGuardianTableTableManager get athleteGuardian =>
       $$AthleteGuardianTableTableManager(_db, _db.athleteGuardian);
   $$AthleteMeetEventTableTableManager get athleteMeetEvent =>
