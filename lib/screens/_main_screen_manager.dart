@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../screens/home_screen.dart';
-import 'training_screen.dart';
-import '../screens/screen_2.dart';
+import 'attendance_screen_manager.dart';
+import 'races_screen.dart';
 import '../screens/screen_3.dart';
 import 'member_screen.dart';
 import '../screens/settings_screen.dart';
@@ -30,10 +30,10 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
     tabController = TabController(length: 3, vsync: this);
     screens = [
       const HomeScreen(),
-      TrainingScreen(
+      AttendanceScreenManager(
         tabController: tabController,
       ),
-      const Screen2(),
+      const RacesScreen(),
       const Screen3(),
       const MemberScreen(),
     ];
@@ -50,9 +50,9 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
     final List<String> titles = [
       AppLocalizations.of(context)!
           .homeScreenTitle(trainerData?.simpleAthlete.athlete.firstName ?? ''),
-      AppLocalizations.of(context)!.screen1Title,
-      AppLocalizations.of(context)!.screen2Title,
+      AppLocalizations.of(context)!.trainingScreenTitle,
       AppLocalizations.of(context)!.eventsScreenTitle,
+      AppLocalizations.of(context)!.screen2Title,
       AppLocalizations.of(context)!.membersScreenTitle(
         simpleAthlete.maybeWhen(
           orElse: () => 0,
@@ -67,17 +67,18 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
         label: AppLocalizations.of(context)!.homeNavBar,
       ),
       NavigationDestination(
-        icon: const Icon(Icons.screen_share, color: Colors.transparent),
-        label: AppLocalizations.of(context)!.screen1Title,
+        icon: const Icon(Icons.assignment_outlined),
+        selectedIcon: const Icon(Icons.assignment),
+        label: AppLocalizations.of(context)!.trainingScreenTitle,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.emoji_events_outlined),
+        selectedIcon: const Icon(Icons.emoji_events),
+        label: AppLocalizations.of(context)!.eventsScreenTitle,
       ),
       NavigationDestination(
         icon: const Icon(Icons.screen_share, color: Colors.transparent),
         label: AppLocalizations.of(context)!.screen2Title,
-      ),
-      NavigationDestination(
-        icon: const Icon(Icons.event_outlined),
-        selectedIcon: const Icon(Icons.event),
-        label: AppLocalizations.of(context)!.eventsScreenTitle,
       ),
       NavigationDestination(
         icon: const Icon(Icons.people_outline),
@@ -96,7 +97,7 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
                 tabs: const [
                   Tab(text: 'Trainings'),
                   Tab(text: 'Groups'),
-                  Tab(text: 'Performance'),
+                  Tab(text: 'T Results'),
                 ],
               )
             : null,
@@ -124,7 +125,6 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
         onDestinationSelected: (int index) {
           setState(() {
             currentIndex = index;
-            print("Selected index: $currentIndex");
           });
         },
         destinations: bottomNavigationBarItems,

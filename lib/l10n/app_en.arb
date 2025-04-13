@@ -58,15 +58,15 @@
     "@homeNavBar": {
         "description": "The label for the home navigation bar"
     },
-    "screen1Title": "Screen 1",
-    "@screen1Title": {
+    "trainingScreenTitle": "Training",
+    "@trainingScreenTitle": {
         "description": "The title of screen 1"
     },
     "screen2Title": "Screen 2",
     "@screen2Title": {
         "description": "The title of screen 2"
     },
-    "eventsScreenTitle": "Events",
+    "eventsScreenTitle": "Races",
     "@eventsScreenTitle": {
         "description": "The title of the events screen"
     },

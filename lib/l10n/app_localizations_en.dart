@@ -50,13 +50,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeNavBar => 'Home';
 
   @override
-  String get screen1Title => 'Screen 1';
+  String get trainingScreenTitle => 'Training';
 
   @override
   String get screen2Title => 'Screen 2';
 
   @override
-  String get eventsScreenTitle => 'Events';
+  String get eventsScreenTitle => 'Races';
 
   @override
   String membersScreenTitle(int count) {

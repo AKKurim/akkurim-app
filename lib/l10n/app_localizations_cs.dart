@@ -50,13 +50,13 @@ class AppLocalizationsCs extends AppLocalizations {
   String get homeNavBar => 'Domů';
 
   @override
-  String get screen1Title => 'Obrazovka 1';
+  String get trainingScreenTitle => 'Trénink';
 
   @override
   String get screen2Title => 'Obrazovka 2';
 
   @override
-  String get eventsScreenTitle => 'Akce';
+  String get eventsScreenTitle => 'Závody';
 
   @override
   String membersScreenTitle(int count) {

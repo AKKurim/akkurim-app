@@ -176,8 +176,8 @@ abstract class AppLocalizations {
   /// The title of screen 1
   ///
   /// In en, this message translates to:
-  /// **'Screen 1'**
-  String get screen1Title;
+  /// **'Training'**
+  String get trainingScreenTitle;
 
   /// The title of screen 2
   ///
@@ -188,7 +188,7 @@ abstract class AppLocalizations {
   /// The title of the events screen
   ///
   /// In en, this message translates to:
-  /// **'Events'**
+  /// **'Races'**
   String get eventsScreenTitle;
 
   /// The label for the members screen
