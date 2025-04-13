@@ -15,6 +15,10 @@ class AthleteFilterOptions extends ConsumerWidget {
     }, data: (data) {
       return data;
     });
+    if (statusFilter.isEmpty) {
+      statusFilter
+          .add(statuses.where((status) => status.name == "Active").first);
+    } // this forces at least one status to be selected
 
     return AnimatedSize(
       duration: Duration(milliseconds: 200),

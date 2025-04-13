@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../screens/home_screen.dart';
-import '../screens/screen_1.dart';
+import 'training_screen.dart';
 import '../screens/screen_2.dart';
 import '../screens/screen_3.dart';
 import 'member_screen.dart';
@@ -21,13 +21,13 @@ class MainScreenManager extends HookConsumerWidget {
 
     final List<Widget> screens = [
       const HomeScreen(),
-      const Screen1(),
+      const TrainingScreen(),
       const Screen2(),
       const Screen3(),
       const MemberScreen(),
     ];
     final List<String> titles = [
-      AppLocalizations.of(context)!.homeScreenTitle("TODO"),
+      AppLocalizations.of(context)!.homeScreenTitle("TODO change this"),
       AppLocalizations.of(context)!.screen1Title,
       AppLocalizations.of(context)!.screen2Title,
       AppLocalizations.of(context)!.eventsScreenTitle,
