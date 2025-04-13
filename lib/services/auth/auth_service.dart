@@ -38,7 +38,8 @@ class AuthService extends _$AuthService {
                     expression: tbl.id,
                     mode: OrderingMode.desc,
                   )
-            ]))
+            ])
+            ..limit(1))
           .getSingleOrNull(),
     ]).then((value) {
       final bool sessionExists = value[0] as bool;
