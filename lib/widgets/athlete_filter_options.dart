@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../providers/filter_providers.dart';
 import '../services/database/drift_database.dart';
+import '../utils/utils.dart';
 
 class AthleteFilterOptions extends ConsumerWidget {
   const AthleteFilterOptions({super.key});
@@ -23,37 +24,41 @@ class AthleteFilterOptions extends ConsumerWidget {
     return AnimatedSize(
       duration: Duration(milliseconds: 200),
       child: showFilters
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (AthleteStatusData status in statuses) ...[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (statusFilter.contains(status)) {
-                          statusFilter.remove(status);
-                        } else {
-                          statusFilter.add(status);
-                        }
-                        ref.read(statusFilterProvider.notifier).state =
-                            Set<AthleteStatusData>.from(statusFilter);
-                      },
-                      child: Chip(
-                        label: Text(status.name),
-                        backgroundColor: statusFilter.contains(status)
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.surface,
-                        labelStyle: TextStyle(
-                          color: statusFilter.contains(status)
-                              ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.onSurface,
+          ? SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (AthleteStatusData status in statuses) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (statusFilter.contains(status)) {
+                            statusFilter.remove(status);
+                          } else {
+                            statusFilter.add(status);
+                          }
+                          ref.read(statusFilterProvider.notifier).state =
+                              Set<AthleteStatusData>.from(statusFilter);
+                        },
+                        child: Chip(
+                          label:
+                              Text(Utils.getStatusName(status.name, context)),
+                          backgroundColor: statusFilter.contains(status)
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.surface,
+                          labelStyle: TextStyle(
+                            color: statusFilter.contains(status)
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ),
-                    ),
-                  )
+                    )
+                  ],
                 ],
-              ],
+              ),
             )
           : SizedBox.shrink(),
     );
