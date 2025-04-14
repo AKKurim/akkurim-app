@@ -169,6 +169,7 @@ FloatingActionButton? buildFab({
                     builder: (context) => AddGroupScreen(
                       groupView: GroupView.empty(trainer: trainerData!),
                       editMode: false,
+                      currentTrainerView: trainerData,
                     ),
                   ),
                 );

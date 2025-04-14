@@ -7,11 +7,14 @@ import '../providers/filter_providers.dart';
 import '../l10n/app_localizations.dart';
 
 class MySearchBar extends HookConsumerWidget {
-  const MySearchBar({super.key});
+  final bool showFilterButton;
+
+  const MySearchBar({super.key, this.showFilterButton = true});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var showFilters = ref.watch(showFiltersProvider);
-    final searchController = useTextEditingController();
+    var searchText = ref.watch(searchProvider);
+    final searchController = useTextEditingController(text: searchText);
 
     Timer? debounceTimer;
     useEffect(() {
@@ -42,11 +45,15 @@ class MySearchBar extends HookConsumerWidget {
         controller: searchController,
         hintText: AppLocalizations.of(context)!.memberSearchHint,
         trailing: [
-          IconButton(
-            icon: Icon(showFilters ? Icons.expand_less : Icons.filter_list),
-            onPressed: () =>
-                ref.read(showFiltersProvider.notifier).state = !showFilters,
-          )
+          showFilterButton
+              ? IconButton(
+                  icon:
+                      Icon(showFilters ? Icons.expand_less : Icons.filter_list),
+                  onPressed: () => ref
+                      .read(showFiltersProvider.notifier)
+                      .state = !showFilters,
+                )
+              : const SizedBox(),
         ],
       ),
     );
