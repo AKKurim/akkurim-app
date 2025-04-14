@@ -237,6 +237,8 @@ class GroupsP extends _$GroupsP {
     await db
         .into(db.group)
         .insertOnConflictUpdate(buildGroupCompanion(groupToDelete));
+
+    // TODO delete the groupAthlete and groupTrainer and sync
   }
 }
 

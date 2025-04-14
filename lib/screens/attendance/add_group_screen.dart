@@ -29,8 +29,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   bool saved = false;
   bool _showAllTrainers = false;
   bool _showAllAthletes = false;
-  String trainingDay = 'Monday';
-  TimeOfDay selectedTime = TimeOfDay.now();
+  late String trainingDay;
+  late TimeOfDay selectedTime;
 
   late final TextEditingController nameController;
   late final List<String> previousTrainersIds;
@@ -50,9 +50,18 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       previousAthletesIds = widget.groupView.athletes.map((athlete) {
         return athlete.athlete.id;
       }).toList();
+      selectedTime = TimeOfDay(
+        hour:
+            int.parse(widget.groupView.trainingTime!.summerTime.split(":")[0]),
+        minute: int.parse(widget.groupView.trainingTime!.summerTime
+            .split(":")[1]
+            .split("+")[0]),
+      ); // TODO make an util or something and actually calculate offset
+      trainingDay = widget.groupView.trainingTime!.day;
     } else {
       previousTrainersIds = [];
       previousAthletesIds = [];
+      selectedTime = TimeOfDay.now();
     }
   }
 
@@ -125,7 +134,9 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                         widget.groupView.trainingTime!.summerTime
                             .split(":")[0] &&
                     selectedTime.minute.toString() ==
-                        widget.groupView.trainingTime!.summerTime.split(":")[1]
+                        widget.groupView.trainingTime!.summerTime
+                            .split(":")[1]
+                            .split("+")[0]
                 ? widget.groupView.trainingTime?.id
                 : null,
             previousAthletesIds: previousAthletesIds,
@@ -185,7 +196,12 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(
+              left: 8,
+              right: 8,
+              top: 8,
+              bottom: 64,
+            ),
             child: GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
@@ -215,6 +231,9 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                     Row(
                       children: [
                         DropdownMenu(
+                            initialSelection: widget.editMode
+                                ? widget.groupView.trainingTime!.day
+                                : null,
                             hintText: 'Day...',
                             dropdownMenuEntries: [
                               DropdownMenuEntry<String>(
@@ -252,7 +271,9 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                               });
                             }),
                         const Expanded(child: SizedBox()),
-                        // time picker
+                        // I want some summer/winter time icon here
+                        const Icon(Icons.ac_unit, color: Colors.blue),
+                        const Icon(Icons.wb_sunny, color: Colors.yellow),
                         const Icon(Icons.access_time),
                         TextButton(
                           onPressed: () async {
@@ -497,21 +518,24 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                ),
+                onPressed: () {
+                  saveGroup();
+                },
+                child: Text('Save and close',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    )),
               ),
-              onPressed: () {
-                saveGroup();
-              },
-              child: Text('Save and close',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  )),
             ),
           )
         ],

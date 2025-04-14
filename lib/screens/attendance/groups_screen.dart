@@ -47,6 +47,29 @@ class GroupsScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(4.0),
                 child: ListTile(
                   title: Text(group.group.name),
+                  subtitle: Text(
+                    // join the name of the trainers in the group
+                    group.trainers
+                        .map((trainer) =>
+                            '${trainer.simpleAthlete.athlete.lastName} ${trainer.simpleAthlete.athlete.firstName}')
+                        .join(', '),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        group.athletes.length.toString(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.group,
+                        size: 20,
+                      ),
+                    ],
+                  ),
                   onLongPress: () => showDialog(
                     context: context,
                     builder: (context) {
@@ -62,8 +85,8 @@ class GroupsScreen extends ConsumerWidget {
                             child: const Text('Cancel'),
                           ),
                           TextButton(
-                            onPressed: () async {
-                              await ref
+                            onPressed: () {
+                              ref
                                   .read(groupsPProvider.notifier)
                                   .deleteGroup(group);
                               Navigator.of(context).pop();
