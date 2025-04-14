@@ -16,6 +16,15 @@ class GroupsScreen extends ConsumerWidget {
             throw Exception('Error loading groups: $error, $stackTrace'),
         loading: () => []);
 
+    groups.sort((a, b) =>
+        a.group.name.toLowerCase().compareTo(b.group.name.toLowerCase()));
+
+    final allGroups = ref.watch(allGroupDataProvider).when(
+        data: (data) => data,
+        error: (error, stackTrace) => [],
+        loading: () => []);
+    print(allGroups);
+
     return Column(
       children: [
         const SizedBox(height: 16),
@@ -37,7 +46,34 @@ class GroupsScreen extends ConsumerWidget {
               return Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: ListTile(
-                  title: Text(group.group.id),
+                  title: Text(group.group.name),
+                  onLongPress: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Delete Group'),
+                        content: const Text(
+                            'Are you sure you want to delete this group?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              await ref
+                                  .read(groupsPProvider.notifier)
+                                  .deleteGroup(group);
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Delete'),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,

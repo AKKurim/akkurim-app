@@ -31,7 +31,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   bool _showAllAthletes = false;
   String trainingDay = 'Monday';
   TimeOfDay selectedTime = TimeOfDay.now();
+
   late final TextEditingController nameController;
+  late final List<String> previousTrainersIds;
+  late final List<String> previousAthletesIds;
 
   @override
   void initState() {
@@ -39,6 +42,18 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
     nameController = TextEditingController(
       text: widget.groupView.group.name,
     );
+
+    if (widget.editMode) {
+      previousTrainersIds = widget.groupView.trainers.map((trainer) {
+        return trainer.trainer.id;
+      }).toList();
+      previousAthletesIds = widget.groupView.athletes.map((athlete) {
+        return athlete.athlete.id;
+      }).toList();
+    } else {
+      previousTrainersIds = [];
+      previousAthletesIds = [];
+    }
   }
 
   @override
@@ -95,7 +110,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       ),
     );
 
-    print("Current name: ${nameController.text}");
     saveGroup() {
       ref.read(groupsPProvider.notifier).saveGroup(
             name: nameController.text,
@@ -104,6 +118,18 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
             schoolYear: selectedSchoolYear,
             trainers: trainers,
             athletes: athletes,
+            groupId: widget.editMode ? widget.groupView.group.id : null,
+            trainingTimeId: widget.editMode &&
+                    trainingDay == widget.groupView.trainingTime!.day &&
+                    selectedTime.hour.toString() ==
+                        widget.groupView.trainingTime!.summerTime
+                            .split(":")[0] &&
+                    selectedTime.minute.toString() ==
+                        widget.groupView.trainingTime!.summerTime.split(":")[1]
+                ? widget.groupView.trainingTime?.id
+                : null,
+            previousAthletesIds: previousAthletesIds,
+            previousTrainersIds: previousTrainersIds,
           );
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
