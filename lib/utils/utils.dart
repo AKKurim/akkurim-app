@@ -122,3 +122,45 @@ class Utils {
     }
   }
 }
+
+class TimeHelper {
+  final int hour;
+  final int minute;
+  final int seconds = 0; // Default value for seconds
+
+  TimeHelper(this.hour, this.minute);
+
+  factory TimeHelper.fromString(String time) {
+    if (time.contains('+') || time.contains('-')) {
+      time = time.split(RegExp(r'[+-]')).first;
+    }
+
+    final parts = time.split(':');
+    if (parts.length != 2 && parts.length != 3) {
+      print('Invalid time format: $time');
+      throw FormatException('Invalid time format');
+    }
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+    return TimeHelper(hour, minute);
+  }
+
+  @override
+  String toString() {
+    String hourString = hour.toString();
+    String minuteString = minute.toString();
+    String secondsString = seconds.toString();
+
+    if (hour < 10) {
+      hourString = '0$hour';
+    }
+    if (minute < 10) {
+      minuteString = '0$minute';
+    }
+    if (seconds < 10) {
+      secondsString = '0$seconds';
+    }
+
+    return '$hourString:$minuteString:$secondsString+0000';
+  }
+}

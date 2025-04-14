@@ -1,4 +1,5 @@
 import 'package:ak_kurim_app/models/online_db/trainer.dart';
+import 'package:ak_kurim_app/models/online_db/training_time.dart';
 import 'package:ak_kurim_app/models/views/trainer_view.dart';
 import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import '../../providers/training_providers.dart';
 import '../../providers/filter_providers.dart';
 import '../../widgets/search_bar.dart';
 import '../../utils/utils.dart';
+import 'package:collection/collection.dart';
 
 class AddGroupScreen extends ConsumerStatefulWidget {
   final GroupView groupView;
@@ -29,8 +31,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   bool saved = false;
   bool _showAllTrainers = false;
   bool _showAllAthletes = false;
+  late TrainingTimeData? trainingTime;
   late String trainingDay;
-  late TimeOfDay selectedTime;
+  late TimeOfDay selectedSummerTime;
+  late TimeOfDay selectedWinterTime;
 
   late final TextEditingController nameController;
   late final List<String> previousTrainersIds;
@@ -50,18 +54,27 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       previousAthletesIds = widget.groupView.athletes.map((athlete) {
         return athlete.athlete.id;
       }).toList();
-      selectedTime = TimeOfDay(
-        hour:
-            int.parse(widget.groupView.trainingTime!.summerTime.split(":")[0]),
-        minute: int.parse(widget.groupView.trainingTime!.summerTime
-            .split(":")[1]
-            .split("+")[0]),
-      ); // TODO make an util or something and actually calculate offset
+      TimeHelper parsedTime = TimeHelper.fromString(
+        widget.groupView.trainingTime!.summerTime,
+      );
+      selectedSummerTime = TimeOfDay(
+        hour: parsedTime.hour,
+        minute: parsedTime.minute,
+      );
+      parsedTime = TimeHelper.fromString(
+        widget.groupView.trainingTime!.winterTime,
+      );
+      selectedWinterTime = TimeOfDay(
+        hour: parsedTime.hour,
+        minute: parsedTime.minute,
+      );
       trainingDay = widget.groupView.trainingTime!.day;
+      trainingTime = widget.groupView.trainingTime;
     } else {
       previousTrainersIds = [];
       previousAthletesIds = [];
-      selectedTime = TimeOfDay.now();
+      selectedSummerTime = TimeOfDay.now();
+      selectedWinterTime = TimeOfDay.now();
     }
   }
 
@@ -78,6 +91,9 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       orElse: () => null,
       data: (data) => data,
     );
+    final List<TrainingTimeData> allTrainingTimes = ref
+        .watch(trainingTimesProvider)
+        .when(data: (data) => data, error: (e, s) => [], loading: () => []);
 
     List<TrainerView> trainers = widget.groupView.trainers;
     trainers.sort((a, b) {
@@ -123,22 +139,15 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       ref.read(groupsPProvider.notifier).saveGroup(
             name: nameController.text,
             day: trainingDay,
-            startTime: selectedTime,
+            summerTime:
+                TimeHelper(selectedSummerTime.hour, selectedSummerTime.minute),
+            winterTime:
+                TimeHelper(selectedWinterTime.hour, selectedWinterTime.minute),
             schoolYear: selectedSchoolYear,
             trainers: trainers,
             athletes: athletes,
             groupId: widget.editMode ? widget.groupView.group.id : null,
-            trainingTimeId: widget.editMode &&
-                    trainingDay == widget.groupView.trainingTime!.day &&
-                    selectedTime.hour.toString() ==
-                        widget.groupView.trainingTime!.summerTime
-                            .split(":")[0] &&
-                    selectedTime.minute.toString() ==
-                        widget.groupView.trainingTime!.summerTime
-                            .split(":")[1]
-                            .split("+")[0]
-                ? widget.groupView.trainingTime?.id
-                : null,
+            trainingTimeId: trainingTime?.id,
             previousAthletesIds: previousAthletesIds,
             previousTrainersIds: previousTrainersIds,
           );
@@ -215,19 +224,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                           const InputDecoration(labelText: 'Group Name'),
                     ),
                     const SizedBox(height: 16),
-                    // DropdownMenu(
-                    //     dropdownMenuEntries: schoolYears
-                    //         .map((e) => DropdownMenuEntry<SchoolYearData>(
-                    //               label: e.name,
-                    //               value: e,
-                    //             ))
-                    //         .toList(),
-                    //     hintText: 'School Year...',
-                    //     onSelected: (value) {
-                    //       setState(() {
-                    //         selectedSchoolYear = value!;
-                    //       });
-                    //     }),
                     Row(
                       children: [
                         DropdownMenu(
@@ -268,26 +264,87 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             onSelected: (value) {
                               setState(() {
                                 trainingDay = value!;
+                                TrainingTimeData? selectedTrainingTime =
+                                    allTrainingTimes.firstWhereOrNull(
+                                  (element) => element.day == trainingDay,
+                                );
+                                if (selectedTrainingTime != null) {
+                                  TimeHelper parsedTime = TimeHelper.fromString(
+                                    selectedTrainingTime.summerTime,
+                                  );
+                                  selectedSummerTime = TimeOfDay(
+                                    hour: parsedTime.hour,
+                                    minute: parsedTime.minute,
+                                  );
+                                  parsedTime = TimeHelper.fromString(
+                                    selectedTrainingTime.winterTime,
+                                  );
+                                  selectedWinterTime = TimeOfDay(
+                                    hour: parsedTime.hour,
+                                    minute: parsedTime.minute,
+                                  );
+                                  trainingTime = selectedTrainingTime;
+                                }
                               });
                             }),
                         const Expanded(child: SizedBox()),
-                        // I want some summer/winter time icon here
-                        const Icon(Icons.ac_unit, color: Colors.blue),
+                        DropdownMenu(
+                            initialSelection: selectedSchoolYear,
+                            dropdownMenuEntries: schoolYears
+                                .map((e) => DropdownMenuEntry<SchoolYearData>(
+                                      label: e.name,
+                                      value: e,
+                                    ))
+                                .toList(),
+                            hintText: 'School Year...',
+                            onSelected: (value) {
+                              setState(() {
+                                selectedSchoolYear = value!;
+                              });
+                            }),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         const Icon(Icons.wb_sunny, color: Colors.yellow),
                         const Icon(Icons.access_time),
                         TextButton(
                           onPressed: () async {
                             TimeOfDay? time = await showTimePicker(
                               context: context,
-                              initialTime: selectedTime,
+                              initialTime: selectedSummerTime,
                             );
                             if (time != null) {
                               setState(() {
-                                selectedTime = time;
+                                selectedSummerTime = time;
+                                trainingTime = null;
                               });
                             }
                           },
-                          child: Text(selectedTime.format(context),
+                          child: Text(selectedSummerTime.format(context),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
+                        ),
+                        Expanded(child: const SizedBox()),
+                        const Icon(Icons.ac_unit, color: Colors.blue),
+                        const Icon(Icons.access_time),
+                        TextButton(
+                          onPressed: () async {
+                            TimeOfDay? time = await showTimePicker(
+                              context: context,
+                              initialTime: selectedWinterTime,
+                            );
+                            if (time != null) {
+                              setState(() {
+                                selectedWinterTime = time;
+                                trainingTime = null;
+                              });
+                            }
+                          },
+                          child: Text(selectedWinterTime.format(context),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,

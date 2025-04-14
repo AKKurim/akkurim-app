@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/views/group_view.dart';
 import '../models/views/simple_athlete_view.dart';
@@ -14,6 +16,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import '../services/database/companion_builder_map.dart';
 import '../providers/trainer_provider.dart';
+import '../services/network/sync_service.dart';
 
 part 'groups_provider.g.dart';
 
@@ -126,7 +129,8 @@ class GroupsP extends _$GroupsP {
   Future<void> saveGroup({
     required String name,
     required String day,
-    required TimeOfDay startTime,
+    required TimeHelper summerTime,
+    required TimeHelper winterTime,
     required SchoolYearData schoolYear,
     required List<TrainerView> trainers,
     required List<SimpleAthleteView> athletes,
@@ -136,21 +140,32 @@ class GroupsP extends _$GroupsP {
     List<String>? previousTrainersIds,
   }) async {
     final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
     if (trainingTimeId == null) {
       trainingTimeId = Uuid().v1();
-      final training_time = await db.into(db.trainingTime).insertReturning(
+      final trainingTime = await db.into(db.trainingTime).insertReturning(
             mode: InsertMode.insertOrReplace,
             TrainingTimeCompanion(
               id: Value(trainingTimeId),
               day: Value(day),
-              summerTime: Value('${startTime.hour}:${startTime.minute}+0000'),
+              summerTime: Value(summerTime.toString()),
               winterTime: Value(
-                '${startTime.hour + 1}:${startTime.minute}+0000', // TODO get offset
+                winterTime.toString(),
               ),
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),
             ),
           );
+      await sync.addToSyncQueue(
+        '/sync/training_time',
+        'post',
+        json.encode({
+          'data': [Utils.convertMapKeysToSnakeCase(trainingTime.toJson())],
+          'primary_keys': ['id'],
+          'table': 'training_time',
+        }),
+      );
     }
 
     groupId ??= Uuid().v1();
@@ -159,6 +174,7 @@ class GroupsP extends _$GroupsP {
           GroupCompanion(
             id: Value(groupId),
             name: Value(name),
+            description: Value(''),
             schoolYearId: Value(schoolYear.id),
             trainingTimeId: Value(trainingTimeId),
             createdAt: Value(DateTime.now()),
@@ -166,7 +182,17 @@ class GroupsP extends _$GroupsP {
             deletedAt: Value(null),
           ),
         );
+    await sync.addToSyncQueue(
+      '/sync/group',
+      'post',
+      json.encode({
+        'data': [Utils.convertMapKeysToSnakeCase(newGroup.toJson())],
+        'primary_keys': ['id'],
+        'table': 'group',
+      }),
+    );
 
+    List<GroupTrainerData> updatedGroupTrainer = [];
     for (final trainer in trainers) {
       final groupTrainer = await db.into(db.groupTrainer).insertReturning(
             mode: InsertMode.insertOrReplace,
@@ -178,12 +204,12 @@ class GroupsP extends _$GroupsP {
               deletedAt: Value(null),
             ),
           );
-      print('Group trainer saved: ${groupTrainer.trainerId}');
+      updatedGroupTrainer.add(groupTrainer);
     }
 
     for (final trainerId in previousTrainersIds ?? []) {
       if (!trainers.map((trainer) => trainer.trainer.id).contains(trainerId)) {
-        await db.into(db.groupTrainer).insertReturning(
+        final deletedTrainer = await db.into(db.groupTrainer).insertReturning(
               mode: InsertMode.insertOrReplace,
               GroupTrainerData(
                   groupId: newGroup.id,
@@ -192,9 +218,23 @@ class GroupsP extends _$GroupsP {
                   updatedAt: DateTime.now(),
                   deletedAt: DateTime.now().toUtc()),
             );
+        updatedGroupTrainer.add(deletedTrainer);
       }
     }
 
+    await sync.addToSyncQueue(
+      '/sync/group_trainer',
+      'post',
+      json.encode({
+        'data': updatedGroupTrainer
+            .map((trainer) => Utils.convertMapKeysToSnakeCase(trainer.toJson()))
+            .toList(),
+        'primary_keys': ['group_id', 'trainer_id'],
+        'table': 'group_trainer',
+      }),
+    );
+
+    List<GroupAthleteData> updatedGroupAthlete = [];
     for (final athlete in athletes) {
       final groupAthlete = await db.into(db.groupAthlete).insertReturning(
             mode: InsertMode.insertOrReplace,
@@ -206,25 +246,37 @@ class GroupsP extends _$GroupsP {
               deletedAt: Value(null),
             ),
           );
+      updatedGroupAthlete.add(groupAthlete);
     }
 
     for (final athleteId in previousAthletesIds ?? []) {
       if (!athletes.map((athlete) => athlete.athlete.id).contains(athleteId)) {
-        await db.into(db.groupAthlete).insertReturning(
-              mode: InsertMode.insertOrReplace,
-              GroupAthleteData(
-                groupId: newGroup.id,
-                athleteId: athleteId,
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
-                deletedAt: DateTime.now(),
-              ),
-            );
+        final deletedGroupAthlete =
+            await db.into(db.groupAthlete).insertReturning(
+                  mode: InsertMode.insertOrReplace,
+                  GroupAthleteData(
+                    groupId: newGroup.id,
+                    athleteId: athleteId,
+                    createdAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
+                    deletedAt: DateTime.now(),
+                  ),
+                );
+        updatedGroupAthlete.add(deletedGroupAthlete);
       }
     }
 
-    print('Group saved: ${newGroup.id}');
-    // TODO add to sync queue
+    await sync.addToSyncQueue(
+      '/sync/group_athlete',
+      'post',
+      json.encode({
+        'data': updatedGroupAthlete
+            .map((athlete) => Utils.convertMapKeysToSnakeCase(athlete.toJson()))
+            .toList(),
+        'primary_keys': ['group_id', 'athlete_id'],
+        'table': 'group_athlete',
+      }),
+    );
   }
 
   Future<void> deleteGroup(GroupView group) async {

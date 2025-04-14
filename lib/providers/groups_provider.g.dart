@@ -23,7 +23,7 @@ final allGroupDataProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllGroupDataRef = AutoDisposeStreamProviderRef<List<GroupData>>;
-String _$groupsPHash() => r'e90e4578050a86ae640b7616976dc0170b65d3e5';
+String _$groupsPHash() => r'6e54b3f086c1852f13a7d8678dbb68813f409d25';
 
 /// See also [GroupsP].
 @ProviderFor(GroupsP)
