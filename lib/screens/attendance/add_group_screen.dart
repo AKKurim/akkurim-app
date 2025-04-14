@@ -1,24 +1,24 @@
 import 'package:ak_kurim_app/models/online_db/trainer.dart';
 import 'package:ak_kurim_app/models/views/trainer_view.dart';
+import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/views/group_view.dart';
 import '../../models/views/simple_athlete_view.dart';
-import '../../providers/simple_athletes_provider.dart';
 import '../../providers/trainer_provider.dart';
 import '../../providers/groups_provider.dart';
+import '../../providers/training_providers.dart';
 import '../../providers/filter_providers.dart';
 import '../../widgets/search_bar.dart';
+import '../../utils/utils.dart';
 
 class AddGroupScreen extends ConsumerStatefulWidget {
   final GroupView groupView;
   final bool editMode;
-  final TrainerView currentTrainerView;
   const AddGroupScreen({
     super.key,
     required this.groupView,
     required this.editMode,
-    required this.currentTrainerView,
   });
 
   @override
@@ -29,10 +29,32 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   bool saved = false;
   bool _showAllTrainers = false;
   bool _showAllAthletes = false;
-  final nameController = TextEditingController();
+  String trainingDay = 'Monday';
+  TimeOfDay selectedTime = TimeOfDay.now();
+  late final TextEditingController nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(
+      text: widget.groupView.group.name,
+    );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final trainer = ref.watch(currentTrainerProvider);
+    final currentTrainerView = trainer.maybeWhen(
+      orElse: () => null,
+      data: (data) => data,
+    );
+
     List<TrainerView> trainers = widget.groupView.trainers;
     trainers.sort((a, b) {
       return a.simpleAthlete.athlete.lastName
@@ -60,8 +82,37 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
     allAthletes.sort((a, b) {
       return a.athlete.lastName.compareTo(b.athlete.lastName);
     });
-    if (widget.editMode) {
-      nameController.text = widget.groupView.group.name;
+    List<SchoolYearData> schoolYears = ref.watch(schoolYearsProvider).when(
+          data: (data) => data,
+          error: (error, stackTrace) => [],
+          loading: () => [],
+        );
+    SchoolYearData selectedSchoolYear = schoolYears.firstWhere(
+      (element) => element.id == widget.groupView.group.schoolYearId,
+      orElse: () => schoolYears.firstWhere(
+        (element) => element.name == Utils.getCurrentSchoolYearString(),
+        orElse: () => schoolYears.first,
+      ),
+    );
+
+    print("Current name: ${nameController.text}");
+    saveGroup() {
+      ref.read(groupsPProvider.notifier).saveGroup(
+            name: nameController.text,
+            day: trainingDay,
+            startTime: selectedTime,
+            schoolYear: selectedSchoolYear,
+            trainers: trainers,
+            athletes: athletes,
+          );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Group saved successfully!'),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pop(context);
     }
 
     return Scaffold(
@@ -100,7 +151,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: () {
-              // Save group logic TODO
+              saveGroup();
             },
           ),
         ],
@@ -117,10 +168,87 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                 child: Column(
                   children: [
                     TextField(
+                      controller: nameController,
                       decoration:
                           const InputDecoration(labelText: 'Group Name'),
                     ),
                     const SizedBox(height: 16),
+                    // DropdownMenu(
+                    //     dropdownMenuEntries: schoolYears
+                    //         .map((e) => DropdownMenuEntry<SchoolYearData>(
+                    //               label: e.name,
+                    //               value: e,
+                    //             ))
+                    //         .toList(),
+                    //     hintText: 'School Year...',
+                    //     onSelected: (value) {
+                    //       setState(() {
+                    //         selectedSchoolYear = value!;
+                    //       });
+                    //     }),
+                    Row(
+                      children: [
+                        DropdownMenu(
+                            hintText: 'Day...',
+                            dropdownMenuEntries: [
+                              DropdownMenuEntry<String>(
+                                label: 'Monday',
+                                value: 'Monday',
+                              ),
+                              DropdownMenuEntry<String>(
+                                label: 'Tuesday',
+                                value: 'Tuesday',
+                              ),
+                              DropdownMenuEntry<String>(
+                                label: 'Wednesday',
+                                value: 'Wednesday',
+                              ),
+                              DropdownMenuEntry<String>(
+                                label: 'Thursday',
+                                value: 'Thursday',
+                              ),
+                              DropdownMenuEntry<String>(
+                                label: 'Friday',
+                                value: 'Friday',
+                              ),
+                              DropdownMenuEntry<String>(
+                                label: 'Saturday',
+                                value: 'Saturday',
+                              ),
+                              DropdownMenuEntry<String>(
+                                label: 'Sunday',
+                                value: 'Sunday',
+                              ),
+                            ],
+                            onSelected: (value) {
+                              setState(() {
+                                trainingDay = value!;
+                              });
+                            }),
+                        const Expanded(child: SizedBox()),
+                        // time picker
+                        const Icon(Icons.access_time),
+                        TextButton(
+                          onPressed: () async {
+                            TimeOfDay? time = await showTimePicker(
+                              context: context,
+                              initialTime: selectedTime,
+                            );
+                            if (time != null) {
+                              setState(() {
+                                selectedTime = time;
+                              });
+                            }
+                          },
+                          child: Text(selectedTime.format(context),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
+                        ),
+                      ],
+                    ),
                     Container(
                       color: Theme.of(context).colorScheme.surface,
                       child: Row(
@@ -164,8 +292,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                       icon: const Icon(Icons.remove_circle,
                                           color: Colors.red),
                                       onPressed: () {
-                                        if (trainer ==
-                                            widget.currentTrainerView) {
+                                        if (trainer.trainer.id ==
+                                            currentTrainerView!.trainer.id) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
@@ -211,7 +339,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                             });
                                           } else {
                                             if (trainer.trainer.id ==
-                                                widget.currentTrainerView
+                                                currentTrainerView!
                                                     .trainer.id) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -339,7 +467,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
               ),
             ),
           ),
-          // save and close button
           Align(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
@@ -349,10 +476,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
               onPressed: () {
-                setState(() {
-                  saved = true;
-                });
-                Navigator.pop(context);
+                saveGroup();
               },
               child: Text('Save and close',
                   style: TextStyle(

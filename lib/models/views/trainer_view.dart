@@ -11,4 +11,14 @@ class TrainerView {
     required this.trainerStatus,
     required this.simpleAthlete,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TrainerView && trainer.athleteId == other.trainer.athleteId;
+  }
+
+  @override
+  int get hashCode => trainer.athleteId.hashCode;
 }

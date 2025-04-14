@@ -6,7 +6,24 @@ part of 'groups_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$groupsPHash() => r'bd04402504241df6dfea86898d3a501fd45405c1';
+String _$allGroupDataHash() => r'c121809b21a231ea3a1c6009a82d9c47b8f31340';
+
+/// See also [allGroupData].
+@ProviderFor(allGroupData)
+final allGroupDataProvider =
+    AutoDisposeStreamProvider<List<GroupData>>.internal(
+  allGroupData,
+  name: r'allGroupDataProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$allGroupDataHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AllGroupDataRef = AutoDisposeStreamProviderRef<List<GroupData>>;
+String _$groupsPHash() => r'e90e4578050a86ae640b7616976dc0170b65d3e5';
 
 /// See also [GroupsP].
 @ProviderFor(GroupsP)

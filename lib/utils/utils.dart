@@ -109,4 +109,16 @@ class Utils {
         return AppLocalizations.of(context)!.archivedStatus;
     }
   }
+
+  static String getCurrentSchoolYearString() {
+    final now = DateTime.now();
+    final year = now.year;
+    final month = now.month;
+
+    if (month >= 8) {
+      return '$year/${year + 1}';
+    } else {
+      return '${year - 1}/$year';
+    }
+  }
 }

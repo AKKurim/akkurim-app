@@ -34,4 +34,14 @@ class GroupView {
       trainingTime: null,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is GroupView && group.id == other.group.id;
+  }
+
+  @override
+  int get hashCode => group.id.hashCode;
 }

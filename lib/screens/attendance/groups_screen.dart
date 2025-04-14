@@ -1,3 +1,6 @@
+import 'package:ak_kurim_app/models/views/group_view.dart';
+import 'package:ak_kurim_app/screens/attendance/add_group_screen.dart';
+import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/groups_provider.dart';
@@ -7,10 +10,12 @@ class GroupsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groups = ref.watch(groupsPProvider).when(
+    final List<GroupView> groups = ref.watch(groupsPProvider).when(
         data: (data) => data,
-        error: (error, stackTrace) => [],
+        error: (error, stackTrace) =>
+            throw Exception('Error loading groups: $error, $stackTrace'),
         loading: () => []);
+
     return Column(
       children: [
         const SizedBox(height: 16),
@@ -28,11 +33,30 @@ class GroupsScreen extends ConsumerWidget {
           child: ListView.builder(
             itemCount: groups.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text('Group ${index + 1}'),
-                onTap: () {
-                  // Handle group tap
-                },
+              final group = groups[index];
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: ListTile(
+                  title: Text(group.group.id),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddGroupScreen(
+                          groupView: group,
+                          editMode: true,
+                        ),
+                      ),
+                    );
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: const BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                ),
               );
             },
           ),

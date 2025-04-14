@@ -16,4 +16,14 @@ class FullAthleteView {
     required this.results,
     required this.signUpForms,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is FullAthleteView && other.athlete.id == athlete.id;
+  }
+
+  @override
+  int get hashCode => athlete.id.hashCode;
 }
