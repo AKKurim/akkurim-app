@@ -13,6 +13,7 @@ import 'package:uuid/uuid.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import '../services/database/companion_builder_map.dart';
+import '../providers/trainer_provider.dart';
 
 part 'groups_provider.g.dart';
 
@@ -49,9 +50,7 @@ class GroupsP extends _$GroupsP {
         leftOuterJoin(
             db.groupAthlete, db.groupAthlete.groupId.equalsExp(db.group.id)),
         leftOuterJoin(
-            db.athlete,
-            db.athlete.id.equalsExp(db.groupAthlete.athleteId) |
-                db.athlete.id.equalsExp(db.trainer.athleteId)),
+            db.athlete, db.athlete.id.equalsExp(db.groupAthlete.athleteId)),
         leftOuterJoin(db.athleteStatus,
             db.athleteStatus.id.equalsExp(db.athlete.athleteStatusId)),
         leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
@@ -62,6 +61,8 @@ class GroupsP extends _$GroupsP {
       ],
     )..where(db.groupTrainer.deletedAt.isNull() &
         db.groupAthlete.deletedAt.isNull());
+
+    final allTrainers = await ref.watch(trainerPProvider.future);
 
     yield* query.watch().map((rows) {
       final grouped = groupBy(rows, (row) {
@@ -78,17 +79,14 @@ class GroupsP extends _$GroupsP {
             .map((row) {
               final trainer = row.readTableOrNull(db.trainer);
               final status = row.readTableOrNull(db.trainerStatus);
-              final athlete = row.readTableOrNull(db.athlete);
-              final athleteStatus = row.readTableOrNull(db.athleteStatus);
-              final club = row.readTableOrNull(db.club);
+              final simpleAthlete = allTrainers.firstWhereOrNull(
+                (trainer_) => trainer_.trainer.athleteId == trainer!.athleteId,
+              );
               return (trainer != null && status != null)
                   ? TrainerView(
                       trainer: trainer,
                       trainerStatus: status,
-                      simpleAthlete: SimpleAthleteView(
-                          athlete: athlete!,
-                          athleteStatus: athleteStatus!,
-                          club: club),
+                      simpleAthlete: simpleAthlete!.simpleAthlete,
                     )
                   : null;
             })

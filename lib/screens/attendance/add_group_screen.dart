@@ -331,7 +331,9 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                           );
                                           return;
                                         }
-                                        trainers.remove(trainer);
+                                        setState(() {
+                                          trainers.remove(trainer);
+                                        });
                                         // Remove trainer from group logic
                                       },
                                     ),
