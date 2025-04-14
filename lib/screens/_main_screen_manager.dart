@@ -1,15 +1,18 @@
+import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../screens/home_screen.dart';
-import 'attendance_screen_manager.dart';
-import 'races_screen.dart';
+import './attendance_screen_manager.dart';
+import './races_screen.dart';
 import '../screens/screen_3.dart';
-import 'member_screen.dart';
+import './member_screen.dart';
 import '../screens/settings_screen.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../widgets/sync_icon.dart';
 import '../providers/simple_athletes_provider.dart';
 import '../providers/trainer_provider.dart';
+import '../screens/attendance/add_group_screen.dart';
+import '../models/views/trainer_view.dart';
 
 class MainScreenManager extends ConsumerStatefulWidget {
   const MainScreenManager({super.key});
@@ -120,6 +123,13 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
         index: currentIndex,
         children: screens,
       ),
+      floatingActionButton: buildFab(
+        currentIndex: currentIndex,
+        tabController: tabController,
+        context: context,
+        ref: ref,
+        trainerData: trainerData,
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
         onDestinationSelected: (int index) {
@@ -131,4 +141,49 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
       ),
     );
   }
+}
+
+FloatingActionButton? buildFab({
+  required int currentIndex,
+  required TabController tabController,
+  required BuildContext context,
+  required WidgetRef ref,
+  required TrainerView? trainerData,
+}) {
+  return currentIndex == 1
+      ? FloatingActionButton(
+          onPressed: () {
+            switch (tabController.index) {
+              case 0:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Placeholder(),
+                  ),
+                );
+                break;
+              case 1:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddGroupScreen(
+                      groupView: GroupView.empty(trainer: trainerData!),
+                      editMode: false,
+                    ),
+                  ),
+                );
+                break;
+              case 2:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Placeholder(),
+                  ),
+                );
+                break;
+            }
+          },
+          child: const Icon(Icons.add),
+        )
+      : null;
 }

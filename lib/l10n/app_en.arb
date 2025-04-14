@@ -121,15 +121,19 @@
         "description": "The label for the inactive status"
     },
     "pendingStatus": "Pending",
-    "@PendingStatus": {
+    "@pendingStatus": {
         "description": "The label for the pending status"
     },
     "archivedStatus": "Archived",
-    "@ArchivedStatus": {
+    "@archivedStatus": {
         "description": "The label for the archived status"
     },
     "status" : "Status",
     "@status" : {
         "description": "The label for the status"
+    },
+    "trainer" : "Trainer",
+    "@trainer" : {
+        "description": "The label for the trainer"
     }
 }

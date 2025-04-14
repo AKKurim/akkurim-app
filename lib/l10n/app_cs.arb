@@ -29,6 +29,7 @@
     "inactiveStatus": "Neaktivní",
     "pendingStatus": "Čekající",
     "archivedStatus": "Archivován",
-    "status": "Stav"
+    "status": "Stav",
+    "trainer": "Trenér"
 
 }

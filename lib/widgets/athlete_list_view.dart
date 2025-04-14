@@ -1,8 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../providers/filter_providers.dart';
+import '../providers/trainer_provider.dart';
 import '../screens/member_profile.dart';
 import '../utils/utils.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class AthleteListView extends HookConsumerWidget {
   const AthleteListView({super.key});
@@ -10,6 +12,12 @@ class AthleteListView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final simpleAthlete = ref.watch(filteredAthletesProvider);
+    final List trainerAthleteIds = ref.watch(trainerPProvider).when(
+        data: (data) => data.map((trainer) {
+              return trainer.simpleAthlete.athlete.id;
+            }).toList(),
+        error: (error, stackTrace) => [],
+        loading: () => []);
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -40,6 +48,13 @@ class AthleteListView extends HookConsumerWidget {
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
+                subtitle: trainerAthleteIds.contains(athlete.athlete.id)
+                    ? Text(
+                        AppLocalizations.of(context)!.trainer,
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      )
+                    : null,
                 trailing: Chip(
                   label: Text(
                       Utils.getStatusName(athlete.athleteStatus.name, context)),

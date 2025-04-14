@@ -257,13 +257,13 @@ abstract class AppLocalizations {
   /// **'Inactive'**
   String get inactiveStatus;
 
-  /// No description provided for @pendingStatus.
+  /// The label for the pending status
   ///
   /// In en, this message translates to:
   /// **'Pending'**
   String get pendingStatus;
 
-  /// No description provided for @archivedStatus.
+  /// The label for the archived status
   ///
   /// In en, this message translates to:
   /// **'Archived'**
@@ -274,6 +274,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Status'**
   String get status;
+
+  /// The label for the trainer
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer'**
+  String get trainer;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
