@@ -28,9 +28,10 @@ class TrainingResultsScreen extends ConsumerWidget {
             isFullScreen: false,
             suggestionsBuilder: (context, controller) {
               return disciplines
-                  .where((discipline) => discipline.discipline.description
-                      .toLowerCase()
-                      .contains(controller.text.toLowerCase()))
+                  .where((discipline) =>
+                      '${discipline.discipline.description} ${discipline.type?.description ?? ''} ${discipline.discipline.shortDescription}'
+                          .toLowerCase()
+                          .contains(controller.text.toLowerCase()))
                   .map((discipline) {
                 return ListTile(
                   title: Text(discipline.discipline.description),
