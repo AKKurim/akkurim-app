@@ -24,5 +24,23 @@ final allDisciplinesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllDisciplinesRef = AutoDisposeStreamProviderRef<List<DisciplineView>>;
+String _$allCategoriesHash() => r'0754770f5909916ab08f91c449fbea6c42e52065';
+
+/// See also [allCategories].
+@ProviderFor(allCategories)
+final allCategoriesProvider =
+    AutoDisposeStreamProvider<List<CategoryData>>.internal(
+  allCategories,
+  name: r'allCategoriesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$allCategoriesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

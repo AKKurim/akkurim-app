@@ -33,3 +33,13 @@ Stream<List<DisciplineView>> allDisciplines(Ref ref) async* {
     }).toList();
   });
 }
+
+@riverpod
+Stream<List<CategoryData>> allCategories(Ref ref) async* {
+  final db = ref.read(dbProvider);
+  yield* (db.select(db.category)
+        ..where(
+          (tbl) => tbl.deletedAt.isNull(),
+        ))
+      .watch();
+}
