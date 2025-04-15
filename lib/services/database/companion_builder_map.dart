@@ -247,10 +247,10 @@ MeetEventCompanion buildMeetEventCompanion(Map<String, dynamic> row) =>
       startAt: Value(DateTime.parse(row['start_at'])),
       phase: row['phase'] != null ? Value(row['phase']) : const Value.absent(),
       createdAt: row['created_at'] != null
-          ? Value(row['created_at'])
+          ? Value(DateTime.parse(row['created_at']))
           : const Value.absent(),
       updatedAt: row['updated_at'] != null
-          ? Value(row['updated_at'])
+          ? Value(DateTime.parse(row['updated_at']))
           : const Value.absent(),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
