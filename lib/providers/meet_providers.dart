@@ -185,4 +185,11 @@ class selectedMonthYearP extends _$selectedMonthYearP {
       );
     }
   }
+
+  void setMonthAndYear(int month, int year) {
+    state = MonthYearView(
+      month: month,
+      year: year,
+    );
+  }
 }

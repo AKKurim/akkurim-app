@@ -132,35 +132,34 @@ class Utils {
     }
   }
 
-  static String getMonthName(String monthName, BuildContext context) {
-    monthName = monthName.toLowerCase();
-    switch (monthName) {
-      case 'january':
+  static String getMonthName(int monthNumber, BuildContext context) {
+    switch (monthNumber) {
+      case 1:
         return AppLocalizations.of(context)!.january;
-      case 'february':
+      case 2:
         return AppLocalizations.of(context)!.february;
-      case 'march':
+      case 3:
         return AppLocalizations.of(context)!.march;
-      case 'april':
+      case 4:
         return AppLocalizations.of(context)!.april;
-      case 'may':
+      case 5:
         return AppLocalizations.of(context)!.may;
-      case 'june':
+      case 6:
         return AppLocalizations.of(context)!.june;
-      case 'july':
+      case 7:
         return AppLocalizations.of(context)!.july;
-      case 'august':
+      case 8:
         return AppLocalizations.of(context)!.august;
-      case 'september':
+      case 9:
         return AppLocalizations.of(context)!.september;
-      case 'october':
+      case 10:
         return AppLocalizations.of(context)!.october;
-      case 'november':
+      case 11:
         return AppLocalizations.of(context)!.november;
-      case 'december':
+      case 12:
         return AppLocalizations.of(context)!.december;
       default:
-        return monthName;
+        throw Exception('Invalid month number: $monthNumber');
     }
   }
 
@@ -249,5 +248,9 @@ class TimeHelper {
 
   static String getMinHourFromDateTime(DateTime date) {
     return '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+  }
+
+  static String getDayMonthYear(DateTime date) {
+    return '${date.day.toString()}. ${date.month}. ${date.year}';
   }
 }
