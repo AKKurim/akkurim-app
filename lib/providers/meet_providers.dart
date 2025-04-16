@@ -48,13 +48,28 @@ class MeetProvidersP extends _$MeetProvidersP {
 
       return grouped.entries.map((entry) {
         final meet = entry.value.first.readTable(db.meet);
-        final events = entry.value
+        var events = entry.value
             .map((row) => MeetEventView(
                 meetEvent: row.readTable(db.meetEvent),
                 discipline: row.readTable(db.discipline),
                 category: row.readTable(db.category),
                 athletesWithResults: {}))
             .toList();
+
+        List<MeetEventView> events_ = [];
+        for (final event in events) {
+          if (events_.isEmpty) {
+            events_.add(event);
+          } else {
+            final lastEvent = events_.last;
+            if (lastEvent == event) {
+              continue;
+            } else {
+              events_.add(event);
+            }
+          }
+        }
+        events = events_;
 
         final athleteMeetEvents = entry.value
             .map((row) => row.readTableOrNull(db.athleteMeetEvent))
@@ -79,7 +94,7 @@ class MeetProvidersP extends _$MeetProvidersP {
                 (athleteEvent) => athleteEvent.athleteId == athlete.athlete.id);
 
             if (athleteEvent != null) {
-              event.athletesWithResults[athlete] = 'TODO';
+              event.athletesWithResults[athlete] = athleteEvent.result ?? '';
             }
           }
         }
