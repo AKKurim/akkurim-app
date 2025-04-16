@@ -280,6 +280,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Trainer'**
   String get trainer;
+
+  /// The label for Monday
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// The label for Tuesday
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// The label for Wednesday
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// The label for Thursday
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// The label for Friday
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// The label for Saturday
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// The label for Sunday
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// The label for January
+  ///
+  /// In en, this message translates to:
+  /// **'January'**
+  String get january;
+
+  /// The label for February
+  ///
+  /// In en, this message translates to:
+  /// **'February'**
+  String get february;
+
+  /// The label for March
+  ///
+  /// In en, this message translates to:
+  /// **'March'**
+  String get march;
+
+  /// The label for April
+  ///
+  /// In en, this message translates to:
+  /// **'April'**
+  String get april;
+
+  /// The label for May
+  ///
+  /// In en, this message translates to:
+  /// **'May'**
+  String get may;
+
+  /// The label for June
+  ///
+  /// In en, this message translates to:
+  /// **'June'**
+  String get june;
+
+  /// The label for July
+  ///
+  /// In en, this message translates to:
+  /// **'July'**
+  String get july;
+
+  /// The label for August
+  ///
+  /// In en, this message translates to:
+  /// **'August'**
+  String get august;
+
+  /// The label for September
+  ///
+  /// In en, this message translates to:
+  /// **'September'**
+  String get september;
+
+  /// The label for October
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get october;
+
+  /// The label for November
+  ///
+  /// In en, this message translates to:
+  /// **'November'**
+  String get november;
+
+  /// The label for December
+  ///
+  /// In en, this message translates to:
+  /// **'December'**
+  String get december;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

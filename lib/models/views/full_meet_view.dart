@@ -1,10 +1,11 @@
 import '../../services/database/drift_database.dart';
+import './meet_event_view.dart';
 
-class MeetView {
+class FullMeetView {
   MeetData meet;
-  List<MeetEventData> events;
+  List<MeetEventView> events;
 
-  MeetView({
+  FullMeetView({
     required this.meet,
     required this.events,
   });

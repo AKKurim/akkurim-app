@@ -135,5 +135,81 @@
     "trainer" : "Trainer",
     "@trainer" : {
         "description": "The label for the trainer"
+    },
+    "monday" : "Monday",
+    "@monday" : {
+        "description": "The label for Monday"
+    },
+    "tuesday" : "Tuesday",
+    "@tuesday" : {
+        "description": "The label for Tuesday"
+    },
+    "wednesday" : "Wednesday",
+    "@wednesday" : {
+        "description": "The label for Wednesday"
+    },
+    "thursday" : "Thursday",
+    "@thursday" : {
+        "description": "The label for Thursday"
+    },
+    "friday" : "Friday",
+    "@friday" : {
+        "description": "The label for Friday"
+    },
+    "saturday" : "Saturday",
+    "@saturday" : {
+        "description": "The label for Saturday"
+    },
+    "sunday" : "Sunday",
+    "@sunday" : {
+        "description": "The label for Sunday"
+    },
+    "january" : "January",
+    "@january" : {
+        "description": "The label for January"
+    },
+    "february" : "February",
+    "@february" : {
+        "description": "The label for February"
+    },
+    "march" : "March",
+    "@march" : {
+        "description": "The label for March"
+    },
+    "april" : "April",
+    "@april" : {
+        "description": "The label for April"
+    },
+    "may" : "May",
+    "@may" : {
+        "description": "The label for May"
+    },
+    "june" : "June",
+    "@june" : {
+        "description": "The label for June"
+    },
+    "july" : "July",
+    "@july" : {
+        "description": "The label for July"
+    },
+    "august" : "August",
+    "@august" : {
+        "description": "The label for August"
+    },
+    "september" : "September",
+    "@september" : {
+        "description": "The label for September"
+    },
+    "october" : "October",
+    "@october" : {
+        "description": "The label for October"
+    },
+    "november" : "November",
+    "@november" : {
+        "description": "The label for November"
+    },
+    "december" : "December",
+    "@december" : {
+        "description": "The label for December"
     }
 }

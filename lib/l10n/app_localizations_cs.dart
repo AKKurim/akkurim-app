@@ -111,4 +111,61 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get trainer => 'Trenér';
+
+  @override
+  String get monday => 'Pondělí';
+
+  @override
+  String get tuesday => 'Úterý';
+
+  @override
+  String get wednesday => 'Středa';
+
+  @override
+  String get thursday => 'Čtvrtek';
+
+  @override
+  String get friday => 'Pátek';
+
+  @override
+  String get saturday => 'Sobota';
+
+  @override
+  String get sunday => 'Neděle';
+
+  @override
+  String get january => 'Leden';
+
+  @override
+  String get february => 'Únor';
+
+  @override
+  String get march => 'Březen';
+
+  @override
+  String get april => 'Duben';
+
+  @override
+  String get may => 'Květen';
+
+  @override
+  String get june => 'Červen';
+
+  @override
+  String get july => 'Červenec';
+
+  @override
+  String get august => 'Srpen';
+
+  @override
+  String get september => 'Září';
+
+  @override
+  String get october => 'Říjen';
+
+  @override
+  String get november => 'Listopad';
+
+  @override
+  String get december => 'Prosinec';
 }

@@ -30,6 +30,24 @@
     "pendingStatus": "Čekající",
     "archivedStatus": "Archivován",
     "status": "Stav",
-    "trainer": "Trenér"
-
+    "trainer": "Trenér",
+    "monday": "Pondělí",
+    "tuesday": "Úterý",
+    "wednesday": "Středa",
+    "thursday": "Čtvrtek",
+    "friday": "Pátek",
+    "saturday": "Sobota",
+    "sunday": "Neděle",
+    "january": "Leden",
+    "february": "Únor",
+    "march": "Březen",
+    "april": "Duben",
+    "may": "Květen",
+    "june": "Červen",
+    "july": "Červenec",
+    "august": "Srpen",
+    "september": "Září",
+    "october": "Říjen",
+    "november": "Listopad",
+    "december": "Prosinec"
 }

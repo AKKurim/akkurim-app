@@ -42,5 +42,38 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
+String _$meetProvidersPHash() => r'ff4f70eae309099103ec448e500f3e7b864fd695';
+
+/// See also [MeetProvidersP].
+@ProviderFor(MeetProvidersP)
+final meetProvidersPProvider = AutoDisposeStreamNotifierProvider<MeetProvidersP,
+    List<FullMeetView>>.internal(
+  MeetProvidersP.new,
+  name: r'meetProvidersPProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$meetProvidersPHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$MeetProvidersP = AutoDisposeStreamNotifier<List<FullMeetView>>;
+String _$selectedMonthYearPHash() =>
+    r'7882280efef38cc2e7bac0ba826757214da85b22';
+
+/// See also [selectedMonthYearP].
+@ProviderFor(selectedMonthYearP)
+final selectedMonthYearPProvider =
+    AutoDisposeNotifierProvider<selectedMonthYearP, MonthYearView>.internal(
+  selectedMonthYearP.new,
+  name: r'selectedMonthYearPProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$selectedMonthYearPHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$selectedMonthYearP = AutoDisposeNotifier<MonthYearView>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

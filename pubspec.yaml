@@ -57,6 +57,8 @@ dependencies:
   country_flags: ^3.2.0
   flutter_timezone: ^4.1.0
   diacritic: ^0.1.6
+  uuid: ^4.5.1
+  collection: ^1.19.0
 
 
 dev_dependencies:

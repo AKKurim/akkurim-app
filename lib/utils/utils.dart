@@ -110,6 +110,60 @@ class Utils {
     }
   }
 
+  static String getDayName(String dayName, BuildContext context) {
+    dayName = dayName.toLowerCase();
+    switch (dayName) {
+      case 'monday':
+        return AppLocalizations.of(context)!.monday;
+      case 'tuesday':
+        return AppLocalizations.of(context)!.tuesday;
+      case 'wednesday':
+        return AppLocalizations.of(context)!.wednesday;
+      case 'thursday':
+        return AppLocalizations.of(context)!.thursday;
+      case 'friday':
+        return AppLocalizations.of(context)!.friday;
+      case 'saturday':
+        return AppLocalizations.of(context)!.saturday;
+      case 'sunday':
+        return AppLocalizations.of(context)!.sunday;
+      default:
+        return dayName;
+    }
+  }
+
+  static String getMonthName(String monthName, BuildContext context) {
+    monthName = monthName.toLowerCase();
+    switch (monthName) {
+      case 'january':
+        return AppLocalizations.of(context)!.january;
+      case 'february':
+        return AppLocalizations.of(context)!.february;
+      case 'march':
+        return AppLocalizations.of(context)!.march;
+      case 'april':
+        return AppLocalizations.of(context)!.april;
+      case 'may':
+        return AppLocalizations.of(context)!.may;
+      case 'june':
+        return AppLocalizations.of(context)!.june;
+      case 'july':
+        return AppLocalizations.of(context)!.july;
+      case 'august':
+        return AppLocalizations.of(context)!.august;
+      case 'september':
+        return AppLocalizations.of(context)!.september;
+      case 'october':
+        return AppLocalizations.of(context)!.october;
+      case 'november':
+        return AppLocalizations.of(context)!.november;
+      case 'december':
+        return AppLocalizations.of(context)!.december;
+      default:
+        return monthName;
+    }
+  }
+
   static String getCurrentSchoolYearString() {
     final now = DateTime.now();
     final year = now.year;
@@ -162,5 +216,38 @@ class TimeHelper {
     }
 
     return '$hourString:$minuteString:$secondsString+0000';
+  }
+
+  static DateTime getStartOfDay(DateTime date) {
+    return DateTime(date.year, date.month, date.day, 0, 0);
+  }
+
+  static DateTime getEndOfDay(DateTime date) {
+    return DateTime(date.year, date.month, date.day, 23, 59, 59);
+  }
+
+  static DateTime getStartOfWeek(DateTime date) {
+    final startOfWeek = date.subtract(Duration(days: date.weekday - 1));
+    return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day, 0, 0);
+  }
+
+  static DateTime getEndOfWeek(DateTime date) {
+    final endOfWeek =
+        date.add(Duration(days: DateTime.daysPerWeek - date.weekday));
+    return DateTime(endOfWeek.year, endOfWeek.month, endOfWeek.day, 23, 59, 59);
+  }
+
+  static DateTime getStartOfMonth(DateTime date) {
+    return DateTime(date.year, date.month, 1, 0, 0);
+  }
+
+  static DateTime getEndOfMonth(DateTime date) {
+    final nextMonth = date.month == 12 ? 1 : date.month + 1;
+    final nextYear = date.month == 12 ? date.year + 1 : date.year;
+    return DateTime(nextYear, nextMonth, 0, 23, 59, 59);
+  }
+
+  static String getMinHourFromDateTime(DateTime date) {
+    return '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
   }
 }
