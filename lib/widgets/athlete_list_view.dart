@@ -20,12 +20,31 @@ class AthleteListView extends HookConsumerWidget {
         loading: () => []);
 
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 200),
       switchInCurve: Curves.easeIn,
       switchOutCurve: Curves.easeOut,
       child: simpleAthlete.maybeWhen(orElse: () {
         return Center(
-          child: Container(),
+          child: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: ListTile(
+                  // title: ShimmerWidget.rectangular(height: 20),
+                  // subtitle: ShimmerWidget.rectangular(height: 16),
+                  // trailing: ShimmerWidget.rectangular(height: 16, width: 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(
+                      color: Theme.of(context).dividerColor,
+                      width: 1,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
         );
       }, data: (data) {
         return ListView.builder(
@@ -70,7 +89,7 @@ class AthleteListView extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(8),
                   side: BorderSide(
                     color: Theme.of(context).dividerColor,
-                    width: 0.5,
+                    width: 1,
                   ),
                 ),
               ),
