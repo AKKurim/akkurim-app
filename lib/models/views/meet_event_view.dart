@@ -5,11 +5,13 @@ class MeetEventViewWithoutAthletes {
   MeetEventData meetEvent;
   DisciplineData? discipline;
   CategoryData? category;
+  String? result;
 
   MeetEventViewWithoutAthletes({
     required this.meetEvent,
     this.discipline,
     this.category,
+    this.result,
   });
 }
 

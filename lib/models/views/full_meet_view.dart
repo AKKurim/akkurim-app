@@ -25,6 +25,9 @@ class FullMeetView {
           meetEvent: event.meetEvent,
           discipline: event.discipline,
           category: event.category,
+          result: event.athletesWithResults[athlete] != ''
+              ? event.athletesWithResults[athlete]
+              : null,
         ));
       }
     }
