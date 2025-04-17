@@ -8,6 +8,7 @@ import '../../models/views/training_view.dart';
 import '../../providers/groups_provider.dart';
 import '../../models/views/group_view.dart';
 import '../../utils/utils.dart';
+import './take_attendance.dart';
 
 class TrainingsScreen extends ConsumerWidget {
   const TrainingsScreen({super.key});
@@ -39,57 +40,117 @@ class TrainingsScreen extends ConsumerWidget {
             itemCount: trainings.length,
             itemBuilder: (_, index) {
               final training = trainings[index];
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      const SizedBox(width: 8),
-                      const Icon(Icons.calendar_today),
-                      const Icon(Icons.access_time),
-                      const SizedBox(width: 8),
-                      Text(
-                          '${TimeHelper.getDayMonthYear(training.training.datetime)} (${TimeHelper.getMinHourFromDateTime(training.training.datetime)})',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    child: ListTile(
-                      title: Text(training.group.group.name),
-                      subtitle: Text(training.group.trainers
-                          .map((trainer) =>
-                              '${trainer.simpleAthlete.athlete.lastName} ${trainer.simpleAthlete.athlete.firstName}')
-                          .join(', ')),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            '/${training.group.athletes.length.toString()}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Icon(Icons.people),
-                        ],
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-              );
+              return TrainingTile(training: training);
             },
           ),
         ),
+      ],
+    );
+  }
+}
+
+class TrainingTile extends ConsumerWidget {
+  const TrainingTile({
+    super.key,
+    required this.training,
+  });
+
+  final TrainingView training;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            const SizedBox(width: 8),
+            const Icon(Icons.calendar_today),
+            const Icon(Icons.access_time),
+            const SizedBox(width: 8),
+            Text(
+                '${TimeHelper.getWeekDayName(training.training.datetime, context)} ${TimeHelper.getDayMonthYear(training.training.datetime)} (${TimeHelper.getMinHourFromDateTime(training.training.datetime)})',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          child: GestureDetector(
+            onLongPress: () {
+              // show alert dialog to delete training
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Delete Training'), // TODO localize
+                    content: const Text(
+                        'Are you sure you want to delete this training?'), // TODO localize
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          ref
+                              .read(trainingsPProvider.notifier)
+                              .deleteTraining(training);
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Delete'), // TODO localize
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Cancel'), // TODO localize
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: ListTile(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TakeAttendance(
+                      training: training,
+                    ),
+                  ),
+                );
+              },
+              title: Text(training.group.group.name),
+              subtitle: Text(training.group.trainers
+                  .map((trainer) =>
+                      '${trainer.simpleAthlete.athlete.lastName} ${trainer.simpleAthlete.athlete.firstName}')
+                  .join(', ')),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${training.presentAthletesCount}/${training.group.athletes.length.toString()}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Icon(Icons.people,
+                      color: training.presentAthletesCount != 0
+                          ? Colors.green
+                          : Colors.red),
+                ],
+              ),
+              // highlight active training
+              tileColor: TimeHelper.isSameDay(
+                      training.training.datetime, DateTime.now())
+                  ? Colors.green.withAlpha(100)
+                  : null,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 1,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -120,7 +181,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Create Training',
+          Text('Create Training', // TODO localize
               style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
 
@@ -141,8 +202,8 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
           ElevatedButton.icon(
             icon: const Icon(Icons.date_range),
             label: Text(_dateRange == null
-                ? 'Select Date Range'
-                : '${_dateRange!.start.toLocal()} → ${_dateRange!.end.toLocal()}'),
+                ? 'Select Date Range' // TODO localize
+                : '${_dateRange!.start.toLocal().toString().split(" ")[0]} → ${_dateRange!.end.toLocal().toString().split(" ")[0]}'),
             onPressed: () async {
               final now = DateTime.now();
               final picked = await showDateRangePicker(
@@ -172,6 +233,13 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
                           90, // TODO: Get training duration from user input
                         );
                     Navigator.of(context).pop(); // Dismiss sheet
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text(
+                            'Trainings created successfully!'), // TODO localize
+                      ),
+                    );
                   }
                 : null,
             child: const Text('Create'),

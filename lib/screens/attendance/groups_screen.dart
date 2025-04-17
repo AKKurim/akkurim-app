@@ -42,84 +42,96 @@ class GroupsScreen extends ConsumerWidget {
             itemCount: groups.length,
             itemBuilder: (context, index) {
               final group = groups[index];
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: ListTile(
-                  title: Text(group.group.name),
-                  subtitle: Text(
-                    // join the name of the trainers in the group
-                    group.trainers
-                        .map((trainer) =>
-                            '${trainer.simpleAthlete.athlete.lastName} ${trainer.simpleAthlete.athlete.firstName}')
-                        .join(', '),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        group.athletes.length.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Icon(
-                        Icons.group,
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                  onLongPress: () => showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text('Delete Group'),
-                        content: const Text(
-                            'Are you sure you want to delete this group?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              ref
-                                  .read(groupsPProvider.notifier)
-                                  .deleteGroup(group);
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Delete'),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddGroupScreen(
-                          groupView: group,
-                          editMode: true,
-                        ),
-                      ),
-                    );
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: const BorderSide(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                  ),
-                ),
-              );
+              return GroupTile(group: group);
             },
           ),
         ),
       ],
+    );
+  }
+}
+
+class GroupTile extends ConsumerWidget {
+  const GroupTile({
+    super.key,
+    required this.group,
+  });
+
+  final GroupView group;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: ListTile(
+        title: Text(group.group.name),
+        subtitle: Text(
+          // join the name of the trainers in the group
+          group.trainers
+              .map((trainer) =>
+                  '${trainer.simpleAthlete.athlete.lastName} ${trainer.simpleAthlete.athlete.firstName}')
+              .join(', '),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              group.athletes.length.toString(),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Icon(
+              Icons.group,
+              size: 20,
+            ),
+          ],
+        ),
+        onLongPress: () => showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Delete Group'),
+              content:
+                  const Text('Are you sure you want to delete this group?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    ref.read(groupsPProvider.notifier).deleteGroup(group);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Delete'),
+                ),
+              ],
+            );
+          },
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddGroupScreen(
+                groupView: group,
+                editMode: true,
+              ),
+            ),
+          );
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: const BorderSide(
+            color: Colors.grey,
+            width: 1,
+          ),
+        ),
+      ),
     );
   }
 }

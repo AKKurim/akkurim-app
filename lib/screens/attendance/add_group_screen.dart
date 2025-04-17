@@ -13,6 +13,7 @@ import '../../providers/filter_providers.dart';
 import '../../widgets/search_bar.dart';
 import '../../utils/utils.dart';
 import 'package:collection/collection.dart';
+import '../../widgets/save_button.dart';
 
 class AddGroupScreen extends ConsumerStatefulWidget {
   final GroupView groupView;
@@ -193,14 +194,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                 : Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              saveGroup();
-            },
-          ),
-        ],
+        actions: [],
       ),
       body: Stack(
         children: [
@@ -209,7 +203,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
               left: 8,
               right: 8,
               top: 8,
-              bottom: 64,
+              bottom: 68,
             ),
             child: GestureDetector(
               onTap: () {
@@ -573,27 +567,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                ),
-                onPressed: () {
-                  saveGroup();
-                },
-                child: Text('Save and close',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    )),
-              ),
-            ),
+          SaveButton(
+            saveFunction: saveGroup,
           )
         ],
       ),

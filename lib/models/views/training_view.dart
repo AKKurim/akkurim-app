@@ -15,4 +15,10 @@ class TrainingView {
     required this.athleteAttendance,
     required this.trainerAttendance,
   });
+
+  int get presentAthletesCount {
+    return athleteAttendance.values
+        .where((status) => status == 'present' || status == 'p')
+        .length;
+  }
 }

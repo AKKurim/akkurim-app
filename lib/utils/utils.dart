@@ -278,4 +278,36 @@ class TimeHelper {
         throw Exception('Invalid day: $day');
     }
   }
+
+  static bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
+  static String getWeekDayName(DateTime day, BuildContext context) {
+    switch (day.weekday) {
+      case 1:
+        return AppLocalizations.of(context)!.monday;
+      case 2:
+        return AppLocalizations.of(context)!.tuesday;
+      case 3:
+        return AppLocalizations.of(context)!.wednesday;
+      case 4:
+        return AppLocalizations.of(context)!.thursday;
+      case 5:
+        return AppLocalizations.of(context)!.friday;
+      case 6:
+        return AppLocalizations.of(context)!.saturday;
+      case 7:
+        return AppLocalizations.of(context)!.sunday;
+      default:
+        throw Exception('Invalid weekday: ${day.weekday}');
+    }
+  }
+
+  static String getFullDateWIthTime(DateTime date, BuildContext context,
+      {bool withDay = true}) {
+    return '${withDay ? getWeekDayName(date, context) : ''} ${getDayMonthYear(date)} (${getMinHourFromDateTime(date)})';
+  }
 }

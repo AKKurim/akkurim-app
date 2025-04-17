@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../screens/home_screen.dart';
 import './attendance_screen_manager.dart';
-import './races_screen.dart';
+import 'races/races_screen.dart';
 import '../screens/screen_3.dart';
 import './member_screen.dart';
 import '../screens/settings_screen.dart';
@@ -81,7 +81,9 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
         label: AppLocalizations.of(context)!.eventsScreenTitle,
       ),
       NavigationDestination(
-        icon: const Icon(Icons.screen_share, color: Colors.transparent),
+        // I want an icon with a storage box or something similar
+        icon: const Icon(Icons.inventory_2_outlined),
+        selectedIcon: const Icon(Icons.inventory_2),
         label: AppLocalizations.of(context)!.screen2Title,
       ),
       NavigationDestination(

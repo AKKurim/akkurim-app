@@ -1,8 +1,8 @@
 import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../models/views/full_meet_view.dart';
-import '../utils/utils.dart';
+import '../../models/views/full_meet_view.dart';
+import '../../utils/utils.dart';
 
 class RaceScreen extends ConsumerStatefulWidget {
   final FullMeetView meet;

@@ -14,7 +14,6 @@ import 'package:uuid/uuid.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import '../services/database/companion_builder_map.dart';
-import '../providers/trainer_provider.dart';
 import '../services/network/sync_service.dart';
 
 part 'groups_provider.g.dart';
@@ -283,16 +282,26 @@ class GroupsP extends _$GroupsP {
 
   Future<void> deleteGroup(GroupView group) async {
     final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
     var groupToDelete = Utils.convertMapKeysToSnakeCase(group.group.toJson());
     groupToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
     groupToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
     groupToDelete['created_at'] =
         group.group.createdAt.toUtc().toIso8601String();
-    await db
-        .into(db.group)
-        .insertOnConflictUpdate(buildGroupCompanion(groupToDelete));
 
-    // TODO delete the groupAthlete and groupTrainer and sync
+    await db.into(db.group).insertOnConflictUpdate(
+          buildGroupCompanion(groupToDelete),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/group_athlete',
+      'post',
+      json.encode({
+        'data': [groupToDelete],
+        'primary_keys': ['group_id', 'athlete_id'],
+        'table': 'group_athlete',
+      }),
+    );
   }
 }
 

@@ -20,4 +20,8 @@ class SimpleAthleteView {
 
   @override
   int get hashCode => athlete.id.hashCode;
+
+  String get fullName {
+    return '${athlete.lastName} ${athlete.firstName}';
+  }
 }

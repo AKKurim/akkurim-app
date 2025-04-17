@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/services/database/companion_builder_map.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../services/database/drift_database.dart';
@@ -33,6 +34,7 @@ class TrainingsP extends _$TrainingsP {
     final query = (db.select(db.training)
           ..where((t) => t.groupId.isIn(groupIds))
           ..where((t) => t.datetime.isBetweenValues(from, to))
+          ..where((t) => t.deletedAt.isNull())
           ..orderBy([
             (tbl) => OrderingTerm(
                   expression: tbl.datetime,
@@ -152,6 +154,151 @@ class TrainingsP extends _$TrainingsP {
               .toList(),
           'primary_keys': ['id'],
           'table': 'training',
+        },
+      ),
+    );
+  }
+
+  Future<void> deleteTraining(TrainingView training) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+    var trainingToDelete = Utils.convertMapKeysToSnakeCase(
+      training.training.toJson(),
+    );
+    trainingToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
+    trainingToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
+    trainingToDelete['created_at'] =
+        training.training.createdAt.toUtc().toIso8601String();
+    trainingToDelete['datetime_'] =
+        training.training.datetime.toUtc().toIso8601String();
+
+    await db.into(db.training).insertOnConflictUpdate(
+          buildTrainingCompanion(trainingToDelete),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/training',
+      'post',
+      json.encode(
+        {
+          'data': [trainingToDelete],
+          'primary_keys': ['id'],
+          'table': 'training',
+        },
+      ),
+    );
+  }
+
+  Future<void> saveAttendance(
+    TrainingView training,
+    Map<SimpleAthleteView, String> athleteAttendance,
+    Map<TrainerView, String> trainerAttendance,
+    String? note,
+  ) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
+    if (note != null) {
+      final updatedTraining = await db.into(db.training).insertReturning(
+            mode: InsertMode.insertOrReplace,
+            TrainingCompanion(
+              id: Value(training.training.id),
+              datetime: Value(training.training.datetime),
+              groupId: Value(training.training.groupId),
+              durationMinutes: Value(training.training.durationMinutes),
+              description: Value(note),
+              createdAt: Value(training.training.createdAt),
+              updatedAt: Value(DateTime.now()),
+              deletedAt: Value(null),
+            ),
+          );
+      await sync.addToSyncQueue(
+        '/sync/training',
+        'post',
+        json.encode(
+          {
+            'data': [
+              Utils.convertMapKeysToSnakeCase(
+                updatedTraining.toJson(),
+              )
+            ],
+            'primary_keys': ['id'],
+            'table': 'training',
+          },
+        ),
+      );
+    }
+
+    List<TrainingTrainerData> trainingTrainerData = [];
+    for (final trainer in trainerAttendance.keys) {
+      final trainerId = trainer.trainer.id;
+      final presence = trainerAttendance[trainer] ?? '';
+      TrainingTrainerData trainingTrainer =
+          await db.into(db.trainingTrainer).insertReturning(
+                mode: InsertMode.insertOrReplace,
+                TrainingTrainerCompanion(
+                  trainingId: Value(training.training.id),
+                  trainerId: Value(trainerId),
+                  presence: Value(presence),
+                  createdAt: Value(DateTime.now().toUtc()),
+                  updatedAt: Value(DateTime.now().toUtc()),
+                  deletedAt: Value(null),
+                ),
+              );
+      trainingTrainerData.add(trainingTrainer);
+    }
+
+    await sync.addToSyncQueue(
+      '/sync/training_trainer',
+      'post',
+      json.encode(
+        {
+          'data': trainingTrainerData
+              .map(
+                (trainingTrainer) => Utils.convertMapKeysToSnakeCase(
+                  trainingTrainer.toJson(),
+                ),
+              )
+              .toList(),
+          'primary_keys': ['training_id', 'trainer_id'],
+          'table': 'training_trainer',
+        },
+      ),
+    );
+
+    List<TrainingAthleteData> trainingAthleteData = [];
+    for (final athlete in athleteAttendance.keys) {
+      final athleteId = athlete.athlete.id;
+      final presence = athleteAttendance[athlete] ?? '';
+      TrainingAthleteData trainingAthlete =
+          await db.into(db.trainingAthlete).insertReturning(
+                mode: InsertMode.insertOrReplace,
+                TrainingAthleteCompanion(
+                  trainingId: Value(training.training.id),
+                  athleteId: Value(athleteId),
+                  presence: Value(presence),
+                  createdAt: Value(DateTime.now().toUtc()),
+                  updatedAt: Value(DateTime.now().toUtc()),
+                  deletedAt: Value(null),
+                ),
+              );
+      trainingAthleteData.add(trainingAthlete);
+    }
+
+    await sync.addToSyncQueue(
+      '/sync/training_athlete',
+      'post',
+      json.encode(
+        {
+          'data': trainingAthleteData
+              .map(
+                (trainingAthlete) => Utils.convertMapKeysToSnakeCase(
+                  trainingAthlete.toJson(),
+                ),
+              )
+              .toList(),
+          'primary_keys': ['training_id', 'athlete_id'],
+          'table': 'training_athlete',
         },
       ),
     );
