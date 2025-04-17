@@ -67,6 +67,13 @@ class RacesScreen extends ConsumerWidget {
                               '${meet.meet.location}',
                               style: const TextStyle(fontSize: 16),
                             ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(meet.athletesCount.toString()),
+                                Icon(Icons.people),
+                              ],
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,

@@ -56,10 +56,14 @@ class Utils {
   }
 
   static String camelToSnake(String text) {
-    return text
+    String val = text
         .replaceAllMapped(
             RegExp(r'([a-z])([A-Z])'), (Match m) => '${m[1]}_${m[2]}')
         .toLowerCase();
+    if (val == 'datetime') {
+      return 'datetime_';
+    }
+    return val;
   }
 
   static Map<String, dynamic> convertMapKeysToSnakeCase(
@@ -252,5 +256,26 @@ class TimeHelper {
 
   static String getDayMonthYear(DateTime date) {
     return '${date.day.toString()}. ${date.month}. ${date.year}';
+  }
+
+  static int getWeekDayFromString(String day) {
+    switch (day.toLowerCase()) {
+      case 'monday':
+        return 1;
+      case 'tuesday':
+        return 2;
+      case 'wednesday':
+        return 3;
+      case 'thursday':
+        return 4;
+      case 'friday':
+        return 5;
+      case 'saturday':
+        return 6;
+      case 'sunday':
+        return 7;
+      default:
+        throw Exception('Invalid day: $day');
+    }
   }
 }

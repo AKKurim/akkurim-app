@@ -39,4 +39,12 @@ class FullMeetView {
             ))
         .toList();
   }
+
+  int get athletesCount {
+    final athletes = events
+        .expand((event) => event.athletesWithResults.keys)
+        .toSet()
+        .toList();
+    return athletes.length;
+  }
 }

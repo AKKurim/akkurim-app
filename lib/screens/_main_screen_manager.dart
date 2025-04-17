@@ -13,6 +13,7 @@ import '../providers/simple_athletes_provider.dart';
 import '../providers/trainer_provider.dart';
 import '../screens/attendance/add_group_screen.dart';
 import '../models/views/trainer_view.dart';
+import '../screens/attendance/trainings_screen.dart';
 
 class MainScreenManager extends ConsumerStatefulWidget {
   const MainScreenManager({super.key});
@@ -155,12 +156,7 @@ FloatingActionButton? buildFab({
           onPressed: () {
             switch (tabController.index) {
               case 0:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Placeholder(),
-                  ),
-                );
+                _openCreateTrainingSheet(context);
                 break;
               case 1:
                 Navigator.push(
@@ -186,4 +182,16 @@ FloatingActionButton? buildFab({
           child: const Icon(Icons.add),
         )
       : null;
+}
+
+void _openCreateTrainingSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => const CreateTrainingForm(),
+  );
 }

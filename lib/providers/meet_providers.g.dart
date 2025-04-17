@@ -42,7 +42,7 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
-String _$meetProvidersPHash() => r'ff4f70eae309099103ec448e500f3e7b864fd695';
+String _$meetProvidersPHash() => r'0af931dee81c037fcad46db0af2edff7c8181a02';
 
 /// See also [MeetProvidersP].
 @ProviderFor(MeetProvidersP)
@@ -59,7 +59,7 @@ final meetProvidersPProvider = AutoDisposeStreamNotifierProvider<MeetProvidersP,
 
 typedef _$MeetProvidersP = AutoDisposeStreamNotifier<List<FullMeetView>>;
 String _$selectedMonthYearPHash() =>
-    r'7882280efef38cc2e7bac0ba826757214da85b22';
+    r'1bc6458c96a0b7ca721559d07903fef1a0b02a31';
 
 /// See also [selectedMonthYearP].
 @ProviderFor(selectedMonthYearP)

@@ -9,7 +9,6 @@ import './db_provider.dart';
 import 'package:drift/drift.dart';
 import '../utils/utils.dart';
 import './training_providers.dart';
-import 'package:flutter/material.dart';
 import '../services/database/drift_database.dart';
 import 'package:uuid/uuid.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -225,13 +224,16 @@ class GroupsP extends _$GroupsP {
     await sync.addToSyncQueue(
       '/sync/group_trainer',
       'post',
-      json.encode({
-        'data': updatedGroupTrainer
-            .map((trainer) => Utils.convertMapKeysToSnakeCase(trainer.toJson()))
-            .toList(),
-        'primary_keys': ['group_id', 'trainer_id'],
-        'table': 'group_trainer',
-      }),
+      json.encode(
+        {
+          'data': updatedGroupTrainer
+              .map((trainer) =>
+                  Utils.convertMapKeysToSnakeCase(trainer.toJson()))
+              .toList(),
+          'primary_keys': ['group_id', 'trainer_id'],
+          'table': 'group_trainer',
+        },
+      ),
     );
 
     List<GroupAthleteData> updatedGroupAthlete = [];

@@ -424,7 +424,7 @@ TrainingTrainerCompanion buildTrainingTrainerCompanion(
 TrainingCompanion buildTrainingCompanion(Map<String, dynamic> row) =>
     TrainingCompanion(
       id: Value(row['id']),
-      datetime: Value(DateTime.parse(row['datetime'])),
+      datetime: Value(DateTime.parse(row['datetime_'])),
       groupId: Value(row['group_id']),
       description: row['description'] != null
           ? Value(row['description'])
