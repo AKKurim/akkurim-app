@@ -30,6 +30,14 @@ class MeetProvidersP extends _$MeetProvidersP {
             (tbl) =>
                 tbl.deletedAt.isNull() &
                 tbl.startAt.isBetweenValues(startDate, endDate),
+          )
+          ..orderBy(
+            [
+              (tbl) => OrderingTerm(
+                    expression: tbl.startAt,
+                    mode: OrderingMode.asc,
+                  ),
+            ],
           ))
         .join(
       [

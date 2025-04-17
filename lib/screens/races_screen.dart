@@ -46,27 +46,44 @@ class RacesScreen extends ConsumerWidget {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 4.0, horizontal: 8.0),
-                      child: ListTile(
-                        title: Text(meet.meet.name),
-                        subtitle: Text(
-                          '${TimeHelper.getDayMonthYear(meet.meet.startAt)} (${TimeHelper.getMinHourFromDateTime(meet.meet.startAt)} - ${TimeHelper.getMinHourFromDateTime(meet.meet.endAt)})',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RaceScreen(meet: meet),
-                            ),
-                          );
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 1,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const SizedBox(width: 8),
+                              const Icon(Icons.calendar_today),
+                              const Icon(Icons.access_time),
+                              const SizedBox(width: 8),
+                              Text(
+                                  '${TimeHelper.getDayMonthYear(meet.meet.startAt)} (${TimeHelper.getMinHourFromDateTime(meet.meet.startAt)} - ${TimeHelper.getMinHourFromDateTime(meet.meet.endAt)})',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                            ],
                           ),
-                        ),
+                          ListTile(
+                            title: Text(meet.meet.name),
+                            subtitle: Text(
+                              '${meet.meet.location}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RaceScreen(meet: meet),
+                                ),
+                              );
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              side: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }),
