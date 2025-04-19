@@ -1,5 +1,6 @@
 import 'package:ak_kurim_app/models/online_db/group.dart';
 import 'package:ak_kurim_app/models/views/group_view.dart';
+import 'package:ak_kurim_app/widgets/month_year_selecter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/meet_providers.dart';
@@ -7,27 +8,104 @@ import '../../models/views/discipline_view.dart';
 import '../../providers/groups_provider.dart';
 import 'package:diacritic/diacritic.dart';
 import '../../providers/training_results_provider.dart';
+import '../../models/views/full_meet_view.dart';
+import '../../utils/utils.dart';
+import './take_training_results_screen.dart';
 
 class TrainingResultsScreen extends ConsumerWidget {
   const TrainingResultsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = TextEditingController();
-    final List<DisciplineView> disciplines = ref
-        .watch(allDisciplinesProvider)
-        .when(
+    final List<FullMeetView> meets = ref.watch(trainingResultsPProvider).when(
           data: (data) => data,
           error: (error, stackTrace) =>
-              throw Exception('Error loading disciplines: $error, $stackTrace'),
+              throw Exception('Error loading meets: $error, $stackTrace'),
           loading: () => [],
         );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Training Results'),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          DateTime now = DateTime.now();
+          ref
+              .read(selectedMonthYearPProvider.notifier)
+              .setMonthAndYear(now.month, now.year);
+        },
+        child: Column(
+          children: [
+            MonthYearSelecter(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: meets.length,
+                itemBuilder: (context, index) {
+                  final meet = meets[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 8,
+                    ),
+                    child: GestureDetector(
+                      onLongPress: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Delete Training Result'),
+                              content: const Text(
+                                  'Are you sure you want to delete this training result?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(trainingResultsPProvider.notifier)
+                                        .deleteTrainingResult(
+                                          meet,
+                                        );
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Delete'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(meet.meet.name),
+                        subtitle: Text(
+                            '${TimeHelper.getWeekDayName(meet.meet.startAt, context)} ${TimeHelper.getDayMonthYear(meet.meet.startAt)}'),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => TakeTrainingResultsScreen(
+                                meet: meet,
+                              ),
+                            ),
+                          );
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: const BorderSide(
+                            color: Colors.grey,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
-      body: const Placeholder(),
     );
   }
 }

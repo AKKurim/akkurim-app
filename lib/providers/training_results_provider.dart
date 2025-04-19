@@ -62,13 +62,21 @@ class TrainingResultsP extends _$TrainingResultsP {
 
       return grouped.entries.map((entry) {
         final meet = entry.value.first.readTable(db.meet);
-        var events = entry.value
-            .map((row) => MeetEventView(
-                meetEvent: row.readTable(db.meetEvent),
-                discipline: row.readTable(db.discipline),
-                category: row.readTable(db.category),
-                athletesWithResults: {}))
-            .toList();
+        List<MeetEventView> events = [];
+        for (final row in entry.value) {
+          final event = row.readTableOrNull(db.meetEvent);
+          final discipline = row.readTableOrNull(db.discipline);
+          final category = row.readTableOrNull(db.category);
+          if (event == null || discipline == null || category == null) {
+            continue;
+          }
+          events.add(MeetEventView(
+            meetEvent: event,
+            discipline: discipline,
+            category: category,
+            athletesWithResults: {},
+          ));
+        }
 
         List<MeetEventView> events_ = [];
         for (final event in events) {
@@ -119,6 +127,37 @@ class TrainingResultsP extends _$TrainingResultsP {
         );
       }).toList();
     });
+  }
+
+  Future<void> deleteTrainingResult(FullMeetView meet) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+    final updated = await db.into(db.meet).insertReturning(
+          mode: InsertMode.insertOrReplace,
+          MeetCompanion(
+            id: Value(meet.meet.id),
+            name: Value(meet.meet.name),
+            startAt: Value(meet.meet.startAt),
+            endAt: Value(meet.meet.endAt),
+            location: const Value(''),
+            organizer: Value(meet.meet.organizer),
+            createdAt: Value(meet.meet.createdAt),
+            updatedAt: Value(DateTime.now()),
+            deletedAt: Value(DateTime.now()),
+          ),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/meet',
+      'post',
+      json.encode(
+        {
+          'data': [Utils.convertMapKeysToSnakeCase(updated.toJson())],
+          'primary_keys': ['id'],
+          'table': 'meet',
+        },
+      ),
+    );
   }
 
   Future<void> createTrainingResult(
