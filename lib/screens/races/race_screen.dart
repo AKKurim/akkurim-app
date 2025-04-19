@@ -88,7 +88,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                         ? Text(
                             athlete.events
                                 .map((event) =>
-                                    '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} ${event.discipline?.description} ${event.category?.description}')
+                                    '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} ${event.discipline?.description} ${event.category?.shortDescription}')
                                 .join('\n'),
                             style: TextStyle(
                                 fontSize: 16,
@@ -134,7 +134,8 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                           fontWeight: FontWeight.bold,
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .primary))
+                                              .primary),
+                                    )
                                   : null,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -146,7 +147,8 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                             ),
                           )
                         : const SizedBox.shrink();
-                  })
+                  },
+                )
               : Center(
                   child: Text("No results found",
                       style: TextStyle(

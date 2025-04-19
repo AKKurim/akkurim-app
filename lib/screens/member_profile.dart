@@ -5,6 +5,10 @@ import '../providers/filter_providers.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../utils/utils.dart';
 import '../widgets/copyable_row.dart';
+import './member_edit_screen.dart';
+import '../services/auth/auth_service.dart';
+import '../models/auth/auth_state.dart';
+import '../models/auth/role_enum.dart';
 
 class MemberProfile extends ConsumerWidget {
   final String athleteId;
@@ -14,10 +18,41 @@ class MemberProfile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fullAthlete = ref.watch(fullAthletePProvider(athleteId));
     final allStatuses = ref.watch(athleteStatusesProvider);
+    final AuthState? authState = ref.watch(authServiceProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.memberProfile),
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (authState!.role != RoleEnum.admin) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text(
+                          'YOu are not allowed to edit this member'), // TODO localize
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MemberEditScreen(
+                      editMode: true,
+                      athleteView: fullAthlete.maybeWhen(
+                          orElse: () => null,
+                          data: (athlete) {
+                            return athlete;
+                          }),
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.edit)),
+        ],
       ),
       body: fullAthlete.when(
         data: (athlete) {

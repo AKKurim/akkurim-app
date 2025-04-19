@@ -41,7 +41,7 @@ final trainingTimesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TrainingTimesRef = AutoDisposeStreamProviderRef<List<TrainingTimeData>>;
-String _$trainingsPHash() => r'02dc17154959f3570b7db6382b3da9633aef7cc5';
+String _$trainingsPHash() => r'05e1169506b9c415efa98a1f298a09ac36fc70df';
 
 /// See also [TrainingsP].
 @ProviderFor(TrainingsP)

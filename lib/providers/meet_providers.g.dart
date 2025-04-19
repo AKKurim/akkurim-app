@@ -42,7 +42,7 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
-String _$meetProvidersPHash() => r'0af931dee81c037fcad46db0af2edff7c8181a02';
+String _$meetProvidersPHash() => r'9be62e8e20e4d32f68e834e8809d6268d232b57d';
 
 /// See also [MeetProvidersP].
 @ProviderFor(MeetProvidersP)

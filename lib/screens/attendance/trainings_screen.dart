@@ -220,9 +220,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
               }
             },
           ),
-
           const SizedBox(height: 16),
-
           FilledButton(
             onPressed: (_selectedGroup != null && _dateRange != null)
                 ? () {
@@ -242,7 +240,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
                     );
                   }
                 : null,
-            child: const Text('Create'),
+            child: const Text('Create'), // TODO localize
           ),
           const SizedBox(height: 16),
         ],

@@ -1,21 +1,26 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ak_kurim_app/models/online_db/discipline.dart';
+import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../services/database/drift_database.dart';
-import '../models/views/discipline_view.dart';
-import '../models/views/month_year_view.dart';
 import '../models/views/full_meet_view.dart';
 import '../models/views/meet_event_view.dart';
 import '../models/views/simple_athlete_view.dart';
 import './db_provider.dart';
 import './simple_athletes_provider.dart';
 import 'package:drift/drift.dart';
-import '../utils/utils.dart';
 import 'package:collection/collection.dart';
+import './meet_providers.dart';
+import '../models/views/discipline_view.dart';
+import '../services/network/sync_service.dart';
+import '../services/database/drift_database.dart';
+import '../utils/utils.dart';
+import 'package:uuid/uuid.dart';
+import '../services/auth/auth_service.dart';
+import 'dart:convert';
 
-part 'meet_providers.g.dart';
+part 'training_results_provider.g.dart';
 
 @riverpod
-class MeetProvidersP extends _$MeetProvidersP {
+class TrainingResultsP extends _$TrainingResultsP {
   @override
   Stream<List<FullMeetView>> build() async* {
     final db = ref.read(dbProvider);
@@ -30,7 +35,7 @@ class MeetProvidersP extends _$MeetProvidersP {
             (tbl) =>
                 tbl.deletedAt.isNull() &
                 tbl.startAt.isBetweenValues(startDate, endDate) &
-                tbl.id.contains('CAS'),
+                tbl.id.contains('TRA'),
           )
           ..orderBy(
             [
@@ -115,88 +120,97 @@ class MeetProvidersP extends _$MeetProvidersP {
       }).toList();
     });
   }
-}
 
-@riverpod
-Stream<List<DisciplineView>> allDisciplines(Ref ref) async* {
-  final db = ref.read(dbProvider);
-  final query = (db.select(db.discipline)
-        ..where(
-          (tbl) => tbl.deletedAt.isNull(),
-        ))
-      .join(
-    [
-      leftOuterJoin(db.disciplineType,
-          db.disciplineType.id.equalsExp(db.discipline.disciplineTypeId)),
-    ],
-  );
+  Future<void> createTrainingResult(
+    DateTime date,
+    GroupView group,
+    DisciplineView discipline,
+    String name,
+  ) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
+    String id = const Uuid().v1();
+    id = 'TRA-${id.substring(4)}';
 
-  yield* query.watch().map((rows) {
-    return rows.map((row) {
-      final discipline = row.readTable(db.discipline);
-      final type = row.readTableOrNull(db.disciplineType);
-
-      return DisciplineView(
-        discipline: discipline,
-        type: type,
-      );
-    }).toList();
-  });
-}
-
-@riverpod
-Stream<List<CategoryData>> allCategories(Ref ref) async* {
-  final db = ref.read(dbProvider);
-  yield* (db.select(db.category)
-        ..where(
-          (tbl) => tbl.deletedAt.isNull(),
-        ))
-      .watch();
-}
-
-@riverpod
-class selectedMonthYearP extends _$selectedMonthYearP {
-  @override
-  MonthYearView build() {
-    final now = DateTime.now();
-    return MonthYearView(
-      month: now.month,
-      year: now.year,
+    final trainingResult = await db.into(db.meet).insertReturning(
+          MeetCompanion(
+            id: Value(id),
+            name: Value(name),
+            startAt: Value(date),
+            endAt: Value(date),
+            location: const Value(''),
+            organizer: Value(auth.tenant ?? ''),
+            createdAt: Value(DateTime.now()),
+            updatedAt: Value(DateTime.now()),
+            deletedAt: const Value(null),
+          ),
+        );
+    await sync.addToSyncQueue(
+      '/sync/meet',
+      'post',
+      json.encode(
+        {
+          'data': [Utils.convertMapKeysToSnakeCase(trainingResult.toJson())],
+          'primary_keys': ['id'],
+          'table': 'meet',
+        },
+      ),
     );
-  }
+    final meetEventId = const Uuid().v1();
+    final meetEvent = await db.into(db.meetEvent).insertReturning(
+          MeetEventCompanion(
+            id: Value(meetEventId),
+            meetId: Value(id),
+            meetType: const Value('Training'),
+            disciplineId: Value(discipline.discipline.id),
+            startAt: Value(date),
+            phase: const Value(''),
+            categoryId: const Value(0),
+            createdAt: Value(DateTime.now()),
+            updatedAt: Value(DateTime.now()),
+            deletedAt: const Value(null),
+          ),
+        );
+    await sync.addToSyncQueue(
+      '/sync/meet_event',
+      'post',
+      json.encode(
+        {
+          'data': [Utils.convertMapKeysToSnakeCase(meetEvent.toJson())],
+          'primary_keys': ['id'],
+          'table': 'meet_event',
+        },
+      ),
+    );
 
-  void nextMonth() {
-    if (state.month == 12) {
-      state = MonthYearView(
-        month: 1,
-        year: state.year + 1,
-      );
-    } else {
-      state = MonthYearView(
-        month: state.month + 1,
-        year: state.year,
-      );
+    List<AthleteMeetEventData> athleteMeetEvents = [];
+    for (final athlete in group.athletes) {
+      final data = await db.into(db.athleteMeetEvent).insertReturning(
+            AthleteMeetEventCompanion(
+              athleteId: Value(athlete.athlete.id),
+              meetEventId: Value(meetEventId),
+              result: const Value(''),
+              createdAt: Value(DateTime.now()),
+              updatedAt: Value(DateTime.now()),
+              deletedAt: const Value(null),
+            ),
+          );
+      athleteMeetEvents.add(data);
     }
-  }
 
-  void previousMonth() {
-    if (state.month == 1) {
-      state = MonthYearView(
-        month: 12,
-        year: state.year - 1,
-      );
-    } else {
-      state = MonthYearView(
-        month: state.month - 1,
-        year: state.year,
-      );
-    }
-  }
-
-  void setMonthAndYear(int month, int year) {
-    state = MonthYearView(
-      month: month,
-      year: year,
+    await sync.addToSyncQueue(
+      '/sync/athlete_meet_event',
+      'post',
+      json.encode(
+        {
+          'data': athleteMeetEvents
+              .map((e) => Utils.convertMapKeysToSnakeCase(e.toJson()))
+              .toList(),
+          'primary_keys': ['athlete_id', 'meet_event_id'],
+          'table': 'athlete_meet_event',
+        },
+      ),
     );
   }
 }

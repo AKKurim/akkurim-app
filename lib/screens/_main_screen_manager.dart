@@ -14,6 +14,7 @@ import '../providers/trainer_provider.dart';
 import '../screens/attendance/add_group_screen.dart';
 import '../models/views/trainer_view.dart';
 import '../screens/attendance/trainings_screen.dart';
+import './attendance/training_results_screen.dart';
 
 class MainScreenManager extends ConsumerStatefulWidget {
   const MainScreenManager({super.key});
@@ -172,12 +173,7 @@ FloatingActionButton? buildFab({
                 );
                 break;
               case 2:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Placeholder(),
-                  ),
-                );
+                openCreateResultSheet(context);
                 break;
             }
           },
@@ -195,5 +191,17 @@ void _openCreateTrainingSheet(BuildContext context) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (context) => const CreateTrainingForm(),
+  );
+}
+
+void openCreateResultSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => const CreateTrainingResultForm(),
   );
 }
