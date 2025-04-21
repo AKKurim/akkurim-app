@@ -6,6 +6,7 @@ import '../services/network/sync_service.dart';
 import 'dart:convert';
 import 'package:drift/drift.dart';
 import '../utils/utils.dart';
+import '../services/auth/auth_service.dart';
 
 part 'full_athlete_provider.g.dart';
 
@@ -104,6 +105,7 @@ class FullAthleteP extends _$FullAthleteP {
       bool? delete}) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
     var updated = await db.into(db.athlete).insertReturning(
           mode: InsertMode.insertOrReplace,
           AthleteCompanion(
@@ -111,8 +113,8 @@ class FullAthleteP extends _$FullAthleteP {
             birthNumber: Value(birthNumber),
             firstName: Value(firstName),
             lastName: Value(lastName),
-            email: Value(email),
-            phone: Value(phone),
+            email: Value(email.isNotEmpty ? email : null),
+            phone: Value(phone.isNotEmpty ? phone : null),
             street: Value(street),
             city: Value(city),
             zip: Value(zip),
@@ -120,8 +122,8 @@ class FullAthleteP extends _$FullAthleteP {
             athleteStatusId: Value(statusId),
             updatedAt: Value(DateTime.now()),
             ean: Value(ean),
-            clubId: Value(clubId),
-            profilePicture: Value(''),
+            clubId: Value(clubId ?? auth.tenant),
+            profilePicture: Value(null),
             createdAt: Value(createdAt ?? DateTime.now()),
             deletedAt: Value(delete == true ? DateTime.now() : null),
           ),

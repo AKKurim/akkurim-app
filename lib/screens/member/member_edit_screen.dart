@@ -29,7 +29,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
   late final TextEditingController zip;
   late final TextEditingController note;
   late final TextEditingController birthNumber;
-  late final AthleteStatusData? status;
+  late AthleteStatusData? status;
 
   @override
   void initState() {
@@ -77,17 +77,17 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
 
   void saveMember({bool delete = false}) {
     String birthNumberStr = birthNumber.text.replaceAll('/', '');
-    if (!Utils.validateBirthNumber(birthNumberStr)) {
+    if (!Utils.validateBirthNumber(birthNumberStr) ||
+        (email.text.isNotEmpty && !email.text.contains('@'))) {
       // show error message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Invalid birth number'),
+          content: Text('Invalid birth number or email'),
           backgroundColor: Colors.red,
         ),
       );
       return;
     }
-
     final athleteId =
         widget.editMode ? widget.athleteView!.athlete.id : const Uuid().v1();
     ref.read(fullAthletePProvider(athleteId).notifier).updateAthlete(
@@ -223,7 +223,12 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
               // dropdown for status
               DropdownButtonFormField<AthleteStatusData>(
                 value: status,
-                onChanged: (value) => setState(() => status = value),
+                onChanged: (AthleteStatusData? value) {
+                  setState(() {
+                    status = value;
+                  });
+                  print(value);
+                },
                 items: statuses
                     .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
                     .toList(),
