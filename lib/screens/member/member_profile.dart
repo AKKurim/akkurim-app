@@ -31,7 +31,7 @@ class MemberProfile extends ConsumerWidget {
                     SnackBar(
                       backgroundColor: Colors.red,
                       content: Text(
-                          'YOu are not allowed to edit this member'), // TODO localize
+                          'You are not allowed to edit this member'), // TODO localize
                       duration: const Duration(seconds: 2),
                     ),
                   );

@@ -178,6 +178,21 @@ class Utils {
       return '${year - 1}/$year';
     }
   }
+
+  static bool validateBirthNumber(String birthNumber) {
+    if (birthNumber.length != 10) {
+      return false;
+    }
+
+    final firstNineDigits = birthNumber.substring(0, 9);
+    final checksum = int.parse(firstNineDigits);
+    int mod = checksum % 11;
+    if (mod == 10) {
+      mod = 0;
+    }
+    final controlDigit = int.parse(birthNumber.substring(8, 9));
+    return mod == controlDigit;
+  }
 }
 
 class TimeHelper {

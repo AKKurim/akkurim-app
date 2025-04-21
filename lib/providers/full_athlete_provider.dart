@@ -85,4 +85,57 @@ class FullAthleteP extends _$FullAthleteP {
           ),
         );
   }
+
+  Future<void> updateAthlete(
+      {required String athleteId,
+      required String firstName,
+      required String lastName,
+      required String email,
+      required String phone,
+      required String street,
+      required String city,
+      required String zip,
+      required String birthNumber,
+      required String note,
+      required String statusId,
+      String? clubId,
+      String? ean,
+      DateTime? createdAt,
+      bool? delete}) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+    var updated = await db.into(db.athlete).insertReturning(
+          mode: InsertMode.insertOrReplace,
+          AthleteCompanion(
+            id: Value(athleteId),
+            birthNumber: Value(birthNumber),
+            firstName: Value(firstName),
+            lastName: Value(lastName),
+            email: Value(email),
+            phone: Value(phone),
+            street: Value(street),
+            city: Value(city),
+            zip: Value(zip),
+            note: Value(note),
+            athleteStatusId: Value(statusId),
+            updatedAt: Value(DateTime.now()),
+            ean: Value(ean),
+            clubId: Value(clubId),
+            profilePicture: Value(''),
+            createdAt: Value(createdAt ?? DateTime.now()),
+            deletedAt: Value(delete == true ? DateTime.now() : null),
+          ),
+        );
+    await sync.addToSyncQueue(
+      '/sync/athlete',
+      'post',
+      jsonEncode(
+        {
+          'data': [Utils.convertMapKeysToSnakeCase(updated.toJson())],
+          'primary_keys': ['id'],
+          'table': 'athlete',
+        },
+      ),
+    );
+  }
 }

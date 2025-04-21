@@ -178,7 +178,6 @@ class AthleteSelectorSheet extends ConsumerWidget {
                       return ListTile(
                         leading: const Icon(Icons.person_outline),
                         title: Text(name),
-                        subtitle: a.club != null ? Text(a.club!.name) : null,
                         onTap: () {
                           controller.closeView(name);
                           selectedAthleteId = a.athlete.id;
