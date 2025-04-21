@@ -14,7 +14,7 @@
     "homeScreenTitle": "Vítejte {name}",
     "homeNavBar": "Domů",
     "trainingScreenTitle": "Trénink",
-    "screen2Title": "Obrazovka 2",
+    "screen2Title": "Sklad",
     "eventsScreenTitle": "Závody",
     "membersScreenTitle": "{count, plural, =1{{count} člen} few{{count} členové} other{{count} členů}}",
     "membersNavBar": "Členové",
@@ -49,5 +49,8 @@
     "september": "Září",
     "october": "Říjen",
     "november": "Listopad",
-    "december": "Prosinec"
+    "december": "Prosinec",
+    "deleteItemConfirmation": "Opravdu chcete smazat {item}?",
+    "yes": "Ano",
+    "no": "Ne"
 }

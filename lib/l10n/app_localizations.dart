@@ -182,7 +182,7 @@ abstract class AppLocalizations {
   /// The title of screen 2
   ///
   /// In en, this message translates to:
-  /// **'Screen 2'**
+  /// **'Storage'**
   String get screen2Title;
 
   /// The title of the events screen
@@ -394,6 +394,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'December'**
   String get december;
+
+  /// The confirmation message for deleting an item
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {item}?'**
+  String deleteItemConfirmation(String item);
+
+  /// The label for the yes button
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// The label for the no button
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

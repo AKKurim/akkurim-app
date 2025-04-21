@@ -62,7 +62,7 @@
     "@trainingScreenTitle": {
         "description": "The title of screen 1"
     },
-    "screen2Title": "Screen 2",
+    "screen2Title": "Storage",
     "@screen2Title": {
         "description": "The title of screen 2"
     },
@@ -211,5 +211,23 @@
     "december" : "December",
     "@december" : {
         "description": "The label for December"
+    },
+    "deleteItemConfirmation": "Are you sure you want to delete {item}?",
+    "@deleteItemConfirmation": {
+        "description": "The confirmation message for deleting an item",
+        "placeholders": {
+            "item": {
+                "description": "The name of the item to be deleted",
+                "type": "String"
+            }
+        }
+    },
+    "yes": "Yes",
+    "@yes": {
+        "description": "The label for the yes button"
+    },
+    "no": "No",
+    "@no": {
+        "description": "The label for the no button"
     }
 }

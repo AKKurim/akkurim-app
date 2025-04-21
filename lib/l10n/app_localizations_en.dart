@@ -53,7 +53,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trainingScreenTitle => 'Training';
 
   @override
-  String get screen2Title => 'Screen 2';
+  String get screen2Title => 'Storage';
 
   @override
   String get eventsScreenTitle => 'Races';
@@ -167,4 +167,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get december => 'December';
+
+  @override
+  String deleteItemConfirmation(String item) {
+    return 'Are you sure you want to delete $item?';
+  }
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
 }

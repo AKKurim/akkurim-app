@@ -76,6 +76,7 @@ class ApiService {
   Future<Response> postRequest(String endpoint,
       {Map<String, dynamic>? data,
       Map<String, dynamic>? queryParameters}) async {
+    Utils.debugPrint('POST request to $endpoint with data: $data');
     try {
       Response response = await _dio.post(
         endpoint,

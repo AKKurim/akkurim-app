@@ -53,7 +53,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get trainingScreenTitle => 'Trénink';
 
   @override
-  String get screen2Title => 'Obrazovka 2';
+  String get screen2Title => 'Sklad';
 
   @override
   String get eventsScreenTitle => 'Závody';
@@ -168,4 +168,15 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get december => 'Prosinec';
+
+  @override
+  String deleteItemConfirmation(String item) {
+    return 'Opravdu chcete smazat $item?';
+  }
+
+  @override
+  String get yes => 'Ano';
+
+  @override
+  String get no => 'Ne';
 }

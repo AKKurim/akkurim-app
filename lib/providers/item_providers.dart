@@ -9,6 +9,7 @@ import '../services/network/sync_service.dart';
 import 'dart:convert';
 import '../utils/utils.dart';
 import '../services/database/companion_builder_map.dart';
+import './simple_athletes_provider.dart';
 
 part 'item_providers.g.dart';
 
@@ -35,6 +36,7 @@ class ItemProviderP extends _$ItemProviderP {
             db.itemType, db.itemType.id.equalsExp(db.item.itemTypeId)),
       ],
     );
+    final allAthletes = await ref.watch(simpleAthletesPProvider.future);
 
     yield* query.watch().map((rows) {
       final grouped = groupBy(rows, (row) => row.readTable(db.item).id);
@@ -42,6 +44,18 @@ class ItemProviderP extends _$ItemProviderP {
       return grouped.entries.map((entry) {
         final item = entry.value.first.readTable(db.item);
         final itemType = entry.value.first.readTable(db.itemType);
+        if (item.athleteId != null) {
+          final athlete = allAthletes.firstWhereOrNull(
+              (athlete) => athlete.athlete.id == item.athleteId);
+          if (athlete != null) {
+            return ItemView(
+              item: item,
+              itemType: itemType,
+              athlete: athlete,
+            );
+          }
+        }
+
         return ItemView(
           item: item,
           itemType: itemType,
@@ -86,9 +100,9 @@ class ItemProviderP extends _$ItemProviderP {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
     var itemToDelete = Utils.convertMapKeysToSnakeCase(item.toJson());
-    itemToDelete['deleted_at'] = DateTime.now().toIso8601String();
-    itemToDelete['updated_at'] = DateTime.now().toIso8601String();
-    itemToDelete['created_at'] = item.createdAt.toIso8601String();
+    itemToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
+    itemToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
+    itemToDelete['created_at'] = item.createdAt.toUtc().toIso8601String();
 
     await db
         .into(db.item)
