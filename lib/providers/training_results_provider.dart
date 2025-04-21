@@ -252,4 +252,36 @@ class TrainingResultsP extends _$TrainingResultsP {
       ),
     );
   }
+
+  Future<void> saveTrainingResult(
+    String athleteId,
+    MeetEventData meetEvent,
+    String result,
+  ) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+    final updated = await db.into(db.athleteMeetEvent).insertReturning(
+          mode: InsertMode.insertOrReplace,
+          AthleteMeetEventCompanion(
+            athleteId: Value(athleteId),
+            meetEventId: Value(meetEvent.id),
+            result: Value(result),
+            createdAt: Value(meetEvent.createdAt!),
+            updatedAt: Value(DateTime.now()),
+            deletedAt: const Value(null),
+          ),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/athlete_meet_event',
+      'post',
+      json.encode(
+        {
+          'data': [Utils.convertMapKeysToSnakeCase(updated.toJson())],
+          'primary_keys': ['athlete_id', 'meet_event_id'],
+          'table': 'athlete_meet_event',
+        },
+      ),
+    );
+  }
 }

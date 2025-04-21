@@ -10,7 +10,7 @@ import 'package:diacritic/diacritic.dart';
 import '../../providers/training_results_provider.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../utils/utils.dart';
-import './take_training_results_screen.dart';
+import 'take_training_results_screen.dart';
 
 class TrainingResultsScreen extends ConsumerWidget {
   const TrainingResultsScreen({super.key});

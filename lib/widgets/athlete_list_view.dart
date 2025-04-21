@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../providers/filter_providers.dart';
 import '../providers/trainer_provider.dart';
-import '../screens/member_profile.dart';
+import '../screens/member/member_profile.dart';
 import '../utils/utils.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../providers/full_athlete_provider.dart';
-import '../providers/filter_providers.dart';
+import '../../providers/full_athlete_provider.dart';
+import '../../providers/filter_providers.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
-import '../utils/utils.dart';
-import '../widgets/copyable_row.dart';
-import './member_edit_screen.dart';
-import '../services/auth/auth_service.dart';
-import '../models/auth/auth_state.dart';
-import '../models/auth/role_enum.dart';
+import '../../utils/utils.dart';
+import '../../widgets/copyable_row.dart';
+import 'member_edit_screen.dart';
+import '../../services/auth/auth_service.dart';
+import '../../models/auth/auth_state.dart';
+import '../../models/auth/role_enum.dart';
 
 class MemberProfile extends ConsumerWidget {
   final String athleteId;

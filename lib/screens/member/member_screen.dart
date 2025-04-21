@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../widgets/search_bar.dart';
-import '../widgets/athlete_list_view.dart';
-import '../widgets/athlete_filter_options.dart';
+import '../../widgets/search_bar.dart';
+import '../../widgets/athlete_list_view.dart';
+import '../../widgets/athlete_filter_options.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
 

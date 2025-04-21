@@ -2,19 +2,19 @@ import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../screens/home_screen.dart';
-import 'attendance/attendance_screen_manager.dart';
+import 'attendance_tresults/attendance_screen_manager.dart';
 import 'races/races_screen.dart';
-import '../screens/screen_3.dart';
-import './member_screen.dart';
+import 'storage/storage_screen.dart';
+import 'member/member_screen.dart';
 import '../screens/settings_screen.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../widgets/sync_icon.dart';
 import '../providers/simple_athletes_provider.dart';
 import '../providers/trainer_provider.dart';
-import '../screens/attendance/add_group_screen.dart';
+import 'attendance_tresults/add_group_screen.dart';
 import '../models/views/trainer_view.dart';
-import '../screens/attendance/trainings_screen.dart';
-import './attendance/training_results_screen.dart';
+import 'attendance_tresults/trainings_screen.dart';
+import 'attendance_tresults/training_results_screen.dart';
 
 class MainScreenManager extends ConsumerStatefulWidget {
   const MainScreenManager({super.key});

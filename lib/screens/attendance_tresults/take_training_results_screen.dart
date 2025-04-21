@@ -1,4 +1,5 @@
 import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
+import 'package:ak_kurim_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/views/full_meet_view.dart';
@@ -7,6 +8,7 @@ import '../../models/views/simple_athlete_view.dart';
 import '../../providers/meet_providers.dart';
 import '../../models/views/discipline_view.dart';
 import '../../providers/training_results_provider.dart';
+import '../../widgets/save_button.dart';
 
 class TakeTrainingResultsScreen extends ConsumerStatefulWidget {
   final FullMeetView meet;
@@ -25,8 +27,8 @@ class _TakeTrainingResultsScreenState
   void initState() {
     super.initState();
     athletes = {};
-    for (var athl in widget.meet.athletesWithEvents) {
-      athletes[athl] = TextEditingController();
+    for (AthleteWithMeetEvents athl in widget.meet.athletesWithEvents) {
+      athletes[athl] = TextEditingController(text: athl.events[0].result ?? '');
     }
   }
 
@@ -38,45 +40,70 @@ class _TakeTrainingResultsScreenState
     super.dispose();
   }
 
-  Future<void> saveResults() async {
+  void saveResults() {
     for (var entry in athletes.entries) {
       final athlete = entry.key;
       final controller = entry.value;
       final result = controller.text;
       if (result.isNotEmpty) {
-        await ref
-            .read(trainingResultsPProvider.notifier)
-            .saveTrainingResult(athlete, result);
+        ref.read(trainingResultsPProvider.notifier).saveTrainingResult(
+            athlete.athlete.athlete.id, athlete.events[0].meetEvent, result);
       }
     }
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Results saved successfully!'),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.meet.events[0].discipline?.description ?? ''),
+        title: Text('${widget.meet.meet.name} - ${TimeHelper.getDayMonthYear(
+          widget.meet.meet.startAt,
+        )}'),
       ),
       body: Stack(
         children: [
           ListView.builder(
             itemBuilder: (context, index) {
               final athlete = athletes.keys.elementAt(index);
-              return ListTile(
-                title: Text(athlete.athlete.fullName),
-                trailing: TextField(
-                  controller: athletes[athlete],
-                  decoration: const InputDecoration(
-                    labelText: 'Result',
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 8,
+                ),
+                child: ListTile(
+                  title: Text(athlete.athlete.fullName),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  keyboardType: TextInputType.number,
+                  subtitle: Text(
+                    athlete.events[0].discipline?.description ?? '',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  trailing: SizedBox(
+                    width: 100,
+                    child: TextField(
+                      controller: athletes[athlete],
+                      decoration: const InputDecoration(
+                        labelText: 'Result',
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
                 ),
               );
             },
             itemCount: athletes.length,
           ),
           SaveButton(
-            saveFunction: saveGroup,
+            saveFunction: saveResults,
           )
         ],
       ),

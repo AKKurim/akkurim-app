@@ -8,7 +8,7 @@ import '../../models/views/training_view.dart';
 import '../../providers/groups_provider.dart';
 import '../../models/views/group_view.dart';
 import '../../utils/utils.dart';
-import './take_attendance.dart';
+import 'take_attendance.dart';
 
 class TrainingsScreen extends ConsumerWidget {
   const TrainingsScreen({super.key});
