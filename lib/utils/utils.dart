@@ -270,7 +270,7 @@ class TimeHelper {
   }
 
   static String getDayMonthYear(DateTime date) {
-    return '${date.day.toString()}. ${date.month}. ${date.year}';
+    return '${date.day}. ${date.month}. ${date.year}';
   }
 
   static int getWeekDayFromString(String day) {
