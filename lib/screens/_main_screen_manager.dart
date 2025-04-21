@@ -2,7 +2,7 @@ import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../screens/home_screen.dart';
-import 'attendance_tresults/attendance_screen_manager.dart';
+import 'attendance_tresults/_attendance_screen_manager.dart';
 import 'races/races_screen.dart';
 import 'storage/storage_screen.dart';
 import 'member/member_screen.dart';
@@ -15,6 +15,10 @@ import 'attendance_tresults/add_group_screen.dart';
 import '../models/views/trainer_view.dart';
 import 'attendance_tresults/trainings_screen.dart';
 import 'attendance_tresults/training_results_screen.dart';
+import '../screens/storage/add_item_screen.dart';
+import '../screens/member/member_edit_screen.dart';
+import '../services/auth/auth_service.dart';
+import '../models/auth/role_enum.dart';
 
 class MainScreenManager extends ConsumerStatefulWidget {
   const MainScreenManager({super.key});
@@ -39,7 +43,7 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
         tabController: tabController,
       ),
       const RacesScreen(),
-      const Screen3(),
+      const StorageScreen(),
       const MemberScreen(),
     ];
   }
@@ -154,27 +158,59 @@ FloatingActionButton? buildFab({
   required WidgetRef ref,
   required TrainerView? trainerData,
 }) {
-  return currentIndex == 1
+  return currentIndex == 1 || currentIndex == 3 || currentIndex == 4
       ? FloatingActionButton(
           onPressed: () {
-            switch (tabController.index) {
-              case 0:
-                _openCreateTrainingSheet(context);
-                break;
+            switch (currentIndex) {
               case 1:
+                switch (tabController.index) {
+                  case 0:
+                    _openCreateTrainingSheet(context);
+                    break;
+                  case 1:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddGroupScreen(
+                          groupView: GroupView.empty(trainer: trainerData!),
+                          editMode: false,
+                        ),
+                      ),
+                    );
+                    break;
+                  case 2:
+                    openCreateResultSheet(context);
+                    break;
+                }
+              case 3:
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddGroupScreen(
-                      groupView: GroupView.empty(trainer: trainerData!),
+                    builder: (context) => const AddItemScreen(),
+                  ),
+                );
+              case 4:
+                final auth = ref.read(authServiceProvider);
+                if (auth.role != RoleEnum.admin) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text(
+                          'You are not allowed to add a new member'), // TODO localize
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MemberEditScreen(
                       editMode: false,
+                      athleteView: null,
                     ),
                   ),
                 );
-                break;
-              case 2:
-                openCreateResultSheet(context);
-                break;
             }
           },
           child: const Icon(Icons.add),
