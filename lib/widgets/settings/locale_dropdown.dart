@@ -4,7 +4,7 @@ import '../../providers/app_settings_provider.dart';
 import '../../l10n/supported_localizations.dart';
 
 class LocaleDropdown extends ConsumerWidget {
-  const LocaleDropdown({Key? key});
+  const LocaleDropdown({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

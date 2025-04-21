@@ -2,7 +2,7 @@ import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../screens/home_screen.dart';
-import './attendance_screen_manager.dart';
+import 'attendance/attendance_screen_manager.dart';
 import 'races/races_screen.dart';
 import '../screens/screen_3.dart';
 import './member_screen.dart';

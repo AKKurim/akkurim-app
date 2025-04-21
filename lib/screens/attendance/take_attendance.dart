@@ -33,6 +33,7 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
     trainerAttendance = widget.training.trainerAttendance.isNotEmpty
         ? widget.training.trainerAttendance
         : {for (var trainer in widget.training.group.trainers) trainer: ''};
+    _trainingNoteController.text = widget.training.training.description ?? '';
   }
 
   saveTrainingData() {
