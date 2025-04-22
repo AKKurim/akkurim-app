@@ -15,8 +15,7 @@ class RacesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<FullMeetView> meets = ref.watch(meetProvidersPProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading meets: $error, $stackTrace'),
+          error: (error, stackTrace) => [],
           loading: () => [],
         );
     return RefreshIndicator(

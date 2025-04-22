@@ -13,8 +13,7 @@ class GroupsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<GroupView> groups = ref.watch(groupsPProvider).when(
         data: (data) => data,
-        error: (error, stackTrace) =>
-            throw Exception('Error loading groups: $error, $stackTrace'),
+        error: (error, stackTrace) => [],
         loading: () => []);
 
     groups.sort((a, b) =>

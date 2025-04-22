@@ -1,5 +1,5 @@
-// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -363,4 +363,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemAssigned => 'Item assigned successfully.';
+
+  @override
+  String get nextTraining => 'Next Training';
+
+  @override
+  String get nextRace => 'Next Race';
+
+  @override
+  String get noUpcomingEvents => 'No upcoming events';
 }

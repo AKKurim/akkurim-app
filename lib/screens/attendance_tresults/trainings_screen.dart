@@ -18,8 +18,7 @@ class TrainingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<TrainingView> trainings = ref.watch(trainingsPProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading trainings: $error, $stackTrace'),
+          error: (error, stackTrace) => [],
           loading: () => [],
         );
 
@@ -172,8 +171,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
   Widget build(BuildContext context) {
     final List<GroupView> groups = ref.watch(groupsPProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading groups: $error, $stackTrace'),
+          error: (error, stackTrace) => [],
           loading: () => [],
         );
 

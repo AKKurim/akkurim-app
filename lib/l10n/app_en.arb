@@ -427,7 +427,7 @@
         "description": "The label for the description input field"
     },
     "itemCreate" : "Item created successfully.",
-    "@itemSaved" : {
+    "@itemCreate" : {
         "description": "The message shown when an item is created successfully"
     },
     "itemType" : "Item Type",
@@ -479,5 +479,17 @@
     "itemAssigned" : "Item assigned successfully.",
     "@itemAssigned" : {
         "description": "The message shown when an item is assigned successfully"
+    },
+    "nextTraining"  : "Next Training",
+    "@nextTraining" : {
+        "description": "The label for the next training"
+    },
+    "nextRace" : "Next Race",
+    "@nextRace" : {
+        "description": "The label for the next race"
+    },
+    "noUpcomingEvents" : "No upcoming events",
+    "@noUpcomingEvents" : {
+        "description": "The message shown when there are no upcoming events"
     }
 }

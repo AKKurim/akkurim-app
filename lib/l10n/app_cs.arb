@@ -172,5 +172,12 @@
     "centralStorage" : "Centrální sklad",
 
     "selectAthleteOrStorage" : "Vyberte člena nebo sklad",
-    "itemAssigned" : "Položka byla úspěšně přiřazena."
+
+    "itemAssigned" : "Položka byla úspěšně přiřazena.",
+
+    "nextTraining" : "Příští trénink",
+
+    "nextRace" : "Příští závod",
+
+    "noUpcomingEvents" : "Žádné nadcházející události"
 }

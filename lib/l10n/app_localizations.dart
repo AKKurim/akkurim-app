@@ -707,7 +707,7 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get description;
 
-  /// No description provided for @itemCreate.
+  /// The message shown when an item is created successfully
   ///
   /// In en, this message translates to:
   /// **'Item created successfully.'**
@@ -778,6 +778,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Item assigned successfully.'**
   String get itemAssigned;
+
+  /// The label for the next training
+  ///
+  /// In en, this message translates to:
+  /// **'Next Training'**
+  String get nextTraining;
+
+  /// The label for the next race
+  ///
+  /// In en, this message translates to:
+  /// **'Next Race'**
+  String get nextRace;
+
+  /// The message shown when there are no upcoming events
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming events'**
+  String get noUpcomingEvents;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

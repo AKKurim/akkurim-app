@@ -126,8 +126,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
     final List<AthleteStatusData> statuses =
         ref.watch(athleteStatusesProvider).when(
               data: (data) => data,
-              error: (error, stackTrace) =>
-                  throw Exception('Error loading athlete statuses: $error'),
+              error: (error, stackTrace) => [],
               loading: () => [],
             );
 

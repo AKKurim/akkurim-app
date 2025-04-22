@@ -24,8 +24,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   Widget build(BuildContext context) {
     final List<ItemTypeData> itemTypes = ref.watch(itemTypePProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading item types: $error, $stackTrace'),
+          error: (error, stackTrace) => [],
           loading: () => [],
         );
 

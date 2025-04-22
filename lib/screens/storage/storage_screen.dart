@@ -14,8 +14,7 @@ class StorageScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<ItemView> items = ref.watch(itemProviderPProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading items: $error, $stackTrace'),
+          error: (error, stackTrace) => [],
           loading: () => [],
         );
     final groupedItems = <ItemTypeData, List<ItemView>>{};
@@ -126,14 +125,12 @@ class AthleteSelectorSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String? selectedAthleteId;
 
-    final List<SimpleAthleteView> athletes = ref
-        .read(filteredAthletesProvider)
-        .when(
-          data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading athletes: $error, $stackTrace'),
-          loading: () => [],
-        );
+    final List<SimpleAthleteView> athletes =
+        ref.read(filteredAthletesProvider).when(
+              data: (data) => data,
+              error: (error, stackTrace) => [],
+              loading: () => [],
+            );
 
     return SafeArea(
       child: Padding(

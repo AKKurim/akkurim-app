@@ -133,18 +133,15 @@ class _CreateTrainingResultFormState
   Widget build(BuildContext context) {
     final List<GroupView> groups = ref.watch(groupsPProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading groups: $error, $stackTrace'),
+          error: (error, stackTrace) => [],
           loading: () => [],
         );
-    final List<DisciplineView> disciplines = ref
-        .watch(allDisciplinesProvider)
-        .when(
-          data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading disciplines: $error, $stackTrace'),
-          loading: () => [],
-        );
+    final List<DisciplineView> disciplines =
+        ref.watch(allDisciplinesProvider).when(
+              data: (data) => data,
+              error: (error, stackTrace) => [],
+              loading: () => [],
+            );
 
     return Padding(
       padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(16)),
