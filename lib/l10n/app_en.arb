@@ -411,9 +411,7 @@
         "description": "The title for race tab 2"
     },
     "raceTab3" : "Results",
-    "@raceTab3" : {    "@trainingTab3": {
-        "description": "The label for the third tab in the training screen"
-    },
+    "@raceTab3" : {
         "description": "The title for race tab 3"
     },
     "addItem" : "Add Item",
