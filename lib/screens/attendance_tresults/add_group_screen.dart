@@ -14,6 +14,7 @@ import '../../widgets/search_bar.dart';
 import '../../utils/utils.dart';
 import 'package:collection/collection.dart';
 import '../../widgets/save_button.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class AddGroupScreen extends ConsumerStatefulWidget {
   final GroupView groupView;
@@ -153,8 +154,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
             previousTrainersIds: previousTrainersIds,
           );
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Group saved successfully!'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.groupSaved),
           duration: Duration(seconds: 2),
           backgroundColor: Colors.green,
         ),
@@ -164,7 +165,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Group'),
+        title: Text(AppLocalizations.of(context)!.addGroup),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -172,22 +173,23 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                 ? showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                          title: const Text('Opravdu chcete odejít?'),
-                          content: const Text(
-                              'Pokud odejdete, neuložené změny budou ztraceny.'),
+                          title: Text(
+                              AppLocalizations.of(context)!.leaveConfirmation),
+                          content:
+                              Text(AppLocalizations.of(context)!.leaveWarning),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                               },
-                              child: const Text('Odejít'),
+                              child: Text(AppLocalizations.of(context)!.leave),
                             ),
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text('Zůstat'),
+                              child: Text(AppLocalizations.of(context)!.stay),
                             ),
                           ],
                         ))
@@ -352,7 +354,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'Trainers in this group:',
+                            AppLocalizations.of(context)!.trainersInGroup,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           Expanded(child: Container()),
@@ -394,9 +396,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                             currentTrainerView!.trainer.id) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            const SnackBar(
+                                            SnackBar(
                                               content: Text(
-                                                  'You cannot remove yourself from the group.'),
+                                                  AppLocalizations.of(context)!
+                                                      .cannotRemoveSelf),
                                               duration: Duration(seconds: 2),
                                               backgroundColor: Colors.red,
                                             ),
@@ -443,9 +446,11 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                                     .trainer.id) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                const SnackBar(
+                                                SnackBar(
                                                   content: Text(
-                                                      'You cannot remove yourself from the group.'),
+                                                      AppLocalizations.of(
+                                                              context)!
+                                                          .cannotRemoveSelf),
                                                   duration:
                                                       Duration(seconds: 2),
                                                   backgroundColor: Colors.red,
@@ -473,7 +478,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                     Row(
                       children: [
                         Text(
-                          'Athletes in this group:',
+                          AppLocalizations.of(context)!.athletesInGroup,
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         Expanded(child: Container()),

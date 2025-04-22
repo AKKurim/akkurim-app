@@ -1,14 +1,11 @@
 import 'package:ak_kurim_app/providers/filter_providers.dart';
-import 'package:ak_kurim_app/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../../providers/item_providers.dart';
 import '../../models/views/item_view.dart';
 import '../../services/database/drift_database.dart';
 import '../../models/views/simple_athlete_view.dart';
-import '../../providers/simple_athletes_provider.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class StorageScreen extends ConsumerWidget {
   const StorageScreen({super.key});
@@ -104,9 +101,7 @@ void _openAthleteSelector(BuildContext context, ItemView item, WidgetRef ref) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                athleteId == null
-                    ? 'Item "${item.item.name}" assigned to Central Storage'
-                    : 'Item "${item.item.name}" assigned}',
+                AppLocalizations.of(context)!.itemAssigned,
               ),
             ),
           );
@@ -148,11 +143,12 @@ class AthleteSelectorSheet extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 12),
-              Text('Assign "${item.item.name}" to:',
+              Text(AppLocalizations.of(context)!.assignItem(item.item.name),
                   style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 12),
               SearchAnchor.bar(
-                barHintText: 'Select Athlete or Storage',
+                barHintText:
+                    AppLocalizations.of(context)!.selectAthleteOrStorage,
                 isFullScreen: false,
                 suggestionsBuilder: (context, controller) {
                   final query = controller.text.toLowerCase();
@@ -166,7 +162,7 @@ class AthleteSelectorSheet extends ConsumerWidget {
                   return [
                     ListTile(
                       leading: const Icon(Icons.warehouse),
-                      title: const Text('Central Storage'),
+                      title: Text(AppLocalizations.of(context)!.centralStorage),
                       onTap: () {
                         controller.closeView('');
                         selectedAthleteId = null;

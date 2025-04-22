@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/item_providers.dart';
 import '../../services/database/drift_database.dart';
 import 'package:uuid/uuid.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
   const AddItemScreen({super.key});
@@ -30,7 +31,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Item'),
+        title: Text(AppLocalizations.of(context)!.addItem),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -38,13 +39,15 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
           child: Column(
             children: [
               TextField(
-                decoration: InputDecoration(labelText: 'Item Name'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.itemName),
                 controller: _itemNameController,
                 onChanged: (value) => setState(() {}),
               ),
               const SizedBox(height: 12),
               TextField(
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.description),
                 controller: _descriptionController,
                 onChanged: (value) => setState(() {}),
               ),
@@ -57,7 +60,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                           child: Text(type.name),
                         ))
                     .toList(),
-                decoration: InputDecoration(labelText: 'Item Type'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.itemType),
               ),
               const SizedBox(height: 12),
               FilledButton(
@@ -73,19 +77,21 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         FocusScope.of(context).unfocus();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Item created successfully'),
+                            content:
+                                Text(AppLocalizations.of(context)!.itemCreate),
                             duration: const Duration(seconds: 2),
                           ),
                         );
                       }
                     : null,
-                child: Text('Create Item'),
+                child: Text(AppLocalizations.of(context)!.createItem),
               ),
               const Divider(),
               const SizedBox(height: 12),
-              Text('Add New Item Type'),
+              Text(AppLocalizations.of(context)!.addNewItemType),
               TextField(
-                decoration: InputDecoration(labelText: 'New Item Type'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.newItemType),
                 controller: _newItemTypeController,
                 onChanged: (value) {
                   setState(() {});
@@ -101,13 +107,16 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         FocusScope.of(context).unfocus();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Item type created successfully'),
+                            content: Text(
+                                AppLocalizations.of(context)!.itemTypeCreated),
                             duration: const Duration(seconds: 2),
                           ),
                         );
                       }
                     : null,
-                child: Text('Create Item Type'),
+                child: Text(
+                  AppLocalizations.of(context)!.createItemType,
+                ),
               ),
             ],
           ),

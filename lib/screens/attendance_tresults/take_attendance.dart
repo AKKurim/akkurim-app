@@ -10,6 +10,7 @@ import '../../models/views/trainer_view.dart';
 import '../../utils/utils.dart';
 import '../../widgets/save_button.dart';
 import '../../providers/training_providers.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TakeAttendance extends ConsumerStatefulWidget {
   final TrainingView training;
@@ -50,7 +51,7 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Take Attendance'), // TODO localize
+        title: Text(AppLocalizations.of(context)!.takeAttendance),
       ),
       body: Stack(
         children: [
@@ -86,16 +87,17 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                         title: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
-                              'Obsah: ',
+                            Text(
+                              AppLocalizations.of(context)!.content,
                             ),
                             Expanded(
                               child: TextField(
                                 maxLines: null,
                                 controller: _trainingNoteController,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   //border: InputBorder.none,
-                                  hintText: 'training content ...',
+                                  hintText:
+                                      AppLocalizations.of(context)!.contentHint,
                                 ),
                               ),
                             )

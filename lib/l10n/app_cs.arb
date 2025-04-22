@@ -52,5 +52,125 @@
     "december": "Prosinec",
     "deleteItemConfirmation": "Opravdu chcete smazat {item}?",
     "yes": "Ano",
-    "no": "Ne"
+    "no": "Ne",
+    "trainingTab1": "Tréninky",
+
+    "trainingTab2": "Skupiny",
+
+    "trainingTab3": "T Výsledky",
+
+    "notAllowed": "Nemáte oprávnění k této akci. (nejste admin)",
+
+    "loginFailed": "Přihlášení se nezdařilo. Zkontrolujte své přihlašovací údaje a zkuste to znovu.",
+
+    "group" : "Skupina",
+
+    "addGroup": "Přidat skupinu",
+
+    "groupSaved": "Skupina byla úspěšně uložena",
+
+    "leave" : "Odejít",
+
+    "stay" : "Zůstat",
+
+    "leaveConfirmation" : "Opravdu chcete odejít?",
+
+    "leaveWarning" : "Pokud odejdete, přijdete o všechny neuložené změny.",
+
+    "trainersInGroup" : "Trenéři ve skupině",
+
+    "athletesInGroup" : "Atleti ve skupině",
+
+    "cannotRemoveSelf" : "Nemůžete se odstranit ze skupiny.",
+
+    "yourGroups" : "Vaše skupiny",
+
+    "deleteGroup" : "Smazat skupinu",
+
+    "deleteGroupConfirmation" : "Opravdu chcete smazat tuto skupinu?",
+
+    "cancel" : "Zrušit",
+
+    "delete" : "Smazat",
+
+    "takeAttendance" : "Zapsat docházku",
+
+    "content" : "Obsah: ",
+
+    "contentHint" : "Zapište obsah tréninku",
+
+    "resultsSaved" : "Výsledky byly úspěšně uloženy.",
+
+    "deleteTrainingResults" : "Smazat výsledky tréninku",
+
+    "deleteTrainingResultsConfirmation" : "Opravdu chcete smazat výsledky tréninku?",
+
+    "createTrainingResult" : "Vytvořit výsledek tréninku",
+
+    "name" : "Jméno",
+
+    "selectDate" : "Vyberte datum",
+
+    "searchDiscipline" : "Hledat disciplínu",
+
+    "create" : "Vytvořit",
+
+    "deleteTraining" : "Smazat trénink",
+
+    "deleteTrainingConfirmation" : "Opravdu chcete smazat tento trénink?",
+
+    "createTraining" : "Vytvořit trénink",
+
+    "trainingsCreated" : "Tréninky byly úspěšně vytvořeny.",
+
+    "invalidBirthNumber" : "Neplatné rodné číslo.",
+
+    "memberSaved" : "Člen byl úspěšně uložen.",
+
+    "memberDeleted" : "Člen byl úspěšně smazán.",
+
+    "deleteMemberConfirmation" : "Opravdu chcete smazat tohoto člena?",
+
+    "contacts" : "Kontakty:",
+
+    "emailCopied" : "E-mail zkopírován do schránky.",
+
+    "phoneCopied" : "Telefon zkopírován do schránky.",
+
+    "guardianContacts" : "Kontakty zástupců:",
+
+    "raceTab1" : "Časák",
+
+    "raceTab2" : "Přihlášení",
+
+    "raceTab3" : "Výsledky",
+
+    "addItem" : "Přidat položku",
+
+    "itemName" : "Název položky",
+
+    "description" : "Popis",
+
+    "itemCreate" : "Položka vytvořena úspěšně.",
+
+    "itemType" : "Typ položky",
+
+    "createItem" : "Vytvořit položku",
+
+    "createItemType" : "Vytvořit typ položky",
+
+    "itemTypeCreated" : "Typ položky vytvořen úspěšně.",
+
+    "newItemType" : "Nový typ položky",
+
+    "addNewItemType" : "Přidat nový typ položky",
+
+    "saveAndClose" : "Uložit a zavřít",
+
+    "assignItem" : "Přiřazení {item}:",
+
+    "centralStorage" : "Centrální sklad",
+
+    "selectAthleteOrStorage" : "Vyberte člena nebo sklad",
+    "itemAssigned" : "Položka byla úspěšně přiřazena."
 }

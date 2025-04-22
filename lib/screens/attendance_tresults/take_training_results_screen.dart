@@ -9,6 +9,7 @@ import '../../providers/meet_providers.dart';
 import '../../models/views/discipline_view.dart';
 import '../../providers/training_results_provider.dart';
 import '../../widgets/save_button.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TakeTrainingResultsScreen extends ConsumerStatefulWidget {
   final FullMeetView meet;
@@ -52,8 +53,8 @@ class _TakeTrainingResultsScreenState
     }
     Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Results saved successfully!'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.resultsSaved),
         backgroundColor: Colors.green,
       ),
     );

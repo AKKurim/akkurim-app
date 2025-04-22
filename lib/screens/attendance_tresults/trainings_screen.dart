@@ -9,6 +9,7 @@ import '../../providers/groups_provider.dart';
 import '../../models/views/group_view.dart';
 import '../../utils/utils.dart';
 import 'take_attendance.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TrainingsScreen extends ConsumerWidget {
   const TrainingsScreen({super.key});
@@ -29,7 +30,7 @@ class TrainingsScreen extends ConsumerWidget {
           children: [
             const SizedBox(width: 16),
             Text(
-              'Trainings', // TODO localize
+              AppLocalizations.of(context)!.trainingTab1,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ],
@@ -82,9 +83,9 @@ class TrainingTile extends ConsumerWidget {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text('Delete Training'), // TODO localize
-                    content: const Text(
-                        'Are you sure you want to delete this training?'), // TODO localize
+                    title: Text(AppLocalizations.of(context)!.deleteTraining),
+                    content: Text(AppLocalizations.of(context)!
+                        .deleteTrainingConfirmation),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -93,11 +94,11 @@ class TrainingTile extends ConsumerWidget {
                               .deleteTraining(training);
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Delete'), // TODO localize
+                        child: Text(AppLocalizations.of(context)!.delete),
                       ),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Cancel'), // TODO localize
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                     ],
                   );
@@ -181,7 +182,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Create Training', // TODO localize
+          Text(AppLocalizations.of(context)!.createTraining,
               style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
 
@@ -193,7 +194,8 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
                 .map((g) =>
                     DropdownMenuItem(value: g, child: Text(g.group.name)))
                 .toList(),
-            decoration: const InputDecoration(labelText: 'Group'),
+            decoration:
+                InputDecoration(labelText: AppLocalizations.of(context)!.group),
           ),
 
           const SizedBox(height: 12),
@@ -202,7 +204,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
           ElevatedButton.icon(
             icon: const Icon(Icons.date_range),
             label: Text(_dateRange == null
-                ? 'Select Date Range' // TODO localize
+                ? AppLocalizations.of(context)!.selectDate
                 : '${_dateRange!.start.toLocal().toString().split(" ")[0]} → ${_dateRange!.end.toLocal().toString().split(" ")[0]}'),
             onPressed: () async {
               final now = DateTime.now();
@@ -232,15 +234,15 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
                         );
                     Navigator.of(context).pop(); // Dismiss sheet
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         backgroundColor: Colors.green,
                         content: Text(
-                            'Trainings created successfully!'), // TODO localize
+                            AppLocalizations.of(context)!.trainingsCreated),
                       ),
                     );
                   }
                 : null,
-            child: const Text('Create'), // TODO localize
+            child: Text(AppLocalizations.of(context)!.create),
           ),
           const SizedBox(height: 16),
         ],

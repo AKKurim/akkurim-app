@@ -105,10 +105,10 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
             ? TabBar(
                 controller: tabController,
                 labelColor: Theme.of(context).colorScheme.primary,
-                tabs: const [
-                  Tab(text: 'Trainings'),
-                  Tab(text: 'Groups'),
-                  Tab(text: 'T Results'),
+                tabs: [
+                  Tab(text: AppLocalizations.of(context)!.trainingTab1),
+                  Tab(text: AppLocalizations.of(context)!.trainingTab2),
+                  Tab(text: AppLocalizations.of(context)!.trainingTab3),
                 ],
               )
             : null,
@@ -195,8 +195,7 @@ FloatingActionButton? buildFab({
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red,
-                      content: Text(
-                          'You are not allowed to add a new member'), // TODO localize
+                      content: Text(AppLocalizations.of(context)!.notAllowed),
                       duration: const Duration(seconds: 2),
                     ),
                   );

@@ -412,6 +412,372 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No'**
   String get no;
+
+  /// The label for the first tab in the training screen
+  ///
+  /// In en, this message translates to:
+  /// **'Trainings'**
+  String get trainingTab1;
+
+  /// The label for the second tab in the training screen
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get trainingTab2;
+
+  /// The label for the third tab in the training screen
+  ///
+  /// In en, this message translates to:
+  /// **'T Results'**
+  String get trainingTab3;
+
+  /// The message shown when a user tries to perform an action they are not allowed to do
+  ///
+  /// In en, this message translates to:
+  /// **'You are not allowed to do this action (not an admin)'**
+  String get notAllowed;
+
+  /// The message shown when login fails
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Please check your credentials and network.'**
+  String get loginFailed;
+
+  /// The label for the group
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get group;
+
+  /// The label for the add group button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Group'**
+  String get addGroup;
+
+  /// The message shown when a group is saved successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Group saved successfully.'**
+  String get groupSaved;
+
+  /// The label for the leave button
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leave;
+
+  /// The label for the stay button
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get stay;
+
+  /// The confirmation message for leaving a screen
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to leave?'**
+  String get leaveConfirmation;
+
+  /// The warning message shown when leaving a screen with unsaved changes
+  ///
+  /// In en, this message translates to:
+  /// **'If you leave, you will lose all unsaved changes.'**
+  String get leaveWarning;
+
+  /// The label for the trainers in a group
+  ///
+  /// In en, this message translates to:
+  /// **'Trainers in this Group'**
+  String get trainersInGroup;
+
+  /// The label for the athletes in a group
+  ///
+  /// In en, this message translates to:
+  /// **'Athletes in this Group'**
+  String get athletesInGroup;
+
+  /// The message shown when a user tries to remove themselves from a group
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot remove yourself from the group.'**
+  String get cannotRemoveSelf;
+
+  /// The label for the user's groups
+  ///
+  /// In en, this message translates to:
+  /// **'Your Groups'**
+  String get yourGroups;
+
+  /// The label for the delete group button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Group'**
+  String get deleteGroup;
+
+  /// The confirmation message for deleting a group
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this group?'**
+  String get deleteGroupConfirmation;
+
+  /// The label for the cancel button
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// The label for the delete button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// The label for the take attendance button
+  ///
+  /// In en, this message translates to:
+  /// **'Take Attendance'**
+  String get takeAttendance;
+
+  /// The label for the content
+  ///
+  /// In en, this message translates to:
+  /// **'Content: '**
+  String get content;
+
+  /// The hint text for the content input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter content here...'**
+  String get contentHint;
+
+  /// The message shown when results are saved successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Results saved successfully.'**
+  String get resultsSaved;
+
+  /// The label for the delete training results button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Training Results'**
+  String get deleteTrainingResults;
+
+  /// The confirmation message for deleting training results
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the training results?'**
+  String get deleteTrainingResultsConfirmation;
+
+  /// The label for the create training result button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Training Result'**
+  String get createTrainingResult;
+
+  /// The label for the name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// The label for the select date button
+  ///
+  /// In en, this message translates to:
+  /// **'Select Date'**
+  String get selectDate;
+
+  /// The hint text for the discipline search input field
+  ///
+  /// In en, this message translates to:
+  /// **'Search Discipline'**
+  String get searchDiscipline;
+
+  /// The label for the create button
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// The label for the delete training button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Training'**
+  String get deleteTraining;
+
+  /// The confirmation message for deleting a training
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this training?'**
+  String get deleteTrainingConfirmation;
+
+  /// The label for the create training button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Training'**
+  String get createTraining;
+
+  /// The message shown when trainings are created successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Trainings created successfully.'**
+  String get trainingsCreated;
+
+  /// The message shown when the birth number is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid birth number'**
+  String get invalidBirthNumber;
+
+  /// The message shown when a member is saved successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Member saved successfully.'**
+  String get memberSaved;
+
+  /// The message shown when a member is deleted successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Member deleted successfully.'**
+  String get memberDeleted;
+
+  /// The confirmation message for deleting a member
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this member?'**
+  String get deleteMemberConfirmation;
+
+  /// The title for Contacts
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts:'**
+  String get contacts;
+
+  /// The message shown when the email is copied to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Email copied to clipboard.'**
+  String get emailCopied;
+
+  /// The message shown when the phone is copied to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Phone copied to clipboard.'**
+  String get phoneCopied;
+
+  /// The title for Guardian Contacts
+  ///
+  /// In en, this message translates to:
+  /// **'Guardian Contacts:'**
+  String get guardianContacts;
+
+  /// The title for race tab 1
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get raceTab1;
+
+  /// The title for race tab 2
+  ///
+  /// In en, this message translates to:
+  /// **'Athletes'**
+  String get raceTab2;
+
+  /// The title for race tab 3
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get raceTab3;
+
+  /// The label for the add item button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Item'**
+  String get addItem;
+
+  /// The label for the item name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Item Name'**
+  String get itemName;
+
+  /// The label for the description input field
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @itemCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Item created successfully.'**
+  String get itemCreate;
+
+  /// The label for the item type
+  ///
+  /// In en, this message translates to:
+  /// **'Item Type'**
+  String get itemType;
+
+  /// The label for the create item button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Item'**
+  String get createItem;
+
+  /// The label for the create item type button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Item Type'**
+  String get createItemType;
+
+  /// The message shown when an item type is created successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Item type created successfully.'**
+  String get itemTypeCreated;
+
+  /// The label for the new item type input field
+  ///
+  /// In en, this message translates to:
+  /// **'New Item Type'**
+  String get newItemType;
+
+  /// The label for the add new item type button
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Item Type'**
+  String get addNewItemType;
+
+  /// The label for the save and close button
+  ///
+  /// In en, this message translates to:
+  /// **'Save and Close'**
+  String get saveAndClose;
+
+  /// The label for assigning an item to a member
+  ///
+  /// In en, this message translates to:
+  /// **'Assign {item} to:'**
+  String assignItem(String item);
+
+  /// The label for the central storage
+  ///
+  /// In en, this message translates to:
+  /// **'Central Storage'**
+  String get centralStorage;
+
+  /// The label for selecting an athlete or storage
+  ///
+  /// In en, this message translates to:
+  /// **'Select Athlete or Storage'**
+  String get selectAthleteOrStorage;
+
+  /// The message shown when an item is assigned successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Item assigned successfully.'**
+  String get itemAssigned;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

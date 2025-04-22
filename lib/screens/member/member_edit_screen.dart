@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/app_settings_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../utils/utils.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class MemberEditScreen extends ConsumerStatefulWidget {
   final bool editMode;
@@ -81,8 +82,8 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
         (email.text.isNotEmpty && !email.text.contains('@'))) {
       // show error message
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Invalid birth number or email'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.invalidBirthNumber),
           backgroundColor: Colors.red,
         ),
       );
@@ -111,9 +112,11 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
         );
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Member saved'),
-        backgroundColor: Colors.green,
+      SnackBar(
+        content: Text(delete
+            ? AppLocalizations.of(context)!.memberDeleted
+            : AppLocalizations.of(context)!.memberSaved),
+        backgroundColor: delete ? Colors.red : Colors.green,
       ),
     );
   }
@@ -130,7 +133,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Member'),
+        title: Text(AppLocalizations.of(context)!.editMember),
         actions: [
           // delete button
           IconButton(
@@ -141,14 +144,15 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text('Delete Member'),
-                    content: const Text('Are you sure you want to delete?'),
+                    title: Text(AppLocalizations.of(context)!.deleteMember),
+                    content: Text(
+                        AppLocalizations.of(context)!.deleteMemberConfirmation),
                     actions: [
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Cancel'),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                       TextButton(
                         onPressed: () {
@@ -156,7 +160,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Delete'),
+                        child: Text(AppLocalizations.of(context)!.delete),
                       ),
                     ],
                   );

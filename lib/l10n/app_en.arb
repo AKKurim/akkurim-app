@@ -229,5 +229,257 @@
     "no": "No",
     "@no": {
         "description": "The label for the no button"
+    },
+    "trainingTab1": "Trainings",
+    "@trainingTab1": {
+        "description": "The label for the first tab in the training screen"
+    },
+    "trainingTab2": "Groups",
+    "@trainingTab2": {
+        "description": "The label for the second tab in the training screen"
+    },
+    "trainingTab3": "T Results",
+    "@trainingTab3": {
+        "description": "The label for the third tab in the training screen"
+    },
+    "notAllowed": "You are not allowed to do this action (not an admin)",
+    "@notAllowed": {
+        "description": "The message shown when a user tries to perform an action they are not allowed to do"
+    },
+    "loginFailed": "Login failed. Please check your credentials and network.",
+    "@loginFailed": {
+        "description": "The message shown when login fails"
+    },
+    "group" : "Group",
+    "@group" : {
+        "description": "The label for the group"
+    },
+    "addGroup": "Add Group",
+    "@addGroup": {
+        "description": "The label for the add group button"
+    },
+    "groupSaved": "Group saved successfully.",
+    "@groupSaved": {
+        "description": "The message shown when a group is saved successfully"
+    },
+    "leave" : "Leave",
+    "@leave" : {
+        "description": "The label for the leave button"
+    },
+    "stay" : "Stay",
+    "@stay" : {
+        "description": "The label for the stay button"
+    },
+    "leaveConfirmation" : "Are you sure you want to leave?",
+    "@leaveConfirmation" : {
+        "description": "The confirmation message for leaving a screen"
+    },
+    "leaveWarning" : "If you leave, you will lose all unsaved changes.",
+    "@leaveWarning" : {
+        "description": "The warning message shown when leaving a screen with unsaved changes"
+    },
+    "trainersInGroup" : "Trainers in this Group",
+    "@trainersInGroup" : {
+        "description": "The label for the trainers in a group"
+    },
+    "athletesInGroup" : "Athletes in this Group",
+    "@athletesInGroup" : {
+        "description": "The label for the athletes in a group"
+    },
+    "cannotRemoveSelf" : "You cannot remove yourself from the group.",
+    "@cannotRemoveSelf" : {
+        "description": "The message shown when a user tries to remove themselves from a group"
+    },
+    "yourGroups" : "Your Groups",
+    "@yourGroups" : {
+        "description": "The label for the user's groups"
+    },
+    "deleteGroup" : "Delete Group",
+    "@deleteGroup" : {
+        "description": "The label for the delete group button"
+    },
+    "deleteGroupConfirmation" : "Are you sure you want to delete this group?",
+    "@deleteGroupConfirmation" : {
+        "description": "The confirmation message for deleting a group"
+    },
+    "cancel" : "Cancel",
+    "@cancel" : {
+        "description": "The label for the cancel button"
+    },
+    "delete" : "Delete",
+    "@delete" : {
+        "description": "The label for the delete button"
+    },
+    "takeAttendance" : "Take Attendance",
+    "@takeAttendance" : {
+        "description": "The label for the take attendance button"
+    },
+    "content" : "Content: ",
+    "@content" : {
+        "description": "The label for the content"
+    },
+    "contentHint" : "Enter content here...",
+    "@contentHint" : {
+        "description": "The hint text for the content input field"
+    },
+    "resultsSaved" : "Results saved successfully.",
+    "@resultsSaved" : {
+        "description": "The message shown when results are saved successfully"
+    },
+    "deleteTrainingResults" : "Delete Training Results",
+    "@deleteTrainingResults" : {
+        "description": "The label for the delete training results button"
+    },
+    "deleteTrainingResultsConfirmation" : "Are you sure you want to delete the training results?",
+    "@deleteTrainingResultsConfirmation" : {
+        "description": "The confirmation message for deleting training results"
+    },
+    "createTrainingResult" : "Create Training Result",
+    "@createTrainingResult" : {
+        "description": "The label for the create training result button"
+    },
+    "name" : "Name",
+    "@name" : {
+        "description": "The label for the name input field"
+    },
+    "selectDate" : "Select Date",
+    "@selectDate" : {
+        "description": "The label for the select date button"
+    },
+    "searchDiscipline" : "Search Discipline",
+    "@searchDiscipline" : {
+        "description": "The hint text for the discipline search input field"
+    },
+    "create" : "Create",
+    "@create" : {
+        "description": "The label for the create button"
+    },
+    "deleteTraining" : "Delete Training",
+    "@deleteTraining" : {
+        "description": "The label for the delete training button"
+    },
+    "deleteTrainingConfirmation" : "Are you sure you want to delete this training?",
+    "@deleteTrainingConfirmation" : {
+        "description": "The confirmation message for deleting a training"
+    },
+    "createTraining" : "Create Training",
+    "@createTraining" : {
+        "description": "The label for the create training button"
+    },
+    "trainingsCreated" : "Trainings created successfully.",
+    "@trainingsCreated" : {
+        "description": "The message shown when trainings are created successfully"
+    },
+    "invalidBirthNumber" : "Invalid birth number",
+    "@invalidBirthNumber" : {
+        "description": "The message shown when the birth number is invalid"
+    },
+    "memberSaved" : "Member saved successfully.",
+    "@memberSaved" : {
+        "description": "The message shown when a member is saved successfully"
+    },
+    "memberDeleted" : "Member deleted successfully.",
+    "@memberDeleted" : {
+        "description": "The message shown when a member is deleted successfully"
+    },
+    "deleteMemberConfirmation" : "Are you sure you want to delete this member?",
+    "@deleteMemberConfirmation" : {
+        "description": "The confirmation message for deleting a member"
+    },
+    "contacts" : "Contacts:",
+    "@contacts" : {
+        "description": "The title for Contacts"
+    },
+    "emailCopied" : "Email copied to clipboard.",
+    "@emailCopied" : {
+        "description": "The message shown when the email is copied to clipboard"
+    },
+    "phoneCopied" : "Phone copied to clipboard.",
+    "@phoneCopied" : {
+        "description": "The message shown when the phone is copied to clipboard"
+    },
+    "guardianContacts" : "Guardian Contacts:",
+    "@guardianContacts" : {
+        "description": "The title for Guardian Contacts"
+    },
+    "raceTab1" : "Schedule",
+    "@raceTab1" : {
+        "description": "The title for race tab 1"
+    },
+    "raceTab2" : "Athletes",
+    "@raceTab2" : {
+        "description": "The title for race tab 2"
+    },
+    "raceTab3" : "Results",
+    "@raceTab3" : {    "@trainingTab3": {
+        "description": "The label for the third tab in the training screen"
+    },
+        "description": "The title for race tab 3"
+    },
+    "addItem" : "Add Item",
+    "@addItem" : {
+        "description": "The label for the add item button"
+    },
+    "itemName" : "Item Name",
+    "@itemName" : {
+        "description": "The label for the item name input field"
+    },
+    "description" : "Description",
+    "@description" : {
+        "description": "The label for the description input field"
+    },
+    "itemCreate" : "Item created successfully.",
+    "@itemSaved" : {
+        "description": "The message shown when an item is created successfully"
+    },
+    "itemType" : "Item Type",
+    "@itemType" : {
+        "description": "The label for the item type"
+    },
+    "createItem" : "Create Item",
+    "@createItem" : {
+        "description": "The label for the create item button"
+    },
+    "createItemType" : "Create Item Type",
+    "@createItemType" : {
+        "description": "The label for the create item type button"
+    },
+    "itemTypeCreated" : "Item type created successfully.",
+    "@itemTypeCreated" : {
+        "description": "The message shown when an item type is created successfully"
+    },
+    "newItemType" : "New Item Type",
+    "@newItemType" : {
+        "description": "The label for the new item type input field"
+    },
+    "addNewItemType" : "Add New Item Type",
+    "@addNewItemType" : {
+        "description": "The label for the add new item type button"
+    },
+    "saveAndClose" : "Save and Close",
+    "@saveAndClose" : {
+        "description": "The label for the save and close button"
+    },
+    "assignItem" : "Assign {item} to:",
+    "@assignItem" : {
+        "description": "The label for assigning an item to a member",
+        "placeholders": {
+            "item": {
+                "description": "The name of the item to be assigned",
+                "type": "String"
+            }
+        }
+    },
+    "centralStorage" : "Central Storage",
+    "@centralStorage" : {
+        "description": "The label for the central storage"
+    },
+    "selectAthleteOrStorage" : "Select Athlete or Storage",
+    "@selectAthleteOrStorage" : {
+        "description": "The label for selecting an athlete or storage"
+    },
+    "itemAssigned" : "Item assigned successfully.",
+    "@itemAssigned" : {
+        "description": "The message shown when an item is assigned successfully"
     }
 }

@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -178,4 +178,189 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no => 'No';
+
+  @override
+  String get trainingTab1 => 'Trainings';
+
+  @override
+  String get trainingTab2 => 'Groups';
+
+  @override
+  String get trainingTab3 => 'T Results';
+
+  @override
+  String get notAllowed => 'You are not allowed to do this action (not an admin)';
+
+  @override
+  String get loginFailed => 'Login failed. Please check your credentials and network.';
+
+  @override
+  String get group => 'Group';
+
+  @override
+  String get addGroup => 'Add Group';
+
+  @override
+  String get groupSaved => 'Group saved successfully.';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get stay => 'Stay';
+
+  @override
+  String get leaveConfirmation => 'Are you sure you want to leave?';
+
+  @override
+  String get leaveWarning => 'If you leave, you will lose all unsaved changes.';
+
+  @override
+  String get trainersInGroup => 'Trainers in this Group';
+
+  @override
+  String get athletesInGroup => 'Athletes in this Group';
+
+  @override
+  String get cannotRemoveSelf => 'You cannot remove yourself from the group.';
+
+  @override
+  String get yourGroups => 'Your Groups';
+
+  @override
+  String get deleteGroup => 'Delete Group';
+
+  @override
+  String get deleteGroupConfirmation => 'Are you sure you want to delete this group?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get takeAttendance => 'Take Attendance';
+
+  @override
+  String get content => 'Content: ';
+
+  @override
+  String get contentHint => 'Enter content here...';
+
+  @override
+  String get resultsSaved => 'Results saved successfully.';
+
+  @override
+  String get deleteTrainingResults => 'Delete Training Results';
+
+  @override
+  String get deleteTrainingResultsConfirmation => 'Are you sure you want to delete the training results?';
+
+  @override
+  String get createTrainingResult => 'Create Training Result';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get selectDate => 'Select Date';
+
+  @override
+  String get searchDiscipline => 'Search Discipline';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get deleteTraining => 'Delete Training';
+
+  @override
+  String get deleteTrainingConfirmation => 'Are you sure you want to delete this training?';
+
+  @override
+  String get createTraining => 'Create Training';
+
+  @override
+  String get trainingsCreated => 'Trainings created successfully.';
+
+  @override
+  String get invalidBirthNumber => 'Invalid birth number';
+
+  @override
+  String get memberSaved => 'Member saved successfully.';
+
+  @override
+  String get memberDeleted => 'Member deleted successfully.';
+
+  @override
+  String get deleteMemberConfirmation => 'Are you sure you want to delete this member?';
+
+  @override
+  String get contacts => 'Contacts:';
+
+  @override
+  String get emailCopied => 'Email copied to clipboard.';
+
+  @override
+  String get phoneCopied => 'Phone copied to clipboard.';
+
+  @override
+  String get guardianContacts => 'Guardian Contacts:';
+
+  @override
+  String get raceTab1 => 'Schedule';
+
+  @override
+  String get raceTab2 => 'Athletes';
+
+  @override
+  String get raceTab3 => 'Results';
+
+  @override
+  String get addItem => 'Add Item';
+
+  @override
+  String get itemName => 'Item Name';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get itemCreate => 'Item created successfully.';
+
+  @override
+  String get itemType => 'Item Type';
+
+  @override
+  String get createItem => 'Create Item';
+
+  @override
+  String get createItemType => 'Create Item Type';
+
+  @override
+  String get itemTypeCreated => 'Item type created successfully.';
+
+  @override
+  String get newItemType => 'New Item Type';
+
+  @override
+  String get addNewItemType => 'Add New Item Type';
+
+  @override
+  String get saveAndClose => 'Save and Close';
+
+  @override
+  String assignItem(String item) {
+    return 'Assign $item to:';
+  }
+
+  @override
+  String get centralStorage => 'Central Storage';
+
+  @override
+  String get selectAthleteOrStorage => 'Select Athlete or Storage';
+
+  @override
+  String get itemAssigned => 'Item assigned successfully.';
 }

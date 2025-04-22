@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../utils/utils.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class RaceScreen extends ConsumerStatefulWidget {
   final FullMeetView meet;
@@ -25,9 +26,9 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
         bottom: TabBar(
           controller: tabController,
           tabs: [
-            Tab(text: 'tab1'),
-            Tab(text: 'tab2'),
-            Tab(text: 'tab3'),
+            Tab(text: AppLocalizations.of(context)!.raceTab1),
+            Tab(text: AppLocalizations.of(context)!.raceTab2),
+            Tab(text: AppLocalizations.of(context)!.raceTab3),
           ],
         ),
       ),

@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -179,4 +179,189 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get no => 'Ne';
+
+  @override
+  String get trainingTab1 => 'Tréninky';
+
+  @override
+  String get trainingTab2 => 'Skupiny';
+
+  @override
+  String get trainingTab3 => 'T Výsledky';
+
+  @override
+  String get notAllowed => 'Nemáte oprávnění k této akci. (nejste admin)';
+
+  @override
+  String get loginFailed => 'Přihlášení se nezdařilo. Zkontrolujte své přihlašovací údaje a zkuste to znovu.';
+
+  @override
+  String get group => 'Skupina';
+
+  @override
+  String get addGroup => 'Přidat skupinu';
+
+  @override
+  String get groupSaved => 'Skupina byla úspěšně uložena';
+
+  @override
+  String get leave => 'Odejít';
+
+  @override
+  String get stay => 'Zůstat';
+
+  @override
+  String get leaveConfirmation => 'Opravdu chcete odejít?';
+
+  @override
+  String get leaveWarning => 'Pokud odejdete, přijdete o všechny neuložené změny.';
+
+  @override
+  String get trainersInGroup => 'Trenéři ve skupině';
+
+  @override
+  String get athletesInGroup => 'Atleti ve skupině';
+
+  @override
+  String get cannotRemoveSelf => 'Nemůžete se odstranit ze skupiny.';
+
+  @override
+  String get yourGroups => 'Vaše skupiny';
+
+  @override
+  String get deleteGroup => 'Smazat skupinu';
+
+  @override
+  String get deleteGroupConfirmation => 'Opravdu chcete smazat tuto skupinu?';
+
+  @override
+  String get cancel => 'Zrušit';
+
+  @override
+  String get delete => 'Smazat';
+
+  @override
+  String get takeAttendance => 'Zapsat docházku';
+
+  @override
+  String get content => 'Obsah: ';
+
+  @override
+  String get contentHint => 'Zapište obsah tréninku';
+
+  @override
+  String get resultsSaved => 'Výsledky byly úspěšně uloženy.';
+
+  @override
+  String get deleteTrainingResults => 'Smazat výsledky tréninku';
+
+  @override
+  String get deleteTrainingResultsConfirmation => 'Opravdu chcete smazat výsledky tréninku?';
+
+  @override
+  String get createTrainingResult => 'Vytvořit výsledek tréninku';
+
+  @override
+  String get name => 'Jméno';
+
+  @override
+  String get selectDate => 'Vyberte datum';
+
+  @override
+  String get searchDiscipline => 'Hledat disciplínu';
+
+  @override
+  String get create => 'Vytvořit';
+
+  @override
+  String get deleteTraining => 'Smazat trénink';
+
+  @override
+  String get deleteTrainingConfirmation => 'Opravdu chcete smazat tento trénink?';
+
+  @override
+  String get createTraining => 'Vytvořit trénink';
+
+  @override
+  String get trainingsCreated => 'Tréninky byly úspěšně vytvořeny.';
+
+  @override
+  String get invalidBirthNumber => 'Neplatné rodné číslo.';
+
+  @override
+  String get memberSaved => 'Člen byl úspěšně uložen.';
+
+  @override
+  String get memberDeleted => 'Člen byl úspěšně smazán.';
+
+  @override
+  String get deleteMemberConfirmation => 'Opravdu chcete smazat tohoto člena?';
+
+  @override
+  String get contacts => 'Kontakty:';
+
+  @override
+  String get emailCopied => 'E-mail zkopírován do schránky.';
+
+  @override
+  String get phoneCopied => 'Telefon zkopírován do schránky.';
+
+  @override
+  String get guardianContacts => 'Kontakty zástupců:';
+
+  @override
+  String get raceTab1 => 'Časák';
+
+  @override
+  String get raceTab2 => 'Přihlášení';
+
+  @override
+  String get raceTab3 => 'Výsledky';
+
+  @override
+  String get addItem => 'Přidat položku';
+
+  @override
+  String get itemName => 'Název položky';
+
+  @override
+  String get description => 'Popis';
+
+  @override
+  String get itemCreate => 'Položka vytvořena úspěšně.';
+
+  @override
+  String get itemType => 'Typ položky';
+
+  @override
+  String get createItem => 'Vytvořit položku';
+
+  @override
+  String get createItemType => 'Vytvořit typ položky';
+
+  @override
+  String get itemTypeCreated => 'Typ položky vytvořen úspěšně.';
+
+  @override
+  String get newItemType => 'Nový typ položky';
+
+  @override
+  String get addNewItemType => 'Přidat nový typ položky';
+
+  @override
+  String get saveAndClose => 'Uložit a zavřít';
+
+  @override
+  String assignItem(String item) {
+    return 'Přiřazení $item:';
+  }
+
+  @override
+  String get centralStorage => 'Centrální sklad';
+
+  @override
+  String get selectAthleteOrStorage => 'Vyberte člena nebo sklad';
+
+  @override
+  String get itemAssigned => 'Položka byla úspěšně přiřazena.';
 }

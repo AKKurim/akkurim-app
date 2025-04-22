@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class SaveButton extends StatelessWidget {
   final Function saveFunction;
@@ -21,7 +22,7 @@ class SaveButton extends StatelessWidget {
           onPressed: () {
             saveFunction();
           },
-          child: Text('Save and close',
+          child: Text(AppLocalizations.of(context)!.saveAndClose,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

@@ -9,6 +9,7 @@ import 'member_edit_screen.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';
 import '../../models/auth/role_enum.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class MemberProfile extends ConsumerWidget {
   final String athleteId;
@@ -30,8 +31,7 @@ class MemberProfile extends ConsumerWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red,
-                      content: Text(
-                          'You are not allowed to edit this member'), // TODO localize
+                      content: Text(AppLocalizations.of(context)!.notAllowed),
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -69,7 +69,7 @@ class MemberProfile extends ConsumerWidget {
                         CircleAvatar(
                           radius: 50,
                           // TODO implement image loading
-                          // till that use initials of the name
+
                           child: Text(
                             '${athlete.athlete.lastName[0]}${athlete.athlete.firstName[0]}',
                             style: const TextStyle(fontSize: 40),
@@ -145,27 +145,30 @@ class MemberProfile extends ConsumerWidget {
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            Text('Contacts:', style: TextStyle(fontSize: 22)),
+                            Text(AppLocalizations.of(context)!.contacts,
+                                style: TextStyle(fontSize: 22)),
                           ],
                         ),
                         CopyableRow(
                           leftPadding: 8,
                           title: AppLocalizations.of(context)!.email,
                           value: athlete.athlete.email ?? '',
-                          snackBarText: 'TODO email copied',
+                          snackBarText:
+                              AppLocalizations.of(context)!.emailCopied,
                           snackBarColor: Colors.green,
                         ),
                         CopyableRow(
                           leftPadding: 8,
                           title: AppLocalizations.of(context)!.phone,
                           value: athlete.athlete.phone ?? '',
-                          snackBarText: 'TODO phone copied',
+                          snackBarText:
+                              AppLocalizations.of(context)!.phoneCopied,
                           snackBarColor: Colors.green,
                         ),
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            Text('Guardian Contacts:',
+                            Text(AppLocalizations.of(context)!.guardianContacts,
                                 style: TextStyle(fontSize: 22)),
                           ],
                         ),
@@ -181,14 +184,16 @@ class MemberProfile extends ConsumerWidget {
                             leftPadding: 16,
                             title: AppLocalizations.of(context)!.email,
                             value: guardian.email,
-                            snackBarText: 'TODO email copied',
+                            snackBarText:
+                                AppLocalizations.of(context)!.emailCopied,
                             snackBarColor: Colors.green,
                           ),
                           CopyableRow(
                             leftPadding: 16,
                             title: AppLocalizations.of(context)!.phone,
                             value: guardian.phone,
-                            snackBarText: 'TODO phone copied',
+                            snackBarText:
+                                AppLocalizations.of(context)!.phoneCopied,
                             snackBarColor: Colors.green,
                           ),
                           const SizedBox(height: 16),

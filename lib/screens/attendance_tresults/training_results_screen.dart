@@ -11,6 +11,7 @@ import '../../providers/training_results_provider.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../utils/utils.dart';
 import 'take_training_results_screen.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TrainingResultsScreen extends ConsumerWidget {
   const TrainingResultsScreen({super.key});
@@ -51,9 +52,10 @@ class TrainingResultsScreen extends ConsumerWidget {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Delete Training Result'),
-                              content: const Text(
-                                  'Are you sure you want to delete this training result?'),
+                              title: Text(AppLocalizations.of(context)!
+                                  .deleteTrainingResults),
+                              content: Text(AppLocalizations.of(context)!
+                                  .deleteTrainingResultsConfirmation),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -64,13 +66,15 @@ class TrainingResultsScreen extends ConsumerWidget {
                                         );
                                     Navigator.of(context).pop();
                                   },
-                                  child: const Text('Delete'),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.delete),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: const Text('Cancel'),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.cancel),
                                 ),
                               ],
                             );
@@ -147,20 +151,22 @@ class _CreateTrainingResultFormState
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Create Training Result',
+          Text(AppLocalizations.of(context)!.createTrainingResult,
               style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
 
           // Name TextField
           TextField(
             controller: _nameController,
-            decoration: const InputDecoration(labelText: 'Name'),
+            decoration:
+                InputDecoration(labelText: AppLocalizations.of(context)!.name),
           ),
 
           // Date Picker
           ListTile(
-            title: Text(
-                _date == null ? 'Select Date' : _date.toString().split(' ')[0]),
+            title: Text(_date == null
+                ? AppLocalizations.of(context)!.selectDate
+                : _date.toString().split(' ')[0]),
             leading: const Icon(Icons.calendar_today),
             onTap: () async {
               final picked = await showDatePicker(
@@ -181,14 +187,15 @@ class _CreateTrainingResultFormState
                 .map((g) =>
                     DropdownMenuItem(value: g, child: Text(g.group.name)))
                 .toList(),
-            decoration: const InputDecoration(labelText: 'Group'),
+            decoration:
+                InputDecoration(labelText: AppLocalizations.of(context)!.group),
           ),
 
           const SizedBox(height: 12),
 
           // Discipline Search
           SearchAnchor.bar(
-            barHintText: 'Search Discipline',
+            barHintText: AppLocalizations.of(context)!.searchDiscipline,
             isFullScreen: false,
             suggestionsBuilder: (context, controller) {
               return disciplines
@@ -204,7 +211,7 @@ class _CreateTrainingResultFormState
                 return ListTile(
                   title: Text(discipline.discipline.description),
                   subtitle: Text(
-                    discipline.type?.name ?? 'No type',
+                    discipline.type?.name ?? '-',
                   ),
                   onTap: () {
                     setState(() => _selectedDiscipline = discipline);
@@ -235,7 +242,7 @@ class _CreateTrainingResultFormState
                     Navigator.of(context).pop();
                   }
                 : null,
-            child: const Text('Create'),
+            child: Text(AppLocalizations.of(context)!.create),
           ),
         ],
       ),

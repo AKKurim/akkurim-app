@@ -4,6 +4,7 @@ import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/groups_provider.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class GroupsScreen extends ConsumerWidget {
   const GroupsScreen({super.key});
@@ -31,7 +32,7 @@ class GroupsScreen extends ConsumerWidget {
           children: [
             const SizedBox(width: 16),
             Text(
-              'Your Groups',
+              AppLocalizations.of(context)!.yourGroups,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ],
@@ -92,22 +93,26 @@ class GroupTile extends ConsumerWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text('Delete Group'),
+              title: Text(
+                AppLocalizations.of(context)!.deleteGroup,
+              ),
               content:
-                  const Text('Are you sure you want to delete this group?'),
+                  Text(AppLocalizations.of(context)!.deleteGroupConfirmation),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Cancel'),
+                  child: Text(
+                    AppLocalizations.of(context)!.cancel,
+                  ),
                 ),
                 TextButton(
                   onPressed: () {
                     ref.read(groupsPProvider.notifier).deleteGroup(group);
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Delete'),
+                  child: Text(AppLocalizations.of(context)!.delete),
                 ),
               ],
             );
