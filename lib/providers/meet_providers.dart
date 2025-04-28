@@ -9,7 +9,6 @@ import '../models/views/simple_athlete_view.dart';
 import './db_provider.dart';
 import './simple_athletes_provider.dart';
 import 'package:drift/drift.dart';
-import '../utils/utils.dart';
 import 'package:collection/collection.dart';
 
 part 'meet_providers.g.dart';
@@ -57,16 +56,22 @@ class MeetProvidersP extends _$MeetProvidersP {
 
       return grouped.entries.map((entry) {
         final meet = entry.value.first.readTable(db.meet);
-        var events = entry.value
-            .map((row) => MeetEventView(
-                meetEvent: row.readTable(db.meetEvent),
-                discipline: row.readTable(db.discipline),
-                category: row.readTable(db.category),
-                athletesWithResults: {}))
-            .toList();
+        var events = entry.value.map((row) {
+          final meetEv = row.readTableOrNull(db.meetEvent);
+          return meetEv != null
+              ? MeetEventView(
+                  meetEvent: meetEv,
+                  discipline: row.readTable(db.discipline),
+                  category: row.readTable(db.category),
+                  athletesWithResults: {})
+              : null;
+        }).toList();
 
         List<MeetEventView> events_ = [];
         for (final event in events) {
+          if (event == null) {
+            continue;
+          }
           if (events_.isEmpty) {
             events_.add(event);
           } else {
@@ -81,7 +86,14 @@ class MeetProvidersP extends _$MeetProvidersP {
         events = events_;
 
         final athleteMeetEvents = entry.value
-            .map((row) => row.readTableOrNull(db.athleteMeetEvent))
+            .map((row) {
+              var athleteMeetEvent = row.readTableOrNull(db.athleteMeetEvent);
+              if (athleteMeetEvent == null ||
+                  athleteMeetEvent.deletedAt != null) {
+                return null;
+              }
+              return athleteMeetEvent;
+            })
             .nonNulls
             .toList();
 
@@ -89,13 +101,13 @@ class MeetProvidersP extends _$MeetProvidersP {
             .where((athlete) => athleteMeetEvents.any((event) =>
                 event.athleteId == athlete.athlete.id &&
                 events.any((meetEvent) =>
-                    meetEvent.meetEvent.id == event.meetEventId)))
+                    meetEvent?.meetEvent.id == event.meetEventId)))
             .toList();
 
         for (final event in events) {
           final athleteEvents = athleteMeetEvents
               .where((athleteEvent) =>
-                  athleteEvent.meetEventId == event.meetEvent.id)
+                  athleteEvent.meetEventId == event?.meetEvent.id)
               .toList();
 
           for (final athlete in athletesInMeet) {
@@ -103,14 +115,14 @@ class MeetProvidersP extends _$MeetProvidersP {
                 (athleteEvent) => athleteEvent.athleteId == athlete.athlete.id);
 
             if (athleteEvent != null) {
-              event.athletesWithResults[athlete] = athleteEvent.result ?? '';
+              event?.athletesWithResults[athlete] = athleteEvent.result ?? '';
             }
           }
         }
 
         return FullMeetView(
           meet: meet,
-          events: events,
+          events: events.whereType<MeetEventView>().toList(),
         );
       }).toList();
     });

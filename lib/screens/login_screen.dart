@@ -6,7 +6,6 @@ import '../services/auth/auth_service.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../widgets/settings/locale_dropdown.dart';
 import '../models/auth/progress_enum.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class LoginScreen extends HookConsumerWidget {
   const LoginScreen({super.key});

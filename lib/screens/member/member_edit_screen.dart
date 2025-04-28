@@ -5,7 +5,6 @@ import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:ak_kurim_app/widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../providers/app_settings_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../utils/utils.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';

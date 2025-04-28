@@ -1,4 +1,3 @@
-import 'package:ak_kurim_app/models/views/item_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/item_providers.dart';

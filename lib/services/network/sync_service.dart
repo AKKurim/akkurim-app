@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:eventflux/eventflux.dart';
@@ -106,10 +104,7 @@ class SyncService extends _$SyncService {
       onSuccessCallback: (EventFluxResponse? response) {
         response?.stream?.listen(
           (event) {
-            // TODO handle event
-            print("Event: $event");
-            print("x" + event.data + "x");
-            print(event);
+            // handle event
             if (event.data.isNotEmpty) {
               _syncData(forceDownloadCheck: true);
             }
@@ -207,7 +202,7 @@ class SyncService extends _$SyncService {
           'delete' => await api.deleteRequest(
               Config.apiVersion + data.endpoint,
             ),
-          _ => throw Exception('Unknown method' + data.method),
+          _ => throw Exception('Unknown method ${data.method}'),
         };
         if (res.statusCode == 200 ||
             res.statusCode == 201 ||

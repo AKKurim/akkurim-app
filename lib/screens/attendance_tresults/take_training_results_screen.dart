@@ -1,12 +1,8 @@
-import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
 import 'package:ak_kurim_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../models/views/meet_event_view.dart';
-import '../../models/views/simple_athlete_view.dart';
-import '../../providers/meet_providers.dart';
-import '../../models/views/discipline_view.dart';
 import '../../providers/training_results_provider.dart';
 import '../../widgets/save_button.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';

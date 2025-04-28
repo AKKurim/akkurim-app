@@ -23,7 +23,7 @@ class GroupsP extends _$GroupsP {
   @override
   Stream<List<GroupView>> build() async* {
     final db = ref.read(dbProvider);
-    final currentTrainer = await ref.watch(currentTrainerProvider.future);
+    //final currentTrainer = await ref.watch(currentTrainerProvider.future);
     final schoolYears = await ref.watch(schoolYearsProvider.future);
     final currentSchoolYear = schoolYears.firstWhere(
       (year) => year.name == Utils.getCurrentSchoolYearString(),

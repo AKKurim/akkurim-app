@@ -18,7 +18,10 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
   @override
   Widget build(BuildContext context) {
     final TabController tabController = TabController(length: 3, vsync: this);
-    final athletesWithEvents = widget.meet.athletesWithEvents;
+    var athletesWithEvents = widget.meet.athletesWithEvents;
+    athletesWithEvents.sort((a, b) => a.athlete.athlete.lastName
+        .toLowerCase()
+        .compareTo(b.athlete.athlete.lastName.toLowerCase()));
 
     return Scaffold(
       appBar: AppBar(
@@ -54,13 +57,15 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                     subtitle: athletes.isNotEmpty
                         ? Text(
                             athletes
-                                .map((athlete) =>
-                                    '${athlete.athlete.lastName} ${athlete.athlete.firstName}')
+                                .map((athlete) => athlete.fullName)
                                 .join(', '),
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary))
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ))
+                        : null,
+                    tileColor: athletes.isNotEmpty
+                        ? Colors.orange[900]?.withAlpha(200)
                         : null,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

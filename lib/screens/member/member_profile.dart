@@ -9,7 +9,6 @@ import 'member_edit_screen.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';
 import '../../models/auth/role_enum.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class MemberProfile extends ConsumerWidget {
   final String athleteId;

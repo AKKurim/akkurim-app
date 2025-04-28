@@ -89,11 +89,11 @@ class AppDatabase extends _$AppDatabase {
         onUpgrade: (Migrator m, int from, int to) async {
           // This is called when the database is opened and the schema version
           // is higher than the previous version.
-          print('Upgrading database from $from to $to');
+          //print('Upgrading database from $from to $to');
           try {
             await m.createAll();
           } catch (e) {
-            print('Error creating tables: $e');
+            //print('Error creating tables: $e');
           }
         },
       );

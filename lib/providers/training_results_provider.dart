@@ -1,4 +1,3 @@
-import 'package:ak_kurim_app/models/online_db/discipline.dart';
 import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/views/full_meet_view.dart';

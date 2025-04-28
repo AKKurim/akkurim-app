@@ -1,6 +1,5 @@
 import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:ak_kurim_app/screens/attendance_tresults/add_group_screen.dart';
-import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/groups_provider.dart';

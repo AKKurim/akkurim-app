@@ -1,15 +1,11 @@
-import 'package:ak_kurim_app/models/online_db/athlete.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/training_providers.dart';
 import '../../models/views/training_view.dart';
-import '../../providers/groups_provider.dart';
-import '../../models/views/group_view.dart';
 import '../../models/views/simple_athlete_view.dart';
 import '../../models/views/trainer_view.dart';
 import '../../utils/utils.dart';
 import '../../widgets/save_button.dart';
-import '../../providers/training_providers.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TakeAttendance extends ConsumerStatefulWidget {

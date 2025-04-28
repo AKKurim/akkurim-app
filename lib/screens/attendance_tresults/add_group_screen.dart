@@ -1,5 +1,3 @@
-import 'package:ak_kurim_app/models/online_db/trainer.dart';
-import 'package:ak_kurim_app/models/online_db/training_time.dart';
 import 'package:ak_kurim_app/models/views/trainer_view.dart';
 import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:flutter/material.dart';

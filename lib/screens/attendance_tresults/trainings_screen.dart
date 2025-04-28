@@ -1,5 +1,3 @@
-import 'package:ak_kurim_app/models/online_db/group.dart';
-import 'package:ak_kurim_app/models/online_db/training.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/app_settings_provider.dart';

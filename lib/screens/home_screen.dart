@@ -1,14 +1,9 @@
 import 'package:ak_kurim_app/screens/races/races_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
-import 'settings_screen.dart';
-import '../services/auth/auth_service.dart';
-import 'package:table_calendar/table_calendar.dart';
 import '../providers/meet_providers.dart';
 import '../providers/training_providers.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import './attendance_tresults/trainings_screen.dart';
 
 class HomeScreen extends HookConsumerWidget {
