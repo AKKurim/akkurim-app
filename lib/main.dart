@@ -66,10 +66,18 @@ class MyApp extends ConsumerWidget {
             return appSettings.themeData;
           },
           orElse: () => ThemeData.dark()),
-      home: remoteConfig.maybeWhen(
-        orElse: () => Center(
+      home: remoteConfig.when(
+        loading: () => Center(
           child: CircularProgressIndicator(),
         ),
+        error: (error, stack) {
+          return Center(
+            child: Text(
+              error.toString(),
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        },
         data: (remoteConfigData) {
           if (Utils.ensureMinimumVersion(
               currentVersion: packageInfo.version,

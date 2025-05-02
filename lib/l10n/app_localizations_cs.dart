@@ -375,18 +375,18 @@ class AppLocalizationsCs extends AppLocalizations {
   String get noUpcomingEvents => 'Žádné nadcházející události';
 
   @override
-  String get updateRequired => 'Update required';
+  String get updateRequired => 'Je nutné aktualizovat aplikaci.';
 
   @override
   String currentVersion(String version) {
-    return 'Current version: $version';
+    return 'Aktuální verze: $version';
   }
 
   @override
   String minimumVersion(String version) {
-    return 'Minimum version: $version';
+    return 'Minimální nutná verze: $version';
   }
 
   @override
-  String get downloadPage => 'Go to download page';
+  String get downloadPage => 'Přejít na stránku pro stažení';
 }

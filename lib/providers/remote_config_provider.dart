@@ -15,6 +15,9 @@ Stream<RemoteConfigData> remoteConfig(Ref ref) async* {
               id: Value(0),
               urgentMessage: Value(''),
               minimumAppVersion: Value('2.0.0'),
+              createdAt: Value(DateTime.now().toUtc()),
+              updatedAt: Value(DateTime.now().toUtc()),
+              deletedAt: Value(null),
             ),
             mode: InsertMode.insertOrReplace,
           );
