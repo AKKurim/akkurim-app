@@ -373,4 +373,20 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get noUpcomingEvents => 'Žádné nadcházející události';
+
+  @override
+  String get updateRequired => 'Update required';
+
+  @override
+  String currentVersion(String version) {
+    return 'Current version: $version';
+  }
+
+  @override
+  String minimumVersion(String version) {
+    return 'Minimum version: $version';
+  }
+
+  @override
+  String get downloadPage => 'Go to download page';
 }

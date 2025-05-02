@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class ForceUpdateScreen extends StatelessWidget {
   final String currentAppVersion;
@@ -20,16 +21,16 @@ class ForceUpdateScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Update Required',
+                AppLocalizations.of(context)!.updateRequired,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
               Text(
-                'Your current version: $currentAppVersion\n',
+                AppLocalizations.of(context)!.currentVersion(currentAppVersion),
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Minimum required version: $minimumAppVersion',
+                AppLocalizations.of(context)!.minimumVersion(minimumAppVersion),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 24),
@@ -37,7 +38,10 @@ class ForceUpdateScreen extends StatelessWidget {
                 onPressed: () {
                   launchUrl(url);
                 },
-                child: Text('Go to GitHub Releases'),
+                child: Text(
+                  AppLocalizations.of(context)!.downloadPage,
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ],
           ),
