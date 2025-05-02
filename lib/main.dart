@@ -11,15 +11,15 @@ import 'services/network/api_service.dart';
 import './services/auth/auth_service.dart';
 import './screens/login_screen.dart';
 import './models/auth/progress_enum.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 void main() async {
   ApiService apiService = ApiService.instance;
   apiService.configureDio(
     baseUrl: Config.baseUrl,
   );
-
   WidgetsFlutterBinding.ensureInitialized();
-
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

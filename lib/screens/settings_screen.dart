@@ -6,6 +6,7 @@ import '../widgets/settings/locale_selection_row.dart';
 import '../widgets/settings/theme_mode_row.dart';
 import '../services/auth/auth_service.dart';
 import '../screens/login_screen.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -16,6 +17,20 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settingsScreenTitle),
         actions: [
+          IconButton(
+              icon: const Icon(Icons.help),
+              onPressed: () {
+                Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
+                packageInfo.then((info) {
+                  showAboutDialog(
+                    context: context,
+                    applicationName: info.appName,
+                    applicationVersion: info.version,
+                    applicationLegalese: "© 2025 Tajovský Matěj",
+                    applicationIcon: const Icon(Icons.info),
+                  );
+                });
+              }),
           IconButton(
             icon: const Icon(
               Icons.logout,
