@@ -167,7 +167,7 @@ Stream<List<CategoryData>> allCategories(Ref ref) async* {
 }
 
 @riverpod
-class selectedMonthYearP extends _$selectedMonthYearP {
+class SelectedMonthYearP extends _$SelectedMonthYearP {
   @override
   MonthYearView build() {
     final now = DateTime.now();

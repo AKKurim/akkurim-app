@@ -6,7 +6,7 @@ part of 'item_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$itemProviderPHash() => r'8a4a68ebca3f3a4ed98139a63528cb1d4c76f470';
+String _$itemProviderPHash() => r'382c1116573748e7e9fce27b58cf9f096ebfc6dc';
 
 /// See also [ItemProviderP].
 @ProviderFor(ItemProviderP)
@@ -22,7 +22,7 @@ final itemProviderPProvider =
 );
 
 typedef _$ItemProviderP = AutoDisposeStreamNotifier<List<ItemView>>;
-String _$itemTypePHash() => r'3c268e484f0a7dafabece7b5baf1822de6018a64';
+String _$itemTypePHash() => r'e49e6af3c631172a1143504032ca3777986e9de6';
 
 /// See also [ItemTypeP].
 @ProviderFor(ItemTypeP)

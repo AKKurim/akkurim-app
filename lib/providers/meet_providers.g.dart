@@ -42,7 +42,7 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
-String _$meetProvidersPHash() => r'9be62e8e20e4d32f68e834e8809d6268d232b57d';
+String _$meetProvidersPHash() => r'82328f985cf09366bf39bc2451c5eeffa1a39c6d';
 
 /// See also [MeetProvidersP].
 @ProviderFor(MeetProvidersP)
@@ -59,13 +59,13 @@ final meetProvidersPProvider = AutoDisposeStreamNotifierProvider<MeetProvidersP,
 
 typedef _$MeetProvidersP = AutoDisposeStreamNotifier<List<FullMeetView>>;
 String _$selectedMonthYearPHash() =>
-    r'1bc6458c96a0b7ca721559d07903fef1a0b02a31';
+    r'2b791b46a03944b61cbb1073e3959165cae36651';
 
-/// See also [selectedMonthYearP].
-@ProviderFor(selectedMonthYearP)
+/// See also [SelectedMonthYearP].
+@ProviderFor(SelectedMonthYearP)
 final selectedMonthYearPProvider =
-    AutoDisposeNotifierProvider<selectedMonthYearP, MonthYearView>.internal(
-  selectedMonthYearP.new,
+    AutoDisposeNotifierProvider<SelectedMonthYearP, MonthYearView>.internal(
+  SelectedMonthYearP.new,
   name: r'selectedMonthYearPProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
@@ -74,6 +74,6 @@ final selectedMonthYearPProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$selectedMonthYearP = AutoDisposeNotifier<MonthYearView>;
+typedef _$SelectedMonthYearP = AutoDisposeNotifier<MonthYearView>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

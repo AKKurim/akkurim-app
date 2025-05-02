@@ -64,9 +64,14 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                               fontWeight: FontWeight.bold,
                             ))
                         : null,
-                    tileColor: athletes.isNotEmpty
-                        ? Colors.orange[900]?.withAlpha(200)
-                        : null,
+                    tileColor:
+                        DateTime.now().isAfter(event.meetEvent.startAt.add(
+                      const Duration(minutes: 15),
+                    ))
+                            ? Colors.green[800]
+                            : athletes.isNotEmpty
+                                ? Colors.orange[900]?.withAlpha(200)
+                                : null,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                       side: BorderSide(
