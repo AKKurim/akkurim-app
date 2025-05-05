@@ -8,6 +8,7 @@ import '../../models/auth/auth_state.dart';
 import '../../providers/db_provider.dart';
 import '../database/drift_database.dart';
 import 'package:drift/drift.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 part 'auth_service.g.dart';
 
@@ -53,6 +54,11 @@ class AuthService extends _$AuthService {
           tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
           email: userEmail?.email ?? "",
         );
+        if (userEmail?.email != null) {
+          Future.wait([
+            OneSignal.login(userEmail!.email),
+          ]);
+        }
       } else {
         state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
       }
@@ -126,6 +132,7 @@ class AuthService extends _$AuthService {
                 ),
                 mode: InsertMode.insertOrReplace,
               ),
+          OneSignal.login(email),
         ]);
       });
     }
@@ -133,6 +140,7 @@ class AuthService extends _$AuthService {
 
   Future<void> logout() async {
     await SuperTokens.signOut();
+    await OneSignal.logout();
     state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
   }
 }

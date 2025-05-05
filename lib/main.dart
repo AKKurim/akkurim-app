@@ -15,6 +15,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import './providers/remote_config_provider.dart';
 import './utils/utils.dart';
 import './screens/force_update_screen.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
   ApiService apiService = ApiService.instance;
@@ -35,6 +36,9 @@ void main() async {
       ),
     ),
   );
+
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize("ca836480-2a6a-4847-a045-1e3098a241f9");
 }
 
 class MyApp extends ConsumerWidget {

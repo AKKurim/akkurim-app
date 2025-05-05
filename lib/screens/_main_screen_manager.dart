@@ -19,6 +19,7 @@ import '../screens/storage/add_item_screen.dart';
 import '../screens/member/member_edit_screen.dart';
 import '../services/auth/auth_service.dart';
 import '../models/auth/role_enum.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class MainScreenManager extends ConsumerStatefulWidget {
   const MainScreenManager({super.key});
@@ -46,6 +47,9 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
       const StorageScreen(),
       const MemberScreen(),
     ];
+
+    // Notification permission setup
+    OneSignal.Notifications.requestPermission(false);
   }
 
   @override
