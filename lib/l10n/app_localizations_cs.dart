@@ -389,4 +389,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get downloadPage => 'Přejít na stránku pro stažení';
+
+  @override
+  String get newUpdateAvailable => 'Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze.';
 }

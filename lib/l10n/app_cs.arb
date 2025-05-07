@@ -120,5 +120,6 @@
     "updateRequired" : "Je nutné aktualizovat aplikaci.",
     "currentVersion" : "Aktuální verze: {version}",
     "minimumVersion" : "Minimální nutná verze: {version}",
-    "downloadPage" : "Přejít na stránku pro stažení"
+    "downloadPage" : "Přejít na stránku pro stažení",
+    "newUpdateAvailable" : "Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze."
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
+import '../utils/config.dart';
 
 class ForceUpdateScreen extends StatelessWidget {
   final String currentAppVersion;
   final String minimumAppVersion;
-  ForceUpdateScreen(
+  const ForceUpdateScreen(
       {super.key,
       required this.currentAppVersion,
       required this.minimumAppVersion});
 
-  final Uri url = Uri.parse('https://github.com/AKKurim/akkurim-app/releases');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +36,7 @@ class ForceUpdateScreen extends StatelessWidget {
               SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  launchUrl(url);
+                  launchUrl(Config.updateUrl);
                 },
                 child: Text(
                   AppLocalizations.of(context)!.downloadPage,

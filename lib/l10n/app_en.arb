@@ -519,5 +519,9 @@
     "downloadPage" : "Go to download page",
     "@downloadPage" : {
         "description": "The label for the download page button"
+    },
+    "newUpdateAvailable" : "New update available, please click to go to download page.",
+    "@newUpdateAvailable" : {
+        "description": "The message shown when a new update is available"
     }
 }

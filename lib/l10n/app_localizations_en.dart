@@ -388,4 +388,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadPage => 'Go to download page';
+
+  @override
+  String get newUpdateAvailable => 'New update available, please click to go to download page.';
 }

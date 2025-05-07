@@ -820,6 +820,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to download page'**
   String get downloadPage;
+
+  /// The message shown when a new update is available
+  ///
+  /// In en, this message translates to:
+  /// **'New update available, please click to go to download page.'**
+  String get newUpdateAvailable;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
