@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/services/network/sync_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/database/drift_database.dart';
@@ -10,6 +11,10 @@ import './db_provider.dart';
 import './simple_athletes_provider.dart';
 import 'package:drift/drift.dart';
 import 'package:collection/collection.dart';
+import '../utils/utils.dart';
+import '../services/database/companion_builder_map.dart';
+import 'dart:convert';
+import 'package:uuid/uuid.dart';
 
 part 'meet_providers.g.dart';
 
@@ -126,6 +131,66 @@ class MeetProvidersP extends _$MeetProvidersP {
         );
       }).toList();
     });
+  }
+
+  Future<void> deleteMeetEvent(MeetEventData meet) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
+    var meetEventToDelete = Utils.convertMapKeysToSnakeCase(meet.toJson());
+    meetEventToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
+    meetEventToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
+    meetEventToDelete['created_at'] = meet.createdAt!.toUtc().toIso8601String();
+
+    await db.into(db.meetEvent).insertOnConflictUpdate(
+          buildMeetEventCompanion(meetEventToDelete),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/meet_event',
+      'post',
+      json.encode({
+        'data': [meetEventToDelete],
+        'primary_keys': ['id'],
+        'table': 'meet_event',
+      }),
+    );
+  }
+
+  Future<void> addMeetEvent({
+    required String meetId,
+    required int disciplineId,
+    required int categoryId,
+    required DateTime startAt,
+    String? phase,
+  }) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
+    final meeetEvent = await db.into(db.meetEvent).insertReturning(
+        mode: InsertMode.insertOrReplace,
+        MeetEventCompanion(
+          id: Value(Uuid().v1()),
+          meetId: Value(meetId),
+          meetType: meetId.contains('CAS') ? Value('RACE') : Value('TRAINING'),
+          disciplineId: Value(disciplineId),
+          categoryId: Value(categoryId),
+          startAt: Value(startAt),
+          phase: Value(phase),
+          createdAt: Value(DateTime.now().toUtc()),
+          updatedAt: Value(DateTime.now().toUtc()),
+          deletedAt: const Value(null),
+        ));
+
+    await sync.addToSyncQueue(
+      '/sync/meet_event',
+      'post',
+      json.encode({
+        'data': [Utils.convertMapKeysToSnakeCase(meeetEvent.toJson())],
+        'primary_keys': ['id'],
+        'table': 'meet_event',
+      }),
+    );
   }
 }
 
