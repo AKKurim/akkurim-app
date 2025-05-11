@@ -5,12 +5,14 @@ import '../providers/trainer_provider.dart';
 import '../screens/member/member_profile.dart';
 import '../utils/utils.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
+import '../services/auth/auth_service.dart';
 
 class AthleteListView extends HookConsumerWidget {
   const AthleteListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authServiceProvider);
     final simpleAthlete = ref.watch(filteredAthletesProvider);
     final List trainerAthleteIds = ref.watch(trainerPProvider).when(
         data: (data) => data.map((trainer) {
@@ -63,7 +65,7 @@ class AthleteListView extends HookConsumerWidget {
                   ),
                 ),
                 title: Text(
-                  '${athlete.athlete.lastName} ${athlete.athlete.firstName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()})',
+                  '${athlete.fullName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()}) ${athlete.athlete.clubId == auth.tenant?.substring(2) ? "" : "⚠️"}',
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),

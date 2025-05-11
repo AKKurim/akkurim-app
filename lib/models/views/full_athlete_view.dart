@@ -17,6 +17,10 @@ class FullAthleteView {
     required this.signUpForms,
   });
 
+  String get fullName {
+    return '${athlete.lastName} ${athlete.firstName}';
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

@@ -94,7 +94,7 @@ class SyncService extends _$SyncService {
                 ),
               );
         if (_isConnected(connRes)) {
-          _syncData(forceDownloadCheck: true);
+          syncData(forceDownloadCheck: true);
         }
       },
     );
@@ -106,7 +106,7 @@ class SyncService extends _$SyncService {
           (event) {
             // handle event
             if (event.data.isNotEmpty) {
-              _syncData(forceDownloadCheck: true);
+              syncData(forceDownloadCheck: true);
             }
           },
         );
@@ -165,7 +165,7 @@ class SyncService extends _$SyncService {
                 true);
   }
 
-  Future<void> _syncData({bool forceDownloadCheck = false}) async {
+  Future<void> syncData({bool forceDownloadCheck = false}) async {
     if ((state.value!.toSync == 0 && !forceDownloadCheck) ||
         state.value!.isUploading ||
         state.value!.isDownloading ||
@@ -315,7 +315,7 @@ class SyncService extends _$SyncService {
       lastSyncedAt: DateTime.parse(lastUpdatedString),
       toSync: count,
     ));
-    _syncData();
+    syncData();
   }
 
   Future<void> addToSyncQueue(String endpoint, String method, String data,
@@ -333,7 +333,7 @@ class SyncService extends _$SyncService {
     state =
         AsyncValue.data(state.value!.copyWith(toSync: state.value!.toSync + 1));
     if (sync) {
-      _syncData();
+      syncData();
     }
   }
 }
