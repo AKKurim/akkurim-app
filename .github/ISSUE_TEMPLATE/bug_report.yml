@@ -2,7 +2,7 @@ name: Bug Report 🐛
 description: Report a bug or issue in the trainer app
 title: "Bug: "
 labels: ["bug", "from-app"]
-assignees: [your-github-username]
+assignees: [czmatejt]
 body:
   - type: markdown
     attributes:

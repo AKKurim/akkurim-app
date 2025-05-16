@@ -2,7 +2,7 @@ name: Feature Request 💡
 description: Suggest a new feature or improvement
 title: "Feature: "
 labels: ["enhancement", "from-app"]
-assignees: [your-github-username]
+assignees: [czmatejt]
 body:
   - type: markdown
     attributes:
