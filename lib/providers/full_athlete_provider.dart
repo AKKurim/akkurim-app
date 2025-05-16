@@ -42,6 +42,8 @@ class FullAthleteP extends _$FullAthleteP {
       final guardians = rows
           .map((row) => row.readTableOrNull(db.guardian))
           .whereType<GuardianData>()
+          .toList()
+          .toSet()
           .toList();
       final results = rows
           .map((row) => row.readTableOrNull(db.athleteMeetEvent))

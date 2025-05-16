@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../../providers/meet_providers.dart';
 import '../../models/views/full_meet_view.dart';
 import 'race_screen.dart';
@@ -15,7 +13,7 @@ class RacesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<FullMeetView> meets = ref.watch(meetProvidersPProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) => [],
+          error: (error, stackTrace) => throw error,
           loading: () => [],
         );
     return RefreshIndicator(
@@ -62,34 +60,45 @@ class MeetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isPast = meet.meet.startAt.isBefore(DateTime.now()) &&
+        !TimeHelper.isSameDay(meet.meet.startAt, DateTime.now());
+    final bool isToday =
+        TimeHelper.isSameDay(meet.meet.startAt, DateTime.now());
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Column(
         children: [
-          Row(
-            children: [
-              const SizedBox(width: 8),
-              const Icon(Icons.calendar_today),
-              const Icon(Icons.access_time),
-              const SizedBox(width: 8),
-              Text(
-                  '${TimeHelper.getWeekDayName(meet.meet.startAt, context)} ${TimeHelper.getDayMonthYear(meet.meet.startAt)} (${TimeHelper.getMinHourFromDateTime(meet.meet.startAt)} - ${TimeHelper.getMinHourFromDateTime(meet.meet.endAt)})',
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
-            ],
-          ),
-          const SizedBox(height: 4),
+          !isPast
+              ? Row(
+                  children: [
+                    const SizedBox(width: 8),
+                    const Icon(Icons.calendar_today),
+                    const Icon(Icons.access_time),
+                    const SizedBox(width: 8),
+                    Text(
+                        '${TimeHelper.getWeekDayName(meet.meet.startAt, context)} ${TimeHelper.getDayMonthYear(meet.meet.startAt)} (${TimeHelper.getMinHourFromDateTime(meet.meet.startAt)} - ${TimeHelper.getMinHourFromDateTime(meet.meet.endAt)})',
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ],
+                )
+              : const SizedBox.shrink(),
+          !isPast ? const SizedBox(height: 4) : const SizedBox.shrink(),
           ListTile(
             title: Text(meet.meet.name,
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(
-              '${meet.meet.location}',
-              style: const TextStyle(fontSize: 16),
+              '${meet.meet.location?.split(' ')[0]}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(meet.athletesCount.toString()),
+                Text(meet.athletesCount.toString(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    )),
                 Icon(Icons.people),
               ],
             ),
@@ -101,6 +110,11 @@ class MeetTile extends StatelessWidget {
                 ),
               );
             },
+            tileColor: isPast
+                ? Colors.green[800]
+                : isToday
+                    ? Colors.orange[800]
+                    : null,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
               side: BorderSide(
@@ -109,7 +123,7 @@ class MeetTile extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
         ],
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:ak_kurim_app/models/online_db/group.dart';
 import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:ak_kurim_app/widgets/month_year_selecter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -226,7 +225,7 @@ class _CreateTrainingResultFormState
             onPressed: (_date != null &&
                     _selectedGroup != null &&
                     _selectedDiscipline != null &&
-                    _nameController?.text.isNotEmpty == true)
+                    _nameController.text.isNotEmpty == true)
                 ? () {
                     ref
                         .read(trainingResultsPProvider.notifier)
@@ -234,7 +233,7 @@ class _CreateTrainingResultFormState
                           _date!,
                           _selectedGroup!,
                           _selectedDiscipline!,
-                          _nameController?.text ?? '',
+                          _nameController.text,
                         );
                     Navigator.of(context).pop();
                   }

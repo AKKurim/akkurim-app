@@ -9,7 +9,6 @@ import 'member_edit_screen.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';
 import '../../models/auth/role_enum.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class MemberProfile extends ConsumerWidget {
   final String athleteId;
@@ -23,7 +22,8 @@ class MemberProfile extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.memberProfile),
+        title: Text(fullAthlete.maybeWhen(
+            data: (athlete) => athlete.fullName, orElse: () => '')),
         actions: [
           IconButton(
               onPressed: () {
@@ -66,25 +66,22 @@ class MemberProfile extends ConsumerWidget {
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 50,
-                          // TODO implement image loading
+                        // CircleAvatar(
+                        //   radius: 50,
+                        //   // TODO implement image loading
 
-                          child: Text(
-                            '${athlete.athlete.lastName[0]}${athlete.athlete.firstName[0]}',
-                            style: const TextStyle(fontSize: 40),
-                          ),
-                          //backgroundImage: NetworkImage(athlete.athlete.imageUrl),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          '${athlete.athlete.lastName} ${athlete.athlete.firstName}',
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
+                        //   child: Text(
+                        //     '${athlete.athlete.lastName[0]}${athlete.athlete.firstName[0]}',
+                        //     style: const TextStyle(fontSize: 40),
+                        //   ),
+                        //   //backgroundImage: NetworkImage(athlete.athlete.imageUrl),
+                        // ),
                         Text(
                           '${birthDate.day}. ${birthDate.month}. ${birthDate.year}',
                           style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          "(${athlete.athlete.clubId?.toUpperCase()})",
                         ),
                         const SizedBox(height: 16),
                         Row(
@@ -170,6 +167,14 @@ class MemberProfile extends ConsumerWidget {
                           children: [
                             Text(AppLocalizations.of(context)!.guardianContacts,
                                 style: TextStyle(fontSize: 22)),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                // TODO implement
+                              },
+                              icon: const Icon(Icons.add_circle),
+                              color: Colors.green,
+                            ),
                           ],
                         ),
                         for (final guardian in athlete.guardians) ...[

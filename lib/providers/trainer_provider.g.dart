@@ -6,7 +6,7 @@ part of 'trainer_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentTrainerHash() => r'ffd01ea064eed280bdf3243959a15624ae4ad5c0';
+String _$currentTrainerHash() => r'63cbb894e3d16e80ba6e57879ae11559218c96f3';
 
 /// See also [currentTrainer].
 @ProviderFor(currentTrainer)

@@ -127,6 +127,7 @@ class SyncIcon extends ConsumerWidget {
                           content: Text(
                               'Everything up to date\n${value.lastSyncedAt}'),
                           actions: [
+                            ManualSyncButton(),
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -203,5 +204,21 @@ class SyncIcon extends ConsumerWidget {
           ),
         ),
     };
+  }
+}
+
+class ManualSyncButton extends ConsumerWidget {
+  const ManualSyncButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextButton(
+      onPressed: () {
+        ref
+            .read(syncServiceProvider.notifier)
+            .syncData(forceDownloadCheck: true);
+      },
+      child: const Text('Sync'),
+    );
   }
 }

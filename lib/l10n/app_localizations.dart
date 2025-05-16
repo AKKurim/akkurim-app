@@ -796,6 +796,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No upcoming events'**
   String get noUpcomingEvents;
+
+  /// The message shown when an update is required
+  ///
+  /// In en, this message translates to:
+  /// **'Update required'**
+  String get updateRequired;
+
+  /// The message showing the current version
+  ///
+  /// In en, this message translates to:
+  /// **'Current version: {version}'**
+  String currentVersion(String version);
+
+  /// The message showing the minimum version required
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum version: {version}'**
+  String minimumVersion(String version);
+
+  /// The label for the download page button
+  ///
+  /// In en, this message translates to:
+  /// **'Go to download page'**
+  String get downloadPage;
+
+  /// The message shown when a new update is available
+  ///
+  /// In en, this message translates to:
+  /// **'New update available, please click to go to download page.'**
+  String get newUpdateAvailable;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

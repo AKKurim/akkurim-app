@@ -372,4 +372,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noUpcomingEvents => 'No upcoming events';
+
+  @override
+  String get updateRequired => 'Update required';
+
+  @override
+  String currentVersion(String version) {
+    return 'Current version: $version';
+  }
+
+  @override
+  String minimumVersion(String version) {
+    return 'Minimum version: $version';
+  }
+
+  @override
+  String get downloadPage => 'Go to download page';
+
+  @override
+  String get newUpdateAvailable => 'New update available, please click to go to download page.';
 }

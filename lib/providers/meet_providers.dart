@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/services/network/sync_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/database/drift_database.dart';
@@ -9,8 +10,11 @@ import '../models/views/simple_athlete_view.dart';
 import './db_provider.dart';
 import './simple_athletes_provider.dart';
 import 'package:drift/drift.dart';
-import '../utils/utils.dart';
 import 'package:collection/collection.dart';
+import '../utils/utils.dart';
+import '../services/database/companion_builder_map.dart';
+import 'dart:convert';
+import 'package:uuid/uuid.dart';
 
 part 'meet_providers.g.dart';
 
@@ -57,16 +61,22 @@ class MeetProvidersP extends _$MeetProvidersP {
 
       return grouped.entries.map((entry) {
         final meet = entry.value.first.readTable(db.meet);
-        var events = entry.value
-            .map((row) => MeetEventView(
-                meetEvent: row.readTable(db.meetEvent),
-                discipline: row.readTable(db.discipline),
-                category: row.readTable(db.category),
-                athletesWithResults: {}))
-            .toList();
+        var events = entry.value.map((row) {
+          final meetEv = row.readTableOrNull(db.meetEvent);
+          return meetEv != null
+              ? MeetEventView(
+                  meetEvent: meetEv,
+                  discipline: row.readTable(db.discipline),
+                  category: row.readTable(db.category),
+                  athletesWithResults: {})
+              : null;
+        }).toList();
 
         List<MeetEventView> events_ = [];
         for (final event in events) {
+          if (event == null) {
+            continue;
+          }
           if (events_.isEmpty) {
             events_.add(event);
           } else {
@@ -81,7 +91,14 @@ class MeetProvidersP extends _$MeetProvidersP {
         events = events_;
 
         final athleteMeetEvents = entry.value
-            .map((row) => row.readTableOrNull(db.athleteMeetEvent))
+            .map((row) {
+              var athleteMeetEvent = row.readTableOrNull(db.athleteMeetEvent);
+              if (athleteMeetEvent == null ||
+                  athleteMeetEvent.deletedAt != null) {
+                return null;
+              }
+              return athleteMeetEvent;
+            })
             .nonNulls
             .toList();
 
@@ -89,13 +106,13 @@ class MeetProvidersP extends _$MeetProvidersP {
             .where((athlete) => athleteMeetEvents.any((event) =>
                 event.athleteId == athlete.athlete.id &&
                 events.any((meetEvent) =>
-                    meetEvent.meetEvent.id == event.meetEventId)))
+                    meetEvent?.meetEvent.id == event.meetEventId)))
             .toList();
 
         for (final event in events) {
           final athleteEvents = athleteMeetEvents
               .where((athleteEvent) =>
-                  athleteEvent.meetEventId == event.meetEvent.id)
+                  athleteEvent.meetEventId == event?.meetEvent.id)
               .toList();
 
           for (final athlete in athletesInMeet) {
@@ -103,17 +120,77 @@ class MeetProvidersP extends _$MeetProvidersP {
                 (athleteEvent) => athleteEvent.athleteId == athlete.athlete.id);
 
             if (athleteEvent != null) {
-              event.athletesWithResults[athlete] = athleteEvent.result ?? '';
+              event?.athletesWithResults[athlete] = athleteEvent.result ?? '';
             }
           }
         }
 
         return FullMeetView(
           meet: meet,
-          events: events,
+          events: events.whereType<MeetEventView>().toList(),
         );
       }).toList();
     });
+  }
+
+  Future<void> deleteMeetEvent(MeetEventData meet) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
+    var meetEventToDelete = Utils.convertMapKeysToSnakeCase(meet.toJson());
+    meetEventToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
+    meetEventToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
+    meetEventToDelete['created_at'] = meet.createdAt!.toUtc().toIso8601String();
+
+    await db.into(db.meetEvent).insertOnConflictUpdate(
+          buildMeetEventCompanion(meetEventToDelete),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/meet_event',
+      'post',
+      json.encode({
+        'data': [meetEventToDelete],
+        'primary_keys': ['id'],
+        'table': 'meet_event',
+      }),
+    );
+  }
+
+  Future<void> addMeetEvent({
+    required String meetId,
+    required int disciplineId,
+    required int categoryId,
+    required DateTime startAt,
+    String? phase,
+  }) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
+    final meeetEvent = await db.into(db.meetEvent).insertReturning(
+        mode: InsertMode.insertOrReplace,
+        MeetEventCompanion(
+          id: Value(Uuid().v1()),
+          meetId: Value(meetId),
+          meetType: meetId.contains('CAS') ? Value('RACE') : Value('TRAINING'),
+          disciplineId: Value(disciplineId),
+          categoryId: Value(categoryId),
+          startAt: Value(startAt),
+          phase: Value(phase),
+          createdAt: Value(DateTime.now().toUtc()),
+          updatedAt: Value(DateTime.now().toUtc()),
+          deletedAt: const Value(null),
+        ));
+
+    await sync.addToSyncQueue(
+      '/sync/meet_event',
+      'post',
+      json.encode({
+        'data': [Utils.convertMapKeysToSnakeCase(meeetEvent.toJson())],
+        'primary_keys': ['id'],
+        'table': 'meet_event',
+      }),
+    );
   }
 }
 
@@ -155,7 +232,7 @@ Stream<List<CategoryData>> allCategories(Ref ref) async* {
 }
 
 @riverpod
-class selectedMonthYearP extends _$selectedMonthYearP {
+class SelectedMonthYearP extends _$SelectedMonthYearP {
   @override
   MonthYearView build() {
     final now = DateTime.now();

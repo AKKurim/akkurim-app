@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:eventflux/eventflux.dart';
@@ -96,7 +94,7 @@ class SyncService extends _$SyncService {
                 ),
               );
         if (_isConnected(connRes)) {
-          _syncData(forceDownloadCheck: true);
+          syncData(forceDownloadCheck: true);
         }
       },
     );
@@ -106,12 +104,9 @@ class SyncService extends _$SyncService {
       onSuccessCallback: (EventFluxResponse? response) {
         response?.stream?.listen(
           (event) {
-            // TODO handle event
-            print("Event: $event");
-            print("x" + event.data + "x");
-            print(event);
+            // handle event
             if (event.data.isNotEmpty) {
-              _syncData(forceDownloadCheck: true);
+              syncData(forceDownloadCheck: true);
             }
           },
         );
@@ -170,7 +165,7 @@ class SyncService extends _$SyncService {
                 true);
   }
 
-  Future<void> _syncData({bool forceDownloadCheck = false}) async {
+  Future<void> syncData({bool forceDownloadCheck = false}) async {
     if ((state.value!.toSync == 0 && !forceDownloadCheck) ||
         state.value!.isUploading ||
         state.value!.isDownloading ||
@@ -207,7 +202,7 @@ class SyncService extends _$SyncService {
           'delete' => await api.deleteRequest(
               Config.apiVersion + data.endpoint,
             ),
-          _ => throw Exception('Unknown method' + data.method),
+          _ => throw Exception('Unknown method ${data.method}'),
         };
         if (res.statusCode == 200 ||
             res.statusCode == 201 ||
@@ -320,7 +315,7 @@ class SyncService extends _$SyncService {
       lastSyncedAt: DateTime.parse(lastUpdatedString),
       toSync: count,
     ));
-    _syncData();
+    syncData();
   }
 
   Future<void> addToSyncQueue(String endpoint, String method, String data,
@@ -338,7 +333,7 @@ class SyncService extends _$SyncService {
     state =
         AsyncValue.data(state.value!.copyWith(toSync: state.value!.toSync + 1));
     if (sync) {
-      _syncData();
+      syncData();
     }
   }
 }

@@ -491,5 +491,37 @@
     "noUpcomingEvents" : "No upcoming events",
     "@noUpcomingEvents" : {
         "description": "The message shown when there are no upcoming events"
+    },
+    "updateRequired" : "Update required",
+    "@updateRequired" : {
+        "description": "The message shown when an update is required"
+    },
+    "currentVersion" : "Current version: {version}",
+    "@currentVersion" : {
+        "description": "The message showing the current version",
+        "placeholders": {
+            "version": {
+                "description": "The current version of the app",
+                "type": "String"
+            }
+        }
+    },
+    "minimumVersion" : "Minimum version: {version}",
+    "@minimumVersion" : {
+        "description": "The message showing the minimum version required",
+        "placeholders": {
+            "version": {
+                "description": "The minimum version of the app",
+                "type": "String"
+            }
+        }
+    },
+    "downloadPage" : "Go to download page",
+    "@downloadPage" : {
+        "description": "The label for the download page button"
+    },
+    "newUpdateAvailable" : "New update available, please click to go to download page.",
+    "@newUpdateAvailable" : {
+        "description": "The message shown when a new update is available"
     }
 }

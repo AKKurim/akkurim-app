@@ -8,6 +8,9 @@ class Config {
   static const String appName = 'Athletics Club Manager';
   static const String dbName = 'athletics_club_manager';
 
+  static final Uri updateUrl =
+      Uri.parse('https://github.com/AKKurim/akkurim-app/releases');
+
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
