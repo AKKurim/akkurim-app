@@ -1,7 +1,7 @@
 ---
 
 name: Bug Report 🐛
-description: Report something that's not working as expected
+about: Report something that's not working as expected
 title: "Bug: "
 labels: [bug, from-app]
 assignees: czmatejt

@@ -1,6 +1,6 @@
 ---
 name: Feature Request 💡
-description: Suggest a new feature or improvement
+about: Suggest a new feature or improvement
 title: "Feature: "
 labels: [enhancement, from-app]
 assignees: czmatejt
