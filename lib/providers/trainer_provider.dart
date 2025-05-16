@@ -61,7 +61,6 @@ Stream<TrainerView> currentTrainer(Ref ref) async* {
   final trainers = await ref.watch(trainerPProvider.future);
 
   final trainerEmail = authService.email ?? '';
-  print('Trainer email: $trainerEmail');
   final trainer = trainers.firstWhere(
     (trainer) => trainer.simpleAthlete.athlete.email == trainerEmail,
     // throw error if not found

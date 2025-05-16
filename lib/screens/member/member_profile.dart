@@ -167,6 +167,14 @@ class MemberProfile extends ConsumerWidget {
                           children: [
                             Text(AppLocalizations.of(context)!.guardianContacts,
                                 style: TextStyle(fontSize: 22)),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                // TODO implement
+                              },
+                              icon: const Icon(Icons.add_circle),
+                              color: Colors.green,
+                            ),
                           ],
                         ),
                         for (final guardian in athlete.guardians) ...[
