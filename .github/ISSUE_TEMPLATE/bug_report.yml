@@ -1,0 +1,48 @@
+name: Bug Report 🐛
+description: Report a bug or issue in the trainer app
+title: "Bug: "
+labels: ["bug", "from-app"]
+assignees: [your-github-username]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please provide the following information to help us address the bug effectively.
+  - type: input
+    id: app_version
+    attributes:
+      label: App Version
+      description: Enter the version of the app where the issue occurred.
+      placeholder: e.g., 1.0.3
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the issue and what you expected to happen.
+      placeholder: Provide a clear and concise description.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: List the steps to reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Observe the error
+    validations:
+      required: false
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this issue?
+      options:
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
