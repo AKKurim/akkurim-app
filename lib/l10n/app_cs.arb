@@ -121,5 +121,7 @@
     "currentVersion" : "Aktuální verze: {version}",
     "minimumVersion" : "Minimální nutná verze: {version}",
     "downloadPage" : "Přejít na stránku pro stažení",
-    "newUpdateAvailable" : "Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze."
+    "newUpdateAvailable" : "Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze.",
+    "bugReport" : "Nahlásit chybu nebo návrh na vylepšení",
+    "open" : "Otevřít"
 }

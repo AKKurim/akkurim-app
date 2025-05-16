@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 class Config {
   static const String baseUrl = 'https://${true ? 'dev' : ''}api.akkurim.cz';
@@ -10,6 +9,8 @@ class Config {
 
   static final Uri updateUrl =
       Uri.parse('https://github.com/AKKurim/akkurim-app/releases');
+  static final Uri bugReportUrl =
+      Uri.parse('https://github.com/AKKurim/akkurim-app/issues/new/choose');
 
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,

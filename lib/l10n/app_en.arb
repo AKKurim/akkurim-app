@@ -523,5 +523,13 @@
     "newUpdateAvailable" : "New update available, please click to go to download page.",
     "@newUpdateAvailable" : {
         "description": "The message shown when a new update is available"
+    },
+    "bugReport" : "Report a bug or request a feature",
+    "@bugReport" : {
+        "description": "The label for the bug report button"
+    },
+    "open" : "Open",
+    "@open" : {
+        "description": "The label for the open button"
     }
 }
