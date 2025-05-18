@@ -146,7 +146,7 @@ class SyncService extends _$SyncService {
               (tbl) =>
                   tbl.doneAt.isSmallerThan(Constant(resLastUpdated.doneAt!)),
             ))
-          .go(); // TODO test this
+          .go();
     }
     final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
     lastUpdated += Utils.tzOffsetMap(

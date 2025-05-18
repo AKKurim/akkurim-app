@@ -10,6 +10,4 @@
 
 //import 'package:ak_kurim_app/main.dart';
 
-void main() {
-  // TODO: Implement tests
-}
+void main() {}

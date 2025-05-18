@@ -137,7 +137,9 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.editMember),
+        title: widget.editMode
+            ? Text(AppLocalizations.of(context)!.editMember)
+            : Text(AppLocalizations.of(context)!.addMember),
         actions: [
           // delete button
           IconButton(
@@ -233,7 +235,6 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
                   setState(() {
                     status = value;
                   });
-                  print(value);
                 },
                 items: statuses
                     .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
