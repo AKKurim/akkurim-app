@@ -1,61 +1,30 @@
-import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../screens/home_screen.dart';
-import 'attendance_tresults/_attendance_screen_manager.dart';
-import 'races/races_screen.dart';
-import 'storage/storage_screen.dart';
-import 'member/member_screen.dart';
-import '../screens/settings_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
-import '../widgets/sync_icon.dart';
 import '../providers/simple_athletes_provider.dart';
 import '../providers/trainer_provider.dart';
+import 'package:ak_kurim_app/models/views/group_view.dart';
+import '../screens/settings_screen.dart';
+import '../widgets/sync_icon.dart';
+
 import 'attendance_tresults/add_group_screen.dart';
 import '../models/views/trainer_view.dart';
 import 'attendance_tresults/trainings_screen.dart';
 import 'attendance_tresults/training_results_screen.dart';
 import '../screens/storage/add_item_screen.dart';
-import '../screens/member/member_edit_screen.dart';
 import '../services/auth/auth_service.dart';
 import '../models/auth/role_enum.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/config.dart';
+import '../providers/tab_index_provider.dart';
 
-class MainScreenManager extends ConsumerStatefulWidget {
-  const MainScreenManager({super.key});
-
-  @override
-  ConsumerState<MainScreenManager> createState() => _MainScreenManagerState();
-}
-
-class _MainScreenManagerState extends ConsumerState<MainScreenManager>
-    with SingleTickerProviderStateMixin {
-  int currentIndex = 0;
-  late final TabController tabController;
-  late final List<Widget> screens;
+class ScaffoldWithNavBar extends ConsumerWidget {
+  const ScaffoldWithNavBar({required this.navigationShell, super.key});
+  final StatefulNavigationShell navigationShell;
 
   @override
-  void initState() {
-    super.initState();
-    tabController = TabController(length: 3, vsync: this);
-    screens = [
-      const HomeScreen(),
-      AttendanceScreenManager(
-        tabController: tabController,
-      ),
-      const RacesScreen(),
-      const StorageScreen(),
-      const MemberScreen(),
-    ];
-
-    // Notification permission setup
-    OneSignal.Notifications.requestPermission(false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final simpleAthlete = ref.watch(simpleAthletesPProvider);
     final trainer = ref.watch(currentTrainerProvider);
     final trainerData = trainer.maybeWhen(
@@ -75,49 +44,10 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
         ),
       ),
     ];
-    final List<NavigationDestination> bottomNavigationBarItems = [
-      NavigationDestination(
-        icon: const Icon(Icons.home_outlined),
-        selectedIcon: const Icon(Icons.home),
-        label: AppLocalizations.of(context)!.homeNavBar,
-      ),
-      NavigationDestination(
-        icon: const Icon(Icons.assignment_outlined),
-        selectedIcon: const Icon(Icons.assignment),
-        label: AppLocalizations.of(context)!.trainingScreenTitle,
-      ),
-      NavigationDestination(
-        icon: const Icon(Icons.emoji_events_outlined),
-        selectedIcon: const Icon(Icons.emoji_events),
-        label: AppLocalizations.of(context)!.eventsScreenTitle,
-      ),
-      NavigationDestination(
-        // I want an icon with a storage box or something similar
-        icon: const Icon(Icons.inventory_2_outlined),
-        selectedIcon: const Icon(Icons.inventory_2),
-        label: AppLocalizations.of(context)!.screen2Title,
-      ),
-      NavigationDestination(
-        icon: const Icon(Icons.people_outline),
-        selectedIcon: const Icon(Icons.people),
-        label: AppLocalizations.of(context)!.membersNavBar,
-      ),
-    ];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(titles[currentIndex]),
-        bottom: currentIndex == 1
-            ? TabBar(
-                controller: tabController,
-                labelColor: Theme.of(context).colorScheme.primary,
-                tabs: [
-                  Tab(text: AppLocalizations.of(context)!.trainingTab1),
-                  Tab(text: AppLocalizations.of(context)!.trainingTab2),
-                  Tab(text: AppLocalizations.of(context)!.trainingTab3),
-                ],
-              )
-            : null,
+        title: Text(titles[navigationShell.currentIndex]),
         actions: [
           IconButton(
             icon: const Icon(Icons.bug_report),
@@ -159,43 +89,66 @@ class _MainScreenManagerState extends ConsumerState<MainScreenManager>
           ),
         ],
       ),
-      body: IndexedStack(
-        index: currentIndex,
-        children: screens,
+      body: navigationShell,
+      bottomNavigationBar: NavigationBar(
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.homeNavBar,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.assignment_outlined),
+            selectedIcon: const Icon(Icons.assignment),
+            label: AppLocalizations.of(context)!.trainingScreenTitle,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.emoji_events_outlined),
+            selectedIcon: const Icon(Icons.emoji_events),
+            label: AppLocalizations.of(context)!.eventsScreenTitle,
+          ),
+          NavigationDestination(
+            // I want an icon with a storage box or something similar
+            icon: const Icon(Icons.inventory_2_outlined),
+            selectedIcon: const Icon(Icons.inventory_2),
+            label: AppLocalizations.of(context)!.screen2Title,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.people_outline),
+            selectedIcon: const Icon(Icons.people),
+            label: AppLocalizations.of(context)!.membersNavBar,
+          ),
+        ],
+        selectedIndex: navigationShell.currentIndex,
+        onDestinationSelected: _onItemTapped,
       ),
       floatingActionButton: buildFab(
-        currentIndex: currentIndex,
-        tabController: tabController,
-        context: context,
-        ref: ref,
-        trainerData: trainerData,
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        destinations: bottomNavigationBarItems,
-      ),
+          currentIndex: navigationShell.currentIndex,
+          context: context,
+          ref: ref,
+          trainerData: trainerData),
     );
+  }
+
+  void _onItemTapped(int index) {
+    navigationShell.goBranch(index,
+        initialLocation: index == navigationShell.currentIndex);
   }
 }
 
 FloatingActionButton? buildFab({
   required int currentIndex,
-  required TabController tabController,
   required BuildContext context,
   required WidgetRef ref,
   required TrainerView? trainerData,
 }) {
+  final int tabIndex = ref.watch(tabIndexPProvider);
   return currentIndex == 1 || currentIndex == 3 || currentIndex == 4
       ? FloatingActionButton(
           onPressed: () {
             switch (currentIndex) {
               case 1:
-                switch (tabController.index) {
+                switch (tabIndex) {
                   case 0:
                     _openCreateTrainingSheet(context);
                     break;
@@ -233,15 +186,7 @@ FloatingActionButton? buildFab({
                   );
                   return;
                 }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MemberEditScreen(
-                      editMode: false,
-                      athleteView: null,
-                    ),
-                  ),
-                );
+                context.push('/member/_/new');
             }
           },
           child: const Icon(Icons.add),

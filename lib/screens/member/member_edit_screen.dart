@@ -11,8 +11,8 @@ import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class MemberEditScreen extends ConsumerStatefulWidget {
   final bool editMode;
-  final FullAthleteView? athleteView;
-  const MemberEditScreen({super.key, required this.editMode, this.athleteView});
+  final String? athleteId;
+  const MemberEditScreen({super.key, required this.editMode, this.athleteId});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -30,25 +30,35 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
   late final TextEditingController note;
   late final TextEditingController birthNumber;
   late AthleteStatusData? status;
+  late FullAthleteView? a;
+  late String id;
 
   @override
   void initState() {
     super.initState();
     if (widget.editMode) {
       {
-        final a = widget.athleteView!.athlete;
-        firstName = TextEditingController(text: a.firstName);
-        lastName = TextEditingController(text: a.lastName);
-        email = TextEditingController(text: a.email ?? '');
-        phone = TextEditingController(text: a.phone ?? '');
-        street = TextEditingController(text: a.street);
-        city = TextEditingController(text: a.city);
-        zip = TextEditingController(text: a.zip);
-        note = TextEditingController(text: a.note ?? '');
-        birthNumber = TextEditingController(text: a.birthNumber);
-        status = widget.athleteView!.athleteStatus;
+        final fullA = ref.read(fullAthletePProvider(widget.athleteId!));
+        a = fullA.when(
+          data: (data) => data,
+          error: (error, stackTrace) => null,
+          loading: () => null,
+        );
+        id = widget.athleteId!;
+        firstName = TextEditingController(text: a?.athlete.firstName ?? '');
+        lastName = TextEditingController(text: a?.athlete.lastName ?? '');
+        email = TextEditingController(text: a?.athlete.email ?? '');
+        phone = TextEditingController(text: a?.athlete.phone ?? '');
+        street = TextEditingController(text: a?.athlete.street ?? '');
+        city = TextEditingController(text: a?.athlete.city ?? '');
+        zip = TextEditingController(text: a?.athlete.zip ?? '');
+        note = TextEditingController(text: a?.athlete.note ?? '');
+        birthNumber = TextEditingController(text: a?.athlete.birthNumber);
+        status = a?.athleteStatus;
       }
     } else {
+      a = null;
+      id = const Uuid().v1();
       birthNumber = TextEditingController();
       firstName = TextEditingController();
       lastName = TextEditingController();
@@ -88,10 +98,8 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
       );
       return;
     }
-    final athleteId =
-        widget.editMode ? widget.athleteView!.athlete.id : const Uuid().v1();
-    ref.read(fullAthletePProvider(athleteId).notifier).updateAthlete(
-          athleteId: athleteId,
+    ref.read(fullAthletePProvider(id).notifier).updateAthlete(
+          athleteId: id,
           firstName: firstName.text,
           lastName: lastName.text,
           email: email.text,
@@ -102,11 +110,9 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
           birthNumber: birthNumberStr,
           note: note.text,
           statusId: status!.id,
-          ean: widget.editMode ? widget.athleteView!.athlete.ean : null,
-          clubId: widget.editMode ? widget.athleteView!.athlete.clubId : null,
-          createdAt: widget.editMode
-              ? widget.athleteView!.athlete.createdAt
-              : DateTime.now(),
+          ean: widget.editMode ? a?.athlete.ean : null,
+          clubId: widget.editMode ? a?.athlete.clubId : null,
+          createdAt: widget.editMode ? a?.athlete.createdAt : DateTime.now(),
           delete: delete,
         );
     Navigator.of(context).pop();
@@ -136,8 +142,6 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
           // delete button
           IconButton(
             onPressed: () {
-              // TODO implement delete member
-              // show dialog to confirm delete
               showDialog(
                 context: context,
                 builder: (context) {

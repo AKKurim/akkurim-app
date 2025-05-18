@@ -392,4 +392,10 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get newUpdateAvailable => 'Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze.';
+
+  @override
+  String get bugReport => 'Nahlásit chybu nebo návrh na vylepšení';
+
+  @override
+  String get open => 'Otevřít';
 }

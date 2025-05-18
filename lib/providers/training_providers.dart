@@ -130,7 +130,7 @@ class TrainingsP extends _$TrainingsP {
               groupId: Value(groupId),
               datetime: Value(date),
               description:
-                  Value(''), // TODO: Add description in the edit screen
+                  Value(''), // description is set when taking attendance
               durationMinutes: Value(trainingDuration),
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),

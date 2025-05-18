@@ -49,7 +49,8 @@ class Utils {
     final day = int.parse(birthNumber.substring(4, 6));
 
     // Adjust the year based on the month
-    final adjustedYear = year < 30 ? year + 2000 : year + 1900;
+    final adjustedYear =
+        year < DateTime.now().year % 100 ? year + 2000 : year + 1900;
     final adjustedMonth = month > 12 ? month - 50 : month;
 
     return DateTime(adjustedYear, adjustedMonth, day);

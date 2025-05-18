@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/full_athlete_provider.dart';
 import '../../providers/filter_providers.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../../utils/utils.dart';
 import '../../widgets/copyable_row.dart';
-import 'member_edit_screen.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';
 import '../../models/auth/role_enum.dart';
@@ -37,18 +37,8 @@ class MemberProfile extends ConsumerWidget {
                   );
                   return;
                 }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MemberEditScreen(
-                      editMode: true,
-                      athleteView: fullAthlete.maybeWhen(
-                          orElse: () => null,
-                          data: (athlete) {
-                            return athlete;
-                          }),
-                    ),
-                  ),
+                context.push(
+                  '/member/$athleteId/edit',
                 );
               },
               icon: const Icon(Icons.edit)),
@@ -58,8 +48,6 @@ class MemberProfile extends ConsumerWidget {
         data: (athlete) {
           return allStatuses.when(
               data: (statuses) {
-                DateTime birthDate =
-                    Utils.parseBirthNumber(athlete.athlete.birthNumber);
                 return SingleChildScrollView(
                   child: Padding(
                     padding:
@@ -69,7 +57,6 @@ class MemberProfile extends ConsumerWidget {
                         // CircleAvatar(
                         //   radius: 50,
                         //   // TODO implement image loading
-
                         //   child: Text(
                         //     '${athlete.athlete.lastName[0]}${athlete.athlete.firstName[0]}',
                         //     style: const TextStyle(fontSize: 40),
@@ -77,7 +64,7 @@ class MemberProfile extends ConsumerWidget {
                         //   //backgroundImage: NetworkImage(athlete.athlete.imageUrl),
                         // ),
                         Text(
-                          '${birthDate.day}. ${birthDate.month}. ${birthDate.year}',
+                          '${athlete.birthDate.day}. ${athlete.birthDate.month}. ${athlete.birthDate.year}',
                           style: const TextStyle(fontSize: 16),
                         ),
                         Text(

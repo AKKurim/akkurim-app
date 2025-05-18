@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../screens/_main_screen_manager.dart';
 import '../services/auth/auth_service.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../widgets/settings/locale_dropdown.dart';
@@ -17,19 +16,7 @@ class LoginScreen extends HookConsumerWidget {
     var showPaassword = useState(false);
 
     ref.listen(authServiceProvider, (previous, next) {
-      if (next.state == ProgressEnum.initial) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
-      } else if (next.state == ProgressEnum.authenticated) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const MainScreenManager(),
-          ),
-        );
-      } else if (next.state == ProgressEnum.error) {
+      if (next.state == ProgressEnum.error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content:

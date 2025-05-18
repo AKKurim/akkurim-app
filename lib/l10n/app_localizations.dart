@@ -826,6 +826,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New update available, please click to go to download page.'**
   String get newUpdateAvailable;
+
+  /// The label for the bug report button
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug or request a feature'**
+  String get bugReport;
+
+  /// The label for the open button
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

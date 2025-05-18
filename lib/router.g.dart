@@ -1,25 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'guardian_provider.dart';
+part of 'router.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$guardiansPHash() => r'7021037a80a347a95f0b0a06184071a58c10e9a7';
+String _$routerHash() => r'9d9dbbda80acc34d73f3ef102d5fb25301ca985e';
 
-/// See also [GuardiansP].
-@ProviderFor(GuardiansP)
-final guardiansPProvider =
-    AutoDisposeStreamNotifierProvider<GuardiansP, List<GuardianData>>.internal(
-  GuardiansP.new,
-  name: r'guardiansPProvider',
+/// See also [router].
+@ProviderFor(router)
+final routerProvider = AutoDisposeProvider<GoRouter>.internal(
+  router,
+  name: r'routerProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$guardiansPHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$GuardiansP = AutoDisposeStreamNotifier<List<GuardianData>>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef RouterRef = AutoDisposeProviderRef<GoRouter>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

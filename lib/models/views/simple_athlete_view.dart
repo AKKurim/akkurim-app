@@ -1,4 +1,5 @@
 import '../../services/database/drift_database.dart';
+import '../../utils/utils.dart';
 
 class SimpleAthleteView {
   final AthleteData athlete;
@@ -23,5 +24,9 @@ class SimpleAthleteView {
 
   String get fullName {
     return '${athlete.lastName} ${athlete.firstName}';
+  }
+
+  DateTime get birthDate {
+    return Utils.parseBirthNumber(athlete.birthNumber);
   }
 }

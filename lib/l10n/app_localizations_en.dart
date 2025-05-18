@@ -391,4 +391,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newUpdateAvailable => 'New update available, please click to go to download page.';
+
+  @override
+  String get bugReport => 'Report a bug or request a feature';
+
+  @override
+  String get open => 'Open';
 }

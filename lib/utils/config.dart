@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Config {
-  static const String baseUrl = 'https://${true ? 'dev' : ''}api.akkurim.cz';
+  bool get isDebug => kDebugMode;
+  static const String baseUrl =
+      'https://${kDebugMode ? 'dev' : ''}api.akkurim.cz';
   static const String apiVersion = '/v1';
 
   static const String appName = 'Athletics Club Manager';

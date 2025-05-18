@@ -1,4 +1,5 @@
 import '../../services/database/drift_database.dart';
+import '../../utils/utils.dart';
 
 class FullAthleteView {
   final AthleteData athlete;
@@ -17,10 +18,6 @@ class FullAthleteView {
     required this.signUpForms,
   });
 
-  String get fullName {
-    return '${athlete.lastName} ${athlete.firstName}';
-  }
-
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -30,4 +27,12 @@ class FullAthleteView {
 
   @override
   int get hashCode => athlete.id.hashCode;
+
+  String get fullName {
+    return '${athlete.lastName} ${athlete.firstName}';
+  }
+
+  DateTime get birthDate {
+    return Utils.parseBirthNumber(athlete.birthNumber);
+  }
 }

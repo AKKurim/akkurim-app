@@ -1,8 +1,8 @@
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../providers/filter_providers.dart';
 import '../providers/trainer_provider.dart';
-import '../screens/member/member_profile.dart';
 import '../utils/utils.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../services/auth/auth_service.dart';
@@ -56,14 +56,7 @@ class AthleteListView extends HookConsumerWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: ListTile(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MemberProfile(
-                      athleteId: athlete.athlete.id,
-                    ),
-                  ),
-                ),
+                onTap: () => context.push('/member/${athlete.athlete.id}'),
                 title: Text(
                   '${athlete.fullName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()}) ${athlete.athlete.clubId == auth.tenant?.substring(2) ? "" : "⚠️"}',
                   style: const TextStyle(
