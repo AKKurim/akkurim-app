@@ -16,6 +16,7 @@ import '../models/auth/role_enum.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/config.dart';
 import '../providers/tab_index_provider.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class ScaffoldWithNavBar extends ConsumerWidget {
   const ScaffoldWithNavBar({required this.navigationShell, super.key});
@@ -23,6 +24,9 @@ class ScaffoldWithNavBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // request notification permission
+    OneSignal.Notifications.requestPermission(false);
+
     final simpleAthlete = ref.watch(simpleAthletesPProvider);
     final trainer = ref.watch(currentTrainerProvider);
     final trainerData = trainer.maybeWhen(
