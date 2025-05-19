@@ -19,6 +19,170 @@ import 'package:uuid/uuid.dart';
 part 'meet_providers.g.dart';
 
 @riverpod
+class FullMeetProviderP extends _$FullMeetProviderP {
+  @override
+  Stream<FullMeetView> build({required String meetId}) async* {
+    final db = ref.read(dbProvider);
+    final List<SimpleAthleteView> athletes =
+        await ref.watch(simpleAthletesPProvider.future);
+
+    final query = (db.select(db.meet)
+          ..where((tbl) => tbl.deletedAt.isNull() & tbl.id.equals(meetId))
+          ..orderBy(
+            [
+              (tbl) => OrderingTerm(
+                    expression: tbl.startAt,
+                    mode: OrderingMode.asc,
+                  ),
+            ],
+          ))
+        .join(
+      [
+        leftOuterJoin(db.meetEvent, db.meetEvent.meetId.equalsExp(db.meet.id)),
+        leftOuterJoin(db.discipline,
+            db.discipline.id.equalsExp(db.meetEvent.disciplineId)),
+        leftOuterJoin(
+            db.category, db.category.id.equalsExp(db.meetEvent.categoryId)),
+        leftOuterJoin(db.athleteMeetEvent,
+            db.athleteMeetEvent.meetEventId.equalsExp(db.meetEvent.id)),
+      ],
+    );
+
+    yield* query.watch().map((rows) {
+      final meet = rows.first.readTable(db.meet);
+      var events = rows.map((row) {
+        final meetEv = row.readTableOrNull(db.meetEvent);
+        return meetEv != null
+            ? MeetEventView(
+                meetEvent: meetEv,
+                discipline: row.readTable(db.discipline),
+                category: row.readTable(db.category),
+                athletesWithResults: {})
+            : null;
+      }).toList();
+
+      List<MeetEventView> events_ = [];
+      for (final event in events) {
+        if (event == null) {
+          continue;
+        }
+        if (events_.isEmpty) {
+          events_.add(event);
+        } else {
+          final lastEvent = events_.last;
+          if (lastEvent == event) {
+            continue;
+          } else {
+            events_.add(event);
+          }
+        }
+      }
+      events = events_;
+
+      final athleteMeetEvents = rows
+          .map((row) {
+            var athleteMeetEvent = row.readTableOrNull(db.athleteMeetEvent);
+            if (athleteMeetEvent == null ||
+                athleteMeetEvent.deletedAt != null) {
+              return null;
+            }
+            return athleteMeetEvent;
+          })
+          .nonNulls
+          .toList();
+
+      final athletesInMeet = athletes
+          .where((athlete) => athleteMeetEvents.any((event) =>
+              event.athleteId == athlete.athlete.id &&
+              events.any(
+                  (meetEvent) => meetEvent?.meetEvent.id == event.meetEventId)))
+          .toList();
+
+      for (final event in events) {
+        final athleteEvents = athleteMeetEvents
+            .where((athleteEvent) =>
+                athleteEvent.meetEventId == event?.meetEvent.id)
+            .toList();
+
+        for (final athlete in athletesInMeet) {
+          final athleteEvent = athleteEvents.firstWhereOrNull(
+              (athleteEvent) => athleteEvent.athleteId == athlete.athlete.id);
+
+          if (athleteEvent != null) {
+            event?.athletesWithResults[athlete] = athleteEvent.result ?? '';
+          }
+        }
+      }
+
+      return FullMeetView(
+        meet: meet,
+        events: events.whereType<MeetEventView>().toList(),
+      );
+    });
+  }
+
+  Future<void> deleteMeetEvent(MeetEventData meet) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
+    var meetEventToDelete = Utils.convertMapKeysToSnakeCase(meet.toJson());
+    meetEventToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
+    meetEventToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
+    meetEventToDelete['created_at'] = meet.createdAt!.toUtc().toIso8601String();
+
+    await db.into(db.meetEvent).insertOnConflictUpdate(
+          buildMeetEventCompanion(meetEventToDelete),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/meet_event',
+      'post',
+      json.encode({
+        'data': [meetEventToDelete],
+        'primary_keys': ['id'],
+        'table': 'meet_event',
+      }),
+    );
+  }
+
+  Future<void> addMeetEvent({
+    required String meetId,
+    required int disciplineId,
+    required int categoryId,
+    required DateTime startAt,
+    String? phase,
+  }) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+
+    final meeetEvent = await db.into(db.meetEvent).insertReturning(
+        mode: InsertMode.insertOrReplace,
+        MeetEventCompanion(
+          id: Value(Uuid().v1()),
+          meetId: Value(meetId),
+          meetType: meetId.contains('CAS') ? Value('RACE') : Value('TRAINING'),
+          disciplineId: Value(disciplineId),
+          categoryId: Value(categoryId),
+          startAt: Value(startAt),
+          phase: Value(phase),
+          createdAt: Value(DateTime.now().toUtc()),
+          updatedAt: Value(DateTime.now().toUtc()),
+          deletedAt: const Value(null),
+        ));
+
+    await sync.addToSyncQueue(
+      '/sync/meet_event',
+      'post',
+      json.encode({
+        'data': [Utils.convertMapKeysToSnakeCase(meeetEvent.toJson())],
+        'primary_keys': ['id'],
+        'table': 'meet_event',
+      }),
+    );
+  }
+}
+
+@riverpod
 class MeetProvidersP extends _$MeetProvidersP {
   @override
   Stream<List<FullMeetView>> build() async* {

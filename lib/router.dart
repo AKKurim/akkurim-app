@@ -1,4 +1,5 @@
 import 'package:ak_kurim_app/screens/member/member_profile.dart';
+import 'package:ak_kurim_app/screens/storage/add_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,6 +19,8 @@ import './screens/splash_screen.dart';
 import './screens/attendance_tresults/_attendance_screen_manager.dart';
 import './screens/_scaffold_with_navbar.dart';
 import 'screens/member/member_edit_screen.dart';
+import 'screens/settings_screen.dart';
+import 'screens/races/race_screen.dart';
 
 part 'router.g.dart';
 
@@ -135,6 +138,28 @@ GoRouter router(Ref ref) {
             ],
           )
         ],
+      ),
+      GoRoute(
+          path: '/settings',
+          name: 'settings',
+          builder: (context, state) {
+            return const SettingsScreen();
+          }),
+      GoRoute(
+          path: '/race/:id',
+          name: 'race',
+          builder: (context, state) {
+            final String id = state.pathParameters['id'] ?? '';
+            return RaceScreen(
+              meetId: id,
+            );
+          }),
+      GoRoute(
+        path: '/item-create',
+        name: 'item-create',
+        builder: (context, state) {
+          return const AddItemScreen();
+        },
       ),
       GoRoute(
         path: '/member/:id',

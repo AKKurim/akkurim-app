@@ -5,14 +5,12 @@ import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../providers/simple_athletes_provider.dart';
 import '../providers/trainer_provider.dart';
 import 'package:ak_kurim_app/models/views/group_view.dart';
-import '../screens/settings_screen.dart';
 import '../widgets/sync_icon.dart';
 
 import 'attendance_tresults/add_group_screen.dart';
 import '../models/views/trainer_view.dart';
 import 'attendance_tresults/trainings_screen.dart';
 import 'attendance_tresults/training_results_screen.dart';
-import '../screens/storage/add_item_screen.dart';
 import '../services/auth/auth_service.dart';
 import '../models/auth/role_enum.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -79,12 +77,7 @@ class ScaffoldWithNavBar extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingsScreen(),
-                ),
-              );
+              context.push('/settings');
             },
           ),
         ],
@@ -168,12 +161,7 @@ FloatingActionButton? buildFab({
                     break;
                 }
               case 3:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AddItemScreen(),
-                  ),
-                );
+                context.push('/item-create');
               case 4:
                 final auth = ref.read(authServiceProvider);
                 if (auth.role != RoleEnum.admin) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/meet_providers.dart';
 import '../../models/views/full_meet_view.dart';
@@ -103,12 +104,8 @@ class MeetTile extends StatelessWidget {
               ],
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RaceScreen(meet: meet),
-                ),
-              );
+              context.push(
+                  '/race/${meet.meet.id}'); // Pass the meet object to the next screen
             },
             tileColor: isPast
                 ? Colors.green[800]
