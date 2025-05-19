@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/meet_providers.dart';
 import '../../models/views/full_meet_view.dart';
-import 'race_screen.dart';
 import '../../utils/utils.dart';
 import '../../widgets/month_year_selecter.dart';
 

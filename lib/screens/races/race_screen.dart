@@ -70,7 +70,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                             vertical: 4.0, horizontal: 8.0),
                         child: ListTile(
                           title: Text(
-                              '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} ${event.discipline?.description} ${event.category?.description}',
+                              '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && event.meetEvent.phase!.toLowerCase().contains('finále') ? '${event.meetEvent.phase} ' : ''}- ${event.category?.description}',
                               style: athletes.isNotEmpty
                                   ? TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 18)
@@ -120,7 +120,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                               ? Text(
                                   athlete.events
                                       .map((event) =>
-                                          '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} ${event.discipline?.description} ${event.category?.shortDescription}')
+                                          '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} - ${event.category?.shortDescription}')
                                       .join('\n'),
                                   style: TextStyle(
                                       fontSize: 16,
