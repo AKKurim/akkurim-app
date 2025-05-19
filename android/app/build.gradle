@@ -17,7 +17,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "com.akkurim.app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion  //"27.0.12077973"
+    ndkVersion = "27.0.12077973" //flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_23
