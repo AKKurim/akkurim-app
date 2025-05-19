@@ -146,12 +146,15 @@ GoRouter router(Ref ref) {
             return const SettingsScreen();
           }),
       GoRoute(
-          path: '/race/:id',
+          path: '/race/:id/:tabIndex',
           name: 'race',
           builder: (context, state) {
             final String id = state.pathParameters['id'] ?? '';
+            final int tabIndex =
+                int.tryParse(state.pathParameters['tabIndex'] ?? '0') ?? 0;
             return RaceScreen(
               meetId: id,
+              initialIndex: tabIndex,
             );
           }),
       GoRoute(

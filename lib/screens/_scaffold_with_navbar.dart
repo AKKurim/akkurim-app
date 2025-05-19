@@ -25,7 +25,19 @@ class ScaffoldWithNavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // request notification permission
-    OneSignal.Notifications.requestPermission(false);
+    OneSignal.Notifications.requestPermission(false).then((value) {
+      if (OneSignal.Notifications.permission) {
+        OneSignal.Notifications.addClickListener((event) {
+          final url = event.notification.launchUrl;
+          if (url != null) {
+            final uri = Uri.parse(url);
+            final String path = '/${uri.toString().split('//')[1]}';
+            GoRouter.of(context).go('/home');
+            GoRouter.of(context).push(path);
+          }
+        });
+      }
+    });
 
     final simpleAthlete = ref.watch(simpleAthletesPProvider);
     final trainer = ref.watch(currentTrainerProvider);

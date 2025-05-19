@@ -103,8 +103,9 @@ class MeetTile extends StatelessWidget {
               ],
             ),
             onTap: () {
+              final int tabIndex = isPast ? 2 : 0;
               context.push(
-                  '/race/${meet.meet.id}'); // Pass the meet object to the next screen
+                  '/race/${meet.meet.id}/$tabIndex'); // Pass the meet object to the next screen
             },
             tileColor: isPast
                 ? Colors.green[800]

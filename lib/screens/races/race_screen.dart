@@ -8,7 +8,8 @@ import '../../providers/meet_providers.dart';
 
 class RaceScreen extends ConsumerStatefulWidget {
   final String meetId;
-  const RaceScreen({super.key, required this.meetId});
+  final int initialIndex;
+  const RaceScreen({super.key, required this.meetId, this.initialIndex = 0});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _RaceScreenState();
@@ -22,6 +23,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
+    tabController.index = widget.initialIndex;
   }
 
   @override
