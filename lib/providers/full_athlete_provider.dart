@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import '../utils/utils.dart';
 import '../services/auth/auth_service.dart';
+import '../models/views/result_view.dart';
 
 part 'full_athlete_provider.g.dart';
 
@@ -29,6 +30,11 @@ class FullAthleteP extends _$FullAthleteP {
           db.guardian, db.guardian.id.equalsExp(db.athleteGuardian.guardianId)),
       leftOuterJoin(db.athleteMeetEvent,
           db.athleteMeetEvent.athleteId.equalsExp(db.athlete.id)),
+      leftOuterJoin(db.meetEvent,
+          db.meetEvent.id.equalsExp(db.athleteMeetEvent.meetEventId)),
+      leftOuterJoin(
+          db.discipline, db.discipline.id.equalsExp(db.meetEvent.disciplineId)),
+      leftOuterJoin(db.meet, db.meet.id.equalsExp(db.meetEvent.meetId)),
       leftOuterJoin(db.athleteSignUpForm,
           db.athleteSignUpForm.athleteId.equalsExp(db.athlete.id)),
       leftOuterJoin(db.signUpForm,
@@ -45,7 +51,7 @@ class FullAthleteP extends _$FullAthleteP {
           .toList()
           .toSet()
           .toList();
-      final results = rows
+      final athleteMeetEvents = rows
           .map((row) => row.readTableOrNull(db.athleteMeetEvent))
           .whereType<AthleteMeetEventData>()
           .toList();
@@ -53,6 +59,32 @@ class FullAthleteP extends _$FullAthleteP {
           .map((row) => row.readTableOrNull(db.athleteSignUpForm))
           .whereType<AthleteSignUpFormData>()
           .toList();
+      List<ResultView> results = [];
+      for (var athleteMeetEvent in athleteMeetEvents) {
+        final discipline = rows
+            .firstWhere(
+              (row) =>
+                  row.readTable(db.meetEvent).id ==
+                  athleteMeetEvent.meetEventId,
+              orElse: () => throw Exception('Discipline not found'),
+            )
+            .readTable(db.discipline);
+        final meet = rows
+            .firstWhere(
+              (row) =>
+                  row.readTable(db.meetEvent).id ==
+                  athleteMeetEvent.meetEventId,
+              orElse: () => throw Exception('Meet not found'),
+            )
+            .readTable(db.meet);
+        if (meet.startAt.isAfter(DateTime.now())) continue;
+        results.add(ResultView(
+          athleteMeetEvent: athleteMeetEvent,
+          discipline: discipline,
+          meet: meet,
+        ));
+      }
+
       return FullAthleteView(
         athlete: athlete,
         athleteStatus: athleteStatus,

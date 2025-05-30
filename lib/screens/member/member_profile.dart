@@ -9,6 +9,8 @@ import '../../widgets/copyable_row.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';
 import '../../models/auth/role_enum.dart';
+import '../../services/database/drift_database.dart';
+import '../../models/views/result_view.dart';
 
 class MemberProfile extends ConsumerWidget {
   final String athleteId;
@@ -20,36 +22,37 @@ class MemberProfile extends ConsumerWidget {
     final allStatuses = ref.watch(athleteStatusesProvider);
     final AuthState? authState = ref.watch(authServiceProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(fullAthlete.maybeWhen(
-            data: (athlete) => athlete.fullName, orElse: () => '')),
-        actions: [
-          IconButton(
-              onPressed: () {
-                if (authState!.role != RoleEnum.admin) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text(AppLocalizations.of(context)!.notAllowed),
-                      duration: const Duration(seconds: 2),
-                    ),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(fullAthlete.maybeWhen(
+              data: (athlete) => athlete.fullName, orElse: () => '')),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  if (authState!.role != RoleEnum.admin) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(AppLocalizations.of(context)!.notAllowed),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                    return;
+                  }
+                  context.push(
+                    '/member/$athleteId/edit',
                   );
-                  return;
-                }
-                context.push(
-                  '/member/$athleteId/edit',
-                );
-              },
-              icon: const Icon(Icons.edit)),
-        ],
-      ),
-      body: fullAthlete.when(
-        data: (athlete) {
-          return allStatuses.when(
-              data: (statuses) {
-                return SingleChildScrollView(
-                  child: Padding(
+                },
+                icon: const Icon(Icons.edit)),
+          ],
+        ),
+        body: fullAthlete.when(
+          data: (athlete) {
+            return allStatuses.when(
+                data: (statuses) {
+                  return Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                     child: Column(
@@ -127,81 +130,128 @@ class MemberProfile extends ConsumerWidget {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Text(AppLocalizations.of(context)!.contacts,
-                                style: TextStyle(fontSize: 22)),
-                          ],
-                        ),
-                        CopyableRow(
-                          leftPadding: 8,
-                          title: AppLocalizations.of(context)!.email,
-                          value: athlete.athlete.email ?? '',
-                          snackBarText:
-                              AppLocalizations.of(context)!.emailCopied,
-                          snackBarColor: Colors.green,
-                        ),
-                        CopyableRow(
-                          leftPadding: 8,
-                          title: AppLocalizations.of(context)!.phone,
-                          value: athlete.athlete.phone ?? '',
-                          snackBarText:
-                              AppLocalizations.of(context)!.phoneCopied,
-                          snackBarColor: Colors.green,
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Text(AppLocalizations.of(context)!.guardianContacts,
-                                style: TextStyle(fontSize: 22)),
-                            const Spacer(),
-                            IconButton(
-                              onPressed: () {
-                                // TODO implement
-                              },
-                              icon: const Icon(Icons.add_circle),
-                              color: Colors.green,
+                        TabBar(tabs: [
+                          Tab(
+                            text: AppLocalizations.of(context)!.contacts,
+                          ),
+                          Tab(
+                            text: 'TODO Prihlasky',
+                          ),
+                          Tab(
+                              text:
+                                  'TODO PB' //AppLocalizations.of(context)!.results,
+                              ),
+                        ]),
+                        Expanded(
+                          child: TabBarView(children: [
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  CopyableRow(
+                                    leftPadding: 8,
+                                    title: AppLocalizations.of(context)!.email,
+                                    value: athlete.athlete.email ?? '',
+                                    snackBarText: AppLocalizations.of(context)!
+                                        .emailCopied,
+                                    snackBarColor: Colors.green,
+                                  ),
+                                  CopyableRow(
+                                    leftPadding: 8,
+                                    title: AppLocalizations.of(context)!.phone,
+                                    value: athlete.athlete.phone ?? '',
+                                    snackBarText: AppLocalizations.of(context)!
+                                        .phoneCopied,
+                                    snackBarColor: Colors.green,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      Text(
+                                          AppLocalizations.of(context)!
+                                              .guardianContacts,
+                                          style: TextStyle(fontSize: 22)),
+                                      const Spacer(),
+                                      IconButton(
+                                        onPressed: () {
+                                          // TODO implement
+                                        },
+                                        icon: const Icon(Icons.add_circle),
+                                        color: Colors.green,
+                                      ),
+                                    ],
+                                  ),
+                                  for (final guardian in athlete.guardians) ...[
+                                    Row(
+                                      children: [
+                                        const SizedBox(width: 8),
+                                        Text(
+                                            '${guardian.lastName} ${guardian.firstName}',
+                                            style: TextStyle(fontSize: 20)),
+                                      ],
+                                    ),
+                                    CopyableRow(
+                                      leftPadding: 16,
+                                      title:
+                                          AppLocalizations.of(context)!.email,
+                                      value: guardian.email,
+                                      snackBarText:
+                                          AppLocalizations.of(context)!
+                                              .emailCopied,
+                                      snackBarColor: Colors.green,
+                                    ),
+                                    CopyableRow(
+                                      leftPadding: 16,
+                                      title:
+                                          AppLocalizations.of(context)!.phone,
+                                      value: guardian.phone,
+                                      snackBarText:
+                                          AppLocalizations.of(context)!
+                                              .phoneCopied,
+                                      snackBarColor: Colors.green,
+                                    ),
+                                    const SizedBox(height: 16),
+                                  ]
+                                ],
+                              ),
                             ),
-                          ],
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [],
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  for (final ResultView result
+                                      in fullAthlete.value!.pbs().values) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Text(
+                                        '${result.discipline.description} - ${result.athleteMeetEvent.result} - (${result.meet.startAt.year})',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ]),
                         ),
-                        for (final guardian in athlete.guardians) ...[
-                          Row(
-                            children: [
-                              const SizedBox(width: 8),
-                              Text('${guardian.lastName} ${guardian.firstName}',
-                                  style: TextStyle(fontSize: 20)),
-                            ],
-                          ),
-                          CopyableRow(
-                            leftPadding: 16,
-                            title: AppLocalizations.of(context)!.email,
-                            value: guardian.email,
-                            snackBarText:
-                                AppLocalizations.of(context)!.emailCopied,
-                            snackBarColor: Colors.green,
-                          ),
-                          CopyableRow(
-                            leftPadding: 16,
-                            title: AppLocalizations.of(context)!.phone,
-                            value: guardian.phone,
-                            snackBarText:
-                                AppLocalizations.of(context)!.phoneCopied,
-                            snackBarColor: Colors.green,
-                          ),
-                          const SizedBox(height: 16),
-                        ]
                       ],
                     ),
-                  ),
-                );
-              },
-              error: (error, stack) => Text('Error: $error'),
-              loading: () {
-                return const Center(child: CircularProgressIndicator());
-              });
-        },
-        error: (error, stack) => Center(child: Text('Error: $error')),
-        loading: () => const Center(child: CircularProgressIndicator()),
+                  );
+                },
+                error: (error, stack) => Text('Error: $error'),
+                loading: () {
+                  return const Center(child: CircularProgressIndicator());
+                });
+          },
+          error: (error, stack) => Center(child: Text('Error: $error')),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        ),
       ),
     );
   }

@@ -294,11 +294,11 @@ class GroupsP extends _$GroupsP {
         );
 
     await sync.addToSyncQueue(
-      '/sync/group_athlete',
+      '/sync/group',
       'post',
       json.encode({
         'data': [groupToDelete],
-        'primary_keys': ['group_id', 'athlete_id'],
+        'primary_keys': ['id'],
         'table': 'group_athlete',
       }),
     );
