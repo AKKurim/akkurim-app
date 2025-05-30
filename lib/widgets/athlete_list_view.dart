@@ -30,20 +30,20 @@ class AthleteListView extends HookConsumerWidget {
           child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                child: ListTile(
-                  // title: ShimmerWidget.rectangular(height: 20),
-                  // subtitle: ShimmerWidget.rectangular(height: 16),
-                  // trailing: ShimmerWidget.rectangular(height: 16, width: 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(
-                      color: Theme.of(context).dividerColor,
-                      width: 1,
-                    ),
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  side: BorderSide(
+                    color: Theme.of(context).dividerColor,
+                    width: 1,
                   ),
                 ),
+                child: ListTile(
+                    // title: ShimmerWidget.rectangular(height: 20),
+                    // subtitle: ShimmerWidget.rectangular(height: 16),
+                    // trailing: ShimmerWidget.rectangular(height: 16, width: 50),
+                    ),
               );
             },
           ),
@@ -53,8 +53,15 @@ class AthleteListView extends HookConsumerWidget {
           itemCount: data.length,
           itemBuilder: (context, index) {
             final athlete = data[index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            return Card(
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                  width: 1,
+                ),
+              ),
               child: ListTile(
                 onTap: () => context.push('/member/${athlete.athlete.id}'),
                 title: Text(
@@ -79,13 +86,6 @@ class AthleteListView extends HookConsumerWidget {
                   ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(
-                    color: Theme.of(context).dividerColor,
-                    width: 1,
-                  ),
                 ),
               ),
             );

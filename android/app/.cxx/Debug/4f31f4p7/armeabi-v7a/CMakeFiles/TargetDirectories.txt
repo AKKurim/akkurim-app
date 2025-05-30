@@ -1,0 +1,2 @@
+C:/Users/matej/Desktop/code/akkurim-app/android/app/.cxx/Debug/4f31f4p7/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/matej/Desktop/code/akkurim-app/android/app/.cxx/Debug/4f31f4p7/armeabi-v7a/CMakeFiles/rebuild_cache.dir
