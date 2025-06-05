@@ -135,12 +135,11 @@ class MemberProfile extends ConsumerWidget {
                             text: AppLocalizations.of(context)!.contacts,
                           ),
                           Tab(
-                            text: 'TODO Prihlasky',
+                            text: AppLocalizations.of(context)!.signUpForms,
                           ),
                           Tab(
-                              text:
-                                  'TODO PB' //AppLocalizations.of(context)!.results,
-                              ),
+                            text: 'PB',
+                          ),
                         ]),
                         Expanded(
                           child: TabBarView(children: [
@@ -216,7 +215,7 @@ class MemberProfile extends ConsumerWidget {
                             ),
                             SingleChildScrollView(
                               child: Column(
-                                children: [],
+                                children: [const Placeholder()],
                               ),
                             ),
                             SingleChildScrollView(
@@ -226,7 +225,8 @@ class MemberProfile extends ConsumerWidget {
                                   for (final ResultView result
                                       in fullAthlete.value!.pbs().values) ...[
                                     Padding(
-                                      padding: const EdgeInsets.all(4.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4, horizontal: 8),
                                       child: Text(
                                         '${result.discipline.description} - ${result.athleteMeetEvent.result} - (${result.meet.startAt.year})',
                                         style: const TextStyle(

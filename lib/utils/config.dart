@@ -14,6 +14,13 @@ class Config {
       Uri.parse('https://github.com/AKKurim/akkurim-app/releases');
   static final Uri bugReportUrl =
       Uri.parse('https://github.com/AKKurim/akkurim-app/issues/new/choose');
+  static Uri propositionUrl(String id) {
+    return Uri.parse('https://online.atletika.cz/Propozice/propozice/$id');
+  }
+
+  static Uri resultsUrl(String id) {
+    return Uri.parse('https://online.atletika.cz/vysledky/$id');
+  }
 
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,

@@ -386,7 +386,7 @@
     "@deleteMemberConfirmation" : {
         "description": "The confirmation message for deleting a member"
     },
-    "contacts" : "Contacts:",
+    "contacts" : "Contacts",
     "@contacts" : {
         "description": "The title for Contacts"
     },
@@ -531,5 +531,17 @@
     "open" : "Open",
     "@open" : {
         "description": "The label for the open button"
+    },
+    "signUpForms" : "Sign Up Forms",
+    "@signUpForms" : {
+        "description": "The label for the sign up forms section"
+    },
+    "programme" : "Programme",
+    "@programme" : {
+        "description": "The label for the programme section"
+    },
+    "results" : "Results",
+    "@results" : {
+        "description": "The label for the results section"
     }
 }

@@ -92,7 +92,7 @@
     "memberSaved" : "Člen byl úspěšně uložen.",
     "memberDeleted" : "Člen byl úspěšně smazán.",
     "deleteMemberConfirmation" : "Opravdu chcete smazat tohoto člena?",
-    "contacts" : "Kontakty:",
+    "contacts" : "Kontakty",
     "emailCopied" : "E-mail zkopírován do schránky.",
     "phoneCopied" : "Telefon zkopírován do schránky.",
     "guardianContacts" : "Kontakty zástupců:",
@@ -123,5 +123,8 @@
     "downloadPage" : "Přejít na stránku pro stažení",
     "newUpdateAvailable" : "Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze.",
     "bugReport" : "Nahlásit chybu nebo návrh na vylepšení",
-    "open" : "Otevřít"
+    "open" : "Otevřít",
+    "signUpForms" : "Přihlášky",
+    "programme": "Propozice",
+    "results": "Výsledky"
 }

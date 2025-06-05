@@ -66,24 +66,26 @@ class MeetTile extends StatelessWidget {
         TimeHelper.isSameDay(meet.meet.startAt, DateTime.now());
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
       child: Column(
         children: [
           !isPast
-              ? Row(
-                  children: [
-                    const SizedBox(width: 8),
-                    const Icon(Icons.calendar_today),
-                    const Icon(Icons.access_time),
-                    const SizedBox(width: 8),
-                    Text(
-                        '${TimeHelper.getWeekDayName(meet.meet.startAt, context)} ${TimeHelper.getDayMonthYear(meet.meet.startAt)} (${TimeHelper.getMinHourFromDateTime(meet.meet.startAt)} - ${TimeHelper.getMinHourFromDateTime(meet.meet.endAt)})',
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  ],
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 8),
+                      const Icon(Icons.calendar_today),
+                      const Icon(Icons.access_time),
+                      const SizedBox(width: 8),
+                      Text(
+                          '${TimeHelper.getWeekDayName(meet.meet.startAt, context)} ${TimeHelper.getDayMonthYear(meet.meet.startAt)} (${TimeHelper.getMinHourFromDateTime(meet.meet.startAt)} - ${TimeHelper.getMinHourFromDateTime(meet.meet.endAt)})',
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                 )
               : const SizedBox.shrink(),
-          !isPast ? const SizedBox(height: 4) : const SizedBox.shrink(),
           ListTile(
             title: Text(meet.meet.name,
                 style: const TextStyle(fontWeight: FontWeight.bold)),
