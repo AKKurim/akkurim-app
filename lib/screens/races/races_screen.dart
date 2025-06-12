@@ -69,57 +69,71 @@ class MeetTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
       child: Column(
         children: [
-          !isPast
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 8),
-                      const Icon(Icons.calendar_today),
-                      const Icon(Icons.access_time),
-                      const SizedBox(width: 8),
-                      Text(
-                          '${TimeHelper.getWeekDayName(meet.meet.startAt, context)} ${TimeHelper.getDayMonthYear(meet.meet.startAt)} (${TimeHelper.getMinHourFromDateTime(meet.meet.startAt)} - ${TimeHelper.getMinHourFromDateTime(meet.meet.endAt)})',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                )
-              : const SizedBox.shrink(),
-          ListTile(
-            title: Text(meet.meet.name,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(
-              '${meet.meet.location?.split(' ')[0]}',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(meet.athletesCount.toString(),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    )),
-                Icon(Icons.people),
-              ],
-            ),
-            onTap: () {
-              final int tabIndex = isPast ? 2 : 0;
-              context.push(
-                  '/race/${meet.meet.id}/$tabIndex'); // Pass the meet object to the next screen
-            },
-            tileColor: isPast
-                ? Colors.green[800]
-                : isToday
-                    ? Colors.orange[800]
-                    : null,
+          if (!isPast)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+              child: Row(
+                children: [
+                  const SizedBox(width: 8),
+                  const Icon(Icons.calendar_today),
+                  const Icon(Icons.access_time),
+                  const SizedBox(width: 8),
+                  if (!meet.isMultiDay)
+                    Text(
+                      TimeHelper.getFullDateWithTime(meet.meet.startAt, context,
+                          endTime: meet.meet.endAt),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  if (meet.isMultiDay)
+                    Text(
+                      '${TimeHelper.getFullDateWithTime(meet.meet.startAt, context)} =>\n${TimeHelper.getFullDateWithTime(meet.meet.endAt, context)}',
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                ],
+              ),
+            )
+          else
+            const SizedBox.shrink(),
+          Card(
+            margin: const EdgeInsets.symmetric(horizontal: 0.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
               side: BorderSide(
                 color: Theme.of(context).colorScheme.primary,
                 width: 1,
               ),
+            ),
+            color: isPast
+                ? Colors.green[800]
+                : isToday
+                    ? Colors.orange[800]
+                    : null,
+            child: ListTile(
+              title: Text(meet.meet.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(
+                '${meet.meet.location?.split(' ')[0]}',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(meet.athletesCount.toString(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  Icon(Icons.people),
+                ],
+              ),
+              onTap: () {
+                final int tabIndex = isPast ? 2 : 0;
+                context.push(
+                    '/race/${meet.meet.id}/$tabIndex'); // Pass the meet object to the next screen
+              },
             ),
           ),
           const SizedBox(height: 4),

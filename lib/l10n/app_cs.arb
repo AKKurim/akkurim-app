@@ -126,5 +126,10 @@
     "open" : "Otevřít",
     "signUpForms" : "Přihlášky",
     "programme": "Propozice",
-    "results": "Výsledky"
+    "results": "Výsledky",
+    "noResults": "Výsledky nenalezeny",
+    "discipline": "Disciplína",
+    "result" : "Výkon",
+    "wind" : "Vítr",
+    "points" : "Body"
 }

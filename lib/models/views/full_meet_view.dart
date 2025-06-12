@@ -47,4 +47,8 @@ class FullMeetView {
         .toList();
     return athletes.length;
   }
+
+  bool get isMultiDay {
+    return meet.startAt.difference(meet.endAt).inDays < 0;
+  }
 }

@@ -193,8 +193,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get notAllowed => 'Nemáte oprávnění k této akci. (nejste admin)';
 
   @override
-  String get loginFailed =>
-      'Přihlášení se nezdařilo. Zkontrolujte své přihlašovací údaje a zkuste to znovu.';
+  String get loginFailed => 'Přihlášení se nezdařilo. Zkontrolujte své přihlašovací údaje a zkuste to znovu.';
 
   @override
   String get group => 'Skupina';
@@ -215,8 +214,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get leaveConfirmation => 'Opravdu chcete odejít?';
 
   @override
-  String get leaveWarning =>
-      'Pokud odejdete, přijdete o všechny neuložené změny.';
+  String get leaveWarning => 'Pokud odejdete, přijdete o všechny neuložené změny.';
 
   @override
   String get trainersInGroup => 'Trenéři ve skupině';
@@ -258,8 +256,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get deleteTrainingResults => 'Smazat výsledky tréninku';
 
   @override
-  String get deleteTrainingResultsConfirmation =>
-      'Opravdu chcete smazat výsledky tréninku?';
+  String get deleteTrainingResultsConfirmation => 'Opravdu chcete smazat výsledky tréninku?';
 
   @override
   String get createTrainingResult => 'Vytvořit výsledek tréninku';
@@ -280,8 +277,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get deleteTraining => 'Smazat trénink';
 
   @override
-  String get deleteTrainingConfirmation =>
-      'Opravdu chcete smazat tento trénink?';
+  String get deleteTrainingConfirmation => 'Opravdu chcete smazat tento trénink?';
 
   @override
   String get createTraining => 'Vytvořit trénink';
@@ -395,8 +391,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get downloadPage => 'Přejít na stránku pro stažení';
 
   @override
-  String get newUpdateAvailable =>
-      'Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze.';
+  String get newUpdateAvailable => 'Nová aktualizace je k dispozici. Klikněte pro stažení nejnovější verze.';
 
   @override
   String get bugReport => 'Nahlásit chybu nebo návrh na vylepšení';
@@ -412,4 +407,19 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get results => 'Výsledky';
+
+  @override
+  String get noResults => 'Výsledky nenalezeny';
+
+  @override
+  String get discipline => 'Disciplína';
+
+  @override
+  String get result => 'Výkon';
+
+  @override
+  String get wind => 'Vítr';
+
+  @override
+  String get points => 'Body';
 }

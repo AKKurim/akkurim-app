@@ -322,8 +322,15 @@ class TimeHelper {
     }
   }
 
-  static String getFullDateWIthTime(DateTime date, BuildContext context,
-      {bool withDay = true}) {
-    return '${withDay ? getWeekDayName(date, context) : ''} ${getDayMonthYear(date)} (${getMinHourFromDateTime(date)})';
+  static String getFullDateWithTime(DateTime date, BuildContext context,
+      {bool withDay = true, DateTime? endTime}) {
+    return '${withDay ? getWeekDayName(date, context) : ''} ${getDayMonthYear(date)} (${getMinHourFromDateTime(date)}${endTime != null ? ' - ${getMinHourFromDateTime(endTime)}' : ''})';
+  }
+
+  static String getFullDateWithoutTime(
+    DateTime date,
+    BuildContext context,
+  ) {
+    return '${getWeekDayName(date, context)} ${getDayMonthYear(date)}';
   }
 }

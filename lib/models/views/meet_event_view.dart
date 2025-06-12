@@ -23,6 +23,20 @@ class AthleteWithMeetEvents {
     required this.athlete,
     required this.events,
   });
+
+  bool isDoubleDiscipline(int disciplineId, {onlyCountResults = false}) {
+    int count = 0;
+    for (final event in events) {
+      if (event.meetEvent.disciplineId == disciplineId &&
+          (!onlyCountResults || event.result != null)) {
+        count++;
+        if (count > 1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
 
 class MeetEventView {

@@ -543,5 +543,25 @@
     "results" : "Results",
     "@results" : {
         "description": "The label for the results section"
+    },
+    "noResults" : "No results available",
+    "@noResults" : {
+        "description": "The message shown when there are no results available"
+    },
+    "discipline" : "Discipline",
+    "@discipline" : {
+        "description": "The label for the discipline"
+    },
+    "result" : "Result",
+    "@result" : {
+        "description": "The label for the result"
+    },
+    "wind" : "Wind",
+    "@wind" : {
+        "description": "The label for the wind condition"
+    },
+    "points" : "Pts",
+    "@points" : {
+        "description": "The label for points"
     }
 }

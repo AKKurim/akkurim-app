@@ -85,8 +85,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteMember => 'Delete Member';
 
   @override
-  String get confirmDeleteMember =>
-      'Are you sure you want to delete this member?';
+  String get confirmDeleteMember => 'Are you sure you want to delete this member?';
 
   @override
   String get memberSearchHint => 'Search for a member';
@@ -190,12 +189,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trainingTab3 => 'T Results';
 
   @override
-  String get notAllowed =>
-      'You are not allowed to do this action (not an admin)';
+  String get notAllowed => 'You are not allowed to do this action (not an admin)';
 
   @override
-  String get loginFailed =>
-      'Login failed. Please check your credentials and network.';
+  String get loginFailed => 'Login failed. Please check your credentials and network.';
 
   @override
   String get group => 'Group';
@@ -234,8 +231,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteGroup => 'Delete Group';
 
   @override
-  String get deleteGroupConfirmation =>
-      'Are you sure you want to delete this group?';
+  String get deleteGroupConfirmation => 'Are you sure you want to delete this group?';
 
   @override
   String get cancel => 'Cancel';
@@ -259,8 +255,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteTrainingResults => 'Delete Training Results';
 
   @override
-  String get deleteTrainingResultsConfirmation =>
-      'Are you sure you want to delete the training results?';
+  String get deleteTrainingResultsConfirmation => 'Are you sure you want to delete the training results?';
 
   @override
   String get createTrainingResult => 'Create Training Result';
@@ -281,8 +276,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteTraining => 'Delete Training';
 
   @override
-  String get deleteTrainingConfirmation =>
-      'Are you sure you want to delete this training?';
+  String get deleteTrainingConfirmation => 'Are you sure you want to delete this training?';
 
   @override
   String get createTraining => 'Create Training';
@@ -300,8 +294,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get memberDeleted => 'Member deleted successfully.';
 
   @override
-  String get deleteMemberConfirmation =>
-      'Are you sure you want to delete this member?';
+  String get deleteMemberConfirmation => 'Are you sure you want to delete this member?';
 
   @override
   String get contacts => 'Contacts';
@@ -397,8 +390,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get downloadPage => 'Go to download page';
 
   @override
-  String get newUpdateAvailable =>
-      'New update available, please click to go to download page.';
+  String get newUpdateAvailable => 'New update available, please click to go to download page.';
 
   @override
   String get bugReport => 'Report a bug or request a feature';
@@ -414,4 +406,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get results => 'Results';
+
+  @override
+  String get noResults => 'No results available';
+
+  @override
+  String get discipline => 'Discipline';
+
+  @override
+  String get result => 'Result';
+
+  @override
+  String get wind => 'Wind';
+
+  @override
+  String get points => 'Pts';
 }

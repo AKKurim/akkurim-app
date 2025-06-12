@@ -63,7 +63,7 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                       ListTile(
                         title: Text(widget.training.group.group.name),
                         trailing: Text(
-                          TimeHelper.getFullDateWIthTime(
+                          TimeHelper.getFullDateWithTime(
                               widget.training.training.datetime, context,
                               withDay: false),
                           style: const TextStyle(

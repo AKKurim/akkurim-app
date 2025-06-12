@@ -9,7 +9,6 @@ import '../../widgets/copyable_row.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';
 import '../../models/auth/role_enum.dart';
-import '../../services/database/drift_database.dart';
 import '../../models/views/result_view.dart';
 
 class MemberProfile extends ConsumerWidget {
