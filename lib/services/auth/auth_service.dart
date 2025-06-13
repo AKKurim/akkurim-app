@@ -15,20 +15,27 @@ part 'auth_service.g.dart';
 @riverpod
 class AuthService extends _$AuthService {
   String _getTenantFromToken({required Map<String, dynamic> tokenPayload}) {
-    assert(tokenPayload['st-role']['v']!.length == 1);
-    return tokenPayload['st-role']['v'][0]!.split('_')[0];
+    for (String userRole in tokenPayload['st-role']['v']) {
+      if (userRole.startsWith("tenant-")) {
+        return userRole.split('-')[1];
+      }
+    }
+    throw Exception("No tenant found in token payload");
   }
 
-  RoleEnum _getRoleFromToken({required Map tokenPayload}) {
-    assert(tokenPayload['st-role']['v']!.length == 1);
-    final roleStr = tokenPayload['st-role']['v'][0]!.split('_')[1];
-    return RoleEnum.values
-        .firstWhere((e) => e.toString().split('.')[1] == roleStr);
+  List<RoleEnum> _getRolesFromToken({required Map tokenPayload}) {
+    List<RoleEnum> roles = [];
+    for (String userRole in tokenPayload['st-role']['v']) {
+      if (userRole.startsWith("role-")) {
+        roles.add(roleFromString(userRole.split('-')[1]));
+      }
+    }
+    return roles;
   }
 
   @override
   AuthState build() {
-    state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
+    state = AuthState(ProgressEnum.initial, []);
     final db = ref.read(dbProvider);
     Future.wait([
       SuperTokens.doesSessionExist(),
@@ -50,7 +57,7 @@ class AuthService extends _$AuthService {
       if (sessionExists) {
         state = AuthState(
           ProgressEnum.authenticated,
-          _getRoleFromToken(tokenPayload: accessTokenPayload),
+          _getRolesFromToken(tokenPayload: accessTokenPayload),
           tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
           email: userEmail?.email ?? "",
         );
@@ -60,7 +67,7 @@ class AuthService extends _$AuthService {
           ]);
         }
       } else {
-        state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
+        state = AuthState(ProgressEnum.initial, []);
       }
     });
 
@@ -68,7 +75,7 @@ class AuthService extends _$AuthService {
   }
 
   Future<void> login({required String email, required String password}) async {
-    state = AuthState(ProgressEnum.loading, RoleEnum.unknown);
+    state = AuthState(ProgressEnum.loading, [RoleEnum.unknown]);
     ApiService apiService = ApiService.instance;
 
     var res = await apiService.postRequest(
@@ -87,8 +94,7 @@ class AuthService extends _$AuthService {
       );
     });
     if (res.statusCode != 200) {
-      state = AuthState(ProgressEnum.error, RoleEnum.unknown,
-          error: res.statusMessage);
+      state = AuthState(ProgressEnum.error, [], error: res.statusMessage);
       return;
     }
     // kinda stupid imo but the response returns a 200 even if the credentials are wrong
@@ -96,7 +102,7 @@ class AuthService extends _$AuthService {
     Map<String, dynamic> body = res.data;
     if (body["status"]!.contains("ERROR")) {
       if (body["status"]!.contains("WRONG_CREDENTIALS_ERROR")) {
-        state = AuthState(ProgressEnum.error, RoleEnum.unknown,
+        state = AuthState(ProgressEnum.error, [RoleEnum.unknown],
             error: "Wrong credentials");
         return;
       }
@@ -106,8 +112,7 @@ class AuthService extends _$AuthService {
           errorString += "${error["id"]}: ${error["error"]}!\n";
         }
       }
-      state =
-          AuthState(ProgressEnum.error, RoleEnum.unknown, error: errorString);
+      state = AuthState(ProgressEnum.error, [], error: errorString);
     } else {
       // actual successful login is here
       Future.wait([
@@ -121,7 +126,7 @@ class AuthService extends _$AuthService {
         final db = ref.read(dbProvider);
         state = AuthState(
           ProgressEnum.authenticated,
-          _getRoleFromToken(tokenPayload: accessTokenPayload),
+          _getRolesFromToken(tokenPayload: accessTokenPayload),
           tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
           email: email,
         );
@@ -141,6 +146,6 @@ class AuthService extends _$AuthService {
   Future<void> logout() async {
     await SuperTokens.signOut();
     await OneSignal.logout();
-    state = AuthState(ProgressEnum.initial, RoleEnum.unknown);
+    state = AuthState(ProgressEnum.initial, []);
   }
 }

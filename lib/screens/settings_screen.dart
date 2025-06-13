@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../widgets/settings/locale_selection_row.dart';
 import '../widgets/settings/theme_mode_row.dart';
+import '../widgets/settings/info_row.dart';
 import '../services/auth/auth_service.dart';
 import '../providers/package_info_provider.dart';
 
@@ -65,6 +66,8 @@ class SettingsScreen extends ConsumerWidget {
       ),
       body: Column(
         children: const [
+          InfoRow(),
+          Divider(),
           ThemeModeRow(),
           LocaleSelectionRow(),
         ],

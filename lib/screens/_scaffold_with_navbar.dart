@@ -180,7 +180,7 @@ FloatingActionButton? buildFab({
                 context.push('/item-create');
               case 4:
                 final auth = ref.read(authServiceProvider);
-                if (auth.role != RoleEnum.admin) {
+                if (!auth.roles.contains(RoleEnum.admin)) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red,

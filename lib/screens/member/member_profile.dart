@@ -30,7 +30,7 @@ class MemberProfile extends ConsumerWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  if (authState!.role != RoleEnum.admin) {
+                  if (!authState!.roles.contains(RoleEnum.admin)) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,

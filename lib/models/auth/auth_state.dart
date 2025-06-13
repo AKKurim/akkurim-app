@@ -3,9 +3,9 @@ import './role_enum.dart';
 
 class AuthState {
   final ProgressEnum state;
-  final RoleEnum role;
+  final List<RoleEnum> roles;
   final String? tenant;
   String? email;
   String? error;
-  AuthState(this.state, this.role, {this.tenant, this.email, this.error});
+  AuthState(this.state, this.roles, {this.tenant, this.email, this.error});
 }
