@@ -115,7 +115,12 @@ class TrainingResultsP extends _$TrainingResultsP {
                 (athleteEvent) => athleteEvent.athleteId == athlete.athlete.id);
 
             if (athleteEvent != null) {
-              event.athletesWithResults[athlete] = athleteEvent.result ?? '';
+              event.athletesWithResults[athlete] = ResultView(
+                result: athleteEvent.result,
+                wind: athleteEvent.wind,
+                pbSb: athleteEvent.pbSb,
+                points: athleteEvent.points,
+              );
             }
           }
         }

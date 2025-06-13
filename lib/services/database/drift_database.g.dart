@@ -1120,6 +1120,21 @@ class $AthleteMeetEventTable extends AthleteMeetEvent
   late final GeneratedColumn<String> result = GeneratedColumn<String>(
       'result', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _windMeta = const VerificationMeta('wind');
+  @override
+  late final GeneratedColumn<String> wind = GeneratedColumn<String>(
+      'wind', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _pbSbMeta = const VerificationMeta('pbSb');
+  @override
+  late final GeneratedColumn<String> pbSb = GeneratedColumn<String>(
+      'pb_sb', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _pointsMeta = const VerificationMeta('points');
+  @override
+  late final GeneratedColumn<String> points = GeneratedColumn<String>(
+      'points', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -1139,8 +1154,17 @@ class $AthleteMeetEventTable extends AthleteMeetEvent
       'deleted_at', aliasedName, true,
       type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns =>
-      [athleteId, meetEventId, result, createdAt, updatedAt, deletedAt];
+  List<GeneratedColumn> get $columns => [
+        athleteId,
+        meetEventId,
+        result,
+        wind,
+        pbSb,
+        points,
+        createdAt,
+        updatedAt,
+        deletedAt
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1169,6 +1193,18 @@ class $AthleteMeetEventTable extends AthleteMeetEvent
     if (data.containsKey('result')) {
       context.handle(_resultMeta,
           result.isAcceptableOrUnknown(data['result']!, _resultMeta));
+    }
+    if (data.containsKey('wind')) {
+      context.handle(
+          _windMeta, wind.isAcceptableOrUnknown(data['wind']!, _windMeta));
+    }
+    if (data.containsKey('pb_sb')) {
+      context.handle(
+          _pbSbMeta, pbSb.isAcceptableOrUnknown(data['pb_sb']!, _pbSbMeta));
+    }
+    if (data.containsKey('points')) {
+      context.handle(_pointsMeta,
+          points.isAcceptableOrUnknown(data['points']!, _pointsMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -1201,6 +1237,12 @@ class $AthleteMeetEventTable extends AthleteMeetEvent
           .read(DriftSqlType.string, data['${effectivePrefix}meet_event_id'])!,
       result: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}result']),
+      wind: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}wind']),
+      pbSb: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}pb_sb']),
+      points: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}points']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -1221,6 +1263,9 @@ class AthleteMeetEventData extends DataClass
   final String athleteId;
   final String meetEventId;
   final String? result;
+  final String? wind;
+  final String? pbSb;
+  final String? points;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;
@@ -1228,6 +1273,9 @@ class AthleteMeetEventData extends DataClass
       {required this.athleteId,
       required this.meetEventId,
       this.result,
+      this.wind,
+      this.pbSb,
+      this.points,
       required this.createdAt,
       required this.updatedAt,
       this.deletedAt});
@@ -1238,6 +1286,15 @@ class AthleteMeetEventData extends DataClass
     map['meet_event_id'] = Variable<String>(meetEventId);
     if (!nullToAbsent || result != null) {
       map['result'] = Variable<String>(result);
+    }
+    if (!nullToAbsent || wind != null) {
+      map['wind'] = Variable<String>(wind);
+    }
+    if (!nullToAbsent || pbSb != null) {
+      map['pb_sb'] = Variable<String>(pbSb);
+    }
+    if (!nullToAbsent || points != null) {
+      map['points'] = Variable<String>(points);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -1253,6 +1310,10 @@ class AthleteMeetEventData extends DataClass
       meetEventId: Value(meetEventId),
       result:
           result == null && nullToAbsent ? const Value.absent() : Value(result),
+      wind: wind == null && nullToAbsent ? const Value.absent() : Value(wind),
+      pbSb: pbSb == null && nullToAbsent ? const Value.absent() : Value(pbSb),
+      points:
+          points == null && nullToAbsent ? const Value.absent() : Value(points),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deletedAt: deletedAt == null && nullToAbsent
@@ -1268,6 +1329,9 @@ class AthleteMeetEventData extends DataClass
       athleteId: serializer.fromJson<String>(json['athleteId']),
       meetEventId: serializer.fromJson<String>(json['meetEventId']),
       result: serializer.fromJson<String?>(json['result']),
+      wind: serializer.fromJson<String?>(json['wind']),
+      pbSb: serializer.fromJson<String?>(json['pbSb']),
+      points: serializer.fromJson<String?>(json['points']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
@@ -1280,6 +1344,9 @@ class AthleteMeetEventData extends DataClass
       'athleteId': serializer.toJson<String>(athleteId),
       'meetEventId': serializer.toJson<String>(meetEventId),
       'result': serializer.toJson<String?>(result),
+      'wind': serializer.toJson<String?>(wind),
+      'pbSb': serializer.toJson<String?>(pbSb),
+      'points': serializer.toJson<String?>(points),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
@@ -1290,6 +1357,9 @@ class AthleteMeetEventData extends DataClass
           {String? athleteId,
           String? meetEventId,
           Value<String?> result = const Value.absent(),
+          Value<String?> wind = const Value.absent(),
+          Value<String?> pbSb = const Value.absent(),
+          Value<String?> points = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt,
           Value<DateTime?> deletedAt = const Value.absent()}) =>
@@ -1297,6 +1367,9 @@ class AthleteMeetEventData extends DataClass
         athleteId: athleteId ?? this.athleteId,
         meetEventId: meetEventId ?? this.meetEventId,
         result: result.present ? result.value : this.result,
+        wind: wind.present ? wind.value : this.wind,
+        pbSb: pbSb.present ? pbSb.value : this.pbSb,
+        points: points.present ? points.value : this.points,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
@@ -1307,6 +1380,9 @@ class AthleteMeetEventData extends DataClass
       meetEventId:
           data.meetEventId.present ? data.meetEventId.value : this.meetEventId,
       result: data.result.present ? data.result.value : this.result,
+      wind: data.wind.present ? data.wind.value : this.wind,
+      pbSb: data.pbSb.present ? data.pbSb.value : this.pbSb,
+      points: data.points.present ? data.points.value : this.points,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
@@ -1319,6 +1395,9 @@ class AthleteMeetEventData extends DataClass
           ..write('athleteId: $athleteId, ')
           ..write('meetEventId: $meetEventId, ')
           ..write('result: $result, ')
+          ..write('wind: $wind, ')
+          ..write('pbSb: $pbSb, ')
+          ..write('points: $points, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt')
@@ -1327,8 +1406,8 @@ class AthleteMeetEventData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(
-      athleteId, meetEventId, result, createdAt, updatedAt, deletedAt);
+  int get hashCode => Object.hash(athleteId, meetEventId, result, wind, pbSb,
+      points, createdAt, updatedAt, deletedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1336,6 +1415,9 @@ class AthleteMeetEventData extends DataClass
           other.athleteId == this.athleteId &&
           other.meetEventId == this.meetEventId &&
           other.result == this.result &&
+          other.wind == this.wind &&
+          other.pbSb == this.pbSb &&
+          other.points == this.points &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.deletedAt == this.deletedAt);
@@ -1345,6 +1427,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
   final Value<String> athleteId;
   final Value<String> meetEventId;
   final Value<String?> result;
+  final Value<String?> wind;
+  final Value<String?> pbSb;
+  final Value<String?> points;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<DateTime?> deletedAt;
@@ -1353,6 +1438,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
     this.athleteId = const Value.absent(),
     this.meetEventId = const Value.absent(),
     this.result = const Value.absent(),
+    this.wind = const Value.absent(),
+    this.pbSb = const Value.absent(),
+    this.points = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
@@ -1362,6 +1450,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
     required String athleteId,
     required String meetEventId,
     this.result = const Value.absent(),
+    this.wind = const Value.absent(),
+    this.pbSb = const Value.absent(),
+    this.points = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
     this.deletedAt = const Value.absent(),
@@ -1374,6 +1465,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
     Expression<String>? athleteId,
     Expression<String>? meetEventId,
     Expression<String>? result,
+    Expression<String>? wind,
+    Expression<String>? pbSb,
+    Expression<String>? points,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? deletedAt,
@@ -1383,6 +1477,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
       if (athleteId != null) 'athlete_id': athleteId,
       if (meetEventId != null) 'meet_event_id': meetEventId,
       if (result != null) 'result': result,
+      if (wind != null) 'wind': wind,
+      if (pbSb != null) 'pb_sb': pbSb,
+      if (points != null) 'points': points,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
@@ -1394,6 +1491,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
       {Value<String>? athleteId,
       Value<String>? meetEventId,
       Value<String?>? result,
+      Value<String?>? wind,
+      Value<String?>? pbSb,
+      Value<String?>? points,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<DateTime?>? deletedAt,
@@ -1402,6 +1502,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
       athleteId: athleteId ?? this.athleteId,
       meetEventId: meetEventId ?? this.meetEventId,
       result: result ?? this.result,
+      wind: wind ?? this.wind,
+      pbSb: pbSb ?? this.pbSb,
+      points: points ?? this.points,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
@@ -1420,6 +1523,15 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
     }
     if (result.present) {
       map['result'] = Variable<String>(result.value);
+    }
+    if (wind.present) {
+      map['wind'] = Variable<String>(wind.value);
+    }
+    if (pbSb.present) {
+      map['pb_sb'] = Variable<String>(pbSb.value);
+    }
+    if (points.present) {
+      map['points'] = Variable<String>(points.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -1442,6 +1554,9 @@ class AthleteMeetEventCompanion extends UpdateCompanion<AthleteMeetEventData> {
           ..write('athleteId: $athleteId, ')
           ..write('meetEventId: $meetEventId, ')
           ..write('result: $result, ')
+          ..write('wind: $wind, ')
+          ..write('pbSb: $pbSb, ')
+          ..write('points: $points, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
@@ -13471,6 +13586,9 @@ typedef $$AthleteMeetEventTableCreateCompanionBuilder
   required String athleteId,
   required String meetEventId,
   Value<String?> result,
+  Value<String?> wind,
+  Value<String?> pbSb,
+  Value<String?> points,
   required DateTime createdAt,
   required DateTime updatedAt,
   Value<DateTime?> deletedAt,
@@ -13481,6 +13599,9 @@ typedef $$AthleteMeetEventTableUpdateCompanionBuilder
   Value<String> athleteId,
   Value<String> meetEventId,
   Value<String?> result,
+  Value<String?> wind,
+  Value<String?> pbSb,
+  Value<String?> points,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<DateTime?> deletedAt,
@@ -13504,6 +13625,15 @@ class $$AthleteMeetEventTableFilterComposer
 
   ColumnFilters<String> get result => $composableBuilder(
       column: $table.result, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get wind => $composableBuilder(
+      column: $table.wind, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get pbSb => $composableBuilder(
+      column: $table.pbSb, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get points => $composableBuilder(
+      column: $table.points, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -13533,6 +13663,15 @@ class $$AthleteMeetEventTableOrderingComposer
   ColumnOrderings<String> get result => $composableBuilder(
       column: $table.result, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get wind => $composableBuilder(
+      column: $table.wind, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get pbSb => $composableBuilder(
+      column: $table.pbSb, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get points => $composableBuilder(
+      column: $table.points, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
@@ -13560,6 +13699,15 @@ class $$AthleteMeetEventTableAnnotationComposer
 
   GeneratedColumn<String> get result =>
       $composableBuilder(column: $table.result, builder: (column) => column);
+
+  GeneratedColumn<String> get wind =>
+      $composableBuilder(column: $table.wind, builder: (column) => column);
+
+  GeneratedColumn<String> get pbSb =>
+      $composableBuilder(column: $table.pbSb, builder: (column) => column);
+
+  GeneratedColumn<String> get points =>
+      $composableBuilder(column: $table.points, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -13602,6 +13750,9 @@ class $$AthleteMeetEventTableTableManager extends RootTableManager<
             Value<String> athleteId = const Value.absent(),
             Value<String> meetEventId = const Value.absent(),
             Value<String?> result = const Value.absent(),
+            Value<String?> wind = const Value.absent(),
+            Value<String?> pbSb = const Value.absent(),
+            Value<String?> points = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -13611,6 +13762,9 @@ class $$AthleteMeetEventTableTableManager extends RootTableManager<
             athleteId: athleteId,
             meetEventId: meetEventId,
             result: result,
+            wind: wind,
+            pbSb: pbSb,
+            points: points,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deletedAt: deletedAt,
@@ -13620,6 +13774,9 @@ class $$AthleteMeetEventTableTableManager extends RootTableManager<
             required String athleteId,
             required String meetEventId,
             Value<String?> result = const Value.absent(),
+            Value<String?> wind = const Value.absent(),
+            Value<String?> pbSb = const Value.absent(),
+            Value<String?> points = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -13629,6 +13786,9 @@ class $$AthleteMeetEventTableTableManager extends RootTableManager<
             athleteId: athleteId,
             meetEventId: meetEventId,
             result: result,
+            wind: wind,
+            pbSb: pbSb,
+            points: points,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deletedAt: deletedAt,

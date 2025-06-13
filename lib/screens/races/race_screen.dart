@@ -58,6 +58,8 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
             Row(
               children: [
                 const SizedBox(width: 16),
+                Text(id),
+                const Spacer(),
                 TextButton.icon(
                   onPressed: () {
                     // todo download PDF from server
@@ -83,7 +85,8 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                     foregroundColor:
                         Theme.of(context).colorScheme.onPrimaryContainer,
                     backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
+                        // use some sort of red color for PDF button,
+                        Colors.red[800]?.withAlpha(200),
                   ),
                 ),
                 const Spacer(),
@@ -238,8 +241,10 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                           ),
                         );
                       }),
-                  if (athletesWithEvents.any((athlete) =>
-                      athlete.events.any((element) => element.result != null)))
+                  if (athletesWithEvents.any((athlete) => athlete.events.any(
+                      (element) =>
+                          element.result != null &&
+                          element.result!.isNotEmpty)))
                     ListView.builder(
                       itemCount: athletesWithEvents.length,
                       itemBuilder: (context, index) {
@@ -328,8 +333,9 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                           ],
                                         ),
                                         ...athlete.events
-                                            .where(
-                                                (event) => event.result != null)
+                                            .where((event) =>
+                                                event.result != null &&
+                                                event.result!.isNotEmpty)
                                             .map((event) {
                                           return Row(
                                             children: [
@@ -361,10 +367,10 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                               ),
                                               SizedBox(
                                                 width: 36,
-                                                child: false
+                                                child: event.wind != null
                                                     ? Text(
-                                                        //event.wind,
-                                                        '+2.0', // Placeholder for wind, replace with actual value
+                                                        event.wind!
+                                                            .split(' ')[0],
                                                         style: TextStyle(
                                                             fontSize: 16,
                                                             fontWeight:
@@ -378,10 +384,9 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                               ),
                                               SizedBox(
                                                 width: 36,
-                                                child: false
+                                                child: event.pbSb != null
                                                     ? Text(
-                                                        //"${result.pbSb}",
-                                                        'PB', // Placeholder for pbSb, replace with actual value
+                                                        "${event.pbSb}",
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -397,10 +402,9 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                               ),
                                               SizedBox(
                                                 width: 38,
-                                                child: false
+                                                child: event.points != null
                                                     ? Text(
-                                                        //"${result.points} b",
-                                                        '1000', // Placeholder for points, replace with actual value
+                                                        event.points!,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(

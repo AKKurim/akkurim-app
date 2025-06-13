@@ -41,6 +41,10 @@ AthleteMeetEventCompanion buildAthleteMeetEventCompanion(
       meetEventId: Value(row['meet_event_id']),
       result:
           row['result'] != null ? Value(row['result']) : const Value.absent(),
+      wind: row['wind'] != null ? Value(row['wind']) : const Value.absent(),
+      pbSb: row['pb_sb'] != null ? Value(row['pb_sb']) : const Value.absent(),
+      points:
+          row['points'] != null ? Value(row['points']) : const Value.absent(),
       createdAt: Value(DateTime.parse(row['created_at'])),
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null

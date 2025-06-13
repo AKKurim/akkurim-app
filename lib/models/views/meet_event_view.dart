@@ -6,12 +6,18 @@ class MeetEventViewWithoutAthletes {
   DisciplineData? discipline;
   CategoryData? category;
   String? result;
+  String? wind;
+  String? pbSb;
+  String? points;
 
   MeetEventViewWithoutAthletes({
     required this.meetEvent,
     this.discipline,
     this.category,
     this.result,
+    this.wind,
+    this.pbSb,
+    this.points,
   });
 }
 
@@ -28,7 +34,8 @@ class AthleteWithMeetEvents {
     int count = 0;
     for (final event in events) {
       if (event.meetEvent.disciplineId == disciplineId &&
-          (!onlyCountResults || event.result != null)) {
+          (!onlyCountResults || event.result != null) &&
+          event.meetEvent.deletedAt == null) {
         count++;
         if (count > 1) {
           return true;
@@ -43,7 +50,7 @@ class MeetEventView {
   MeetEventData meetEvent;
   DisciplineData? discipline;
   CategoryData? category;
-  Map<SimpleAthleteView, String> athletesWithResults;
+  Map<SimpleAthleteView, ResultView> athletesWithResults;
 
   MeetEventView({
     required this.meetEvent,
@@ -65,5 +72,35 @@ class MeetEventView {
   @override
   int get hashCode {
     return meetEvent.hashCode ^ discipline.hashCode ^ category.hashCode;
+  }
+}
+
+class ResultView {
+  String? result;
+  String? wind;
+  String? pbSb;
+  String? points;
+
+  ResultView({
+    this.result,
+    this.wind,
+    this.pbSb,
+    this.points,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ResultView &&
+        other.result == result &&
+        other.wind == wind &&
+        other.pbSb == pbSb &&
+        other.points == points;
+  }
+
+  @override
+  int get hashCode {
+    return result.hashCode ^ wind.hashCode ^ pbSb.hashCode ^ points.hashCode;
   }
 }
