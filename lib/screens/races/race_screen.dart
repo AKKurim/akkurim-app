@@ -249,8 +249,9 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                       itemCount: athletesWithEvents.length,
                       itemBuilder: (context, index) {
                         final athlete = athletesWithEvents[index];
-                        if (athlete.events
-                            .any((element) => element.result != null)) {
+                        if (athlete.events.any((element) =>
+                            element.result != null &&
+                            element.result!.isNotEmpty)) {
                           return Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
