@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/models/other/date_range.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,7 +12,17 @@ class RacesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<FullMeetView> meets = ref.watch(meetProvidersPProvider).when(
+    final sMY = ref.watch(selectedMonthYearPProvider);
+    final List<FullMeetView> meets = ref
+        .watch(
+          meetProvidersPProvider(
+            range: DateRange(
+              start: DateTime(sMY.year, sMY.month, 1),
+              end: DateTime(sMY.year, sMY.month + 1, 0),
+            ),
+          ),
+        )
+        .when(
           data: (data) => data,
           error: (error, stackTrace) => throw error,
           loading: () => [],
@@ -60,10 +71,15 @@ class MeetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isPast = meet.meet.startAt.isBefore(DateTime.now()) &&
-        !TimeHelper.isSameDay(meet.meet.startAt, DateTime.now());
+    // todo these two variables should probably be moved to the FullMeetView model as properties (or getters)
+    final bool isPast = meet.meet.endAt
+        .add(const Duration(minutes: 90))
+        .isBefore(DateTime.now());
     final bool isToday =
-        TimeHelper.isSameDay(meet.meet.startAt, DateTime.now());
+        TimeHelper.isSameDay(meet.meet.startAt, DateTime.now()) ||
+            (meet.isMultiDay &&
+                meet.meet.endAt.isAfter(DateTime.now()) &&
+                meet.meet.startAt.isBefore(DateTime.now()));
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),

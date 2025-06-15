@@ -43,4 +43,18 @@ class Config {
 
   static String defaultTheme = 'light';
   static const String defaultLocaleString = 'cs';
+
+  static Set<DateTime> holidays = {
+    DateTime(DateTime.now().year, 1, 1), // Nový rok
+    DateTime(DateTime.now().year, 5, 1), // Svátek práce
+    DateTime(DateTime.now().year, 5, 8), // Den vítězství
+    DateTime(DateTime.now().year, 7, 5), // Cyril a Metoděj
+    DateTime(DateTime.now().year, 7, 6), // Den upálení mistra Jana Husa
+    DateTime(DateTime.now().year, 9, 28), // Den české státnosti
+    DateTime(DateTime.now().year, 10, 28), // československého státu
+    DateTime(DateTime.now().year, 11, 17), // Den boje za svobodu a demokracii
+    DateTime(DateTime.now().year, 12, 24), // Štědrý den
+    DateTime(DateTime.now().year, 12, 25), // První svátek vánoční
+    DateTime(DateTime.now().year, 12, 26), // Druhý svátek vánoční
+  };
 }

@@ -13,11 +13,12 @@ class LocaleSelectionRow extends ConsumerWidget {
 
     return appSettings.when(
       data: (appSettings) => Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(AppLocalizations.of(context)!.language),
+            Text(AppLocalizations.of(context)!.language,
+                style: Theme.of(context).textTheme.titleLarge),
             Expanded(child: Container()),
             LocaleDropdown(),
           ],

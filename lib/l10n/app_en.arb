@@ -563,5 +563,9 @@
     "points" : "Pts",
     "@points" : {
         "description": "The label for points"
+    },
+    "showBirthdays" : "Show Birthdays",
+    "@showBirthdays" : {
+        "description": "The label for the show birthdays option"
     }
 }

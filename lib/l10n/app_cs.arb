@@ -131,5 +131,6 @@
     "discipline": "Disciplína",
     "result" : "Výkon",
     "wind" : "Vítr",
-    "points" : "Body"
+    "points" : "Body",
+    "showBirthdays" : "Zobrazit narozeniny"
 }

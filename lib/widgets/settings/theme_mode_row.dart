@@ -13,12 +13,13 @@ class ThemeModeRow extends ConsumerWidget {
 
     return appSettings.when(
       data: (appSettings) => Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(AppLocalizations.of(context)!.displayMode),
-            Expanded(child: Container()),
+            Text(AppLocalizations.of(context)!.displayMode,
+                style: Theme.of(context).textTheme.titleLarge),
+            Spacer(),
             const Icon(Icons.light_mode),
             ThemeModeSwitch(),
             const Icon(Icons.dark_mode),

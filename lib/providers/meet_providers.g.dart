@@ -42,7 +42,7 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
-String _$fullMeetProviderPHash() => r'b4d74c80da312301ca7ffc91aa2690e13285f682';
+String _$fullMeetProviderPHash() => r'abc4bbc9861aaa715efef92711f25601eace307f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -68,9 +68,11 @@ class _SystemHash {
 abstract class _$FullMeetProviderP
     extends BuildlessAutoDisposeStreamNotifier<FullMeetView> {
   late final String meetId;
+  late final Stream<FullMeetView>? preloaded;
 
   Stream<FullMeetView> build({
     required String meetId,
+    Stream<FullMeetView>? preloaded,
   });
 }
 
@@ -86,9 +88,11 @@ class FullMeetProviderPFamily extends Family<AsyncValue<FullMeetView>> {
   /// See also [FullMeetProviderP].
   FullMeetProviderPProvider call({
     required String meetId,
+    Stream<FullMeetView>? preloaded,
   }) {
     return FullMeetProviderPProvider(
       meetId: meetId,
+      preloaded: preloaded,
     );
   }
 
@@ -98,6 +102,7 @@ class FullMeetProviderPFamily extends Family<AsyncValue<FullMeetView>> {
   ) {
     return call(
       meetId: provider.meetId,
+      preloaded: provider.preloaded,
     );
   }
 
@@ -122,8 +127,11 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
   /// See also [FullMeetProviderP].
   FullMeetProviderPProvider({
     required String meetId,
+    Stream<FullMeetView>? preloaded,
   }) : this._internal(
-          () => FullMeetProviderP()..meetId = meetId,
+          () => FullMeetProviderP()
+            ..meetId = meetId
+            ..preloaded = preloaded,
           from: fullMeetProviderPProvider,
           name: r'fullMeetProviderPProvider',
           debugGetCreateSourceHash:
@@ -134,6 +142,7 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
           allTransitiveDependencies:
               FullMeetProviderPFamily._allTransitiveDependencies,
           meetId: meetId,
+          preloaded: preloaded,
         );
 
   FullMeetProviderPProvider._internal(
@@ -144,9 +153,11 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.meetId,
+    required this.preloaded,
   }) : super.internal();
 
   final String meetId;
+  final Stream<FullMeetView>? preloaded;
 
   @override
   Stream<FullMeetView> runNotifierBuild(
@@ -154,6 +165,7 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
   ) {
     return notifier.build(
       meetId: meetId,
+      preloaded: preloaded,
     );
   }
 
@@ -162,13 +174,16 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
     return ProviderOverride(
       origin: this,
       override: FullMeetProviderPProvider._internal(
-        () => create()..meetId = meetId,
+        () => create()
+          ..meetId = meetId
+          ..preloaded = preloaded,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         meetId: meetId,
+        preloaded: preloaded,
       ),
     );
   }
@@ -181,13 +196,16 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
 
   @override
   bool operator ==(Object other) {
-    return other is FullMeetProviderPProvider && other.meetId == meetId;
+    return other is FullMeetProviderPProvider &&
+        other.meetId == meetId &&
+        other.preloaded == preloaded;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, meetId.hashCode);
+    hash = _SystemHash.combine(hash, preloaded.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -199,6 +217,9 @@ mixin FullMeetProviderPRef
     on AutoDisposeStreamNotifierProviderRef<FullMeetView> {
   /// The parameter `meetId` of this provider.
   String get meetId;
+
+  /// The parameter `preloaded` of this provider.
+  Stream<FullMeetView>? get preloaded;
 }
 
 class _FullMeetProviderPProviderElement
@@ -208,24 +229,158 @@ class _FullMeetProviderPProviderElement
 
   @override
   String get meetId => (origin as FullMeetProviderPProvider).meetId;
+  @override
+  Stream<FullMeetView>? get preloaded =>
+      (origin as FullMeetProviderPProvider).preloaded;
 }
 
-String _$meetProvidersPHash() => r'eef0478d6938a4c9d333667c20ad8a67c9f60a50';
+String _$meetProvidersPHash() => r'ea9a9c12ac2eb204e75da3137b770291909a844c';
+
+abstract class _$MeetProvidersP
+    extends BuildlessAutoDisposeStreamNotifier<List<FullMeetView>> {
+  late final DateRange range;
+
+  Stream<List<FullMeetView>> build({
+    required DateRange range,
+  });
+}
 
 /// See also [MeetProvidersP].
 @ProviderFor(MeetProvidersP)
-final meetProvidersPProvider = AutoDisposeStreamNotifierProvider<MeetProvidersP,
-    List<FullMeetView>>.internal(
-  MeetProvidersP.new,
-  name: r'meetProvidersPProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$meetProvidersPHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const meetProvidersPProvider = MeetProvidersPFamily();
 
-typedef _$MeetProvidersP = AutoDisposeStreamNotifier<List<FullMeetView>>;
+/// See also [MeetProvidersP].
+class MeetProvidersPFamily extends Family<AsyncValue<List<FullMeetView>>> {
+  /// See also [MeetProvidersP].
+  const MeetProvidersPFamily();
+
+  /// See also [MeetProvidersP].
+  MeetProvidersPProvider call({
+    required DateRange range,
+  }) {
+    return MeetProvidersPProvider(
+      range: range,
+    );
+  }
+
+  @override
+  MeetProvidersPProvider getProviderOverride(
+    covariant MeetProvidersPProvider provider,
+  ) {
+    return call(
+      range: provider.range,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'meetProvidersPProvider';
+}
+
+/// See also [MeetProvidersP].
+class MeetProvidersPProvider extends AutoDisposeStreamNotifierProviderImpl<
+    MeetProvidersP, List<FullMeetView>> {
+  /// See also [MeetProvidersP].
+  MeetProvidersPProvider({
+    required DateRange range,
+  }) : this._internal(
+          () => MeetProvidersP()..range = range,
+          from: meetProvidersPProvider,
+          name: r'meetProvidersPProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$meetProvidersPHash,
+          dependencies: MeetProvidersPFamily._dependencies,
+          allTransitiveDependencies:
+              MeetProvidersPFamily._allTransitiveDependencies,
+          range: range,
+        );
+
+  MeetProvidersPProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.range,
+  }) : super.internal();
+
+  final DateRange range;
+
+  @override
+  Stream<List<FullMeetView>> runNotifierBuild(
+    covariant MeetProvidersP notifier,
+  ) {
+    return notifier.build(
+      range: range,
+    );
+  }
+
+  @override
+  Override overrideWith(MeetProvidersP Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: MeetProvidersPProvider._internal(
+        () => create()..range = range,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        range: range,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamNotifierProviderElement<MeetProvidersP, List<FullMeetView>>
+      createElement() {
+    return _MeetProvidersPProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MeetProvidersPProvider && other.range == range;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, range.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin MeetProvidersPRef
+    on AutoDisposeStreamNotifierProviderRef<List<FullMeetView>> {
+  /// The parameter `range` of this provider.
+  DateRange get range;
+}
+
+class _MeetProvidersPProviderElement
+    extends AutoDisposeStreamNotifierProviderElement<MeetProvidersP,
+        List<FullMeetView>> with MeetProvidersPRef {
+  _MeetProvidersPProviderElement(super.provider);
+
+  @override
+  DateRange get range => (origin as MeetProvidersPProvider).range;
+}
+
 String _$selectedMonthYearPHash() =>
     r'2b791b46a03944b61cbb1073e3959165cae36651';
 

@@ -15,13 +15,20 @@ import '../utils/utils.dart';
 import '../services/database/companion_builder_map.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
+import '../models/other/date_range.dart';
 
 part 'meet_providers.g.dart';
 
 @riverpod
 class FullMeetProviderP extends _$FullMeetProviderP {
   @override
-  Stream<FullMeetView> build({required String meetId}) async* {
+  Stream<FullMeetView> build(
+      {required String meetId, Stream<FullMeetView>? preloaded}) async* {
+    if (preloaded != null) {
+      yield* preloaded;
+      return;
+    }
+
     final db = ref.read(dbProvider);
     final List<SimpleAthleteView> athletes =
         await ref.watch(simpleAthletesPProvider.future);
@@ -199,11 +206,10 @@ class FullMeetProviderP extends _$FullMeetProviderP {
 @riverpod
 class MeetProvidersP extends _$MeetProvidersP {
   @override
-  Stream<List<FullMeetView>> build() async* {
+  Stream<List<FullMeetView>> build({required DateRange range}) async* {
     final db = ref.read(dbProvider);
-    final monthYear = ref.watch(selectedMonthYearPProvider);
-    final DateTime startDate = DateTime(monthYear.year, monthYear.month, 1);
-    final DateTime endDate = DateTime(monthYear.year, monthYear.month + 1, 0);
+    final DateTime startDate = range.start;
+    final DateTime endDate = range.end;
     final List<SimpleAthleteView> athletes =
         await ref.watch(simpleAthletesPProvider.future);
 
