@@ -52,4 +52,18 @@ class FullMeetView {
   bool get isMultiDay {
     return meet.startAt.difference(meet.endAt).inDays < 0;
   }
+
+  bool isDoubleMeetDiscipline(int disciplineId, int categoryID) {
+    int count = 0;
+    for (final event in events) {
+      if (event.meetEvent.disciplineId == disciplineId &&
+          event.meetEvent.categoryId == categoryID) {
+        count++;
+        if (count > 1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }

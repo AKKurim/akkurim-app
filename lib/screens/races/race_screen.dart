@@ -184,7 +184,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                     : null,
                             child: ListTile(
                               title: Text(
-                                  '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && event.meetEvent.phase!.toLowerCase().contains('finále') ? '${event.meetEvent.phase} ' : ''}- ${event.category?.description}',
+                                  '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && meet.isDoubleMeetDiscipline(event.discipline!.id, event.category!.id) ? '(${event.meetEvent.phase}) ' : ''}- ${event.category?.description}',
                                   style: athletes.isNotEmpty
                                       ? TextStyle(
                                           fontWeight: FontWeight.bold,
