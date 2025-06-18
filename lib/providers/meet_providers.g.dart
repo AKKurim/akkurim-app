@@ -42,7 +42,7 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
-String _$fullMeetProviderPHash() => r'abc4bbc9861aaa715efef92711f25601eace307f';
+String _$fullMeetProviderPHash() => r'4262844a3074ec4324b43c902ffa36a016288169';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -68,11 +68,11 @@ class _SystemHash {
 abstract class _$FullMeetProviderP
     extends BuildlessAutoDisposeStreamNotifier<FullMeetView> {
   late final String meetId;
-  late final Stream<FullMeetView>? preloaded;
+  late final FullMeetView? preloaded;
 
   Stream<FullMeetView> build({
     required String meetId,
-    Stream<FullMeetView>? preloaded,
+    FullMeetView? preloaded,
   });
 }
 
@@ -88,7 +88,7 @@ class FullMeetProviderPFamily extends Family<AsyncValue<FullMeetView>> {
   /// See also [FullMeetProviderP].
   FullMeetProviderPProvider call({
     required String meetId,
-    Stream<FullMeetView>? preloaded,
+    FullMeetView? preloaded,
   }) {
     return FullMeetProviderPProvider(
       meetId: meetId,
@@ -127,7 +127,7 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
   /// See also [FullMeetProviderP].
   FullMeetProviderPProvider({
     required String meetId,
-    Stream<FullMeetView>? preloaded,
+    FullMeetView? preloaded,
   }) : this._internal(
           () => FullMeetProviderP()
             ..meetId = meetId
@@ -157,7 +157,7 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
   }) : super.internal();
 
   final String meetId;
-  final Stream<FullMeetView>? preloaded;
+  final FullMeetView? preloaded;
 
   @override
   Stream<FullMeetView> runNotifierBuild(
@@ -219,7 +219,7 @@ mixin FullMeetProviderPRef
   String get meetId;
 
   /// The parameter `preloaded` of this provider.
-  Stream<FullMeetView>? get preloaded;
+  FullMeetView? get preloaded;
 }
 
 class _FullMeetProviderPProviderElement
@@ -230,11 +230,11 @@ class _FullMeetProviderPProviderElement
   @override
   String get meetId => (origin as FullMeetProviderPProvider).meetId;
   @override
-  Stream<FullMeetView>? get preloaded =>
+  FullMeetView? get preloaded =>
       (origin as FullMeetProviderPProvider).preloaded;
 }
 
-String _$meetProvidersPHash() => r'ea9a9c12ac2eb204e75da3137b770291909a844c';
+String _$meetProvidersPHash() => r'3b11b0aa0fc0f975b75bfaa2b60a37b7ee690f0b';
 
 abstract class _$MeetProvidersP
     extends BuildlessAutoDisposeStreamNotifier<List<FullMeetView>> {

@@ -11,7 +11,12 @@ import 'package:url_launcher/url_launcher.dart';
 class RaceScreen extends ConsumerStatefulWidget {
   final String meetId;
   final int initialIndex;
-  const RaceScreen({super.key, required this.meetId, this.initialIndex = 0});
+  final FullMeetView? preloadedMeet;
+  const RaceScreen(
+      {super.key,
+      required this.meetId,
+      this.initialIndex = 0,
+      this.preloadedMeet});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _RaceScreenState();
@@ -36,12 +41,16 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
 
   @override
   Widget build(BuildContext context) {
-    final FullMeetView? meet =
-        ref.watch(fullMeetProviderPProvider(meetId: widget.meetId)).when(
-              data: (data) => data,
-              error: (error, stackTrace) => null,
-              loading: () => null,
-            );
+    print('Building RaceScreen for meetId: ${widget.meetId}');
+    print('Preloaded meet: ${widget.preloadedMeet?.meet.id}');
+    final FullMeetView? meet = ref
+        .watch(fullMeetProviderPProvider(
+            meetId: widget.meetId, preloaded: widget.preloadedMeet))
+        .when(
+          data: (data) => data,
+          error: (error, stackTrace) => throw error,
+          loading: () => null,
+        );
     var athletesWithEvents = meet?.athletesWithEvents ?? [];
     athletesWithEvents.sort((a, b) => a.athlete.athlete.lastName
         .toLowerCase()

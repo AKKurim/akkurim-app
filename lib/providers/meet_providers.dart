@@ -23,10 +23,10 @@ part 'meet_providers.g.dart';
 class FullMeetProviderP extends _$FullMeetProviderP {
   @override
   Stream<FullMeetView> build(
-      {required String meetId, Stream<FullMeetView>? preloaded}) async* {
+      {required String meetId, FullMeetView? preloaded}) async* {
+    // check if the stream is yielding a fullMeetView or null
     if (preloaded != null) {
-      yield* preloaded;
-      return;
+      yield preloaded;
     }
 
     final db = ref.read(dbProvider);

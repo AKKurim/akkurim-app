@@ -127,16 +127,12 @@ class MeetTile extends StatelessWidget {
                     ? Colors.orange[800]
                     : null,
             child: ListTile(
-              title: Text(meet.meet.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text(
-                '${meet.meet.location?.split(' ')[0]}',
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
+              title: Row(
                 children: [
+                  Expanded(
+                    child: Text(meet.meet.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                  ),
                   Text(meet.athletesCount.toString(),
                       style: const TextStyle(
                         fontSize: 16,
@@ -145,10 +141,25 @@ class MeetTile extends StatelessWidget {
                   Icon(Icons.people),
                 ],
               ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${meet.meet.location?.split(' ')[0]} ${meet.meet.location?.split(' ').skip(1).join(' ')}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  if (meet.meet.organizer != null &&
+                      meet.meet.organizer != 'Not found')
+                    Text(
+                      meet.meet.organizer!,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                ],
+              ),
               onTap: () {
-                final int tabIndex = isPast ? 2 : 0;
-                context.push(
-                    '/race/${meet.meet.id}/$tabIndex'); // Pass the meet object to the next screen
+                context.push('/race/${meet.meet.id}/${isPast ? 2 : 0}',
+                    extra: meet); // Pass the meet object to the next screen
               },
             ),
           ),

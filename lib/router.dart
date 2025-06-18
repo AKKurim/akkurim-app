@@ -21,6 +21,7 @@ import './screens/_scaffold_with_navbar.dart';
 import 'screens/member/member_edit_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/races/race_screen.dart';
+import './models/views/full_meet_view.dart';
 
 part 'router.g.dart';
 
@@ -152,9 +153,11 @@ GoRouter router(Ref ref) {
             final String id = state.pathParameters['id'] ?? '';
             final int tabIndex =
                 int.tryParse(state.pathParameters['tabIndex'] ?? '0') ?? 0;
+            final FullMeetView? meet = state.extra as FullMeetView?;
             return RaceScreen(
               meetId: id,
               initialIndex: tabIndex,
+              preloadedMeet: meet,
             );
           }),
       GoRoute(
