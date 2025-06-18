@@ -333,4 +333,73 @@ class TimeHelper {
   ) {
     return '${getWeekDayName(date, context)} ${getDayMonthYear(date)}';
   }
+
+  static DateTime getEasterSunday(int year) {
+    if (year < 1583) {
+      throw ArgumentError('Year must be 1583 or later');
+    }
+    if (year > 2299) {
+      throw ArgumentError('Year must be 2299 or earlier');
+    }
+    Map<int, List<int>> mnTable = {
+      1599: [22, 2],
+      1699: [22, 2],
+      1799: [23, 3],
+      1899: [23, 4],
+      1999: [24, 5],
+      2099: [24, 5],
+      2199: [24, 6],
+      2299: [25, 0],
+    };
+    // find m and n from the mnTable
+    int m = 0;
+    int n = 0;
+    for (var entry in mnTable.entries) {
+      if (year <= entry.key) {
+        m = entry.value[0];
+        n = entry.value[1];
+        break;
+      }
+    }
+    final int a = year % 19;
+    final int b = year % 4;
+    final int c = year % 7;
+    final int d = (19 * a + m) % 30;
+    final int e = (n + 2 * b + 4 * c + 6 * d) % 7;
+    int day = 22 + d + e;
+    int month = 3; // March
+    if (day > 31) {
+      day -= 31;
+      month = 4; // April
+    }
+    // // Adjust for the Gregorian calendar reform
+    // if (year >= 1583) {
+    //   final int k = year ~/ 100;
+    //   final int l = k ~/ 4;
+    //   final int m1 = (k + 8) ~/ 25;
+    //   final int n1 = (k - m1 + 1) ~/ 16;
+    //   day -= (k + 19 * a + m1 - l - n1) % 30;
+    //   if (day < 1) {
+    //     day += 31; // Adjust for March
+    //     month = 3; // March
+    //   }
+    // }
+    return DateTime(year, month, day, 0, 0, 0, 0, 0);
+  }
+
+  static DateTime getEasterMonday(int year) {
+    final easterSunday = getEasterSunday(year);
+    return easterSunday.add(const Duration(days: 1));
+  }
+
+  static DateTime getBigFriday(int year) {
+    final easterSunday = getEasterSunday(year);
+    return easterSunday.subtract(const Duration(days: 2));
+  }
+
+  static DateTimeRange getSelectedWeekRange(DateTime selectedDate) {
+    final startOfWeek = getStartOfWeek(selectedDate);
+    final endOfWeek = getEndOfWeek(selectedDate);
+    return DateTimeRange(start: startOfWeek, end: endOfWeek);
+  }
 }

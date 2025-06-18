@@ -1,4 +1,5 @@
 import 'package:ak_kurim_app/services/network/sync_service.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/database/drift_database.dart';
@@ -15,7 +16,6 @@ import '../utils/utils.dart';
 import '../services/database/companion_builder_map.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
-import '../models/other/date_range.dart';
 
 part 'meet_providers.g.dart';
 
@@ -206,7 +206,7 @@ class FullMeetProviderP extends _$FullMeetProviderP {
 @riverpod
 class MeetProvidersP extends _$MeetProvidersP {
   @override
-  Stream<List<FullMeetView>> build({required DateRange range}) async* {
+  Stream<List<FullMeetView>> build({required DateTimeRange range}) async* {
     final db = ref.read(dbProvider);
     final DateTime startDate = range.start;
     final DateTime endDate = range.end;

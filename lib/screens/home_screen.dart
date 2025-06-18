@@ -1,6 +1,8 @@
+import 'package:ak_kurim_app/models/views/full_meet_view.dart';
 import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
 import 'package:ak_kurim_app/providers/simple_athletes_provider.dart';
 import 'package:ak_kurim_app/screens/races/races_screen.dart';
+import 'package:ak_kurim_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,6 +24,7 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = useState(DateTime.now());
     final showBirthdays = useState(false);
+    final Set<DateTime> easterHolidays = Config.getEasterHolidays;
 
     //final trainings = ref.watch(trainingsPProvider);
     //final meets = ref.watch(meetProvidersPProvider);
@@ -29,6 +32,14 @@ class HomeScreen extends HookConsumerWidget {
         data: (athletes) => athletes,
         error: (error, stackTrace) => [],
         loading: () => []);
+    List<FullMeetView> meets = ref
+        .watch(meetProvidersPProvider(
+            range: TimeHelper.getSelectedWeekRange(selected.value)))
+        .when(
+          data: (meets) => meets,
+          error: (error, stackTrace) => [],
+          loading: () => [],
+        );
 
     final remoteConfig = ref.watch(remoteConfigProvider);
     final bool isNewUpdateAvailable = ref
@@ -152,7 +163,9 @@ class HomeScreen extends HookConsumerWidget {
               },
               defaultBuilder: (context, day, focusedDay) {
                 final isHoliday = Config.holidays
-                    .contains(DateTime(day.year, day.month, day.day));
+                        .contains(DateTime(1993, day.month, day.day)) ||
+                    easterHolidays
+                        .contains(DateTime(day.year, day.month, day.day));
                 if (isHoliday) {
                   return Center(
                     child: Text(

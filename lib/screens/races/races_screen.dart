@@ -1,4 +1,3 @@
-import 'package:ak_kurim_app/models/other/date_range.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +15,7 @@ class RacesScreen extends ConsumerWidget {
     final List<FullMeetView> meets = ref
         .watch(
           meetProvidersPProvider(
-            range: DateRange(
+            range: DateTimeRange(
               start: DateTime(sMY.year, sMY.month, 1),
               end: DateTime(sMY.year, sMY.month + 1, 1),
             ),

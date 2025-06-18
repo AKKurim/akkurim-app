@@ -42,7 +42,7 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
-String _$fullMeetProviderPHash() => r'4262844a3074ec4324b43c902ffa36a016288169';
+String _$fullMeetProviderPHash() => r'282fc154c2f93b4f1f88163cfc8134e3976d7698';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -234,14 +234,14 @@ class _FullMeetProviderPProviderElement
       (origin as FullMeetProviderPProvider).preloaded;
 }
 
-String _$meetProvidersPHash() => r'3b11b0aa0fc0f975b75bfaa2b60a37b7ee690f0b';
+String _$meetProvidersPHash() => r'80082fd3a7491f8bbb0309317e7e20ae0c711857';
 
 abstract class _$MeetProvidersP
     extends BuildlessAutoDisposeStreamNotifier<List<FullMeetView>> {
-  late final DateRange range;
+  late final DateTimeRange<DateTime> range;
 
   Stream<List<FullMeetView>> build({
-    required DateRange range,
+    required DateTimeRange<DateTime> range,
   });
 }
 
@@ -256,7 +256,7 @@ class MeetProvidersPFamily extends Family<AsyncValue<List<FullMeetView>>> {
 
   /// See also [MeetProvidersP].
   MeetProvidersPProvider call({
-    required DateRange range,
+    required DateTimeRange<DateTime> range,
   }) {
     return MeetProvidersPProvider(
       range: range,
@@ -292,7 +292,7 @@ class MeetProvidersPProvider extends AutoDisposeStreamNotifierProviderImpl<
     MeetProvidersP, List<FullMeetView>> {
   /// See also [MeetProvidersP].
   MeetProvidersPProvider({
-    required DateRange range,
+    required DateTimeRange<DateTime> range,
   }) : this._internal(
           () => MeetProvidersP()..range = range,
           from: meetProvidersPProvider,
@@ -317,7 +317,7 @@ class MeetProvidersPProvider extends AutoDisposeStreamNotifierProviderImpl<
     required this.range,
   }) : super.internal();
 
-  final DateRange range;
+  final DateTimeRange<DateTime> range;
 
   @override
   Stream<List<FullMeetView>> runNotifierBuild(
@@ -369,7 +369,7 @@ class MeetProvidersPProvider extends AutoDisposeStreamNotifierProviderImpl<
 mixin MeetProvidersPRef
     on AutoDisposeStreamNotifierProviderRef<List<FullMeetView>> {
   /// The parameter `range` of this provider.
-  DateRange get range;
+  DateTimeRange<DateTime> get range;
 }
 
 class _MeetProvidersPProviderElement
@@ -378,7 +378,7 @@ class _MeetProvidersPProviderElement
   _MeetProvidersPProviderElement(super.provider);
 
   @override
-  DateRange get range => (origin as MeetProvidersPProvider).range;
+  DateTimeRange<DateTime> get range => (origin as MeetProvidersPProvider).range;
 }
 
 String _$selectedMonthYearPHash() =>

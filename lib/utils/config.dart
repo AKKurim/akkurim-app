@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -45,16 +46,31 @@ class Config {
   static const String defaultLocaleString = 'cs';
 
   static Set<DateTime> holidays = {
-    DateTime(DateTime.now().year, 1, 1), // Nový rok
-    DateTime(DateTime.now().year, 5, 1), // Svátek práce
-    DateTime(DateTime.now().year, 5, 8), // Den vítězství
-    DateTime(DateTime.now().year, 7, 5), // Cyril a Metoděj
-    DateTime(DateTime.now().year, 7, 6), // Den upálení mistra Jana Husa
-    DateTime(DateTime.now().year, 9, 28), // Den české státnosti
-    DateTime(DateTime.now().year, 10, 28), // vznik československého státu
-    DateTime(DateTime.now().year, 11, 17), // Den boje za svobodu a demokracii
-    DateTime(DateTime.now().year, 12, 24), // Štědrý den
-    DateTime(DateTime.now().year, 12, 25), // První svátek vánoční
-    DateTime(DateTime.now().year, 12, 26), // Druhý svátek vánoční
+    DateTime(1993, 1, 1), // Nový rok
+    DateTime(1993, 5, 1), // Svátek práce
+    DateTime(1993, 5, 8), // Den vítězství
+    DateTime(1993, 7, 5), // Cyril a Metoděj
+    DateTime(1993, 7, 6), // Den upálení mistra Jana Husa
+    DateTime(1993, 9, 28), // Den české státnosti
+    DateTime(1993, 10, 28), // vznik československého státu
+    DateTime(1993, 11, 17), // Den boje za svobodu a demokracii
+    DateTime(1993, 12, 24), // Štědrý den
+    DateTime(1993, 12, 25), // První svátek vánoční
+    DateTime(1993, 12, 26), // Druhý svátek vánoční
   };
+
+  static Set<DateTime> get getEasterHolidays {
+    final Set<DateTime> easterHolidays = {};
+    for (int year = DateTime.now().year - 3;
+        year <= DateTime.now().year + 3;
+        year++) {
+      final DateTime easter = TimeHelper.getEasterSunday(year);
+      easterHolidays.add(easter);
+      easterHolidays
+          .add(easter.add(const Duration(days: 1))); // Velikonoční pondělí
+      easterHolidays
+          .add(easter.subtract(const Duration(days: 2))); // Velký pátek
+    }
+    return easterHolidays;
+  }
 }
