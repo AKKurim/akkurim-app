@@ -274,6 +274,15 @@ class MeetProvidersP extends _$MeetProvidersP {
           }
         }
         events = events_;
+        events.sort((a, b) {
+          if (a!.meetEvent.startAt.isBefore(b!.meetEvent.startAt)) {
+            return -1;
+          } else if (a.meetEvent.startAt.isAfter(b.meetEvent.startAt)) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
 
         final athleteMeetEvents = entry.value
             .map((row) {
