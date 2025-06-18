@@ -432,4 +432,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showBirthdays => 'Show Birthdays';
+
+  @override
+  String get noEventsForSelectedDay => 'No events for: ';
 }

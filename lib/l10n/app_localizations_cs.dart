@@ -430,4 +430,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get showBirthdays => 'Zobrazit narozeniny';
+
+  @override
+  String get noEventsForSelectedDay => 'Žádné události dne: ';
 }

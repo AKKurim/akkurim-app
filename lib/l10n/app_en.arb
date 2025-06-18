@@ -567,5 +567,9 @@
     "showBirthdays" : "Show Birthdays",
     "@showBirthdays" : {
         "description": "The label for the show birthdays option"
+    },
+    "noEventsForSelectedDay" : "No events for: ",
+    "@noEventsForSelectedDay" : {
+        "description": "The message shown when there are no events for the selected day"
     }
 }

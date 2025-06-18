@@ -1,5 +1,7 @@
+import 'package:ak_kurim_app/models/online_db/training.dart';
 import 'package:ak_kurim_app/models/views/full_meet_view.dart';
 import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
+import 'package:ak_kurim_app/models/views/training_view.dart';
 import 'package:ak_kurim_app/providers/simple_athletes_provider.dart';
 import 'package:ak_kurim_app/screens/races/races_screen.dart';
 import 'package:ak_kurim_app/utils/utils.dart';
@@ -22,34 +24,54 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selected = useState(DateTime.now());
-    final showBirthdays = useState(false);
+    final now = DateTime.now();
+    final selected = useState(now);
+    // get previous, current and next week range for smooth scrolling
+    final DateTimeRange calendarRange =
+        TimeHelper.getSelectedMonthRange(selected.value);
+    final showBirthdays = useState(true);
+    final events = useState<List<dynamic>>([]);
     final Set<DateTime> easterHolidays = Config.getEasterHolidays;
+    final Set<DateTime> holidays = Config.holidays;
 
     //final trainings = ref.watch(trainingsPProvider);
-    //final meets = ref.watch(meetProvidersPProvider);
     List<SimpleAthleteView> athletes = ref.watch(simpleAthletesPProvider).when(
         data: (athletes) => athletes,
         error: (error, stackTrace) => [],
         loading: () => []);
-    List<FullMeetView> meets = ref
-        .watch(meetProvidersPProvider(
-            range: TimeHelper.getSelectedWeekRange(selected.value)))
-        .when(
-          data: (meets) => meets,
-          error: (error, stackTrace) => [],
-          loading: () => [],
-        );
+    List<FullMeetView> meets =
+        ref.watch(meetProvidersPProvider(range: calendarRange)).when(
+              data: (meets) => meets,
+              error: (error, stackTrace) => [],
+              loading: () => [],
+            );
+
+    // add meets to events
+    events.value = [
+      ...meets,
+    ];
+    // add trainings TODO
+    // add athletes' birthdays
+    // add all birthdays which are in a week range
+    if (showBirthdays.value) {
+      final birthdayEvents = athletes
+          .where((athlete) =>
+              athlete
+                  .birthDay(selected.value.year)
+                  .isAfter(calendarRange.start) &&
+              athlete.birthDay(selected.value.year).isBefore(calendarRange.end))
+          .toList();
+      events.value.addAll(birthdayEvents);
+    }
+    bool isEventForDayHelper = false;
 
     final remoteConfig = ref.watch(remoteConfigProvider);
     final bool isNewUpdateAvailable = ref
         .watch(newUpdateProvider)
         .maybeWhen(data: (data) => data, orElse: () => false);
-    return RefreshIndicator(
-      onRefresh: () async {
-        selected.value = DateTime.now();
-      },
+    return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           remoteConfig.when(
             data: (data) {
@@ -104,44 +126,96 @@ class HomeScreen extends HookConsumerWidget {
           else
             const SizedBox(),
           TableCalendar(
+            rowHeight: 48.0,
             firstDay: DateTime.utc(2021, 1, 1),
             lastDay: DateTime.now().add(const Duration(days: 365 * 2)),
             focusedDay: selected.value,
             locale: AppLocalizations.of(context)!.localeName,
             startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarFormat: CalendarFormat.week,
+            calendarFormat: CalendarFormat.month,
             availableCalendarFormats: const {
-              CalendarFormat.week: '',
+              CalendarFormat.month: '🎂',
+              CalendarFormat.twoWeeks: '',
             },
-            headerStyle: const HeaderStyle(
-              formatButtonVisible: false,
+            headerStyle: HeaderStyle(
+              formatButtonVisible: true,
+              formatButtonShowsNext: false,
+              formatButtonTextStyle: const TextStyle(color: Colors.white),
+              formatButtonDecoration: BoxDecoration(
+                color: showBirthdays.value ? Colors.green : Colors.grey,
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              formatButtonPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               titleCentered: true,
               leftChevronIcon: Icon(Icons.chevron_left),
               rightChevronIcon: Icon(Icons.chevron_right),
             ),
             calendarStyle: CalendarStyle(
               todayDecoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.lightBlueAccent,
                 shape: BoxShape.circle,
               ),
               selectedDecoration: BoxDecoration(
-                color: Colors.orange,
+                color: Colors.blue,
                 shape: BoxShape.circle,
               ),
               weekendTextStyle: const TextStyle(color: Colors.red),
             ),
-            selectedDayPredicate: (day) => isSameDay(day, DateTime.now()),
-            onPageChanged: (focusedDay) => selected.value = focusedDay,
+            onFormatChanged: (format) =>
+                showBirthdays.value = !showBirthdays.value,
+            selectedDayPredicate: (day) => isSameDay(day, selected.value),
+            onPageChanged: (focusedDay) {
+              if (now.year == focusedDay.year &&
+                  now.month == focusedDay.month) {
+                selected.value = now;
+              } else {
+                selected.value = focusedDay;
+              }
+            },
+            onDaySelected: (selectedDay, focusedDay) {
+              selected.value = selectedDay;
+            },
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
                 if (events.isNotEmpty) {
-                  return Badge.count(
-                    count: events.length,
-                    child: const Icon(
-                      Icons.cake,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+                  // final isMeet = events.any((event) => event is FullMeetView);
+                  // final isTraining = events.any((event) => event
+                  //     is Training); // Assuming TrainingView is the type for trainings
+                  // final isBirthday =
+                  //     events.any((event) => event is SimpleAthleteView);
+                  // if same day, orange color
+                  final Color markerColor = TimeHelper.isSameDay(
+                    day,
+                    DateTime.now(),
+                  )
+                      ? Colors.orange
+                      : day.isBefore(DateTime.now())
+                          ? Colors.green
+                          : Colors.white;
+                  return Row(
+                    // icon for each type of event
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (events.any((event) => event is FullMeetView))
+                        Icon(
+                          Icons.emoji_events,
+                          size: 20,
+                          color: markerColor,
+                        ),
+                      if (events.any((event) => event is TrainingView))
+                        Icon(
+                          Icons.run_circle_outlined,
+                          size: 16,
+                          color: markerColor,
+                        ),
+                      if (events.any((event) => event is SimpleAthleteView))
+                        Icon(
+                          Icons.cake_outlined,
+                          size: 16,
+                          color: markerColor,
+                        ),
+                    ],
                   );
                 }
                 return const SizedBox.shrink();
@@ -162,10 +236,10 @@ class HomeScreen extends HookConsumerWidget {
                 return null;
               },
               defaultBuilder: (context, day, focusedDay) {
-                final isHoliday = Config.holidays
-                        .contains(DateTime(1993, day.month, day.day)) ||
-                    easterHolidays
-                        .contains(DateTime(day.year, day.month, day.day));
+                final isHoliday =
+                    holidays.contains(DateTime(1993, day.month, day.day)) ||
+                        easterHolidays
+                            .contains(DateTime(day.year, day.month, day.day));
                 if (isHoliday) {
                   return Center(
                     child: Text(
@@ -179,71 +253,80 @@ class HomeScreen extends HookConsumerWidget {
                 return null;
               },
             ),
-            eventLoader: (day) => athletes
-                .where((athlete) =>
-                    showBirthdays.value &&
-                    athlete.athleteStatus.name == 'Active' &&
-                    athlete.birthDate.month == day.month &&
-                    athlete.birthDate.day == day.day)
-                .toList(),
-            onDaySelected: (selectedDay, focusedDay) {
-              final birthdayAthletes = athletes.where((athlete) =>
-                  athlete.birthDate.month == selectedDay.month &&
-                  athlete.birthDate.day == selectedDay.day);
-              if (birthdayAthletes.isNotEmpty) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text(
-                      'birthdays on ${selectedDay.day}. ${selectedDay.month}.',
-                    ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: birthdayAthletes
-                          .map((athlete) => Text(athlete.fullName +
-                              (athlete.birthDate.year != 0
-                                  ? ' (${DateTime.now().year - athlete.birthDate.year})'
-                                  : '')))
-                          .toList(),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text('ok'),
-                      ),
-                    ],
-                  ),
-                );
-              }
+            eventLoader: (day) {
+              // return events.value with the same day
+              return events.value.where((event) {
+                if (event is FullMeetView) {
+                  return TimeHelper.isSameDay(event.meet.startAt, day) ||
+                      (event.isMultiDay &&
+                          event.meet.endAt.isAfter(day) &&
+                          event.meet.startAt.isBefore(day));
+                } else if (event is TrainingView) {
+                  return TimeHelper.isSameDay(event.training.datetime, day);
+                } else if (event is SimpleAthleteView) {
+                  return TimeHelper.isSameDay(event.birthDay(day.year), day);
+                }
+                return false;
+              }).toList();
             },
-            // is there a on title tap event?
             onHeaderTapped: (focusedDay) {
               selected.value = DateTime.now();
             },
           ),
-          const SizedBox(height: 20),
-          // toggle for showing birthdays
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(width: 16),
-              Text(AppLocalizations.of(context)!.showBirthdays,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
-              const Icon(Icons.cake),
-              Spacer(),
-              Switch(
-                value: showBirthdays.value,
-                onChanged: (value) {
-                  showBirthdays.value = value;
-                },
-              ),
-              const SizedBox(width: 16),
-            ],
-          ),
           const Divider(),
-          Text(selected.value.toIso8601String()),
-          for (int i = 0; i < 10; i++) const Text('Filler'),
+          // show events for selected day
+
+          ...events.value.map(
+            (event) {
+              // filter out events that are not for the selected day
+              if (event is FullMeetView) {
+                if (!TimeHelper.isSameDay(event.meet.startAt, selected.value) &&
+                    !(event.isMultiDay &&
+                        event.meet.endAt.isAfter(selected.value) &&
+                        event.meet.startAt.isBefore(selected.value))) {
+                  return const SizedBox.shrink();
+                }
+                isEventForDayHelper = true;
+                return MeetTile(meet: event);
+              } else if (event is TrainingView) {
+                if (!TimeHelper.isSameDay(
+                    event.training.datetime, selected.value)) {
+                  return const SizedBox.shrink();
+                }
+                isEventForDayHelper = true;
+                return TrainingTile(training: event);
+              } else if (event is SimpleAthleteView) {
+                if (!TimeHelper.isSameDay(
+                    event.birthDay(selected.value.year), selected.value)) {
+                  return const SizedBox.shrink();
+                }
+                isEventForDayHelper = true;
+                return ListTile(
+                  leading: const Icon(Icons.cake_outlined),
+                  title: Text(
+                      '${event.fullName} (${selected.value.year - event.birthDate.year})'),
+                  // subtitle: Text(
+                  //   AppLocalizations.of(context)!.birthdayOnDate(
+                  //     TimeHelper.getFullDateWithoutTime(
+                  //         event.birthDay(selected.value.year), context),
+                  //   ),
+                  // ),
+                );
+              }
+              throw Exception(
+                'Unknown event type: ${event.runtimeType}',
+              );
+            },
+          ),
+          if (!isEventForDayHelper)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                AppLocalizations.of(context)!.noEventsForSelectedDay +
+                    TimeHelper.getFullDateWithoutTime(selected.value, context),
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
         ],
       ),
     );

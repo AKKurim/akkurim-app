@@ -895,6 +895,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show Birthdays'**
   String get showBirthdays;
+
+  /// The message shown when there are no events for the selected day
+  ///
+  /// In en, this message translates to:
+  /// **'No events for: '**
+  String get noEventsForSelectedDay;
 }
 
 class _AppLocalizationsDelegate

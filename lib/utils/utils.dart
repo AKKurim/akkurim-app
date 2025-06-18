@@ -402,4 +402,12 @@ class TimeHelper {
     final endOfWeek = getEndOfWeek(selectedDate);
     return DateTimeRange(start: startOfWeek, end: endOfWeek);
   }
+
+  static DateTimeRange getSelectedMonthRange(DateTime selectedDate) {
+    final startOfMonth = getStartOfMonth(selectedDate);
+    final endOfMonth = getEndOfMonth(selectedDate);
+    return DateTimeRange(
+        start: getSelectedWeekRange(startOfMonth).start,
+        end: getSelectedWeekRange(endOfMonth).end);
+  }
 }

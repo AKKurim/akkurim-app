@@ -29,4 +29,9 @@ class SimpleAthleteView {
   DateTime get birthDate {
     return Utils.parseBirthNumber(athlete.birthNumber);
   }
+
+  DateTime birthDay(int year) {
+    final birthDate = this.birthDate;
+    return DateTime(year, birthDate.month, birthDate.day);
+  }
 }
