@@ -150,7 +150,6 @@ class HomeScreen extends HookConsumerWidget {
                 }
                 return null;
               },
-              // I want to change the color of the dates (weekend dates) to red
               defaultBuilder: (context, day, focusedDay) {
                 final isHoliday = Config.holidays
                     .contains(DateTime(day.year, day.month, day.day));

@@ -18,7 +18,7 @@ class RacesScreen extends ConsumerWidget {
           meetProvidersPProvider(
             range: DateRange(
               start: DateTime(sMY.year, sMY.month, 1),
-              end: DateTime(sMY.year, sMY.month + 1, 0),
+              end: DateTime(sMY.year, sMY.month + 1, 1),
             ),
           ),
         )

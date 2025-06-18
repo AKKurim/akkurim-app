@@ -51,7 +51,7 @@ class Config {
     DateTime(DateTime.now().year, 7, 5), // Cyril a Metoděj
     DateTime(DateTime.now().year, 7, 6), // Den upálení mistra Jana Husa
     DateTime(DateTime.now().year, 9, 28), // Den české státnosti
-    DateTime(DateTime.now().year, 10, 28), // československého státu
+    DateTime(DateTime.now().year, 10, 28), // vznik československého státu
     DateTime(DateTime.now().year, 11, 17), // Den boje za svobodu a demokracii
     DateTime(DateTime.now().year, 12, 24), // Štědrý den
     DateTime(DateTime.now().year, 12, 25), // První svátek vánoční
