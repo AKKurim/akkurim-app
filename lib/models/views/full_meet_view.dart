@@ -2,6 +2,7 @@ import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
 
 import '../../services/database/drift_database.dart';
 import './meet_event_view.dart';
+import '../../utils/utils.dart';
 
 class FullMeetView {
   MeetData meet;
@@ -11,6 +12,47 @@ class FullMeetView {
     required this.meet,
     required this.events,
   });
+
+  bool get isPast {
+    return meet.endAt.add(const Duration(minutes: 90)).isBefore(DateTime.now());
+  }
+
+  bool get isToday {
+    final now = DateTime.now();
+    return TimeHelper.isSameDay(
+          meet.startAt,
+          now,
+        ) ||
+        (isMultiDay &&
+            meet.endAt.add(const Duration(minutes: 89)).isAfter(now) &&
+            meet.startAt.isBefore(now));
+  }
+
+  bool get isMultiDay {
+    return meet.startAt.difference(meet.endAt).inDays < 0;
+  }
+
+  bool isDoubleMeetDiscipline(int disciplineId, int categoryID) {
+    int count = 0;
+    for (final event in events) {
+      if (event.meetEvent.disciplineId == disciplineId &&
+          event.meetEvent.categoryId == categoryID) {
+        count++;
+        if (count > 1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  int get athletesCount {
+    final athletes = events
+        .expand((event) => event.athletesWithResults.keys)
+        .toSet()
+        .toList();
+    return athletes.length;
+  }
 
   List<AthleteWithMeetEvents> get athletesWithEvents {
     final Map<SimpleAthleteView, List<MeetEventViewWithoutAthletes>>
@@ -39,31 +81,5 @@ class FullMeetView {
               events: entry.value,
             ))
         .toList();
-  }
-
-  int get athletesCount {
-    final athletes = events
-        .expand((event) => event.athletesWithResults.keys)
-        .toSet()
-        .toList();
-    return athletes.length;
-  }
-
-  bool get isMultiDay {
-    return meet.startAt.difference(meet.endAt).inDays < 0;
-  }
-
-  bool isDoubleMeetDiscipline(int disciplineId, int categoryID) {
-    int count = 0;
-    for (final event in events) {
-      if (event.meetEvent.disciplineId == disciplineId &&
-          event.meetEvent.categoryId == categoryID) {
-        count++;
-        if (count > 1) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 }

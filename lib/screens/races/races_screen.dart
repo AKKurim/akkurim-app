@@ -52,10 +52,7 @@ class RacesScreen extends ConsumerWidget {
                   itemCount: meets.length,
                   itemBuilder: (context, index) {
                     final meet = meets[index];
-                    return showFinished ||
-                            !meet.meet.endAt
-                                .add(const Duration(minutes: 90))
-                                .isBefore(DateTime.now())
+                    return showFinished || !meet.isPast
                         ? MeetTile(meet: meet)
                         : const SizedBox.shrink();
                   }),
@@ -77,21 +74,11 @@ class MeetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO these two variables should probably be moved to the FullMeetView model as properties (or getters)
-    final bool isPast = meet.meet.endAt
-        .add(const Duration(minutes: 90))
-        .isBefore(DateTime.now());
-    final bool isToday =
-        TimeHelper.isSameDay(meet.meet.startAt, DateTime.now()) ||
-            (meet.isMultiDay &&
-                meet.meet.endAt.isAfter(DateTime.now()) &&
-                meet.meet.startAt.isBefore(DateTime.now()));
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0),
       child: Column(
         children: [
-          if (!isPast)
+          if (!meet.isPast)
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
               child: Row(
@@ -127,9 +114,9 @@ class MeetTile extends StatelessWidget {
                 width: 1,
               ),
             ),
-            color: isPast
+            color: meet.isPast
                 ? Colors.green[800]
-                : isToday
+                : meet.isToday
                     ? Colors.orange[800]
                     : null,
             child: ListTile(
@@ -164,7 +151,7 @@ class MeetTile extends StatelessWidget {
                 ],
               ),
               onTap: () {
-                context.push('/race/${meet.meet.id}/${isPast ? 2 : 0}',
+                context.push('/race/${meet.meet.id}/${meet.isPast ? 2 : 0}',
                     extra: meet); // Pass the meet object to the next screen
               },
             ),
