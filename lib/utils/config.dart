@@ -19,6 +19,8 @@ class Config {
     return Uri.parse('https://online.atletika.cz/Propozice/propozice/$id');
   }
 
+  static const String versionUrl =
+      'https://api.github.com/repositories/609669246/releases/latest';
   static Uri resultsUrl(String id) {
     return Uri.parse('https://online.atletika.cz/vysledky/$id');
   }

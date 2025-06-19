@@ -9,6 +9,7 @@ import 'providers/app_settings_provider.dart';
 import 'services/network/api_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import './router.dart';
 
 void main() async {
@@ -24,9 +25,11 @@ void main() async {
   ]);
 
   runApp(
-    ProviderScope(
-      child: MyApp(
-        packageInfo: packageInfo,
+    Phoenix(
+      child: ProviderScope(
+        child: MyApp(
+          packageInfo: packageInfo,
+        ),
       ),
     ),
   );

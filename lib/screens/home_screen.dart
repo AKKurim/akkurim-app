@@ -28,7 +28,7 @@ class HomeScreen extends HookConsumerWidget {
     // get previous, current and next week range for smooth scrolling
     final DateTimeRange calendarRange =
         TimeHelper.getSelectedMonthRange(selected.value);
-    final showBirthdays = useState(true);
+    final showBirthdays = useState(false);
     final events = useState<List<dynamic>>([]);
     final Set<DateTime> easterHolidays = Config.getEasterHolidays;
     final Set<DateTime> holidays = Config.holidays;
@@ -72,6 +72,33 @@ class HomeScreen extends HookConsumerWidget {
     final bool isNewUpdateAvailable = ref
         .watch(newUpdateProvider)
         .maybeWhen(data: (data) => data, orElse: () => false);
+    ref.read(newPatchProvider).whenData((data) {
+      if (data == PatchStatus.downloaded) {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Patch Available'),
+            content: const Text(
+                'A live patch has been downloaded. Restart to apply it?'),
+            actions: [
+              TextButton(
+                child: const Text('Later'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  ref.read(newPatchProvider.notifier).reset();
+                },
+              ),
+              TextButton(
+                child: const Text('Restart Now'),
+                onPressed: () {
+                  ref.read(newPatchProvider.notifier).restartApp(context);
+                },
+              ),
+            ],
+          ),
+        );
+      }
+    });
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

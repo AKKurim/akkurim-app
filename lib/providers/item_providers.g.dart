@@ -6,7 +6,7 @@ part of 'item_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$itemProviderPHash() => r'382c1116573748e7e9fce27b58cf9f096ebfc6dc';
+String _$itemProviderPHash() => r'afba0d3db44e0af213f12c04576c4ddb634862ea';
 
 /// See also [ItemProviderP].
 @ProviderFor(ItemProviderP)
