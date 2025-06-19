@@ -41,20 +41,172 @@ final trainingTimesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TrainingTimesRef = AutoDisposeStreamProviderRef<List<TrainingTimeData>>;
-String _$trainingsPHash() => r'05e1169506b9c415efa98a1f298a09ac36fc70df';
+String _$trainingsPHash() => r'55e79056a3d3e17c21ecce275d7411152af53a63';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+abstract class _$TrainingsP
+    extends BuildlessAutoDisposeStreamNotifier<List<TrainingView>> {
+  late final DateTimeRange<DateTime> range;
+
+  Stream<List<TrainingView>> build({
+    required DateTimeRange<DateTime> range,
+  });
+}
 
 /// See also [TrainingsP].
 @ProviderFor(TrainingsP)
-final trainingsPProvider =
-    AutoDisposeStreamNotifierProvider<TrainingsP, List<TrainingView>>.internal(
-  TrainingsP.new,
-  name: r'trainingsPProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$trainingsPHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const trainingsPProvider = TrainingsPFamily();
 
-typedef _$TrainingsP = AutoDisposeStreamNotifier<List<TrainingView>>;
+/// See also [TrainingsP].
+class TrainingsPFamily extends Family<AsyncValue<List<TrainingView>>> {
+  /// See also [TrainingsP].
+  const TrainingsPFamily();
+
+  /// See also [TrainingsP].
+  TrainingsPProvider call({
+    required DateTimeRange<DateTime> range,
+  }) {
+    return TrainingsPProvider(
+      range: range,
+    );
+  }
+
+  @override
+  TrainingsPProvider getProviderOverride(
+    covariant TrainingsPProvider provider,
+  ) {
+    return call(
+      range: provider.range,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'trainingsPProvider';
+}
+
+/// See also [TrainingsP].
+class TrainingsPProvider extends AutoDisposeStreamNotifierProviderImpl<
+    TrainingsP, List<TrainingView>> {
+  /// See also [TrainingsP].
+  TrainingsPProvider({
+    required DateTimeRange<DateTime> range,
+  }) : this._internal(
+          () => TrainingsP()..range = range,
+          from: trainingsPProvider,
+          name: r'trainingsPProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$trainingsPHash,
+          dependencies: TrainingsPFamily._dependencies,
+          allTransitiveDependencies:
+              TrainingsPFamily._allTransitiveDependencies,
+          range: range,
+        );
+
+  TrainingsPProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.range,
+  }) : super.internal();
+
+  final DateTimeRange<DateTime> range;
+
+  @override
+  Stream<List<TrainingView>> runNotifierBuild(
+    covariant TrainingsP notifier,
+  ) {
+    return notifier.build(
+      range: range,
+    );
+  }
+
+  @override
+  Override overrideWith(TrainingsP Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: TrainingsPProvider._internal(
+        () => create()..range = range,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        range: range,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamNotifierProviderElement<TrainingsP, List<TrainingView>>
+      createElement() {
+    return _TrainingsPProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TrainingsPProvider && other.range == range;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, range.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin TrainingsPRef
+    on AutoDisposeStreamNotifierProviderRef<List<TrainingView>> {
+  /// The parameter `range` of this provider.
+  DateTimeRange<DateTime> get range;
+}
+
+class _TrainingsPProviderElement
+    extends AutoDisposeStreamNotifierProviderElement<TrainingsP,
+        List<TrainingView>> with TrainingsPRef {
+  _TrainingsPProviderElement(super.provider);
+
+  @override
+  DateTimeRange<DateTime> get range => (origin as TrainingsPProvider).range;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,4 +1,5 @@
 import 'package:ak_kurim_app/services/database/companion_builder_map.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../services/database/drift_database.dart';
@@ -22,18 +23,16 @@ part 'training_providers.g.dart';
 @riverpod
 class TrainingsP extends _$TrainingsP {
   @override
-  Stream<List<TrainingView>> build() async* {
+  Stream<List<TrainingView>> build({required DateTimeRange range}) async* {
     final db = ref.read(dbProvider);
     final groups = await ref.watch(groupsPProvider.future);
     final athletes = await ref.watch(simpleAthletesPProvider.future);
     final trainers = await ref.watch(trainerPProvider.future);
     final groupIds = groups.map((g) => g.group.id).toList();
-    final DateTime from = DateTime.now().subtract(const Duration(days: 1));
-    final DateTime to = DateTime.now().add(const Duration(days: 30));
 
     final query = (db.select(db.training)
           ..where((t) => t.groupId.isIn(groupIds))
-          ..where((t) => t.datetime.isBetweenValues(from, to))
+          ..where((t) => t.datetime.isBetweenValues(range.start, range.end))
           ..where((t) => t.deletedAt.isNull())
           ..orderBy([
             (tbl) => OrderingTerm(

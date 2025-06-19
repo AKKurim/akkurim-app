@@ -14,7 +14,15 @@ class TrainingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<TrainingView> trainings = ref.watch(trainingsPProvider).when(
+    final now = DateTime.now();
+    final List<TrainingView> trainings = ref
+        .watch(trainingsPProvider(
+            range: DateTimeRange(
+                start: now.subtract(const Duration(days: 1)),
+                end: now.add(
+                  const Duration(days: 30),
+                ))))
+        .when(
           data: (data) => data,
           error: (error, stackTrace) => [],
           loading: () => [],
@@ -87,7 +95,9 @@ class TrainingTile extends ConsumerWidget {
                       TextButton(
                         onPressed: () {
                           ref
-                              .read(trainingsPProvider.notifier)
+                              .read(trainingsPProvider(
+                                      range: TimeHelper.emptyRange)
+                                  .notifier)
                               .deleteTraining(training);
                           Navigator.of(context).pop();
                         },
@@ -222,7 +232,10 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
           FilledButton(
             onPressed: (_selectedGroup != null && _dateRange != null)
                 ? () {
-                    ref.read(trainingsPProvider.notifier).createTrainings(
+                    ref
+                        .read(trainingsPProvider(range: TimeHelper.emptyRange)
+                            .notifier)
+                        .createTrainings(
                           _selectedGroup!,
                           _dateRange!.start,
                           _dateRange!.end,

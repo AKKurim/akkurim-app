@@ -34,7 +34,9 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
   }
 
   saveTrainingData() {
-    ref.read(trainingsPProvider.notifier).saveAttendance(
+    ref
+        .read(trainingsPProvider(range: TimeHelper.emptyRange).notifier)
+        .saveAttendance(
           widget.training,
           athleteAttendance,
           trainerAttendance,

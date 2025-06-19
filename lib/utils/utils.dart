@@ -410,4 +410,11 @@ class TimeHelper {
         start: getSelectedWeekRange(startOfMonth).start,
         end: getSelectedWeekRange(endOfMonth).end);
   }
+
+  static get emptyRange {
+    return DateTimeRange(
+      start: DateTime(1970, 1, 1),
+      end: DateTime(1970, 1, 1),
+    );
+  }
 }

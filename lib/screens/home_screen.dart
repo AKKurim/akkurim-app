@@ -34,7 +34,6 @@ class HomeScreen extends HookConsumerWidget {
     final Set<DateTime> easterHolidays = Config.getEasterHolidays;
     final Set<DateTime> holidays = Config.holidays;
 
-    //final trainings = ref.watch(trainingsPProvider);
     List<SimpleAthleteView> athletes = ref.watch(simpleAthletesPProvider).when(
         data: (athletes) => athletes,
         error: (error, stackTrace) => [],
@@ -45,21 +44,26 @@ class HomeScreen extends HookConsumerWidget {
               error: (error, stackTrace) => [],
               loading: () => [],
             );
+    List<TrainingView> trainings =
+        ref.watch(trainingsPProvider(range: calendarRange)).when(
+              data: (trainings) => trainings,
+              error: (error, stackTrace) => [],
+              loading: () => [],
+            );
 
-    // add meets to events
-    events.value = [
-      ...meets,
-    ];
-    // add trainings TODO
-    // add athletes' birthdays
-    // add all birthdays which are in a week range
+    events.value.clear();
+    events.value.addAll(meets);
+    events.value.addAll(trainings);
     if (showBirthdays.value) {
       final birthdayEvents = athletes
           .where((athlete) =>
               athlete
                   .birthDay(selected.value.year)
                   .isAfter(calendarRange.start) &&
-              athlete.birthDay(selected.value.year).isBefore(calendarRange.end))
+              athlete
+                  .birthDay(selected.value.year)
+                  .isBefore(calendarRange.end) &&
+              athlete.athleteStatus.name == 'Active')
           .toList();
       events.value.addAll(birthdayEvents);
     }
