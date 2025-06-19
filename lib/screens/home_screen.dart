@@ -1,4 +1,3 @@
-import 'package:ak_kurim_app/models/online_db/training.dart';
 import 'package:ak_kurim_app/models/views/full_meet_view.dart';
 import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
 import 'package:ak_kurim_app/models/views/training_view.dart';

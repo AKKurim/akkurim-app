@@ -69,17 +69,22 @@ class ItemProviderP extends _$ItemProviderP {
       {String? athleteId}) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    // try to find existing item
+    final existingItem = await db.select(db.item).getSingleOrNull();
     final updated = await db.into(db.item).insertReturning(
           mode: InsertMode.insertOrReplace,
           ItemCompanion(
             id: Value(id),
             name: Value(name),
             description: Value(description),
+            // TODO when images are implemented, update this
             image: Value(''),
             count: Value(1),
             itemTypeId: Value(itemTypeId),
             athleteId: Value(athleteId),
-            createdAt: Value(DateTime.now()),
+            createdAt: existingItem != null
+                ? Value(existingItem.createdAt)
+                : Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(null),
           ),
