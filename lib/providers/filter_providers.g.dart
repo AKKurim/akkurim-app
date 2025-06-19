@@ -44,5 +44,21 @@ final filteredAthletesProvider =
 // ignore: unused_element
 typedef FilteredAthletesRef
     = AutoDisposeStreamProviderRef<List<SimpleAthleteView>>;
+String _$showFinishedMeetsHash() => r'90b1d9117e0bf4dab2c5f5bf5adf38fd8b9c28eb';
+
+/// See also [ShowFinishedMeets].
+@ProviderFor(ShowFinishedMeets)
+final showFinishedMeetsProvider =
+    AutoDisposeNotifierProvider<ShowFinishedMeets, bool>.internal(
+  ShowFinishedMeets.new,
+  name: r'showFinishedMeetsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$showFinishedMeetsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ShowFinishedMeets = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

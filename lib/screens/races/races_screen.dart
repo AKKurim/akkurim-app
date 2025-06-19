@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/meet_providers.dart';
+import '../../providers/filter_providers.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../utils/utils.dart';
 import '../../widgets/month_year_selecter.dart';
@@ -12,6 +13,7 @@ class RacesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sMY = ref.watch(selectedMonthYearPProvider);
+    final showFinished = ref.watch(showFinishedMeetsProvider);
     final List<FullMeetView> meets = ref
         .watch(
           meetProvidersPProvider(
@@ -50,7 +52,12 @@ class RacesScreen extends ConsumerWidget {
                   itemCount: meets.length,
                   itemBuilder: (context, index) {
                     final meet = meets[index];
-                    return MeetTile(meet: meet);
+                    return showFinished ||
+                            !meet.meet.endAt
+                                .add(const Duration(minutes: 90))
+                                .isBefore(DateTime.now())
+                        ? MeetTile(meet: meet)
+                        : const SizedBox.shrink();
                   }),
             ),
           ],
@@ -70,7 +77,7 @@ class MeetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // todo these two variables should probably be moved to the FullMeetView model as properties (or getters)
+    // TODO these two variables should probably be moved to the FullMeetView model as properties (or getters)
     final bool isPast = meet.meet.endAt
         .add(const Duration(minutes: 90))
         .isBefore(DateTime.now());

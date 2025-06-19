@@ -63,3 +63,15 @@ Stream<List<SimpleAthleteView>> filteredAthletes(Ref ref) async* {
     yield data;
   });
 }
+
+@riverpod
+class ShowFinishedMeets extends _$ShowFinishedMeets {
+  @override
+  bool build() {
+    return true;
+  }
+
+  void toggle() {
+    state = !state;
+  }
+}
