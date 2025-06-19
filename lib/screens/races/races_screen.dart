@@ -12,14 +12,15 @@ class RacesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sMY = ref.watch(selectedMonthYearPProvider);
+    final now = DateTime.now();
+    final selected = ref.watch(selectedMonthYearPProvider);
     final showFinished = ref.watch(showFinishedMeetsProvider);
     final List<FullMeetView> meets = ref
         .watch(
           meetProvidersPProvider(
             range: DateTimeRange(
-              start: DateTime(sMY.year, sMY.month, 1),
-              end: DateTime(sMY.year, sMY.month + 1, 1),
+              start: DateTime(selected.year, selected.month, 1),
+              end: DateTime(selected.year, selected.month + 1, 1),
             ),
           ),
         )
@@ -52,7 +53,10 @@ class RacesScreen extends ConsumerWidget {
                   itemCount: meets.length,
                   itemBuilder: (context, index) {
                     final meet = meets[index];
-                    return showFinished || !meet.isPast
+                    return showFinished ||
+                            !meet.isPast ||
+                            now.month != selected.month ||
+                            now.year != selected.year
                         ? MeetTile(meet: meet)
                         : const SizedBox.shrink();
                   }),
