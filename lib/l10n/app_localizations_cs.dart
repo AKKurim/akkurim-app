@@ -433,4 +433,17 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get noEventsForSelectedDay => 'Žádné události dne: ';
+
+  @override
+  String get patchAvaliable => 'Vylepšení k dispozici';
+
+  @override
+  String get patchDownloaded =>
+      'Stáhlo se vylepšení, které opravuje chyby a přidává nové funkce. Prosím restartujte aplikaci pro načtení vylepšení.';
+
+  @override
+  String get restartNow => 'Restartovat nyní';
+
+  @override
+  String get later => 'Později';
 }

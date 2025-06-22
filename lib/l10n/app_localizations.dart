@@ -901,6 +901,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No events for: '**
   String get noEventsForSelectedDay;
+
+  /// The message shown when a patch is available
+  ///
+  /// In en, this message translates to:
+  /// **'Patch available'**
+  String get patchAvaliable;
+
+  /// The message shown when a patch is downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'Patch downloaded, please restart the app to apply the changes.'**
+  String get patchDownloaded;
+
+  /// The label for the restart now button
+  ///
+  /// In en, this message translates to:
+  /// **'Restart Now'**
+  String get restartNow;
+
+  /// The label for the later button
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
 }
 
 class _AppLocalizationsDelegate

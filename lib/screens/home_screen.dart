@@ -77,19 +77,20 @@ class HomeScreen extends HookConsumerWidget {
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            title: const Text('Patch Available'),
-            content: const Text(
-                'A live patch has been downloaded. Restart to apply it?'),
+            title: Text(AppLocalizations.of(context)!.patchAvaliable),
+            content: Text(
+              AppLocalizations.of(context)!.patchDownloaded,
+            ),
             actions: [
               TextButton(
-                child: const Text('Later'),
+                child: Text(AppLocalizations.of(context)!.later),
                 onPressed: () {
                   Navigator.pop(context);
                   ref.read(newPatchProvider.notifier).reset();
                 },
               ),
               TextButton(
-                child: const Text('Restart Now'),
+                child: Text(AppLocalizations.of(context)!.restartNow),
                 onPressed: () {
                   ref.read(newPatchProvider.notifier).restartApp(context);
                 },

@@ -571,5 +571,21 @@
     "noEventsForSelectedDay" : "No events for: ",
     "@noEventsForSelectedDay" : {
         "description": "The message shown when there are no events for the selected day"
+    },
+    "patchAvaliable" : "Patch available",
+    "@patchAvaliable" : {
+        "description": "The message shown when a patch is available"
+    },
+    "patchDownloaded" : "Patch downloaded, please restart the app to apply the changes.",
+    "@patchDownloaded" : {
+        "description": "The message shown when a patch is downloaded"
+    },
+    "restartNow" : "Restart Now",
+    "@restartNow" : {
+        "description": "The label for the restart now button"
+    },
+    "later" : "Later",
+    "@later" : {
+        "description": "The label for the later button"
     }
 }

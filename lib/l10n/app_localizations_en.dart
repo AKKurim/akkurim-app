@@ -435,4 +435,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noEventsForSelectedDay => 'No events for: ';
+
+  @override
+  String get patchAvaliable => 'Patch available';
+
+  @override
+  String get patchDownloaded =>
+      'Patch downloaded, please restart the app to apply the changes.';
+
+  @override
+  String get restartNow => 'Restart Now';
+
+  @override
+  String get later => 'Later';
 }
