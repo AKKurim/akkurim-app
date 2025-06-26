@@ -441,7 +441,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get patchDownloaded =>
-      'Patch downloaded, please restart the app to apply the changes.';
+      'Patch downloaded, please click here to restart the app to apply the changes.';
 
   @override
   String get restartNow => 'Restart Now';

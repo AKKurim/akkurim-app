@@ -439,7 +439,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get patchDownloaded =>
-      'Stáhlo se vylepšení, které opravuje chyby a přidává nové funkce. Prosím restartujte aplikaci pro načtení vylepšení.';
+      'Stáhlo se vylepšení, které opravuje chyby a přidává nové funkce. Prosím klikněte zde pro restartování aplikace a načtení vylepšení.';
 
   @override
   String get restartNow => 'Restartovat nyní';

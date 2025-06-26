@@ -911,7 +911,7 @@ abstract class AppLocalizations {
   /// The message shown when a patch is downloaded
   ///
   /// In en, this message translates to:
-  /// **'Patch downloaded, please restart the app to apply the changes.'**
+  /// **'Patch downloaded, please click here to restart the app to apply the changes.'**
   String get patchDownloaded;
 
   /// The label for the restart now button
