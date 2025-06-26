@@ -72,34 +72,11 @@ class HomeScreen extends HookConsumerWidget {
     final bool isNewUpdateAvailable = ref
         .watch(newUpdateProvider)
         .maybeWhen(data: (data) => data, orElse: () => false);
-    ref.read(newPatchProvider).whenData((data) {
-      if (data == PatchStatus.downloaded) {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text(AppLocalizations.of(context)!.patchAvaliable),
-            content: Text(
-              AppLocalizations.of(context)!.patchDownloaded,
-            ),
-            actions: [
-              TextButton(
-                child: Text(AppLocalizations.of(context)!.later),
-                onPressed: () {
-                  Navigator.pop(context);
-                  ref.read(newPatchProvider.notifier).reset();
-                },
-              ),
-              TextButton(
-                child: Text(AppLocalizations.of(context)!.restartNow),
-                onPressed: () {
-                  ref.read(newPatchProvider.notifier).restartApp(context);
-                },
-              ),
-            ],
-          ),
+    final bool isNewPatchAvailable = ref.watch(newPatchProvider).when(
+          data: (data) => data == PatchStatus.downloaded,
+          error: (error, stackTrace) => false,
+          loading: () => false,
         );
-      }
-    });
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,8 +131,26 @@ class HomeScreen extends HookConsumerWidget {
                 ),
               ),
             )
-          else
-            const SizedBox(),
+          else if (isNewPatchAvailable)
+            GestureDetector(
+              onTap: () {
+                ref.read(newPatchProvider.notifier).restartApp(context);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  AppLocalizations.of(context)!.patchDownloaded,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
           TableCalendar(
             rowHeight: 48.0,
             firstDay: DateTime.utc(2021, 1, 1),

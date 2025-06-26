@@ -576,7 +576,7 @@
     "@patchAvaliable" : {
         "description": "The message shown when a patch is available"
     },
-    "patchDownloaded" : "Patch downloaded, please restart the app to apply the changes.",
+    "patchDownloaded" : "Patch downloaded, please click here to restart the app to apply the changes.",
     "@patchDownloaded" : {
         "description": "The message shown when a patch is downloaded"
     },
