@@ -72,10 +72,12 @@ class HomeScreen extends HookConsumerWidget {
     final bool isNewUpdateAvailable = ref
         .watch(newUpdateProvider)
         .maybeWhen(data: (data) => data, orElse: () => false);
-    final bool isNewPatchAvailable = ref.watch(newPatchProvider).when(
-          data: (data) => data == PatchStatus.downloaded,
-          error: (error, stackTrace) => false,
-          loading: () => false,
+    final PatchStatus isNewPatchAvailable = ref.watch(newPatchProvider).when(
+          data: (data) => data,
+          error: (error, stackTrace) => throw Exception(
+            'Error checking for new patch: $error',
+          ),
+          loading: () => PatchStatus.checking,
         );
     return SingleChildScrollView(
       child: Column(
@@ -131,12 +133,15 @@ class HomeScreen extends HookConsumerWidget {
                 ),
               ),
             )
-          else if (isNewPatchAvailable)
+          else if (isNewPatchAvailable == PatchStatus.downloaded ||
+              isNewPatchAvailable ==
+                  PatchStatus.error) // well this is stupid but it fkn works
             GestureDetector(
               onTap: () {
                 ref.read(newPatchProvider.notifier).restartApp(context);
               },
               child: Container(
+                alignment: Alignment.center,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.blue,
