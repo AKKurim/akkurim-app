@@ -70,7 +70,11 @@ class ItemProviderP extends _$ItemProviderP {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
     // try to find existing item
-    final existingItem = await db.select(db.item).getSingleOrNull();
+    final existingItem = await (db.select(db.item)
+          ..where(
+            (tbl) => tbl.id.equals(id),
+          ))
+        .getSingleOrNull();
     final updated = await db.into(db.item).insertReturning(
           mode: InsertMode.insertOrReplace,
           ItemCompanion(
