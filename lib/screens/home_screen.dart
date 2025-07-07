@@ -138,7 +138,7 @@ class HomeScreen extends HookConsumerWidget {
                   PatchStatus.error) // well this is stupid but it fkn works
             GestureDetector(
               onTap: () {
-                ref.read(newPatchProvider.notifier).restartApp(context);
+                ref.read(newPatchProvider.notifier).restartApp();
               },
               child: Container(
                 alignment: Alignment.center,
