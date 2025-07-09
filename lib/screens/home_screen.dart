@@ -210,12 +210,8 @@ class HomeScreen extends HookConsumerWidget {
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
                 if (events.isNotEmpty) {
-                  // final isMeet = events.any((event) => event is FullMeetView);
-                  // final isTraining = events.any((event) => event
-                  //     is Training); // Assuming TrainingView is the type for trainings
-                  // final isBirthday =
-                  //     events.any((event) => event is SimpleAthleteView);
-                  // if same day, orange color
+                  List<Icon> icons = [];
+                  final double iconSize = 22;
                   final Color markerColor = TimeHelper.isSameDay(
                     day,
                     DateTime.now(),
@@ -224,27 +220,57 @@ class HomeScreen extends HookConsumerWidget {
                       : day.isBefore(DateTime.now())
                           ? Colors.green
                           : Colors.white;
-                  return Row(
-                    // icon for each type of event
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (events.any((event) => event is FullMeetView))
+                  for (final event in events) {
+                    if (event is FullMeetView) {
+                      icons.add(
                         Icon(
                           Icons.emoji_events,
-                          size: 20,
+                          size: iconSize,
                           color: markerColor,
                         ),
-                      if (events.any((event) => event is TrainingView))
+                      );
+                    } else if (event is TrainingView) {
+                      icons.add(
                         Icon(
                           Icons.run_circle_outlined,
-                          size: 16,
+                          size: iconSize,
                           color: markerColor,
                         ),
-                      if (events.any((event) => event is SimpleAthleteView))
+                      );
+                    } else if (event is SimpleAthleteView) {
+                      icons.add(
                         Icon(
                           Icons.cake_outlined,
-                          size: 16,
+                          size: iconSize,
                           color: markerColor,
+                        ),
+                      );
+                    }
+                  }
+                  // Limit the number of icons to 4
+                  if (icons.length > 4) {
+                    icons = icons.sublist(0, 4);
+                  }
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // display first 3 icons in this row
+                          ...icons.take(2),
+                        ],
+                      ),
+                      if (icons.length > 3)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // display next 3 icons in this row
+                            ...icons.skip(2).take(2),
+                          ],
                         ),
                     ],
                   );
