@@ -11,9 +11,9 @@ class Config {
   static const String appName = 'Athletics Club Manager';
   static const String dbName = 'athletics_club_manager';
 
-  static final Uri updateUrl =
+  static final Uri updateUri =
       Uri.parse('https://github.com/AKKurim/akkurim-app/releases');
-  static final Uri bugReportUrl =
+  static final Uri bugReportUri =
       Uri.parse('https://github.com/AKKurim/akkurim-app/issues/new/choose');
   static Uri propositionUrl(String id) {
     return Uri.parse('https://online.atletika.cz/Propozice/propozice/$id');
@@ -21,8 +21,14 @@ class Config {
 
   static const String versionUrl =
       'https://api.github.com/repositories/609669246/releases/latest';
+
   static Uri resultsUrl(String id) {
     return Uri.parse('https://online.atletika.cz/vysledky/$id');
+  }
+
+  static Uri memberUri(String id, {String? year}) {
+    year ??= DateTime.now().year.toString();
+    return Uri.parse('https://online.atletika.cz/vysledky-atleta/$year/$id');
   }
 
   static ThemeData lightTheme = ThemeData(

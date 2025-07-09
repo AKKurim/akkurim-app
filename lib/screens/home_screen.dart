@@ -116,7 +116,7 @@ class HomeScreen extends HookConsumerWidget {
           if (isNewUpdateAvailable)
             GestureDetector(
               onTap: () async {
-                launchUrl(Config.updateUrl);
+                launchUrl(Config.updateUri);
               },
               child: Container(
                 padding: const EdgeInsets.all(8),

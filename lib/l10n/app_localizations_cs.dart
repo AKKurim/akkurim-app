@@ -446,4 +446,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get later => 'Později';
+
+  @override
+  String get atletikaCzProfile => 'Profil Atletika.cz';
 }

@@ -80,7 +80,7 @@ class ScaffoldWithNavBar extends ConsumerWidget {
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        launchUrl(Config.bugReportUrl);
+                        launchUrl(Config.bugReportUri);
                       },
                       child: Text(AppLocalizations.of(context)!.open),
                     ),

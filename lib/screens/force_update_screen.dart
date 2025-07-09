@@ -36,7 +36,7 @@ class ForceUpdateScreen extends StatelessWidget {
               SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  launchUrl(Config.updateUrl);
+                  launchUrl(Config.updateUri);
                 },
                 child: Text(
                   AppLocalizations.of(context)!.downloadPage,

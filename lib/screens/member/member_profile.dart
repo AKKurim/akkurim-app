@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../providers/full_athlete_provider.dart';
 import '../../providers/filter_providers.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../../utils/utils.dart';
+import '../../utils/config.dart';
 import '../../widgets/copyable_row.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';
@@ -224,6 +226,28 @@ class MemberProfile extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // button to open member profile in browser
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer,
+                                        ),
+                                        onPressed: () {
+                                          final url = Config.memberUri(
+                                              athlete.athlete.ean!);
+                                          launchUrl(url);
+                                        },
+                                        icon: const Icon(Icons.open_in_new),
+                                        label: Text(
+                                            AppLocalizations.of(context)!
+                                                .atletikaCzProfile),
+                                      ),
+                                    ),
+                                  ),
                                   for (final ResultView result
                                       in fullAthlete.value!.pbs().values) ...[
                                     Padding(

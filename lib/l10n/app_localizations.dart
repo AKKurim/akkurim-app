@@ -925,6 +925,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get later;
+
+  /// The label for the Atletika.cz profile
+  ///
+  /// In en, this message translates to:
+  /// **'Atletika.cz Profile'**
+  String get atletikaCzProfile;
 }
 
 class _AppLocalizationsDelegate

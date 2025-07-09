@@ -137,5 +137,6 @@
     "patchAvaliable" : "Vylepšení k dispozici",
     "patchDownloaded" : "Stáhlo se vylepšení, které opravuje chyby a přidává nové funkce. Prosím klikněte zde pro restartování aplikace a načtení vylepšení.",
     "restartNow" : "Restartovat nyní",
-    "later" : "Později"
+    "later" : "Později",
+    "atletikaCzProfile" : "Profil Atletika.cz"
 }

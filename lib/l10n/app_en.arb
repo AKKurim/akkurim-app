@@ -587,5 +587,9 @@
     "later" : "Later",
     "@later" : {
         "description": "The label for the later button"
+    },
+    "atletikaCzProfile": "Atletika.cz Profile",
+    "@atletikaCzProfile": {
+        "description": "The label for the Atletika.cz profile"
     }
 }

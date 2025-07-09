@@ -448,4 +448,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get later => 'Later';
+
+  @override
+  String get atletikaCzProfile => 'Atletika.cz Profile';
 }
