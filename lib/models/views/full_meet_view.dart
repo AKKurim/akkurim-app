@@ -82,4 +82,16 @@ class FullMeetView {
             ))
         .toList();
   }
+
+  Map<DateTime, List<MeetEventView>> get eventsByDate {
+    final Map<DateTime, List<MeetEventView>> eventsMap = {};
+    for (final event in events) {
+      final date = TimeHelper.getStartOfDay(event.meetEvent.startAt);
+      if (!eventsMap.containsKey(date)) {
+        eventsMap[date] = [];
+      }
+      eventsMap[date]!.add(event);
+    }
+    return eventsMap;
+  }
 }

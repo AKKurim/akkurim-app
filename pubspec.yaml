@@ -66,6 +66,7 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   shorebird_code_push: ^2.0.4
   restart_app: ^1.3.2
+  flutter_sticky_header: ^0.8.0
 
 
 dev_dependencies:

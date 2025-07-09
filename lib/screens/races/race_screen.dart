@@ -7,6 +7,7 @@ import '../../utils/config.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../../providers/meet_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 class RaceScreen extends ConsumerStatefulWidget {
   final String meetId;
@@ -41,8 +42,6 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
 
   @override
   Widget build(BuildContext context) {
-    print('Building RaceScreen for meetId: ${widget.meetId}');
-    print('Preloaded meet: ${widget.preloadedMeet?.meet.id}');
     final FullMeetView? meet = ref
         .watch(fullMeetProviderPProvider(
             meetId: widget.meetId, preloaded: widget.preloadedMeet))
@@ -150,70 +149,143 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
               child: TabBarView(
                 controller: tabController,
                 children: [
-                  ListView.builder(
-                    itemCount: meet.events.length,
-                    itemBuilder: (context, index) {
-                      final event = meet.events[index];
-                      final List<SimpleAthleteView> athletes =
-                          event.athletesWithResults.keys.toList();
-                      return Column(
-                        children: [
-                          if (index == 0 ||
-                              event.meetEvent.startAt.day !=
-                                  meet.events[index - 1].meetEvent.startAt.day)
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 8),
-                                  Text(
-                                      TimeHelper.getFullDateWithoutTime(
-                                          event.meetEvent.startAt, context),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                          Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 1,
-                              ),
-                            ),
-                            color: DateTime.now()
-                                    .isAfter(event.meetEvent.startAt.add(
-                              const Duration(minutes: 15),
-                            ))
-                                ? Colors.green[800]
-                                : athletes.isNotEmpty
-                                    ? Colors.orange[900]?.withAlpha(200)
-                                    : null,
-                            child: ListTile(
-                              title: Text(
-                                  '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && meet.isDoubleMeetDiscipline(event.discipline!.id, event.category!.id) ? '(${event.meetEvent.phase}) ' : ''}- ${event.category?.description}',
-                                  style: athletes.isNotEmpty
-                                      ? TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)
-                                      : null),
-                              subtitle: athletes.isNotEmpty
-                                  ? Text(
-                                      athletes
-                                          .map((athlete) => athlete.fullName)
-                                          .join(', '),
-                                      style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                      ))
-                                  : null,
+                  // ListView.builder(
+                  //   itemCount: meet.events.length,
+                  //   itemBuilder: (context, index) {
+                  //     final event = meet.events[index];
+                  //     final List<SimpleAthleteView> athletes =
+                  //         event.athletesWithResults.keys.toList();
+                  //     return Column(
+                  //       children: [
+                  //         if (index == 0 ||
+                  //             event.meetEvent.startAt.day !=
+                  //                 meet.events[index - 1].meetEvent.startAt.day)
+                  //           Padding(
+                  //             padding: const EdgeInsets.all(8.0),
+                  //             child: Row(
+                  //               children: [
+                  //                 const SizedBox(width: 8),
+                  //                 Text(
+                  //                     TimeHelper.getFullDateWithoutTime(
+                  //                         event.meetEvent.startAt, context),
+                  //                     style: TextStyle(
+                  //                         fontSize: 16,
+                  //                         fontWeight: FontWeight.bold)),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         Card(
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(8),
+                  //             side: BorderSide(
+                  //               color: Theme.of(context).colorScheme.primary,
+                  //               width: 1,
+                  //             ),
+                  //           ),
+                  //           color: DateTime.now()
+                  //                   .isAfter(event.meetEvent.startAt.add(
+                  //             const Duration(minutes: 15),
+                  //           ))
+                  //               ? Colors.green[800]
+                  //               : athletes.isNotEmpty
+                  //                   ? Colors.orange[900]?.withAlpha(200)
+                  //                   : null,
+                  //           child: ListTile(
+                  //             title: Text(
+                  //                 '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && meet.isDoubleMeetDiscipline(event.discipline!.id, event.category!.id) ? '(${event.meetEvent.phase}) ' : ''}- ${event.category?.description}',
+                  //                 style: athletes.isNotEmpty
+                  //                     ? TextStyle(
+                  //                         fontWeight: FontWeight.bold,
+                  //                         fontSize: 18)
+                  //                     : null),
+                  //             subtitle: athletes.isNotEmpty
+                  //                 ? Text(
+                  //                     athletes
+                  //                         .map((athlete) => athlete.fullName)
+                  //                         .join(', '),
+                  //                     style: TextStyle(
+                  //                       fontSize: 17,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ))
+                  //                 : null,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   },
+                  // ),
+                  CustomScrollView(
+                    slivers: [
+                      for (final pair in meet.eventsByDate.entries)
+                        SliverStickyHeader(
+                          header: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            child: Row(
+                              children: [
+                                const SizedBox(width: 8),
+                                Text(
+                                    TimeHelper.getFullDateWithoutTime(
+                                        pair.key, context),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ],
                             ),
                           ),
-                        ],
-                      );
-                    },
+                          sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final event = pair.value[index];
+                              final List<SimpleAthleteView> athletes =
+                                  event.athletesWithResults.keys.toList();
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 1,
+                                  ),
+                                ),
+                                color: DateTime.now()
+                                        .isAfter(event.meetEvent.startAt.add(
+                                  const Duration(minutes: 15),
+                                ))
+                                    ? Colors.green[800]
+                                    : athletes.isNotEmpty
+                                        ? Colors.orange[900]?.withAlpha(200)
+                                        : null,
+                                child: ListTile(
+                                  title: Text(
+                                      '${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && meet.isDoubleMeetDiscipline(event.discipline!.id, event.category!.id) ? '(${event.meetEvent.phase}) ' : ''}- ${event.category?.description}',
+                                      style: athletes.isNotEmpty
+                                          ? TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18)
+                                          : null),
+                                  subtitle: athletes.isNotEmpty
+                                      ? Text(
+                                          athletes
+                                              .map(
+                                                  (athlete) => athlete.fullName)
+                                              .join(', '),
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ))
+                                      : null,
+                                ),
+                              );
+                            },
+                            childCount: pair.value.length,
+                          )),
+                        ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 16), // Spacer
+                      ),
+                    ],
                   ),
                   ListView.builder(
                       itemCount: athletesWithEvents.length,
