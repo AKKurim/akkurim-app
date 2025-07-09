@@ -263,7 +263,7 @@ class HomeScreen extends HookConsumerWidget {
                           ...icons.take(2),
                         ],
                       ),
-                      if (icons.length > 3)
+                      if (icons.length > 2)
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
