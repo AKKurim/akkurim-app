@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
-import 'package:restart_app/restart_app.dart';
+import 'package:terminate_restart/terminate_restart.dart';
 
 part 'new_update_provider.g.dart';
 
@@ -59,8 +59,12 @@ class NewPatch extends _$NewPatch {
     return PatchStatus.idle;
   }
 
-  void restartApp() {
-    Restart.restartApp();
+  Future<void> restartApp() async {
+    await TerminateRestart.instance.restartApp(
+      options: const TerminateRestartOptions(
+        terminate: true,
+      ),
+    );
   }
 
   void reset() {

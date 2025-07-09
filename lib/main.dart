@@ -9,14 +9,18 @@ import 'providers/app_settings_provider.dart';
 import 'services/network/api_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:terminate_restart/terminate_restart.dart';
 import './router.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   ApiService apiService = ApiService.instance;
   apiService.configureDio(
     baseUrl: Config.baseUrl,
   );
-  WidgetsFlutterBinding.ensureInitialized();
+  TerminateRestart.instance.initialize();
+
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
