@@ -13,7 +13,9 @@ import '../../models/views/result_view.dart';
 
 class MemberProfile extends ConsumerWidget {
   final String athleteId;
-  const MemberProfile({super.key, required this.athleteId});
+  final int initialIndex;
+  const MemberProfile(
+      {super.key, required this.athleteId, required this.initialIndex});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,6 +25,7 @@ class MemberProfile extends ConsumerWidget {
 
     return DefaultTabController(
       length: 3,
+      initialIndex: initialIndex,
       child: Scaffold(
         appBar: AppBar(
           title: Text(fullAthlete.maybeWhen(

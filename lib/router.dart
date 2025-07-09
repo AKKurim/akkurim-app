@@ -168,11 +168,13 @@ GoRouter router(Ref ref) {
         },
       ),
       GoRoute(
-        path: '/member/:id',
+        path: '/member/:id/:tabIndex',
         name: 'member-detail',
         builder: (context, state) {
           final String id = state.pathParameters['id'] ?? '';
-          return MemberProfile(athleteId: id);
+          final int tabIndex =
+              int.tryParse(state.pathParameters['tabIndex'] ?? '0') ?? 0;
+          return MemberProfile(athleteId: id, initialIndex: tabIndex);
         },
         routes: [
           GoRoute(

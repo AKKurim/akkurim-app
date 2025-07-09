@@ -63,7 +63,7 @@ class AthleteListView extends HookConsumerWidget {
                 ),
               ),
               child: ListTile(
-                onTap: () => context.push('/member/${athlete.athlete.id}'),
+                onTap: () => context.push('/member/${athlete.athlete.id}/0'),
                 title: Text(
                   '${athlete.fullName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()}) ${athlete.athlete.clubId == auth.tenant?.substring(2) ? "" : "⚠️"}',
                   style: const TextStyle(
