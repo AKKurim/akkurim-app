@@ -1,5 +1,6 @@
 import 'package:ak_kurim_app/models/views/simple_athlete_view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../utils/utils.dart';
@@ -287,6 +288,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                       ),
                     ],
                   ),
+                  // individual athletes with events
                   ListView.builder(
                       itemCount: athletesWithEvents.length,
                       itemBuilder: (context, index) {
@@ -322,6 +324,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                           ),
                         );
                       }),
+                  // athletes with results
                   if (athletesWithEvents.any((athlete) => athlete.events.any(
                       (element) =>
                           element.result != null &&
@@ -342,6 +345,8 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                               ),
                             ),
                             child: ListTile(
+                              onTap: () => context.push(
+                                  '/member/${athlete.athlete.athlete.id}/2'),
                               title: Text(
                                   '${athlete.athlete.athlete.lastName} ${athlete.athlete.athlete.firstName}',
                                   style: athlete.events.isNotEmpty
