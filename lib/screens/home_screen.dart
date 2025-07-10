@@ -11,6 +11,7 @@ import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import '../providers/meet_providers.dart';
 import '../providers/training_providers.dart';
+import '../widgets/birthday_card.dart';
 import './attendance_tresults/trainings_screen.dart';
 import '../providers/remote_config_provider.dart';
 import '../providers/new_update_provider.dart';
@@ -358,16 +359,9 @@ class HomeScreen extends HookConsumerWidget {
                   return const SizedBox.shrink();
                 }
                 isEventForDayHelper = true;
-                return ListTile(
-                  leading: const Icon(Icons.cake_outlined),
-                  title: Text(
-                      '${event.fullName} (${selected.value.year - event.birthDate.year})'),
-                  // subtitle: Text(
-                  //   AppLocalizations.of(context)!.birthdayOnDate(
-                  //     TimeHelper.getFullDateWithoutTime(
-                  //         event.birthDay(selected.value.year), context),
-                  //   ),
-                  // ),
+                return BirthdayCard(
+                  athlete: event,
+                  selectedYear: selected.value.year,
                 );
               }
               throw Exception(
