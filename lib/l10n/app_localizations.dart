@@ -931,6 +931,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Atletika.cz Profile'**
   String get atletikaCzProfile;
+
+  /// The confirmation message for deleting an item
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this item?'**
+  String get confirmDeleteItem;
+
+  /// The message shown when an item is deleted successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Item deleted successfully.'**
+  String get itemDeleted;
 }
 
 class _AppLocalizationsDelegate

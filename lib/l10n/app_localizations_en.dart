@@ -451,4 +451,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get atletikaCzProfile => 'Atletika.cz Profile';
+
+  @override
+  String get confirmDeleteItem => 'Are you sure you want to delete this item?';
+
+  @override
+  String get itemDeleted => 'Item deleted successfully.';
 }

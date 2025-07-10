@@ -55,7 +55,42 @@ class StorageScreen extends ConsumerWidget {
                   children: items.map(
                     (item) {
                       return GestureDetector(
-                        onLongPress: () {},
+                        onLongPress: () => showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(AppLocalizations.of(context)!
+                                    .confirmDeleteItem),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child:
+                                        Text(AppLocalizations.of(context)!.no),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      ref
+                                          .read(itemProviderPProvider.notifier)
+                                          .deleteItem(item.item);
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            AppLocalizations.of(context)!
+                                                .itemDeleted,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child:
+                                        Text(AppLocalizations.of(context)!.yes),
+                                  ),
+                                ],
+                              );
+                            }),
                         child: ListTile(
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 0),

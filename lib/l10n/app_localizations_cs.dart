@@ -449,4 +449,10 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get atletikaCzProfile => 'Profil Atletika.cz';
+
+  @override
+  String get confirmDeleteItem => 'Opravdu chcete smazat tuto položku?';
+
+  @override
+  String get itemDeleted => 'Položka byla úspěšně smazána.';
 }

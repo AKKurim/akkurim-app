@@ -591,5 +591,13 @@
     "atletikaCzProfile": "Atletika.cz Profile",
     "@atletikaCzProfile": {
         "description": "The label for the Atletika.cz profile"
+    },
+    "confirmDeleteItem" : "Are you sure you want to delete this item?",
+    "@confirmDeleteItem" : {
+        "description": "The confirmation message for deleting an item"
+    },
+    "itemDeleted" : "Item deleted successfully.",
+    "@itemDeleted" : {
+        "description": "The message shown when an item is deleted successfully"
     }
 }

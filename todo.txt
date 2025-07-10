@@ -1,4 +1,3 @@
 To create a patch for this release, run shorebird patch --platforms=android --release-version=2.3.3+3
 change trainings provider to use the new DateRange model
-create some widget like meetTile or TrainingTile but for birthdays
 is creating a common calendar interface worth it? with stuff: date, type, original data and or widget to display
