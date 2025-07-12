@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supertokens_flutter/supertokens.dart';
 import '../../models/auth/role_enum.dart';
@@ -9,7 +10,10 @@ import '../../providers/db_provider.dart';
 import '../database/drift_database.dart';
 import 'package:drift/drift.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:local_auth_android/local_auth_android.dart';
+import 'package:local_auth_darwin/local_auth_darwin.dart';
 
 part 'auth_service.g.dart';
 
@@ -45,12 +49,12 @@ class AuthService extends _$AuthService {
     final Map<String, dynamic> accessTokenPayload =
         await SuperTokens.getAccessTokenPayloadSecurely();
 
-    print("Access token payload: $accessTokenPayload");
     final String tenant = _getTenantFromToken(tokenPayload: accessTokenPayload);
     final List<RoleEnum> roles =
         _getRolesFromToken(tokenPayload: accessTokenPayload);
-    final String? email = await db
-        .select(db.userEmail)
+    final String? email = await (db.select(db.userEmail)
+          ..orderBy(
+              [(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)]))
         .getSingleOrNull()
         .then((value) => value?.email);
     if (email != null) {
@@ -93,7 +97,7 @@ class AuthService extends _$AuthService {
       return;
     }
     // kinda stupid imo but the response returns a 200 even if the credentials are wrong
-
+    // check for for errors in the response body
     Map<String, dynamic> body = res.data;
     if (body["status"]!.contains("ERROR")) {
       if (body["status"]!.contains("WRONG_CREDENTIALS_ERROR")) {
@@ -110,36 +114,55 @@ class AuthService extends _$AuthService {
       }
       state = AsyncValue.data(
           AuthState(ProgressEnum.error, [], error: errorString));
-    } else {
-      // actual successful login is here
-      Future.wait([
-        SuperTokens.doesSessionExist(),
-        SuperTokens.getAccessTokenPayloadSecurely(),
-      ]).then((value) {
-        final bool sessionExists = value[0] as bool;
-        final Map<String, dynamic> accessTokenPayload =
-            value[1] as Map<String, dynamic>;
-        assert(sessionExists);
-        final db = ref.read(dbProvider);
-        state = AsyncValue.data(
-          AuthState(
-            ProgressEnum.authenticated,
-            _getRolesFromToken(tokenPayload: accessTokenPayload),
-            tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
-            email: email,
-          ),
-        );
-        Future.wait([
-          db.into(db.userEmail).insert(
-                UserEmailCompanion(
-                  email: Value(email),
-                ),
-                mode: InsertMode.insertOrReplace,
-              ),
-          OneSignal.login(email),
-        ]);
-      });
+      return;
     }
+
+    // actual successful login is here
+    final bool sessionExists = await SuperTokens.doesSessionExist();
+    assert(sessionExists, "Session should exist after successful login");
+    final Map<String, dynamic> accessTokenPayload =
+        await SuperTokens.getAccessTokenPayloadSecurely();
+    final String tenant = _getTenantFromToken(tokenPayload: accessTokenPayload);
+    final List<RoleEnum> roles =
+        _getRolesFromToken(tokenPayload: accessTokenPayload);
+
+    final FlutterSecureStorage storage = FlutterSecureStorage();
+    final String? storedEmail = await storage.read(key: "email");
+    if (storedEmail != null && storedEmail != email) {
+      // if the email is different, we need to clear preferences of using fingerprint
+      storage.delete(key: "useFingerprint");
+    }
+    await storage.write(
+      key: "email",
+      value: email,
+    );
+    await storage.write(
+      key: "password",
+      value: password,
+    );
+
+    state = AsyncValue.data(
+      AuthState(
+        ProgressEnum.authenticated,
+        roles,
+        tenant: tenant,
+        email: email,
+      ),
+    );
+    await promptForBiometricSave(
+        localizedReason: 'Authenticate to login',
+        androidTitle: 'Biometric Authentication',
+        cancelButton: 'cancel');
+
+    final db = ref.read(dbProvider);
+    await db.into(db.userEmail).insert(
+          UserEmailCompanion(
+            email: Value(email),
+          ),
+          mode: InsertMode.insertOrReplace,
+        );
+
+    await OneSignal.login(email);
   }
 
   Future<void> logout() async {
@@ -152,4 +175,115 @@ class AuthService extends _$AuthService {
     await OneSignal.logout();
     state = AsyncValue.data(AuthState(ProgressEnum.initial, []));
   }
+
+  Future<void> promptForBiometricSave({
+    required String localizedReason,
+    required String androidTitle,
+    required String cancelButton,
+  }) async {
+    final LocalAuthentication auth = LocalAuthentication();
+    final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    final List<BiometricType> availableBiometrics =
+        await auth.getAvailableBiometrics();
+    if (!canAuthenticateWithBiometrics || availableBiometrics.isEmpty) {
+      return;
+    }
+
+    final FlutterSecureStorage storage = FlutterSecureStorage();
+    final String? useFingerprint = await storage.read(key: "useFingerprint");
+    if (useFingerprint != null && useFingerprint == "true") {
+      // todo remove the true check only for debug now
+      // if the user has already enabled fingerprint authentication
+      // or cancelled it, we don't need to prompt again
+      return;
+    }
+    bool didAuthenticate = false;
+    try {
+      didAuthenticate = await auth.authenticate(
+        localizedReason: localizedReason,
+        options: const AuthenticationOptions(
+          useErrorDialogs: false,
+          biometricOnly: true,
+        ),
+        authMessages: <AuthMessages>[
+          AndroidAuthMessages(
+            signInTitle: androidTitle,
+            cancelButton: cancelButton,
+          ),
+          IOSAuthMessages(
+            cancelButton: cancelButton,
+          ),
+        ],
+      );
+    } on PlatformException catch (e) {
+      // Handle the exception if the user cancels the authentication
+      print("Authentication error: $e");
+      didAuthenticate = false;
+    }
+    print("SAVING: $didAuthenticate");
+    if (!didAuthenticate) {
+      await storage.write(key: "useFingerprint", value: "false");
+    } else {
+      await storage.write(key: "useFingerprint", value: "true");
+    }
+  }
+
+  Future<void> promptForBiometricLogin({
+    required String localizedReason,
+    required String androidTitle,
+    required String cancelButton,
+  }) async {
+    // check if state is initial if it isnt skip
+
+    final LocalAuthentication auth = LocalAuthentication();
+    final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    final List<BiometricType> availableBiometrics =
+        await auth.getAvailableBiometrics();
+    if (!canAuthenticateWithBiometrics || availableBiometrics.isEmpty) {
+      return;
+    }
+
+    final FlutterSecureStorage storage = FlutterSecureStorage();
+    final String? useFingerprint = await storage.read(key: "useFingerprint");
+    print("Use fingerprint: $useFingerprint");
+    if (useFingerprint == null || useFingerprint != "true") {
+      // if the user has not enabled fingerprint authentication
+      return;
+    }
+    bool didAuthenticate = false;
+    try {
+      didAuthenticate = await auth.authenticate(
+        localizedReason: localizedReason,
+        options: const AuthenticationOptions(
+          useErrorDialogs: false,
+          biometricOnly: true,
+        ),
+        authMessages: <AuthMessages>[
+          AndroidAuthMessages(
+            signInTitle: androidTitle,
+            cancelButton: cancelButton,
+          ),
+          IOSAuthMessages(
+            cancelButton: cancelButton,
+          ),
+        ],
+      );
+    } on PlatformException catch (e) {
+      // Handle the exception if the user cancels the authentication
+      didAuthenticate = false;
+    }
+    if (!didAuthenticate) {
+      return;
+    }
+
+    // if the user has successfully authenticated, we can log them in
+    final String? email = await storage.read(key: "email");
+    final String? password = await storage.read(key: "password");
+    if (email == null || password == null) {
+      return;
+    }
+    await login(email: email, password: password);
+  }
+  // TODO fix the initial promp for biometric login
+// TODO add to setting to enable/disable biometric login
 }

@@ -140,5 +140,9 @@
     "later" : "Později",
     "atletikaCzProfile" : "Profil Atletika.cz",
     "confirmDeleteItem": "Opravdu chcete smazat tuto položku?",
-    "itemDeleted": "Položka byla úspěšně smazána."
+    "itemDeleted": "Položka byla úspěšně smazána.",
+    "saveFingerprintLogin": "Chcete použít přihlášení pomocí otisku prstu?",
+    "useFingerprintAndroid": "Pokud ano, přiložte prst na snímač otisků prstů",
+    "loginWithFingerprint": "Pro přihlášení použijte otisk prstu",
+    "loginWithFingerprintAndroid": "Přiložte prst na snímač otisků prstů"
 }

@@ -27,27 +27,6 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  final LocalAuthentication auth = LocalAuthentication();
-  final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-  final List<BiometricType> availableBiometrics =
-      await auth.getAvailableBiometrics();
-  try {
-    bool didAuthenticate = await auth.authenticate(
-        localizedReason: 'Please authenticate to show account balance',
-        authMessages: const <AuthMessages>[
-          AndroidAuthMessages(
-            cancelButton: 'No thanks',
-          ),
-          IOSAuthMessages(
-            cancelButton: 'No thanks',
-          ),
-        ]);
-    // ···
-  } on PlatformException catch (e) {
-    // Handle the exception if the user cancels the authentication
-    bool didAuthenticate = false;
-  }
-
   runApp(
     ProviderScope(
       child: MyApp(

@@ -943,6 +943,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Item deleted successfully.'**
   String get itemDeleted;
+
+  /// The message shown when asking the user if they want to use fingerprint login
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to use fingerprint login?'**
+  String get saveFingerprintLogin;
+
+  /// The message shown on Android devices when asking the user to touch the fingerprint sensor
+  ///
+  /// In en, this message translates to:
+  /// **'If yes, please touch the fingerprint sensor on your device.'**
+  String get useFingerprintAndroid;
+
+  /// The label for the login with fingerprint button
+  ///
+  /// In en, this message translates to:
+  /// **'Login with Fingerprint'**
+  String get loginWithFingerprint;
+
+  /// The message shown on Android devices when asking the user to use fingerprint login
+  ///
+  /// In en, this message translates to:
+  /// **'Use your fingerprint to log in'**
+  String get loginWithFingerprintAndroid;
 }
 
 class _AppLocalizationsDelegate

@@ -457,4 +457,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemDeleted => 'Item deleted successfully.';
+
+  @override
+  String get saveFingerprintLogin => 'Do you want to use fingerprint login?';
+
+  @override
+  String get useFingerprintAndroid =>
+      'If yes, please touch the fingerprint sensor on your device.';
+
+  @override
+  String get loginWithFingerprint => 'Login with Fingerprint';
+
+  @override
+  String get loginWithFingerprintAndroid => 'Use your fingerprint to log in';
 }

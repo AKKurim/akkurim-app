@@ -599,5 +599,21 @@
     "itemDeleted" : "Item deleted successfully.",
     "@itemDeleted" : {
         "description": "The message shown when an item is deleted successfully"
+    },
+    "saveFingerprintLogin" : "Do you want to use fingerprint login?",
+    "@saveFingerprintLogin": {
+        "description": "The message shown when asking the user if they want to use fingerprint login"
+    },
+    "useFingerprintAndroid" : "If yes, please touch the fingerprint sensor",
+    "@useFingerprintAndroid": {
+        "description": "The message shown on Android devices when asking the user to touch the fingerprint sensor"
+    },
+    "loginWithFingerprint" : "Login with Fingerprint",
+    "@loginWithFingerprint" : {
+        "description": "The label for the login with fingerprint button"
+    },
+    "loginWithFingerprintAndroid" : "Touch the fingerprint sensor",
+    "@loginWithFingerprintAndroid" : {
+        "description": "The message shown on Android devices when asking the user to use fingerprint login"
     }
 }

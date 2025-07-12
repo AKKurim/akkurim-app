@@ -455,4 +455,19 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get itemDeleted => 'Položka byla úspěšně smazána.';
+
+  @override
+  String get saveFingerprintLogin =>
+      'Chcete použít přihlášení pomocí otisku prstu?';
+
+  @override
+  String get useFingerprintAndroid =>
+      'Pokud ano, prosím přiložte prst na snímač otisků prstů na vašem zařízení.';
+
+  @override
+  String get loginWithFingerprint => 'Přihlásit se pomocí otisku prstu';
+
+  @override
+  String get loginWithFingerprintAndroid =>
+      'Použijte otisk prstu pro přihlášení';
 }

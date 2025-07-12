@@ -14,9 +14,9 @@ class LoginScreen extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     var showPaassword = useState(false);
-    final isLoading = ref.watch(authServiceProvider).maybeWhen(
-          data: (value) => value.state == ProgressEnum.loading,
-          orElse: () => false,
+    final authData = ref.watch(authServiceProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
         );
 
     ref.listen(authServiceProvider, (previous, next) {
@@ -31,6 +31,14 @@ class LoginScreen extends HookConsumerWidget {
       }
     });
 
+    if (authData?.state != ProgressEnum.loading &&
+        authData?.state != ProgressEnum.authenticated) {
+      ref.read(authServiceProvider.notifier).promptForBiometricLogin(
+          localizedReason: AppLocalizations.of(context)!.loginWithFingerprint,
+          androidTitle:
+              AppLocalizations.of(context)!.loginWithFingerprintAndroid,
+          cancelButton: AppLocalizations.of(context)!.cancelButton);
+    }
     return Scaffold(
       appBar: AppBar(
         leading: null,
@@ -92,7 +100,7 @@ class LoginScreen extends HookConsumerWidget {
               ],
             ),
           ),
-          if (isLoading)
+          if (authData?.state == ProgressEnum.loading)
             Container(
               color: Colors.black.withValues(alpha: 0.5),
               child: const Center(

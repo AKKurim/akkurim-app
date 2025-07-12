@@ -4,6 +4,7 @@ import 'package:ak_kurim_app/models/views/training_view.dart';
 import 'package:ak_kurim_app/providers/simple_athletes_provider.dart';
 import 'package:ak_kurim_app/screens/races/races_screen.dart';
 import 'package:ak_kurim_app/utils/utils.dart';
+import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,6 +19,7 @@ import '../providers/new_update_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/config.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../services/auth/auth_service.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
