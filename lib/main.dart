@@ -11,6 +11,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:terminate_restart/terminate_restart.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:local_auth_android/local_auth_android.dart';
+import 'package:local_auth_darwin/local_auth_darwin.dart';
 import './router.dart';
 
 void main() async {
@@ -31,7 +33,15 @@ void main() async {
       await auth.getAvailableBiometrics();
   try {
     bool didAuthenticate = await auth.authenticate(
-        localizedReason: 'Please authenticate to show account balance');
+        localizedReason: 'Please authenticate to show account balance',
+        authMessages: const <AuthMessages>[
+          AndroidAuthMessages(
+            cancelButton: 'No thanks',
+          ),
+          IOSAuthMessages(
+            cancelButton: 'No thanks',
+          ),
+        ]);
     // ···
   } on PlatformException catch (e) {
     // Handle the exception if the user cancels the authentication

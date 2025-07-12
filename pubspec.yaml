@@ -68,6 +68,9 @@ dependencies:
   flutter_sticky_header: ^0.8.0
   terminate_restart: ^1.0.11
   local_auth: ^2.3.0
+  flutter_secure_storage: ^9.2.4
+  local_auth_android: ^1.0.49
+  local_auth_darwin: ^1.5.0
 
 
 dev_dependencies:
