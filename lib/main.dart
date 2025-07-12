@@ -10,15 +10,13 @@ import 'services/network/api_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:terminate_restart/terminate_restart.dart';
+import 'package:local_auth/local_auth.dart';
 import './router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  ApiService apiService = ApiService.instance;
-  apiService.configureDio(
-    baseUrl: Config.baseUrl,
-  );
+  ApiService.instance.configureDio(baseUrl: Config.baseUrl);
   TerminateRestart.instance.initialize();
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -26,6 +24,19 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  final LocalAuthentication auth = LocalAuthentication();
+  final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+  final List<BiometricType> availableBiometrics =
+      await auth.getAvailableBiometrics();
+  try {
+    bool didAuthenticate = await auth.authenticate(
+        localizedReason: 'Please authenticate to show account balance');
+    // ···
+  } on PlatformException catch (e) {
+    // Handle the exception if the user cancels the authentication
+    bool didAuthenticate = false;
+  }
 
   runApp(
     ProviderScope(
@@ -68,36 +79,6 @@ class MyApp extends ConsumerWidget {
             return appSettings.themeData;
           },
           orElse: () => ThemeData.dark()),
-      // home: remoteConfig.when(
-      //   loading: () => Center(
-      //     child: CircularProgressIndicator(),
-      //   ),
-      //   error: (error, stack) {
-      //     return Center(
-      //       child: Text(
-      //         error.toString(),
-      //         style: const TextStyle(color: Colors.red),
-      //       ),
-      //     );
-      //   },
-      //   data: (remoteConfigData) {
-      //     if (Utils.ensureMinimumVersion(
-      //         currentVersion: packageInfo.version,
-      //         minimumVersion: remoteConfigData.minimumAppVersion)) {
-      //       return appSettings.maybeWhen(
-      //           orElse: () => null,
-      //           data: (appSettings) =>
-      //               authService.state == ProgressEnum.authenticated
-      //                   ? const MainScreenManager()
-      //                   : const LoginScreen());
-      //     } else {
-      //       return ForceUpdateScreen(
-      //         currentAppVersion: packageInfo.version,
-      //         minimumAppVersion: remoteConfigData.minimumAppVersion,
-      //       );
-      //     }
-      //   },
-      // ),
     );
   }
 }

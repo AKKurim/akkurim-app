@@ -9,6 +9,7 @@ import '../../providers/db_provider.dart';
 import '../database/drift_database.dart';
 import 'package:drift/drift.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:local_auth/local_auth.dart';
 
 part 'auth_service.g.dart';
 
@@ -37,6 +38,7 @@ class AuthService extends _$AuthService {
   AuthState build() {
     state = AuthState(ProgressEnum.initial, []);
     final db = ref.read(dbProvider);
+
     Future.wait([
       SuperTokens.doesSessionExist(),
       SuperTokens.getAccessTokenPayloadSecurely(),
