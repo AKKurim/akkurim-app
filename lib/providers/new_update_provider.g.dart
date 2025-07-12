@@ -22,7 +22,7 @@ final newUpdateProvider = AutoDisposeFutureProvider<bool>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef NewUpdateRef = AutoDisposeFutureProviderRef<bool>;
-String _$newPatchHash() => r'86ac02194db2ba4cf1cd2d5fcaa70651c5fb53c2';
+String _$newPatchHash() => r'3c0ff0fc887797d805276fe5a9068cbbc4873780';
 
 /// See also [NewPatch].
 @ProviderFor(NewPatch)

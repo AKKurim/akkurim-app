@@ -14,13 +14,17 @@ class LoginScreen extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     var showPaassword = useState(false);
+    final isLoading = ref.watch(authServiceProvider).maybeWhen(
+          data: (value) => value.state == ProgressEnum.loading,
+          orElse: () => false,
+        );
 
     ref.listen(authServiceProvider, (previous, next) {
-      if (next.state == ProgressEnum.error) {
+      if (next.value?.state == ProgressEnum.error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content:
-                Text(next.error ?? AppLocalizations.of(context)!.loginFailed),
+            content: Text(
+                next.value?.error ?? AppLocalizations.of(context)!.loginFailed),
             backgroundColor: Colors.red,
           ),
         );
@@ -88,7 +92,7 @@ class LoginScreen extends HookConsumerWidget {
               ],
             ),
           ),
-          if (ref.watch(authServiceProvider).state == ProgressEnum.loading)
+          if (isLoading)
             Container(
               color: Colors.black.withValues(alpha: 0.5),
               child: const Center(

@@ -42,14 +42,17 @@ GoRouter router(Ref ref) {
       final location = state.uri.toString();
 
       // Wait for remote config to load
-      if (remoteConfig is AsyncLoading || packageInfo is AsyncLoading) {
+      if (auth is AsyncLoading ||
+          remoteConfig is AsyncLoading ||
+          packageInfo is AsyncLoading) {
         return '/splash';
       }
 
-      // Check version first
       final remoteData = remoteConfig.asData?.value;
       final packageInfoData = packageInfo.asData?.value;
+      final authData = auth.asData?.value;
 
+      // app version check
       final appVersionOk = Utils.ensureMinimumVersion(
         currentVersion: packageInfoData?.version ?? '',
         minimumVersion: remoteData?.minimumAppVersion ?? '',
@@ -60,7 +63,7 @@ GoRouter router(Ref ref) {
 
       // Auth redirects
       final loggingIn = location.startsWith('/login');
-      if (auth.state != ProgressEnum.authenticated) {
+      if (authData?.state != ProgressEnum.authenticated) {
         return loggingIn ? null : '/login';
       } else {
         return loggingIn ? '/home' : null;

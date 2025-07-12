@@ -35,49 +35,41 @@ class AuthService extends _$AuthService {
   }
 
   @override
-  AuthState build() {
-    state = AuthState(ProgressEnum.initial, []);
+  Future<AuthState> build() async {
     final db = ref.read(dbProvider);
+    final bool sessionExists = await SuperTokens.doesSessionExist();
+    if (!sessionExists) {
+      return AuthState(ProgressEnum.initial, []);
+    }
 
-    Future.wait([
-      SuperTokens.doesSessionExist(),
-      SuperTokens.getAccessTokenPayloadSecurely(),
-      (db.select(db.userEmail)
-            ..orderBy([
-              (tbl) => OrderingTerm(
-                    expression: tbl.id,
-                    mode: OrderingMode.desc,
-                  )
-            ])
-            ..limit(1))
-          .getSingleOrNull(),
-    ]).then((value) {
-      final bool sessionExists = value[0] as bool;
-      final Map<String, dynamic> accessTokenPayload =
-          value[1] as Map<String, dynamic>;
-      final UserEmailData? userEmail = value[2] as UserEmailData?;
-      if (sessionExists) {
-        state = AuthState(
-          ProgressEnum.authenticated,
-          _getRolesFromToken(tokenPayload: accessTokenPayload),
-          tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
-          email: userEmail?.email ?? "",
-        );
-        if (userEmail?.email != null) {
-          Future.wait([
-            OneSignal.login(userEmail!.email),
-          ]);
-        }
-      } else {
-        state = AuthState(ProgressEnum.initial, []);
-      }
-    });
+    final Map<String, dynamic> accessTokenPayload =
+        await SuperTokens.getAccessTokenPayloadSecurely();
 
-    return state;
+    print("Access token payload: $accessTokenPayload");
+    final String tenant = _getTenantFromToken(tokenPayload: accessTokenPayload);
+    final List<RoleEnum> roles =
+        _getRolesFromToken(tokenPayload: accessTokenPayload);
+    final String? email = await db
+        .select(db.userEmail)
+        .getSingleOrNull()
+        .then((value) => value?.email);
+    if (email != null) {
+      Future.wait([
+        OneSignal.login(email),
+      ]);
+    }
+
+    return AuthState(
+      ProgressEnum.authenticated,
+      roles,
+      tenant: tenant,
+      email: email,
+    );
   }
 
   Future<void> login({required String email, required String password}) async {
-    state = AuthState(ProgressEnum.loading, [RoleEnum.unknown]);
+    state =
+        AsyncValue.data(AuthState(ProgressEnum.loading, [RoleEnum.unknown]));
     ApiService apiService = ApiService.instance;
 
     var res = await apiService.postRequest(
@@ -96,7 +88,8 @@ class AuthService extends _$AuthService {
       );
     });
     if (res.statusCode != 200) {
-      state = AuthState(ProgressEnum.error, [], error: res.statusMessage);
+      state = AsyncValue.data(
+          AuthState(ProgressEnum.error, [], error: res.statusMessage));
       return;
     }
     // kinda stupid imo but the response returns a 200 even if the credentials are wrong
@@ -104,8 +97,9 @@ class AuthService extends _$AuthService {
     Map<String, dynamic> body = res.data;
     if (body["status"]!.contains("ERROR")) {
       if (body["status"]!.contains("WRONG_CREDENTIALS_ERROR")) {
-        state = AuthState(ProgressEnum.error, [RoleEnum.unknown],
-            error: "Wrong credentials");
+        state = AsyncValue.data(AuthState(
+            ProgressEnum.error, [RoleEnum.unknown],
+            error: "Wrong credentials"));
         return;
       }
       String errorString = "";
@@ -114,7 +108,8 @@ class AuthService extends _$AuthService {
           errorString += "${error["id"]}: ${error["error"]}!\n";
         }
       }
-      state = AuthState(ProgressEnum.error, [], error: errorString);
+      state = AsyncValue.data(
+          AuthState(ProgressEnum.error, [], error: errorString));
     } else {
       // actual successful login is here
       Future.wait([
@@ -126,11 +121,13 @@ class AuthService extends _$AuthService {
             value[1] as Map<String, dynamic>;
         assert(sessionExists);
         final db = ref.read(dbProvider);
-        state = AuthState(
-          ProgressEnum.authenticated,
-          _getRolesFromToken(tokenPayload: accessTokenPayload),
-          tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
-          email: email,
+        state = AsyncValue.data(
+          AuthState(
+            ProgressEnum.authenticated,
+            _getRolesFromToken(tokenPayload: accessTokenPayload),
+            tenant: _getTenantFromToken(tokenPayload: accessTokenPayload),
+            email: email,
+          ),
         );
         Future.wait([
           db.into(db.userEmail).insert(
@@ -146,8 +143,13 @@ class AuthService extends _$AuthService {
   }
 
   Future<void> logout() async {
+    state = AsyncValue.data(
+      AuthState(
+          state.value?.state ?? ProgressEnum.loading, state.value?.roles ?? [],
+          tenant: state.value?.tenant, email: state.value?.email),
+    );
     await SuperTokens.signOut();
     await OneSignal.logout();
-    state = AuthState(ProgressEnum.initial, []);
+    state = AsyncValue.data(AuthState(ProgressEnum.initial, []));
   }
 }

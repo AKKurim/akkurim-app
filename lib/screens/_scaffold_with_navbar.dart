@@ -154,7 +154,7 @@ FloatingActionButton? buildFab({
   final int tabIndex = ref.watch(tabIndexPProvider);
   return currentIndex == 1 || currentIndex == 3 || currentIndex == 4
       ? FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
             switch (currentIndex) {
               case 1:
                 switch (tabIndex) {
@@ -179,7 +179,8 @@ FloatingActionButton? buildFab({
               case 3:
                 context.push('/item-create');
               case 4:
-                final auth = ref.read(authServiceProvider);
+                final auth = await ref.read(authServiceProvider.future);
+                if (!context.mounted) return;
                 if (!auth.roles.contains(RoleEnum.admin)) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

@@ -65,7 +65,7 @@ class AthleteListView extends HookConsumerWidget {
               child: ListTile(
                 onTap: () => context.push('/member/${athlete.athlete.id}/0'),
                 title: Text(
-                  '${athlete.fullName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()}) ${athlete.athlete.clubId == auth.tenant?.substring(2) ? "" : "⚠️"}',
+                  '${athlete.fullName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()}) ${athlete.athlete.clubId == auth.value?.tenant?.substring(2) ? "" : "⚠️"}', //TODO edit the tenant id
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),

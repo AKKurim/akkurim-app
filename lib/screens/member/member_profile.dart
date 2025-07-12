@@ -23,7 +23,7 @@ class MemberProfile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fullAthlete = ref.watch(fullAthletePProvider(athleteId));
     final allStatuses = ref.watch(athleteStatusesProvider);
-    final AuthState? authState = ref.watch(authServiceProvider);
+    final authState = ref.watch(authServiceProvider);
 
     return DefaultTabController(
       length: 3,
@@ -35,7 +35,8 @@ class MemberProfile extends ConsumerWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  if (!authState!.roles.contains(RoleEnum.admin)) {
+                  if (!(authState.value?.roles.contains(RoleEnum.admin) ??
+                      false)) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Colors.red,

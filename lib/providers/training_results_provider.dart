@@ -172,7 +172,7 @@ class TrainingResultsP extends _$TrainingResultsP {
   ) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
-    final auth = ref.read(authServiceProvider);
+    final auth = await ref.read(authServiceProvider.future);
     String id = const Uuid().v1();
     id = 'TRA-${id.substring(4)}';
 

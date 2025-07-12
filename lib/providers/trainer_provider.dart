@@ -57,7 +57,7 @@ class TrainerP extends _$TrainerP {
 
 @riverpod
 Stream<TrainerView> currentTrainer(Ref ref) async* {
-  final authService = ref.watch(authServiceProvider);
+  final authService = await ref.watch(authServiceProvider.future);
   final trainers = await ref.watch(trainerPProvider.future);
 
   final trainerEmail = authService.email ?? '';

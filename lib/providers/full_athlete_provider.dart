@@ -156,7 +156,7 @@ class FullAthleteP extends _$FullAthleteP {
             athleteStatusId: Value(statusId),
             updatedAt: Value(DateTime.now()),
             ean: Value(ean),
-            clubId: Value(clubId ?? auth.tenant),
+            clubId: Value(clubId ?? 'kurim'), // TODO default club is Kurim
             profilePicture: Value(null),
             createdAt: Value(createdAt ?? DateTime.now()),
             deletedAt: Value(delete == true ? DateTime.now() : null),

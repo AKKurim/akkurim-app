@@ -47,6 +47,7 @@ class SettingsScreen extends ConsumerWidget {
                   actions: [
                     TextButton(
                       onPressed: () {
+                        Navigator.pop(context);
                         ref.read(authServiceProvider.notifier).logout();
                       },
                       child: Text(AppLocalizations.of(context)!.confirmButton),

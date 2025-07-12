@@ -7,23 +7,28 @@ class InfoRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authServiceProvider);
+    final authState = ref
+        .watch(authServiceProvider)
+        .whenData(
+          (auth) => auth,
+        )
+        .value;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           Row(
             children: [
-              Text(authState.email ?? 'No email'),
+              Text(authState?.email ?? 'No email'),
               const Spacer(),
-              Text(authState.tenant?.toUpperCase() ?? 'NO TENANT'),
+              Text(authState?.tenant?.toUpperCase() ?? 'NO TENANT'),
             ],
           ),
           Row(
             children: [
-              Text(authState.state.name),
+              Text(authState?.state.name ?? 'No state'),
               const Spacer(),
-              Text(authState.roles.map((e) => e.name).join(', ')),
+              Text(authState?.roles.map((e) => e.name).join(', ') ?? ''),
             ],
           )
         ],
