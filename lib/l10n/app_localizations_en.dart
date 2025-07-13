@@ -473,8 +473,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get useFingerprintSettings => 'Login with';
-
-  @override
-  String get useFingerprintSettingsDescription =>
-      'Enable fingerprint login for quick access to the app.';
 }

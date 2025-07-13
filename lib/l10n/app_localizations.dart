@@ -973,12 +973,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login with'**
   String get useFingerprintSettings;
-
-  /// No description provided for @useFingerprintSettingsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Enable fingerprint login for quick access to the app.'**
-  String get useFingerprintSettingsDescription;
 }
 
 class _AppLocalizationsDelegate

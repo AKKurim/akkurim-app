@@ -473,8 +473,4 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get useFingerprintSettings => 'Přihlášení pomocí';
-
-  @override
-  String get useFingerprintSettingsDescription =>
-      'Enable fingerprint login for quick access to the app.';
 }
