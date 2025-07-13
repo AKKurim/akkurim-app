@@ -953,7 +953,7 @@ abstract class AppLocalizations {
   /// The message shown on Android devices when asking the user to touch the fingerprint sensor
   ///
   /// In en, this message translates to:
-  /// **'If yes, please touch the fingerprint sensor on your device.'**
+  /// **'If yes, please touch the fingerprint sensor'**
   String get useFingerprintAndroid;
 
   /// The label for the login with fingerprint button
@@ -965,8 +965,20 @@ abstract class AppLocalizations {
   /// The message shown on Android devices when asking the user to use fingerprint login
   ///
   /// In en, this message translates to:
-  /// **'Use your fingerprint to log in'**
+  /// **'Touch the fingerprint sensor'**
   String get loginWithFingerprintAndroid;
+
+  /// The label for the use fingerprint setting
+  ///
+  /// In en, this message translates to:
+  /// **'Login with'**
+  String get useFingerprintSettings;
+
+  /// No description provided for @useFingerprintSettingsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable fingerprint login for quick access to the app.'**
+  String get useFingerprintSettingsDescription;
 }
 
 class _AppLocalizationsDelegate

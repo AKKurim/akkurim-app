@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/widgets/settings/fingerprint_row.dart';
 import 'package:flutter/material.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -69,6 +70,7 @@ class SettingsScreen extends ConsumerWidget {
         children: const [
           InfoRow(),
           Divider(),
+          FingerprintRow(),
           ThemeModeRow(),
           LocaleSelectionRow(),
         ],

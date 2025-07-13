@@ -47,7 +47,7 @@ class MemberProfile extends ConsumerWidget {
                     return;
                   }
                   context.push(
-                    '/member/$athleteId/edit',
+                    '/member/$athleteId/0/edit',
                   );
                 },
                 icon: const Icon(Icons.edit)),

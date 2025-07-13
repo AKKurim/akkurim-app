@@ -7,6 +7,7 @@ import '../network/api_service.dart';
 import '../../models/auth/progress_enum.dart';
 import '../../models/auth/auth_state.dart';
 import '../../providers/db_provider.dart';
+import '../../providers/app_settings_provider.dart';
 import '../database/drift_database.dart';
 import 'package:drift/drift.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -48,19 +49,23 @@ class AuthService extends _$AuthService {
 
     final Map<String, dynamic> accessTokenPayload =
         await SuperTokens.getAccessTokenPayloadSecurely();
-
     final String tenant = _getTenantFromToken(tokenPayload: accessTokenPayload);
     final List<RoleEnum> roles =
         _getRolesFromToken(tokenPayload: accessTokenPayload);
-    final String? email = await (db.select(db.userEmail)
-          ..orderBy(
-              [(t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)]))
-        .getSingleOrNull()
-        .then((value) => value?.email);
-    if (email != null) {
-      Future.wait([
-        OneSignal.login(email),
-      ]);
+    String? email;
+    try {
+      email = await (db.select(db.userEmail)
+            ..orderBy([
+              (t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc)
+            ])
+            ..limit(1))
+          .getSingleOrNull()
+          .then((value) => value?.email);
+      if (email != null) {
+        await OneSignal.login(email);
+      }
+    } catch (e) {
+      print("Error getting email from database: $e");
     }
 
     return AuthState(
@@ -130,7 +135,8 @@ class AuthService extends _$AuthService {
     final String? storedEmail = await storage.read(key: "email");
     if (storedEmail != null && storedEmail != email) {
       // if the email is different, we need to clear preferences of using fingerprint
-      storage.delete(key: "useFingerprint");
+      final appSettings = ref.read(appSettingsPProvider.notifier);
+      appSettings.updateUseFingerprint(null);
     }
     await storage.write(
       key: "email",
@@ -180,6 +186,7 @@ class AuthService extends _$AuthService {
     required String localizedReason,
     required String androidTitle,
     required String cancelButton,
+    bool fromSettings = false,
   }) async {
     final LocalAuthentication auth = LocalAuthentication();
     final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
@@ -191,13 +198,10 @@ class AuthService extends _$AuthService {
 
     final FlutterSecureStorage storage = FlutterSecureStorage();
     final String? useFingerprint = await storage.read(key: "useFingerprint");
-    if (useFingerprint != null && useFingerprint == "true") {
-      // todo remove the true check only for debug now
-      // if the user has already enabled fingerprint authentication
-      // or cancelled it, we don't need to prompt again
+    if (useFingerprint != null && !fromSettings) {
       return;
     }
-    bool didAuthenticate = false;
+    bool? didAuthenticate = false;
     try {
       didAuthenticate = await auth.authenticate(
         localizedReason: localizedReason,
@@ -218,14 +222,12 @@ class AuthService extends _$AuthService {
     } on PlatformException catch (e) {
       // Handle the exception if the user cancels the authentication
       print("Authentication error: $e");
-      didAuthenticate = false;
+      didAuthenticate = null;
     }
-    print("SAVING: $didAuthenticate");
-    if (!didAuthenticate) {
-      await storage.write(key: "useFingerprint", value: "false");
-    } else {
-      await storage.write(key: "useFingerprint", value: "true");
-    }
+    final appSettings = ref.read(appSettingsPProvider.notifier);
+    didAuthenticate =
+        !fromSettings ? didAuthenticate : didAuthenticate ?? false;
+    appSettings.updateUseFingerprint(didAuthenticate ?? false);
   }
 
   Future<void> promptForBiometricLogin({
@@ -245,7 +247,6 @@ class AuthService extends _$AuthService {
 
     final FlutterSecureStorage storage = FlutterSecureStorage();
     final String? useFingerprint = await storage.read(key: "useFingerprint");
-    print("Use fingerprint: $useFingerprint");
     if (useFingerprint == null || useFingerprint != "true") {
       // if the user has not enabled fingerprint authentication
       return;
@@ -268,7 +269,7 @@ class AuthService extends _$AuthService {
           ),
         ],
       );
-    } on PlatformException catch (e) {
+    } on PlatformException {
       // Handle the exception if the user cancels the authentication
       didAuthenticate = false;
     }

@@ -615,5 +615,9 @@
     "loginWithFingerprintAndroid" : "Touch the fingerprint sensor",
     "@loginWithFingerprintAndroid" : {
         "description": "The message shown on Android devices when asking the user to use fingerprint login"
+    },
+    "useFingerprintSettings" : "Login with",
+    "@useFingerprintSettings" : {
+        "description": "The label for the use fingerprint setting"
     }
 }

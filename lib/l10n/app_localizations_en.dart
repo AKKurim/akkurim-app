@@ -463,11 +463,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get useFingerprintAndroid =>
-      'If yes, please touch the fingerprint sensor on your device.';
+      'If yes, please touch the fingerprint sensor';
 
   @override
   String get loginWithFingerprint => 'Login with Fingerprint';
 
   @override
-  String get loginWithFingerprintAndroid => 'Use your fingerprint to log in';
+  String get loginWithFingerprintAndroid => 'Touch the fingerprint sensor';
+
+  @override
+  String get useFingerprintSettings => 'Login with';
+
+  @override
+  String get useFingerprintSettingsDescription =>
+      'Enable fingerprint login for quick access to the app.';
 }

@@ -62,7 +62,8 @@ GoRouter router(Ref ref) {
       }
 
       // Auth redirects
-      final loggingIn = location.startsWith('/login');
+      final loggingIn =
+          location.startsWith('/splash') || location.startsWith('/login');
       if (authData?.state != ProgressEnum.authenticated) {
         return loggingIn ? null : '/login';
       } else {

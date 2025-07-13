@@ -462,12 +462,19 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get useFingerprintAndroid =>
-      'Pokud ano, prosím přiložte prst na snímač otisků prstů na vašem zařízení.';
+      'Pokud ano, přiložte prst na snímač otisků prstů';
 
   @override
-  String get loginWithFingerprint => 'Přihlásit se pomocí otisku prstu';
+  String get loginWithFingerprint => 'Pro přihlášení použijte otisk prstu';
 
   @override
   String get loginWithFingerprintAndroid =>
-      'Použijte otisk prstu pro přihlášení';
+      'Přiložte prst na snímač otisků prstů';
+
+  @override
+  String get useFingerprintSettings => 'Přihlášení pomocí';
+
+  @override
+  String get useFingerprintSettingsDescription =>
+      'Enable fingerprint login for quick access to the app.';
 }

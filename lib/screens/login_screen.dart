@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/models/auth/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,9 +6,29 @@ import '../services/auth/auth_service.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../widgets/settings/locale_dropdown.dart';
 import '../models/auth/progress_enum.dart';
+import '../providers/app_settings_provider.dart';
 
 class LoginScreen extends HookConsumerWidget {
   const LoginScreen({super.key});
+
+  void showFingerprintPromptDelay(
+    BuildContext context,
+    WidgetRef ref,
+    Duration delay,
+    AuthState? authData,
+  ) async {
+    await Future.delayed(delay);
+    if (!context.mounted ||
+        (authData != null && authData.state != ProgressEnum.initial)) {
+      return;
+    }
+    final authService = ref.read(authServiceProvider.notifier);
+    await authService.promptForBiometricLogin(
+      localizedReason: AppLocalizations.of(context)!.loginWithFingerprint,
+      androidTitle: AppLocalizations.of(context)!.loginWithFingerprintAndroid,
+      cancelButton: AppLocalizations.of(context)!.cancelButton,
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,15 +51,13 @@ class LoginScreen extends HookConsumerWidget {
         );
       }
     });
+    final appSettings = ref.watch(appSettingsPProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    showFingerprintPromptDelay(
+        context, ref, const Duration(milliseconds: 500), authData);
 
-    if (authData?.state != ProgressEnum.loading &&
-        authData?.state != ProgressEnum.authenticated) {
-      ref.read(authServiceProvider.notifier).promptForBiometricLogin(
-          localizedReason: AppLocalizations.of(context)!.loginWithFingerprint,
-          androidTitle:
-              AppLocalizations.of(context)!.loginWithFingerprintAndroid,
-          cancelButton: AppLocalizations.of(context)!.cancelButton);
-    }
     return Scaffold(
       appBar: AppBar(
         leading: null,
@@ -84,18 +103,32 @@ class LoginScreen extends HookConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                TextButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Colors.green),
-                    foregroundColor: WidgetStateProperty.all(Colors.white),
-                  ),
-                  onPressed: () {
-                    ref.read(authServiceProvider.notifier).login(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-                  },
-                  child: Text(AppLocalizations.of(context)!.login),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.green),
+                        foregroundColor: WidgetStateProperty.all(Colors.white),
+                      ),
+                      onPressed: () {
+                        ref.read(authServiceProvider.notifier).login(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                      },
+                      child: Text(AppLocalizations.of(context)!.login,
+                          style: const TextStyle(fontSize: 18)),
+                    ),
+                    if (appSettings?.useFingerprint == true)
+                      IconButton(
+                        icon: const Icon(Icons.fingerprint, size: 32),
+                        onPressed: () {
+                          showFingerprintPromptDelay(context, ref,
+                              const Duration(seconds: 0), authData);
+                        },
+                      ),
+                  ],
                 ),
               ],
             ),

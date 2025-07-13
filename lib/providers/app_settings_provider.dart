@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/views/app_settings_view.dart';
 import 'package:drift/drift.dart';
 import './db_provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'app_settings_provider.g.dart';
 
@@ -22,13 +23,18 @@ class AppSettingsP extends _$AppSettingsP {
               ),
               mode: InsertMode.insertOrReplace,
             );
+    final storage = const FlutterSecureStorage();
+    final useFingerprintRaw = await storage.read(key: "useFingerprint");
+    final useFingerprint =
+        useFingerprintRaw == null ? null : (useFingerprintRaw == 'true');
 
     yield* db.select(db.appSetting).watchSingle().map((event) {
       return AppSettingsView(
           id: event.id,
           locale: Locale(event.locale),
           themeData:
-              event.themeMode == 'dark' ? Config.darkTheme : Config.lightTheme);
+              event.themeMode == 'dark' ? Config.darkTheme : Config.lightTheme,
+          useFingerprint: useFingerprint);
     });
   }
 
@@ -55,6 +61,21 @@ class AppSettingsP extends _$AppSettingsP {
       AppSettingCompanion(
         locale: Value(locale),
       ),
+    );
+  }
+
+  Future<void> updateUseFingerprint(bool? useFingerprint) async {
+    final storage = const FlutterSecureStorage();
+    if (useFingerprint == null) {
+      // if the user has not enabled fingerprint authentication, remove the key
+      await storage.delete(key: "useFingerprint");
+    } else {
+      // save the useFingerprint value to secure storage
+      await storage.write(key: "useFingerprint", value: useFingerprint.toString());
+    }
+    // refresh the state to reflect the change
+    state = AsyncValue.data(
+      state.value!.copyWith(useFingerprint: useFingerprint),
     );
   }
 }
