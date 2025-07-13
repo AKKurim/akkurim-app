@@ -1,3 +1,2 @@
-To create a patch for this release, run shorebird patch --platforms=android --release-version=2.3.3+3
+shorebird patch --platforms=android --release-version=2.3.4+3
 change trainings provider to use the new DateRange model
-is creating a common calendar interface worth it? with stuff: date, type, original data and or widget to display
