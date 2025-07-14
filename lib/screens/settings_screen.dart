@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../widgets/bug_report_icon.dart';
 import '../widgets/settings/locale_selection_row.dart';
 import '../widgets/settings/theme_mode_row.dart';
 import '../widgets/settings/info_row.dart';
@@ -18,6 +19,7 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settingsScreenTitle),
         actions: [
+          BugReportIcon(),
           IconButton(
               icon: const Icon(Icons.help),
               onPressed: () {

@@ -13,8 +13,6 @@ import 'attendance_tresults/trainings_screen.dart';
 import 'attendance_tresults/training_results_screen.dart';
 import '../services/auth/auth_service.dart';
 import '../models/auth/role_enum.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../utils/config.dart';
 import '../providers/tab_index_provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
@@ -63,32 +61,6 @@ class ScaffoldWithNavBar extends ConsumerWidget {
       appBar: AppBar(
         title: Text(titles[navigationShell.currentIndex]),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.bug_report),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text(AppLocalizations.of(context)!.bugReport),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(AppLocalizations.of(context)!.cancel),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        launchUrl(Config.bugReportUri);
-                      },
-                      child: Text(AppLocalizations.of(context)!.open),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
           const SyncIcon(),
           IconButton(
             icon: const Icon(Icons.settings),

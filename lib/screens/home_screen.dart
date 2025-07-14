@@ -19,7 +19,6 @@ import '../providers/new_update_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/config.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../services/auth/auth_service.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
