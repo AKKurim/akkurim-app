@@ -9,6 +9,8 @@ import 'package:terminate_restart/terminate_restart.dart';
 
 part 'new_update_provider.g.dart';
 
+enum Version { outdated, latest, experimental, unknown }
+
 enum PatchStatus {
   idle,
   checking,
