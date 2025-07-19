@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../providers/full_athlete_provider.dart';
 import '../../providers/filter_providers.dart';
 import '../../utils/utils.dart';
-import '../../utils/config.dart';
+import '../../config.dart';
 import '../../widgets/copyable_row.dart';
 import '../../services/auth/auth_service.dart';
 import '../../models/auth/auth_state.dart';

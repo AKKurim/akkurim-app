@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:eventflux/eventflux.dart';
 import '../../providers/app_settings_provider.dart';
-import '../../utils/config.dart';
+import '../../config.dart';
 import '../../providers/db_provider.dart';
 import './api_service.dart';
 import '../database/drift_database.dart';

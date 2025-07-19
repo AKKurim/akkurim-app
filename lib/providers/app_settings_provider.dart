@@ -1,5 +1,5 @@
 import '../services/database/drift_database.dart';
-import '../utils/config.dart';
+import '../config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/views/app_settings_view.dart';
@@ -71,7 +71,8 @@ class AppSettingsP extends _$AppSettingsP {
       await storage.delete(key: "useFingerprint");
     } else {
       // save the useFingerprint value to secure storage
-      await storage.write(key: "useFingerprint", value: useFingerprint.toString());
+      await storage.write(
+          key: "useFingerprint", value: useFingerprint.toString());
     }
     // refresh the state to reflect the change
     state = AsyncValue.data(

@@ -1,5 +1,5 @@
 import "package:drift/drift.dart";
-import '../../utils/config.dart';
+import '../../config.dart';
 import 'package:flutter/material.dart' as fm;
 import '../views/app_settings_view.dart';
 

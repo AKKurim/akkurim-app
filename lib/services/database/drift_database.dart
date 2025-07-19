@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import '../../utils/config.dart';
+import '../../config.dart';
 
 import '../../models/local_db/app_settings.dart';
 import '../../models/local_db/sync_queue.dart';

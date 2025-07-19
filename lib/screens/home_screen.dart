@@ -17,7 +17,7 @@ import './attendance_tresults/trainings_screen.dart';
 import '../providers/remote_config_provider.dart';
 import '../providers/new_update_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../utils/config.dart';
+import '../config.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreen extends HookConsumerWidget {

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../utils/utils.dart';
-import '../../utils/config.dart';
+import '../../config.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../../providers/meet_providers.dart';
 import 'package:url_launcher/url_launcher.dart';

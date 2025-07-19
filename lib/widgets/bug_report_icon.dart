@@ -1,5 +1,5 @@
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
-import 'package:ak_kurim_app/utils/config.dart';
+import 'package:ak_kurim_app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
