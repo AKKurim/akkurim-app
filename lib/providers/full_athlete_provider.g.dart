@@ -6,7 +6,7 @@ part of 'full_athlete_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fullAthletePHash() => r'01d327271d979e46611ba802f8ae6a90255e8994';
+String _$fullAthletePHash() => r'6362e1f6de9c3680c22bebae8f13b4be81f4f82a';
 
 /// Copied from Dart SDK
 class _SystemHash {

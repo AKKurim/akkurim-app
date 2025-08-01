@@ -6,7 +6,7 @@ part of 'app_settings_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appSettingsPHash() => r'1cf447ed08aeec485f856f3189f425ca4ba46e0a';
+String _$appSettingsPHash() => r'7f172778d51e9cd081c5e81dfffa058b515aac57';
 
 /// See also [AppSettingsP].
 @ProviderFor(AppSettingsP)

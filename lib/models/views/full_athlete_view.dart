@@ -4,7 +4,6 @@ import './result_view.dart';
 
 class FullAthleteView {
   final AthleteData athlete;
-  final AthleteStatusData athleteStatus;
   final ClubData? club;
   final List<GuardianData> guardians;
   final List<ResultView> results;
@@ -12,7 +11,6 @@ class FullAthleteView {
 
   FullAthleteView({
     required this.athlete,
-    required this.athleteStatus,
     this.club,
     required this.guardians,
     required this.results,

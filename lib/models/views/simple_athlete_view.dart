@@ -3,12 +3,10 @@ import '../../utils/utils.dart';
 
 class SimpleAthleteView {
   final AthleteData athlete;
-  final AthleteStatusData athleteStatus;
   final ClubData? club;
 
   SimpleAthleteView({
     required this.athlete,
-    required this.athleteStatus,
     this.club,
   });
 

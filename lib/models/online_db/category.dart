@@ -7,6 +7,7 @@ class Category extends Table {
   TextColumn get shortDescription => text()();
   TextColumn get descriptionEn => text()();
   TextColumn get shortDescriptionEn => text()();
+  TextColumn get age => text()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
   DateTimeColumn get deletedAt => dateTime().nullable()();

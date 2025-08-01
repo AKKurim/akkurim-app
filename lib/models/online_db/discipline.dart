@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 class Discipline extends Table {
   IntColumn get id => integer()();
+  IntColumn get traditional => integer()();
   IntColumn get disciplineTypeId => integer()();
   TextColumn get description => text()();
   TextColumn get shortDescription => text()();

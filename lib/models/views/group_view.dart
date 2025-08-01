@@ -24,6 +24,7 @@ class GroupView {
         name: '',
         schoolYearId: '',
         trainingTimeId: '',
+        system: 0,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         deletedAt: null,

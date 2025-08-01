@@ -5,6 +5,8 @@ class TrainingTime extends Table {
   TextColumn get day => text()();
   TextColumn get summerTime => text()();
   TextColumn get winterTime => text()();
+  IntColumn get durationSummer => integer()();
+  IntColumn get durationWinter => integer()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
   DateTimeColumn get deletedAt => dateTime().nullable()();

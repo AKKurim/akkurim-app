@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 class Athlete extends Table {
   TextColumn get id => text().withLength(min: 36, max: 36)();
+  TextColumn get bankNumber => text().nullable()();
   TextColumn get birthNumber => text().unique()();
   TextColumn get firstName => text()();
   TextColumn get lastName => text()();
@@ -13,8 +14,9 @@ class Athlete extends Table {
   TextColumn get ean => text().unique().nullable()();
   TextColumn get note => text().nullable()();
   TextColumn get clubId => text().nullable()();
-  TextColumn get profilePicture => text().unique().nullable()();
-  TextColumn get athleteStatusId => text().withLength(min: 36, max: 36)();
+  TextColumn get profileImageId =>
+      text().unique().withLength(min: 36, max: 36).nullable()();
+  TextColumn get status => text()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
   DateTimeColumn get deletedAt => dateTime().nullable()();

@@ -19,8 +19,9 @@ class SignUpForm extends Table {
   TextColumn get guardianPhone2 => text().nullable()();
   TextColumn get guardianEmail2 => text().nullable()();
   TextColumn get note => text().nullable()();
-  TextColumn get signUpFormStatusId => text().withLength(min: 36, max: 36)();
+  TextColumn get status => text()();
   TextColumn get schoolYearId => text().withLength(min: 36, max: 36)();
+  IntColumn get timesPerWeek => integer()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
   DateTimeColumn get deletedAt => dateTime().nullable()();
