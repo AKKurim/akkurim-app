@@ -6,12 +6,12 @@ part of 'filter_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$athleteStatusesHash() => r'a9614be1138a3472b33ce339f04b23414c0f9b24';
+String _$athleteStatusesHash() => r'e67545eeef95219793e6766d23f45826d2f53bd3';
 
 /// See also [athleteStatuses].
 @ProviderFor(athleteStatuses)
 final athleteStatusesProvider =
-    AutoDisposeStreamProvider<List<AthleteStatusData>>.internal(
+    AutoDisposeStreamProvider<List<String>>.internal(
   athleteStatuses,
   name: r'athleteStatusesProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,9 +23,8 @@ final athleteStatusesProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AthleteStatusesRef
-    = AutoDisposeStreamProviderRef<List<AthleteStatusData>>;
-String _$filteredAthletesHash() => r'e83706d5f2670609fcf1cfcab9372fa057e0fb71';
+typedef AthleteStatusesRef = AutoDisposeStreamProviderRef<List<String>>;
+String _$filteredAthletesHash() => r'62fa9353d321e85328926c81973e2a84db49d090';
 
 /// See also [filteredAthletes].
 @ProviderFor(filteredAthletes)

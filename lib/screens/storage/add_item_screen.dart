@@ -85,37 +85,38 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                 child: Text(AppLocalizations.of(context)!.createItem),
               ),
               const Divider(),
-              const SizedBox(height: 12),
-              Text(AppLocalizations.of(context)!.addNewItemType),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.newItemType),
-                controller: _newItemTypeController,
-                onChanged: (value) {
-                  setState(() {});
-                },
-              ),
-              const SizedBox(height: 36),
-              FilledButton(
-                onPressed: _newItemTypeController.text.isNotEmpty
-                    ? () {
-                        ref
-                            .read(itemTypePProvider.notifier)
-                            .addItemType(_newItemTypeController.text);
-                        FocusScope.of(context).unfocus();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                AppLocalizations.of(context)!.itemTypeCreated),
-                            duration: const Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    : null,
-                child: Text(
-                  AppLocalizations.of(context)!.createItemType,
-                ),
-              ),
+              // TODO rework this screen
+              // const SizedBox(height: 12),
+              // Text(AppLocalizations.of(context)!.addNewItemType),
+              // TextField(
+              //   decoration: InputDecoration(
+              //       labelText: AppLocalizations.of(context)!.newItemType),
+              //   controller: _newItemTypeController,
+              //   onChanged: (value) {
+              //     setState(() {});
+              //   },
+              // ),
+              // const SizedBox(height: 36),
+              // FilledButton(
+              //   onPressed: _newItemTypeController.text.isNotEmpty
+              //       ? () {
+              //           ref
+              //               .read(itemTypePProvider.notifier)
+              //               .addItemType(_newItemTypeController.text);
+              //           FocusScope.of(context).unfocus();
+              //           ScaffoldMessenger.of(context).showSnackBar(
+              //             SnackBar(
+              //               content: Text(
+              //                   AppLocalizations.of(context)!.itemTypeCreated),
+              //               duration: const Duration(seconds: 2),
+              //             ),
+              //           );
+              //         }
+              //       : null,
+              //   child: Text(
+              //     AppLocalizations.of(context)!.createItemType,
+              //   ),
+              // ),
             ],
           ),
         ),

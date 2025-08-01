@@ -149,7 +149,8 @@ FloatingActionButton? buildFab({
                     break;
                 }
               case 3:
-                context.push('/item-create');
+              // TODO update the screen before allowing this again
+              //context.push('/item-create');
               case 4:
                 final auth = await ref.read(authServiceProvider.future);
                 if (!context.mounted) return;

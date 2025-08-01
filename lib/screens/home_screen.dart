@@ -8,7 +8,6 @@ import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import '../providers/meet_providers.dart';
 import '../providers/training_providers.dart';
@@ -64,7 +63,7 @@ class HomeScreen extends HookConsumerWidget {
               athlete
                   .birthDay(selected.value.year)
                   .isBefore(calendarRange.end) &&
-              athlete.athleteStatus.name == 'Active')
+              athlete.athlete.status == 'active')
           .toList();
       events.value.addAll(birthdayEvents);
     }
@@ -321,7 +320,7 @@ class HomeScreen extends HookConsumerWidget {
                           event.meet.endAt.isAfter(day) &&
                           event.meet.startAt.isBefore(day));
                 } else if (event is TrainingView) {
-                  return TimeHelper.isSameDay(event.training.datetime, day);
+                  return TimeHelper.isSameDay(event.training.startAt, day);
                 } else if (event is SimpleAthleteView) {
                   return TimeHelper.isSameDay(event.birthDay(day.year), day);
                 }
@@ -349,7 +348,7 @@ class HomeScreen extends HookConsumerWidget {
                 return MeetTile(meet: event);
               } else if (event is TrainingView) {
                 if (!TimeHelper.isSameDay(
-                    event.training.datetime, selected.value)) {
+                    event.training.startAt, selected.value)) {
                   return const SizedBox.shrink();
                 }
                 isEventForDayHelper = true;

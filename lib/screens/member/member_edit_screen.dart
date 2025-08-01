@@ -1,7 +1,6 @@
 import 'package:ak_kurim_app/models/views/full_athlete_view.dart';
 import 'package:ak_kurim_app/providers/filter_providers.dart';
 import 'package:ak_kurim_app/providers/full_athlete_provider.dart';
-import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:ak_kurim_app/widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -29,7 +28,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
   late final TextEditingController zip;
   late final TextEditingController note;
   late final TextEditingController birthNumber;
-  late AthleteStatusData? status;
+  late String status;
   late FullAthleteView? a;
   late String id;
 
@@ -54,7 +53,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
         zip = TextEditingController(text: a?.athlete.zip ?? '');
         note = TextEditingController(text: a?.athlete.note ?? '');
         birthNumber = TextEditingController(text: a?.athlete.birthNumber);
-        status = a?.athleteStatus;
+        status = a!.athlete.status;
       }
     } else {
       a = null;
@@ -68,7 +67,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
       city = TextEditingController();
       zip = TextEditingController();
       note = TextEditingController();
-      status = null;
+      status = 'pending'; // TODO fix
     }
   }
 
@@ -109,7 +108,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
           zip: zip.text,
           birthNumber: birthNumberStr,
           note: note.text,
-          statusId: status!.id,
+          statusString: status,
           ean: widget.editMode ? a?.athlete.ean : null,
           clubId: widget.editMode ? a?.athlete.clubId : null,
           createdAt: widget.editMode ? a?.athlete.createdAt : DateTime.now(),
@@ -128,12 +127,11 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<AthleteStatusData> statuses =
-        ref.watch(athleteStatusesProvider).when(
-              data: (data) => data,
-              error: (error, stackTrace) => [],
-              loading: () => [],
-            );
+    final List<String> statuses = ref.watch(athleteStatusesProvider).when(
+          data: (data) => data,
+          error: (error, stackTrace) => [],
+          loading: () => [],
+        );
 
     return Scaffold(
       appBar: AppBar(
@@ -229,15 +227,15 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
                   maxLines: 2),
               const SizedBox(height: 12),
               // dropdown for status
-              DropdownButtonFormField<AthleteStatusData>(
+              DropdownButtonFormField<String>(
                 value: status,
-                onChanged: (AthleteStatusData? value) {
+                onChanged: (String? value) {
                   setState(() {
-                    status = value;
+                    status = value!;
                   });
                 },
                 items: statuses
-                    .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
+                    .map((s) => DropdownMenuItem(value: s, child: Text(s)))
                     .toList(),
                 decoration: const InputDecoration(labelText: 'Status'),
               ),

@@ -65,7 +65,7 @@ class AthleteListView extends HookConsumerWidget {
               child: ListTile(
                 onTap: () => context.push('/member/${athlete.athlete.id}/0'),
                 title: Text(
-                  '${athlete.fullName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()}) ${athlete.athlete.clubId == auth.value?.tenant?.substring(2) ? "" : "⚠️"}', //TODO edit the tenant id
+                  '${athlete.fullName} (${Utils.parseBirthNumber(athlete.athlete.birthNumber).year.toString()}) ${athlete.athlete.clubId == auth.value?.tenant ? "" : "⚠️"}',
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -78,11 +78,11 @@ class AthleteListView extends HookConsumerWidget {
                     : null,
                 trailing: Chip(
                   label: Text(
-                      Utils.getStatusName(athlete.athleteStatus.name, context)),
+                      Utils.getStatusName(athlete.athlete.status, context)),
                   backgroundColor:
-                      Utils.getStatusBGColor(athlete.athleteStatus.name),
+                      Utils.getStatusBGColor(athlete.athlete.status),
                   labelStyle: TextStyle(
-                    color: Utils.getStatusFGColor(athlete.athleteStatus.name),
+                    color: Utils.getStatusFGColor(athlete.athlete.status),
                   ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

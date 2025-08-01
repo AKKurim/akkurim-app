@@ -33,9 +33,9 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
     _trainingNoteController.text = widget.training.training.description ?? '';
   }
 
-  saveTrainingData() {
+  void saveTrainingData() {
     ref
-        .read(trainingsPProvider(range: TimeHelper.emptyRange).notifier)
+        .read(trainingsPProvider(range: TimeHelper.emptyRange()).notifier)
         .saveAttendance(
           widget.training,
           athleteAttendance,
@@ -66,7 +66,7 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                         title: Text(widget.training.group.group.name),
                         trailing: Text(
                           TimeHelper.getFullDateWithTime(
-                              widget.training.training.datetime, context,
+                              widget.training.training.startAt, context,
                               withDay: false),
                           style: const TextStyle(
                             fontSize: 14,

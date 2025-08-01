@@ -78,11 +78,11 @@ class Utils {
 
   static Color getStatusFGColor(String status) {
     switch (status) {
-      case 'Active':
+      case 'active':
         return Colors.green;
-      case 'Pending':
+      case 'pending':
         return Colors.yellow;
-      case 'Inactive':
+      case 'inactive':
         return Colors.red;
       default:
         return Colors.grey;
@@ -91,11 +91,11 @@ class Utils {
 
   static Color getStatusBGColor(String status) {
     switch (status) {
-      case 'Active':
+      case 'active':
         return Colors.green.withValues(alpha: 0.2);
-      case 'Pending':
+      case 'pending':
         return Colors.yellow.withValues(alpha: 0.2);
-      case 'Inactive':
+      case 'inactive':
         return Colors.red.withValues(alpha: 0.2);
       default:
         return Colors.grey.withValues(alpha: 0.2);
@@ -104,11 +104,11 @@ class Utils {
 
   static String getStatusName(String status, BuildContext context) {
     switch (status) {
-      case 'Active':
+      case 'active':
         return AppLocalizations.of(context)!.activeStatus;
-      case 'Pending':
+      case 'pending':
         return AppLocalizations.of(context)!.pendingStatus;
-      case 'Inactive':
+      case 'inactive':
         return AppLocalizations.of(context)!.inactiveStatus;
       default:
         return AppLocalizations.of(context)!.archivedStatus;
@@ -411,7 +411,7 @@ class TimeHelper {
         end: getSelectedWeekRange(endOfMonth).end);
   }
 
-  static get emptyRange {
+  static DateTimeRange emptyRange() {
     return DateTimeRange(
       start: DateTime(1970, 1, 1),
       end: DateTime(1970, 1, 1),

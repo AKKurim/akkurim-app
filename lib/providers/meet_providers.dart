@@ -181,7 +181,6 @@ class FullMeetProviderP extends _$FullMeetProviderP {
         MeetEventCompanion(
           id: Value(Uuid().v1()),
           meetId: Value(meetId),
-          meetType: meetId.contains('CAS') ? Value('RACE') : Value('TRAINING'),
           disciplineId: Value(disciplineId),
           categoryId: Value(categoryId),
           startAt: Value(startAt),
@@ -371,7 +370,6 @@ class MeetProvidersP extends _$MeetProvidersP {
         MeetEventCompanion(
           id: Value(Uuid().v1()),
           meetId: Value(meetId),
-          meetType: meetId.contains('CAS') ? Value('RACE') : Value('TRAINING'),
           disciplineId: Value(disciplineId),
           categoryId: Value(categoryId),
           startAt: Value(startAt),

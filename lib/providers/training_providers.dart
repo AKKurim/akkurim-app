@@ -32,11 +32,11 @@ class TrainingsP extends _$TrainingsP {
 
     final query = (db.select(db.training)
           ..where((t) => t.groupId.isIn(groupIds))
-          ..where((t) => t.datetime.isBetweenValues(range.start, range.end))
+          ..where((t) => t.startAt.isBetweenValues(range.start, range.end))
           ..where((t) => t.deletedAt.isNull())
           ..orderBy([
             (tbl) => OrderingTerm(
-                  expression: tbl.datetime,
+                  expression: tbl.startAt,
                   mode: OrderingMode.asc,
                 ),
           ]))
@@ -127,7 +127,7 @@ class TrainingsP extends _$TrainingsP {
             TrainingCompanion(
               id: Value(Uuid().v1()),
               groupId: Value(groupId),
-              datetime: Value(date),
+              startAt: Value(date),
               description:
                   Value(''), // description is set when taking attendance
               durationMinutes: Value(trainingDuration),
@@ -169,7 +169,7 @@ class TrainingsP extends _$TrainingsP {
     trainingToDelete['created_at'] =
         training.training.createdAt.toUtc().toIso8601String();
     trainingToDelete['datetime_'] =
-        training.training.datetime.toUtc().toIso8601String();
+        training.training.startAt.toUtc().toIso8601String();
 
     await db.into(db.training).insertOnConflictUpdate(
           buildTrainingCompanion(trainingToDelete),
@@ -202,7 +202,7 @@ class TrainingsP extends _$TrainingsP {
             mode: InsertMode.insertOrReplace,
             TrainingCompanion(
               id: Value(training.training.id),
-              datetime: Value(training.training.datetime),
+              startAt: Value(training.training.startAt),
               groupId: Value(training.training.groupId),
               durationMinutes: Value(training.training.durationMinutes),
               description: Value(note),

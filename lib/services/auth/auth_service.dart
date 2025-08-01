@@ -286,5 +286,4 @@ class AuthService extends _$AuthService {
     await login(email: email, password: password);
   }
   // TODO fix the initial promp for biometric login
-// TODO add to setting to enable/disable biometric login
 }

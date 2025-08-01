@@ -16,8 +16,6 @@ class SimpleAthletesP extends _$SimpleAthletesP {
           ))
         .join(
       [
-        leftOuterJoin(db.athleteStatus,
-            db.athleteStatus.id.equalsExp(db.athlete.athleteStatusId)),
         leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
       ],
     );
@@ -25,12 +23,11 @@ class SimpleAthletesP extends _$SimpleAthletesP {
     yield* query.watch().map((rows) {
       return rows.map((row) {
         final athlete = row.readTable(db.athlete);
-        final athleteStatus = row.readTable(db.athleteStatus);
+
         final club = row.readTableOrNull(db.club);
 
         return SimpleAthleteView(
           athlete: athlete,
-          athleteStatus: athleteStatus,
           club: club,
         );
       }).toList();

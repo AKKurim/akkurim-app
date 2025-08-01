@@ -174,16 +174,16 @@ class TrainingResultsP extends _$TrainingResultsP {
     final sync = ref.read(syncServiceProvider.notifier);
     final auth = await ref.read(authServiceProvider.future);
     String id = const Uuid().v1();
-    id = 'TRA-${id.substring(4)}';
 
     final trainingResult = await db.into(db.meet).insertReturning(
           MeetCompanion(
             id: Value(id),
+            type: const Value('training'),
             name: Value(name),
             startAt: Value(date),
             endAt: Value(date),
-            location: const Value(''),
-            organizer: Value(auth.tenant ?? ''),
+            location: const Value(null),
+            organizer: Value(auth.tenant),
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: const Value(null),
@@ -205,7 +205,6 @@ class TrainingResultsP extends _$TrainingResultsP {
           MeetEventCompanion(
             id: Value(meetEventId),
             meetId: Value(id),
-            meetType: const Value('Training'),
             disciplineId: Value(discipline.discipline.id),
             startAt: Value(date),
             phase: const Value(''),

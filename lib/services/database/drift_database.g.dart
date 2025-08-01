@@ -7073,13 +7073,13 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
       const VerificationMeta('bankNumber');
   @override
   late final GeneratedColumn<String> bankNumber = GeneratedColumn<String>(
-      'bank_number', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _firsNameMeta =
-      const VerificationMeta('firsName');
+      'bank_number', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _firstNameMeta =
+      const VerificationMeta('firstName');
   @override
-  late final GeneratedColumn<String> firsName = GeneratedColumn<String>(
-      'firs_name', aliasedName, false,
+  late final GeneratedColumn<String> firstName = GeneratedColumn<String>(
+      'first_name', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _lastNameMeta =
       const VerificationMeta('lastName');
@@ -7091,8 +7091,8 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
       const VerificationMeta('dateOfBirth');
   @override
   late final GeneratedColumn<DateTime> dateOfBirth = GeneratedColumn<DateTime>(
-      'date_of_birth', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      'date_of_birth', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _emailMeta = const VerificationMeta('email');
   @override
   late final GeneratedColumn<String> email = GeneratedColumn<String>(
@@ -7101,35 +7101,35 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
   static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
   @override
   late final GeneratedColumn<String> phone = GeneratedColumn<String>(
-      'phone', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'phone', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _streetMeta = const VerificationMeta('street');
   @override
   late final GeneratedColumn<String> street = GeneratedColumn<String>(
-      'street', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'street', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _cityMeta = const VerificationMeta('city');
   @override
   late final GeneratedColumn<String> city = GeneratedColumn<String>(
-      'city', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'city', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _zipMeta = const VerificationMeta('zip');
   @override
   late final GeneratedColumn<String> zip = GeneratedColumn<String>(
-      'zip', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'zip', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _qualificationMeta =
       const VerificationMeta('qualification');
   @override
   late final GeneratedColumn<String> qualification = GeneratedColumn<String>(
-      'qualification', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'qualification', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _preferrenceMeta =
       const VerificationMeta('preferrence');
   @override
   late final GeneratedColumn<String> preferrence = GeneratedColumn<String>(
-      'preferrence', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'preferrence', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -7153,7 +7153,7 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
         id,
         status,
         bankNumber,
-        firsName,
+        firstName,
         lastName,
         dateOfBirth,
         email,
@@ -7193,14 +7193,12 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
           _bankNumberMeta,
           bankNumber.isAcceptableOrUnknown(
               data['bank_number']!, _bankNumberMeta));
-    } else if (isInserting) {
-      context.missing(_bankNumberMeta);
     }
-    if (data.containsKey('firs_name')) {
-      context.handle(_firsNameMeta,
-          firsName.isAcceptableOrUnknown(data['firs_name']!, _firsNameMeta));
+    if (data.containsKey('first_name')) {
+      context.handle(_firstNameMeta,
+          firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta));
     } else if (isInserting) {
-      context.missing(_firsNameMeta);
+      context.missing(_firstNameMeta);
     }
     if (data.containsKey('last_name')) {
       context.handle(_lastNameMeta,
@@ -7213,8 +7211,6 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
           _dateOfBirthMeta,
           dateOfBirth.isAcceptableOrUnknown(
               data['date_of_birth']!, _dateOfBirthMeta));
-    } else if (isInserting) {
-      context.missing(_dateOfBirthMeta);
     }
     if (data.containsKey('email')) {
       context.handle(
@@ -7225,42 +7221,30 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
     if (data.containsKey('phone')) {
       context.handle(
           _phoneMeta, phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta));
-    } else if (isInserting) {
-      context.missing(_phoneMeta);
     }
     if (data.containsKey('street')) {
       context.handle(_streetMeta,
           street.isAcceptableOrUnknown(data['street']!, _streetMeta));
-    } else if (isInserting) {
-      context.missing(_streetMeta);
     }
     if (data.containsKey('city')) {
       context.handle(
           _cityMeta, city.isAcceptableOrUnknown(data['city']!, _cityMeta));
-    } else if (isInserting) {
-      context.missing(_cityMeta);
     }
     if (data.containsKey('zip')) {
       context.handle(
           _zipMeta, zip.isAcceptableOrUnknown(data['zip']!, _zipMeta));
-    } else if (isInserting) {
-      context.missing(_zipMeta);
     }
     if (data.containsKey('qualification')) {
       context.handle(
           _qualificationMeta,
           qualification.isAcceptableOrUnknown(
               data['qualification']!, _qualificationMeta));
-    } else if (isInserting) {
-      context.missing(_qualificationMeta);
     }
     if (data.containsKey('preferrence')) {
       context.handle(
           _preferrenceMeta,
           preferrence.isAcceptableOrUnknown(
               data['preferrence']!, _preferrenceMeta));
-    } else if (isInserting) {
-      context.missing(_preferrenceMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -7292,27 +7276,27 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
       status: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
       bankNumber: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}bank_number'])!,
-      firsName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}firs_name'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}bank_number']),
+      firstName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}first_name'])!,
       lastName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}last_name'])!,
-      dateOfBirth: attachedDatabase.typeMapping.read(
-          DriftSqlType.dateTime, data['${effectivePrefix}date_of_birth'])!,
+      dateOfBirth: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date_of_birth']),
       email: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}email'])!,
       phone: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}phone'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}phone']),
       street: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}street'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}street']),
       city: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}city'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}city']),
       zip: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}zip'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}zip']),
       qualification: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}qualification'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}qualification']),
       preferrence: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}preferrence'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}preferrence']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -7331,34 +7315,34 @@ class $HelperTable extends Helper with TableInfo<$HelperTable, HelperData> {
 class HelperData extends DataClass implements Insertable<HelperData> {
   final String id;
   final String status;
-  final String bankNumber;
-  final String firsName;
+  final String? bankNumber;
+  final String firstName;
   final String lastName;
-  final DateTime dateOfBirth;
+  final DateTime? dateOfBirth;
   final String email;
-  final String phone;
-  final String street;
-  final String city;
-  final String zip;
-  final String qualification;
-  final String preferrence;
+  final String? phone;
+  final String? street;
+  final String? city;
+  final String? zip;
+  final String? qualification;
+  final String? preferrence;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;
   const HelperData(
       {required this.id,
       required this.status,
-      required this.bankNumber,
-      required this.firsName,
+      this.bankNumber,
+      required this.firstName,
       required this.lastName,
-      required this.dateOfBirth,
+      this.dateOfBirth,
       required this.email,
-      required this.phone,
-      required this.street,
-      required this.city,
-      required this.zip,
-      required this.qualification,
-      required this.preferrence,
+      this.phone,
+      this.street,
+      this.city,
+      this.zip,
+      this.qualification,
+      this.preferrence,
       required this.createdAt,
       required this.updatedAt,
       this.deletedAt});
@@ -7367,17 +7351,33 @@ class HelperData extends DataClass implements Insertable<HelperData> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['status'] = Variable<String>(status);
-    map['bank_number'] = Variable<String>(bankNumber);
-    map['firs_name'] = Variable<String>(firsName);
+    if (!nullToAbsent || bankNumber != null) {
+      map['bank_number'] = Variable<String>(bankNumber);
+    }
+    map['first_name'] = Variable<String>(firstName);
     map['last_name'] = Variable<String>(lastName);
-    map['date_of_birth'] = Variable<DateTime>(dateOfBirth);
+    if (!nullToAbsent || dateOfBirth != null) {
+      map['date_of_birth'] = Variable<DateTime>(dateOfBirth);
+    }
     map['email'] = Variable<String>(email);
-    map['phone'] = Variable<String>(phone);
-    map['street'] = Variable<String>(street);
-    map['city'] = Variable<String>(city);
-    map['zip'] = Variable<String>(zip);
-    map['qualification'] = Variable<String>(qualification);
-    map['preferrence'] = Variable<String>(preferrence);
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    if (!nullToAbsent || street != null) {
+      map['street'] = Variable<String>(street);
+    }
+    if (!nullToAbsent || city != null) {
+      map['city'] = Variable<String>(city);
+    }
+    if (!nullToAbsent || zip != null) {
+      map['zip'] = Variable<String>(zip);
+    }
+    if (!nullToAbsent || qualification != null) {
+      map['qualification'] = Variable<String>(qualification);
+    }
+    if (!nullToAbsent || preferrence != null) {
+      map['preferrence'] = Variable<String>(preferrence);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     if (!nullToAbsent || deletedAt != null) {
@@ -7390,17 +7390,27 @@ class HelperData extends DataClass implements Insertable<HelperData> {
     return HelperCompanion(
       id: Value(id),
       status: Value(status),
-      bankNumber: Value(bankNumber),
-      firsName: Value(firsName),
+      bankNumber: bankNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bankNumber),
+      firstName: Value(firstName),
       lastName: Value(lastName),
-      dateOfBirth: Value(dateOfBirth),
+      dateOfBirth: dateOfBirth == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dateOfBirth),
       email: Value(email),
-      phone: Value(phone),
-      street: Value(street),
-      city: Value(city),
-      zip: Value(zip),
-      qualification: Value(qualification),
-      preferrence: Value(preferrence),
+      phone:
+          phone == null && nullToAbsent ? const Value.absent() : Value(phone),
+      street:
+          street == null && nullToAbsent ? const Value.absent() : Value(street),
+      city: city == null && nullToAbsent ? const Value.absent() : Value(city),
+      zip: zip == null && nullToAbsent ? const Value.absent() : Value(zip),
+      qualification: qualification == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qualification),
+      preferrence: preferrence == null && nullToAbsent
+          ? const Value.absent()
+          : Value(preferrence),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deletedAt: deletedAt == null && nullToAbsent
@@ -7415,17 +7425,17 @@ class HelperData extends DataClass implements Insertable<HelperData> {
     return HelperData(
       id: serializer.fromJson<String>(json['id']),
       status: serializer.fromJson<String>(json['status']),
-      bankNumber: serializer.fromJson<String>(json['bankNumber']),
-      firsName: serializer.fromJson<String>(json['firsName']),
+      bankNumber: serializer.fromJson<String?>(json['bankNumber']),
+      firstName: serializer.fromJson<String>(json['firstName']),
       lastName: serializer.fromJson<String>(json['lastName']),
-      dateOfBirth: serializer.fromJson<DateTime>(json['dateOfBirth']),
+      dateOfBirth: serializer.fromJson<DateTime?>(json['dateOfBirth']),
       email: serializer.fromJson<String>(json['email']),
-      phone: serializer.fromJson<String>(json['phone']),
-      street: serializer.fromJson<String>(json['street']),
-      city: serializer.fromJson<String>(json['city']),
-      zip: serializer.fromJson<String>(json['zip']),
-      qualification: serializer.fromJson<String>(json['qualification']),
-      preferrence: serializer.fromJson<String>(json['preferrence']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      street: serializer.fromJson<String?>(json['street']),
+      city: serializer.fromJson<String?>(json['city']),
+      zip: serializer.fromJson<String?>(json['zip']),
+      qualification: serializer.fromJson<String?>(json['qualification']),
+      preferrence: serializer.fromJson<String?>(json['preferrence']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
@@ -7437,17 +7447,17 @@ class HelperData extends DataClass implements Insertable<HelperData> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'status': serializer.toJson<String>(status),
-      'bankNumber': serializer.toJson<String>(bankNumber),
-      'firsName': serializer.toJson<String>(firsName),
+      'bankNumber': serializer.toJson<String?>(bankNumber),
+      'firstName': serializer.toJson<String>(firstName),
       'lastName': serializer.toJson<String>(lastName),
-      'dateOfBirth': serializer.toJson<DateTime>(dateOfBirth),
+      'dateOfBirth': serializer.toJson<DateTime?>(dateOfBirth),
       'email': serializer.toJson<String>(email),
-      'phone': serializer.toJson<String>(phone),
-      'street': serializer.toJson<String>(street),
-      'city': serializer.toJson<String>(city),
-      'zip': serializer.toJson<String>(zip),
-      'qualification': serializer.toJson<String>(qualification),
-      'preferrence': serializer.toJson<String>(preferrence),
+      'phone': serializer.toJson<String?>(phone),
+      'street': serializer.toJson<String?>(street),
+      'city': serializer.toJson<String?>(city),
+      'zip': serializer.toJson<String?>(zip),
+      'qualification': serializer.toJson<String?>(qualification),
+      'preferrence': serializer.toJson<String?>(preferrence),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
@@ -7457,34 +7467,35 @@ class HelperData extends DataClass implements Insertable<HelperData> {
   HelperData copyWith(
           {String? id,
           String? status,
-          String? bankNumber,
-          String? firsName,
+          Value<String?> bankNumber = const Value.absent(),
+          String? firstName,
           String? lastName,
-          DateTime? dateOfBirth,
+          Value<DateTime?> dateOfBirth = const Value.absent(),
           String? email,
-          String? phone,
-          String? street,
-          String? city,
-          String? zip,
-          String? qualification,
-          String? preferrence,
+          Value<String?> phone = const Value.absent(),
+          Value<String?> street = const Value.absent(),
+          Value<String?> city = const Value.absent(),
+          Value<String?> zip = const Value.absent(),
+          Value<String?> qualification = const Value.absent(),
+          Value<String?> preferrence = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt,
           Value<DateTime?> deletedAt = const Value.absent()}) =>
       HelperData(
         id: id ?? this.id,
         status: status ?? this.status,
-        bankNumber: bankNumber ?? this.bankNumber,
-        firsName: firsName ?? this.firsName,
+        bankNumber: bankNumber.present ? bankNumber.value : this.bankNumber,
+        firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
-        dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+        dateOfBirth: dateOfBirth.present ? dateOfBirth.value : this.dateOfBirth,
         email: email ?? this.email,
-        phone: phone ?? this.phone,
-        street: street ?? this.street,
-        city: city ?? this.city,
-        zip: zip ?? this.zip,
-        qualification: qualification ?? this.qualification,
-        preferrence: preferrence ?? this.preferrence,
+        phone: phone.present ? phone.value : this.phone,
+        street: street.present ? street.value : this.street,
+        city: city.present ? city.value : this.city,
+        zip: zip.present ? zip.value : this.zip,
+        qualification:
+            qualification.present ? qualification.value : this.qualification,
+        preferrence: preferrence.present ? preferrence.value : this.preferrence,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
@@ -7495,7 +7506,7 @@ class HelperData extends DataClass implements Insertable<HelperData> {
       status: data.status.present ? data.status.value : this.status,
       bankNumber:
           data.bankNumber.present ? data.bankNumber.value : this.bankNumber,
-      firsName: data.firsName.present ? data.firsName.value : this.firsName,
+      firstName: data.firstName.present ? data.firstName.value : this.firstName,
       lastName: data.lastName.present ? data.lastName.value : this.lastName,
       dateOfBirth:
           data.dateOfBirth.present ? data.dateOfBirth.value : this.dateOfBirth,
@@ -7521,7 +7532,7 @@ class HelperData extends DataClass implements Insertable<HelperData> {
           ..write('id: $id, ')
           ..write('status: $status, ')
           ..write('bankNumber: $bankNumber, ')
-          ..write('firsName: $firsName, ')
+          ..write('firstName: $firstName, ')
           ..write('lastName: $lastName, ')
           ..write('dateOfBirth: $dateOfBirth, ')
           ..write('email: $email, ')
@@ -7543,7 +7554,7 @@ class HelperData extends DataClass implements Insertable<HelperData> {
       id,
       status,
       bankNumber,
-      firsName,
+      firstName,
       lastName,
       dateOfBirth,
       email,
@@ -7563,7 +7574,7 @@ class HelperData extends DataClass implements Insertable<HelperData> {
           other.id == this.id &&
           other.status == this.status &&
           other.bankNumber == this.bankNumber &&
-          other.firsName == this.firsName &&
+          other.firstName == this.firstName &&
           other.lastName == this.lastName &&
           other.dateOfBirth == this.dateOfBirth &&
           other.email == this.email &&
@@ -7581,17 +7592,17 @@ class HelperData extends DataClass implements Insertable<HelperData> {
 class HelperCompanion extends UpdateCompanion<HelperData> {
   final Value<String> id;
   final Value<String> status;
-  final Value<String> bankNumber;
-  final Value<String> firsName;
+  final Value<String?> bankNumber;
+  final Value<String> firstName;
   final Value<String> lastName;
-  final Value<DateTime> dateOfBirth;
+  final Value<DateTime?> dateOfBirth;
   final Value<String> email;
-  final Value<String> phone;
-  final Value<String> street;
-  final Value<String> city;
-  final Value<String> zip;
-  final Value<String> qualification;
-  final Value<String> preferrence;
+  final Value<String?> phone;
+  final Value<String?> street;
+  final Value<String?> city;
+  final Value<String?> zip;
+  final Value<String?> qualification;
+  final Value<String?> preferrence;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<DateTime?> deletedAt;
@@ -7600,7 +7611,7 @@ class HelperCompanion extends UpdateCompanion<HelperData> {
     this.id = const Value.absent(),
     this.status = const Value.absent(),
     this.bankNumber = const Value.absent(),
-    this.firsName = const Value.absent(),
+    this.firstName = const Value.absent(),
     this.lastName = const Value.absent(),
     this.dateOfBirth = const Value.absent(),
     this.email = const Value.absent(),
@@ -7618,41 +7629,33 @@ class HelperCompanion extends UpdateCompanion<HelperData> {
   HelperCompanion.insert({
     required String id,
     required String status,
-    required String bankNumber,
-    required String firsName,
+    this.bankNumber = const Value.absent(),
+    required String firstName,
     required String lastName,
-    required DateTime dateOfBirth,
+    this.dateOfBirth = const Value.absent(),
     required String email,
-    required String phone,
-    required String street,
-    required String city,
-    required String zip,
-    required String qualification,
-    required String preferrence,
+    this.phone = const Value.absent(),
+    this.street = const Value.absent(),
+    this.city = const Value.absent(),
+    this.zip = const Value.absent(),
+    this.qualification = const Value.absent(),
+    this.preferrence = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
     this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         status = Value(status),
-        bankNumber = Value(bankNumber),
-        firsName = Value(firsName),
+        firstName = Value(firstName),
         lastName = Value(lastName),
-        dateOfBirth = Value(dateOfBirth),
         email = Value(email),
-        phone = Value(phone),
-        street = Value(street),
-        city = Value(city),
-        zip = Value(zip),
-        qualification = Value(qualification),
-        preferrence = Value(preferrence),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt);
   static Insertable<HelperData> custom({
     Expression<String>? id,
     Expression<String>? status,
     Expression<String>? bankNumber,
-    Expression<String>? firsName,
+    Expression<String>? firstName,
     Expression<String>? lastName,
     Expression<DateTime>? dateOfBirth,
     Expression<String>? email,
@@ -7671,7 +7674,7 @@ class HelperCompanion extends UpdateCompanion<HelperData> {
       if (id != null) 'id': id,
       if (status != null) 'status': status,
       if (bankNumber != null) 'bank_number': bankNumber,
-      if (firsName != null) 'firs_name': firsName,
+      if (firstName != null) 'first_name': firstName,
       if (lastName != null) 'last_name': lastName,
       if (dateOfBirth != null) 'date_of_birth': dateOfBirth,
       if (email != null) 'email': email,
@@ -7691,17 +7694,17 @@ class HelperCompanion extends UpdateCompanion<HelperData> {
   HelperCompanion copyWith(
       {Value<String>? id,
       Value<String>? status,
-      Value<String>? bankNumber,
-      Value<String>? firsName,
+      Value<String?>? bankNumber,
+      Value<String>? firstName,
       Value<String>? lastName,
-      Value<DateTime>? dateOfBirth,
+      Value<DateTime?>? dateOfBirth,
       Value<String>? email,
-      Value<String>? phone,
-      Value<String>? street,
-      Value<String>? city,
-      Value<String>? zip,
-      Value<String>? qualification,
-      Value<String>? preferrence,
+      Value<String?>? phone,
+      Value<String?>? street,
+      Value<String?>? city,
+      Value<String?>? zip,
+      Value<String?>? qualification,
+      Value<String?>? preferrence,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<DateTime?>? deletedAt,
@@ -7710,7 +7713,7 @@ class HelperCompanion extends UpdateCompanion<HelperData> {
       id: id ?? this.id,
       status: status ?? this.status,
       bankNumber: bankNumber ?? this.bankNumber,
-      firsName: firsName ?? this.firsName,
+      firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       email: email ?? this.email,
@@ -7739,8 +7742,8 @@ class HelperCompanion extends UpdateCompanion<HelperData> {
     if (bankNumber.present) {
       map['bank_number'] = Variable<String>(bankNumber.value);
     }
-    if (firsName.present) {
-      map['firs_name'] = Variable<String>(firsName.value);
+    if (firstName.present) {
+      map['first_name'] = Variable<String>(firstName.value);
     }
     if (lastName.present) {
       map['last_name'] = Variable<String>(lastName.value);
@@ -7790,7 +7793,7 @@ class HelperCompanion extends UpdateCompanion<HelperData> {
           ..write('id: $id, ')
           ..write('status: $status, ')
           ..write('bankNumber: $bankNumber, ')
-          ..write('firsName: $firsName, ')
+          ..write('firstName: $firstName, ')
           ..write('lastName: $lastName, ')
           ..write('dateOfBirth: $dateOfBirth, ')
           ..write('email: $email, ')
@@ -20477,17 +20480,17 @@ typedef $$GuardianTableProcessedTableManager = ProcessedTableManager<
 typedef $$HelperTableCreateCompanionBuilder = HelperCompanion Function({
   required String id,
   required String status,
-  required String bankNumber,
-  required String firsName,
+  Value<String?> bankNumber,
+  required String firstName,
   required String lastName,
-  required DateTime dateOfBirth,
+  Value<DateTime?> dateOfBirth,
   required String email,
-  required String phone,
-  required String street,
-  required String city,
-  required String zip,
-  required String qualification,
-  required String preferrence,
+  Value<String?> phone,
+  Value<String?> street,
+  Value<String?> city,
+  Value<String?> zip,
+  Value<String?> qualification,
+  Value<String?> preferrence,
   required DateTime createdAt,
   required DateTime updatedAt,
   Value<DateTime?> deletedAt,
@@ -20496,17 +20499,17 @@ typedef $$HelperTableCreateCompanionBuilder = HelperCompanion Function({
 typedef $$HelperTableUpdateCompanionBuilder = HelperCompanion Function({
   Value<String> id,
   Value<String> status,
-  Value<String> bankNumber,
-  Value<String> firsName,
+  Value<String?> bankNumber,
+  Value<String> firstName,
   Value<String> lastName,
-  Value<DateTime> dateOfBirth,
+  Value<DateTime?> dateOfBirth,
   Value<String> email,
-  Value<String> phone,
-  Value<String> street,
-  Value<String> city,
-  Value<String> zip,
-  Value<String> qualification,
-  Value<String> preferrence,
+  Value<String?> phone,
+  Value<String?> street,
+  Value<String?> city,
+  Value<String?> zip,
+  Value<String?> qualification,
+  Value<String?> preferrence,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<DateTime?> deletedAt,
@@ -20531,8 +20534,8 @@ class $$HelperTableFilterComposer
   ColumnFilters<String> get bankNumber => $composableBuilder(
       column: $table.bankNumber, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get firsName => $composableBuilder(
-      column: $table.firsName, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get firstName => $composableBuilder(
+      column: $table.firstName, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get lastName => $composableBuilder(
       column: $table.lastName, builder: (column) => ColumnFilters(column));
@@ -20589,8 +20592,8 @@ class $$HelperTableOrderingComposer
   ColumnOrderings<String> get bankNumber => $composableBuilder(
       column: $table.bankNumber, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get firsName => $composableBuilder(
-      column: $table.firsName, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get firstName => $composableBuilder(
+      column: $table.firstName, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get lastName => $composableBuilder(
       column: $table.lastName, builder: (column) => ColumnOrderings(column));
@@ -20648,8 +20651,8 @@ class $$HelperTableAnnotationComposer
   GeneratedColumn<String> get bankNumber => $composableBuilder(
       column: $table.bankNumber, builder: (column) => column);
 
-  GeneratedColumn<String> get firsName =>
-      $composableBuilder(column: $table.firsName, builder: (column) => column);
+  GeneratedColumn<String> get firstName =>
+      $composableBuilder(column: $table.firstName, builder: (column) => column);
 
   GeneratedColumn<String> get lastName =>
       $composableBuilder(column: $table.lastName, builder: (column) => column);
@@ -20713,17 +20716,17 @@ class $$HelperTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> status = const Value.absent(),
-            Value<String> bankNumber = const Value.absent(),
-            Value<String> firsName = const Value.absent(),
+            Value<String?> bankNumber = const Value.absent(),
+            Value<String> firstName = const Value.absent(),
             Value<String> lastName = const Value.absent(),
-            Value<DateTime> dateOfBirth = const Value.absent(),
+            Value<DateTime?> dateOfBirth = const Value.absent(),
             Value<String> email = const Value.absent(),
-            Value<String> phone = const Value.absent(),
-            Value<String> street = const Value.absent(),
-            Value<String> city = const Value.absent(),
-            Value<String> zip = const Value.absent(),
-            Value<String> qualification = const Value.absent(),
-            Value<String> preferrence = const Value.absent(),
+            Value<String?> phone = const Value.absent(),
+            Value<String?> street = const Value.absent(),
+            Value<String?> city = const Value.absent(),
+            Value<String?> zip = const Value.absent(),
+            Value<String?> qualification = const Value.absent(),
+            Value<String?> preferrence = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -20733,7 +20736,7 @@ class $$HelperTableTableManager extends RootTableManager<
             id: id,
             status: status,
             bankNumber: bankNumber,
-            firsName: firsName,
+            firstName: firstName,
             lastName: lastName,
             dateOfBirth: dateOfBirth,
             email: email,
@@ -20751,17 +20754,17 @@ class $$HelperTableTableManager extends RootTableManager<
           createCompanionCallback: ({
             required String id,
             required String status,
-            required String bankNumber,
-            required String firsName,
+            Value<String?> bankNumber = const Value.absent(),
+            required String firstName,
             required String lastName,
-            required DateTime dateOfBirth,
+            Value<DateTime?> dateOfBirth = const Value.absent(),
             required String email,
-            required String phone,
-            required String street,
-            required String city,
-            required String zip,
-            required String qualification,
-            required String preferrence,
+            Value<String?> phone = const Value.absent(),
+            Value<String?> street = const Value.absent(),
+            Value<String?> city = const Value.absent(),
+            Value<String?> zip = const Value.absent(),
+            Value<String?> qualification = const Value.absent(),
+            Value<String?> preferrence = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -20771,7 +20774,7 @@ class $$HelperTableTableManager extends RootTableManager<
             id: id,
             status: status,
             bankNumber: bankNumber,
-            firsName: firsName,
+            firstName: firstName,
             lastName: lastName,
             dateOfBirth: dateOfBirth,
             email: email,

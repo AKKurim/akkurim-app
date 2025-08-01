@@ -46,14 +46,10 @@ class GroupsP extends _$GroupsP {
         ),
         leftOuterJoin(
             db.trainer, db.groupTrainer.trainerId.equalsExp(db.trainer.id)),
-        leftOuterJoin(db.trainerStatus,
-            db.trainerStatus.id.equalsExp(db.trainer.trainerStatusId)),
         leftOuterJoin(
             db.groupAthlete, db.groupAthlete.groupId.equalsExp(db.group.id)),
         leftOuterJoin(
             db.athlete, db.athlete.id.equalsExp(db.groupAthlete.athleteId)),
-        leftOuterJoin(db.athleteStatus,
-            db.athleteStatus.id.equalsExp(db.athlete.athleteStatusId)),
         leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
         leftOuterJoin(
             db.schoolYear, db.schoolYear.id.equalsExp(db.group.schoolYearId)),
@@ -79,14 +75,12 @@ class GroupsP extends _$GroupsP {
         final trainers = rows
             .map((row) {
               final trainer = row.readTableOrNull(db.trainer);
-              final status = row.readTableOrNull(db.trainerStatus);
               final simpleAthlete = allTrainers.firstWhereOrNull(
                 (trainer_) => trainer_.trainer.athleteId == trainer!.athleteId,
               );
-              return (trainer != null && status != null)
+              return (trainer != null)
                   ? TrainerView(
                       trainer: trainer,
-                      trainerStatus: status,
                       simpleAthlete: simpleAthlete!.simpleAthlete,
                     )
                   : null;
@@ -98,12 +92,10 @@ class GroupsP extends _$GroupsP {
         final athletes = rows
             .map((row) {
               final athlete = row.readTableOrNull(db.athlete);
-              final status = row.readTableOrNull(db.athleteStatus);
               final club = row.readTableOrNull(db.club);
-              return (athlete != null && status != null)
+              return (athlete != null)
                   ? SimpleAthleteView(
                       athlete: athlete,
-                      athleteStatus: status,
                       club: club,
                     )
                   : null;

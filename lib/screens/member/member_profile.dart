@@ -9,7 +9,7 @@ import '../../utils/utils.dart';
 import '../../config.dart';
 import '../../widgets/copyable_row.dart';
 import '../../services/auth/auth_service.dart';
-import '../../models/auth/auth_state.dart';
+//import '../../models/auth/auth_state.dart';
 import '../../models/auth/role_enum.dart';
 import '../../models/views/result_view.dart';
 
@@ -89,7 +89,7 @@ class MemberProfile extends ConsumerWidget {
                               inputDecorationTheme: InputDecorationTheme(
                                 filled: true,
                                 fillColor: Utils.getStatusBGColor(
-                                    athlete.athleteStatus.name),
+                                    athlete.athlete.status),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                   borderSide: BorderSide(
@@ -100,36 +100,35 @@ class MemberProfile extends ConsumerWidget {
                               ),
                               textStyle: TextStyle(
                                 color: Utils.getStatusFGColor(
-                                    athlete.athleteStatus.name),
+                                    athlete.athlete.status),
                               ),
                               dropdownMenuEntries: statuses
                                   .map((status) => DropdownMenuEntry(
-                                        value: status.id,
+                                        value: status,
                                         label: Utils.getStatusName(
-                                            status.name, context),
+                                            status, context),
                                         labelWidget: Text(
-                                          Utils.getStatusName(
-                                              status.name, context),
+                                          Utils.getStatusName(status, context),
                                           style: TextStyle(
-                                            color: Utils.getStatusFGColor(
-                                                status.name),
+                                            color:
+                                                Utils.getStatusFGColor(status),
                                           ),
                                         ),
                                         style: ButtonStyle(
                                           backgroundColor:
                                               WidgetStateProperty.all<Color>(
-                                            Utils.getStatusBGColor(status.name),
+                                            Utils.getStatusBGColor(status),
                                           ),
                                         ),
                                       ))
                                   .toList(),
-                              initialSelection: athlete.athleteStatus.id,
+                              initialSelection: athlete.athlete.status,
                               onSelected: (String? statusId) {
                                 ref
                                     .read(fullAthletePProvider(athleteId)
                                         .notifier)
                                     .updateAthleteStatus(athleteId,
-                                        statusId ?? athlete.athleteStatus.id);
+                                        statusId ?? athlete.athlete.status);
                               },
                             ),
                           ],

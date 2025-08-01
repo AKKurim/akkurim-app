@@ -74,7 +74,7 @@ class TrainingTile extends ConsumerWidget {
             const Icon(Icons.access_time),
             const SizedBox(width: 8),
             Text(
-                '${TimeHelper.getWeekDayName(training.training.datetime, context)} ${TimeHelper.getDayMonthYear(training.training.datetime)} (${TimeHelper.getMinHourFromDateTime(training.training.datetime)})',
+                '${TimeHelper.getFullDateWithTime(training.training.startAt, context)})',
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ],
@@ -96,7 +96,7 @@ class TrainingTile extends ConsumerWidget {
                         onPressed: () {
                           ref
                               .read(trainingsPProvider(
-                                      range: TimeHelper.emptyRange)
+                                      range: TimeHelper.emptyRange())
                                   .notifier)
                               .deleteTraining(training);
                           Navigator.of(context).pop();
@@ -145,7 +145,7 @@ class TrainingTile extends ConsumerWidget {
               ),
               // highlight active training
               tileColor: TimeHelper.isSameDay(
-                      training.training.datetime, DateTime.now())
+                      training.training.startAt, DateTime.now())
                   ? Colors.green.withAlpha(100)
                   : null,
               shape: RoundedRectangleBorder(
@@ -233,7 +233,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
             onPressed: (_selectedGroup != null && _dateRange != null)
                 ? () {
                     ref
-                        .read(trainingsPProvider(range: TimeHelper.emptyRange)
+                        .read(trainingsPProvider(range: TimeHelper.emptyRange())
                             .notifier)
                         .createTrainings(
                           _selectedGroup!,

@@ -23,7 +23,7 @@ final currentTrainerProvider = AutoDisposeStreamProvider<TrainerView>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CurrentTrainerRef = AutoDisposeStreamProviderRef<TrainerView>;
-String _$trainerPHash() => r'e180b0a258b8628ba440d2f4a2279e1698be1b4d';
+String _$trainerPHash() => r'e401db577873ad1f02a9cec6c09ae2fc1d038474';
 
 /// See also [TrainerP].
 @ProviderFor(TrainerP)

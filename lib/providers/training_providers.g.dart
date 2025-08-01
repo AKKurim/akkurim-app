@@ -41,7 +41,7 @@ final trainingTimesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TrainingTimesRef = AutoDisposeStreamProviderRef<List<TrainingTimeData>>;
-String _$trainingsPHash() => r'55e79056a3d3e17c21ecce275d7411152af53a63';
+String _$trainingsPHash() => r'3e6ba9271df7f1cc485301c828080191a4b440e7';
 
 /// Copied from Dart SDK
 class _SystemHash {

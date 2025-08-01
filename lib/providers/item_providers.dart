@@ -82,7 +82,7 @@ class ItemProviderP extends _$ItemProviderP {
             name: Value(name),
             description: Value(description),
             // TODO when images are implemented, update this
-            image: Value(''),
+            imageId: Value(null),
             count: Value(1),
             itemTypeId: Value(itemTypeId),
             athleteId: Value(athleteId),
@@ -139,7 +139,7 @@ class ItemTypeP extends _$ItemTypeP {
     });
   }
 
-  Future<void> addItemType(String name) async {
+  Future<void> addItemType(String name, String type) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
     final new_ = await db.into(db.itemType).insertReturning(
@@ -147,6 +147,7 @@ class ItemTypeP extends _$ItemTypeP {
           ItemTypeCompanion(
             id: Value(Uuid().v1()),
             name: Value(name),
+            type: Value(type),
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(null),

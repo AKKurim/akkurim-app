@@ -29,7 +29,7 @@ class AthleteFilterOptions extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (AthleteStatusData status in statuses) ...[
+                  for (String status in statuses) ...[
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: GestureDetector(
@@ -40,11 +40,10 @@ class AthleteFilterOptions extends ConsumerWidget {
                             statusFilter.add(status);
                           }
                           ref.read(statusFilterProvider.notifier).state =
-                              Set<AthleteStatusData>.from(statusFilter);
+                              Set<String>.from(statusFilter);
                         },
                         child: Chip(
-                          label:
-                              Text(Utils.getStatusName(status.name, context)),
+                          label: Text(Utils.getStatusName(status, context)),
                           backgroundColor: statusFilter.contains(status)
                               ? Theme.of(context).colorScheme.primary
                               : Theme.of(context).colorScheme.surface,

@@ -19,14 +19,10 @@ class TrainerP extends _$TrainerP {
           ))
         .join(
       [
-        leftOuterJoin(db.trainerStatus,
-            db.trainerStatus.id.equalsExp(db.trainer.trainerStatusId)),
         leftOuterJoin(
           db.athlete,
           db.athlete.id.equalsExp(db.trainer.athleteId),
         ),
-        leftOuterJoin(db.athleteStatus,
-            db.athleteStatus.id.equalsExp(db.athlete.athleteStatusId)),
         leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
       ],
     );
@@ -34,17 +30,13 @@ class TrainerP extends _$TrainerP {
     yield* query.watch().map((rows) {
       return rows.map((row) {
         final trainer = row.readTable(db.trainer);
-        final trainerStatus = row.readTable(db.trainerStatus);
         final athlete = row.readTableOrNull(db.athlete);
-        final athleteStatus = row.readTableOrNull(db.athleteStatus);
         final club = row.readTableOrNull(db.club);
 
         return TrainerView(
           trainer: trainer,
-          trainerStatus: trainerStatus,
           simpleAthlete: SimpleAthleteView(
             athlete: athlete!,
-            athleteStatus: athleteStatus!,
             club: club,
           ),
         );
