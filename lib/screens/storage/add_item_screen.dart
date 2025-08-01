@@ -36,55 +36,55 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TextField(
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.itemName),
-                controller: _itemNameController,
-                onChanged: (value) => setState(() {}),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.description),
-                controller: _descriptionController,
-                onChanged: (value) => setState(() {}),
-              ),
-              DropdownButtonFormField<ItemTypeData>(
-                value: _selectedItemType,
-                onChanged: (type) => setState(() => _selectedItemType = type),
-                items: itemTypes
-                    .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type.name),
-                        ))
-                    .toList(),
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.itemType),
-              ),
-              const SizedBox(height: 12),
-              FilledButton(
-                onPressed: (_itemNameController.text.isNotEmpty &&
-                        _descriptionController.text.isNotEmpty &&
-                        _selectedItemType != null)
-                    ? () {
-                        ref.read(itemProviderPProvider.notifier).updateItem(
-                            const Uuid().v1(),
-                            _itemNameController.text,
-                            _descriptionController.text,
-                            _selectedItemType!.id);
-                        FocusScope.of(context).unfocus();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content:
-                                Text(AppLocalizations.of(context)!.itemCreate),
-                            duration: const Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    : null,
-                child: Text(AppLocalizations.of(context)!.createItem),
-              ),
-              const Divider(),
+              // TextField(
+              //   decoration: InputDecoration(
+              //       labelText: AppLocalizations.of(context)!.itemName),
+              //   controller: _itemNameController,
+              //   onChanged: (value) => setState(() {}),
+              // ),
+              // const SizedBox(height: 12),
+              // TextField(
+              //   decoration: InputDecoration(
+              //       labelText: AppLocalizations.of(context)!.description),
+              //   controller: _descriptionController,
+              //   onChanged: (value) => setState(() {}),
+              // ),
+              // DropdownButtonFormField<ItemTypeData>(
+              //   value: _selectedItemType,
+              //   onChanged: (type) => setState(() => _selectedItemType = type),
+              //   items: itemTypes
+              //       .map((type) => DropdownMenuItem(
+              //             value: type,
+              //             child: Text(type.name),
+              //           ))
+              //       .toList(),
+              //   decoration: InputDecoration(
+              //       labelText: AppLocalizations.of(context)!.itemType),
+              // ),
+              // const SizedBox(height: 12),
+              // FilledButton(
+              //   onPressed: (_itemNameController.text.isNotEmpty &&
+              //           _descriptionController.text.isNotEmpty &&
+              //           _selectedItemType != null)
+              //       ? () {
+              //           ref.read(itemProviderPProvider.notifier).updateItem(
+              //               const Uuid().v1(),
+              //               _itemNameController.text,
+              //               _descriptionController.text,
+              //               _selectedItemType!.id);
+              //           FocusScope.of(context).unfocus();
+              //           ScaffoldMessenger.of(context).showSnackBar(
+              //             SnackBar(
+              //               content:
+              //                   Text(AppLocalizations.of(context)!.itemCreate),
+              //               duration: const Duration(seconds: 2),
+              //             ),
+              //           );
+              //         }
+              //       : null,
+              //   child: Text(AppLocalizations.of(context)!.createItem),
+              // ),
+              // const Divider(),
               // TODO rework this screen
               // const SizedBox(height: 12),
               // Text(AppLocalizations.of(context)!.addNewItemType),
