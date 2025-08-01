@@ -164,7 +164,7 @@ FloatingActionButton? buildFab({
                   );
                   return;
                 }
-                context.push('/member/_/new');
+                context.push('/member/_/0/new');
             }
           },
           child: const Icon(Icons.add),
