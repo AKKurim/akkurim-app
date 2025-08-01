@@ -619,5 +619,9 @@
     "useFingerprintSettings" : "Login with",
     "@useFingerprintSettings" : {
         "description": "The label for the use fingerprint setting"
+    },
+    "notImplemented" : "This feature is not implemented yet.",
+    "@notImplemented" : {
+        "description": "The message shown when a feature is not implemented yet"
     }
 }

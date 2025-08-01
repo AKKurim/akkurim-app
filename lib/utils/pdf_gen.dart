@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import '../models/views/full_meet_view.dart';
-// import the package for removing diacritics if needed
 import '../utils/utils.dart';
 
 Future<void> generateAndShareMeetPdf({required FullMeetView meet}) async {

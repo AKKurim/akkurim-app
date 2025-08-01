@@ -176,7 +176,15 @@ class MemberProfile extends ConsumerWidget {
                                       const Spacer(),
                                       IconButton(
                                         onPressed: () {
-                                          // TODO implement
+                                          // TODO implement guardian addition
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Text(
+                                                AppLocalizations.of(context)!
+                                                    .notImplemented),
+                                            duration:
+                                                const Duration(seconds: 2),
+                                          ));
                                         },
                                         icon: const Icon(Icons.add_circle),
                                         color: Colors.green,

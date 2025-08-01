@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../providers/filter_providers.dart';
-import '../services/database/drift_database.dart';
 import '../utils/utils.dart';
 
 class AthleteFilterOptions extends ConsumerWidget {

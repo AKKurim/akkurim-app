@@ -67,7 +67,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
       city = TextEditingController();
       zip = TextEditingController();
       note = TextEditingController();
-      status = 'pending'; // TODO fix
+      status = 'pending';
     }
   }
 

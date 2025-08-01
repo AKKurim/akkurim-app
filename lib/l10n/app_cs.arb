@@ -145,5 +145,6 @@
     "useFingerprintAndroid": "Pokud ano, přiložte prst na snímač otisků prstů",
     "loginWithFingerprint": "Pro přihlášení použijte otisk prstu",
     "loginWithFingerprintAndroid": "Přiložte prst na snímač otisků prstů",
-    "useFingerprintSettings": "Přihlášení pomocí"
+    "useFingerprintSettings": "Přihlášení pomocí",
+    "notImplemented": "Tato funkce ještě není implementována."
 }
