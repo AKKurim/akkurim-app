@@ -5,6 +5,10 @@ import 'package:ak_kurim_app/l10n/app_localizations.dart';
 class Utils {
   static bool ensureMinimumVersion(
       {required String currentVersion, required String minimumVersion}) {
+    if (currentVersion.isEmpty || minimumVersion.isEmpty) {
+      debugPrint('Current or minimum version is empty');
+      return true;
+    }
     final currentVersionParts =
         currentVersion.split('.').map(int.parse).toList();
     final minimumVersionParts =

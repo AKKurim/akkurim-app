@@ -12,7 +12,7 @@ final statusFilterProvider = StateProvider<Set<String>>((ref) => {});
 
 @riverpod
 Stream<List<String>> athleteStatuses(Ref ref) async* {
-  yield ['active', 'pending ', 'inactive', 'archived'];
+  yield ['active', 'pending', 'inactive', 'archived'];
 }
 
 @riverpod

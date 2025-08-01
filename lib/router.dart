@@ -57,7 +57,7 @@ GoRouter router(Ref ref) {
         currentVersion: packageInfoData?.version ?? '',
         minimumVersion: remoteData?.minimumAppVersion ?? '',
       );
-      if (!appVersionOk && location != '/force-update') {
+      if (!appVersionOk) {
         return '/force-update';
       }
 
@@ -86,7 +86,7 @@ GoRouter router(Ref ref) {
         name: 'force-update',
         builder: (context, state) => ForceUpdateScreen(
           currentAppVersion: packageInfo.asData!.value.version,
-          minimumAppVersion: remoteConfig.asData!.value.minimumAppVersion,
+          minimumAppVersion: remoteConfig.asData?.value.minimumAppVersion ?? '',
         ),
       ),
       StatefulShellRoute.indexedStack(

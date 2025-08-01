@@ -55,6 +55,8 @@ class SyncService extends _$SyncService {
               SyncQueueCompanion(
                 endpoint: Value('/sync/$table'),
                 method: Value('get'),
+                type: Value('json'),
+                retryCount: Value(0),
                 data: Value(
                   json.encode(
                     {
@@ -186,6 +188,9 @@ class SyncService extends _$SyncService {
           )
           ..where(
             (tbl) => tbl.method.isNotIn(['get']),
+          )
+          ..where(
+            (tbl) => tbl.retryCount.isSmallerThan(Constant(5)),
           ))
         .get();
     final uploadFutures = uploadData.map((data) async {
@@ -226,6 +231,21 @@ class SyncService extends _$SyncService {
           .write(
         SyncQueueCompanion(
           doneAt: Value(DateTime.now()),
+        ),
+      );
+    }
+    final List<int> idsFailed = uploadData
+        .where((data) => !idsToSetDone.contains(data.id))
+        .map((data) => data.id as int)
+        .toList();
+    if (idsFailed.isNotEmpty) {
+      await (db.update(db.syncQueue)
+            ..where(
+              (tbl) => tbl.id.isIn(idsFailed),
+            ))
+          .write(
+        SyncQueueCompanion(
+          retryCount: Value(uploadData.first.retryCount + 1),
         ),
       );
     }
@@ -319,12 +339,13 @@ class SyncService extends _$SyncService {
   }
 
   Future<void> addToSyncQueue(String endpoint, String method, String data,
-      {bool sync = true}) async {
+      {String type = 'json', bool sync = true}) async {
     final db = ref.watch(dbProvider);
     await db.into(db.syncQueue).insert(
           SyncQueueCompanion(
             endpoint: Value(endpoint),
             method: Value(method),
+            type: Value(type),
             data: Value(data),
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
