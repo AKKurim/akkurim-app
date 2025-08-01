@@ -473,4 +473,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get useFingerprintSettings => 'Přihlášení pomocí';
+
+  @override
+  String get notImplemented => 'Tato funkce ještě není implementována.';
 }

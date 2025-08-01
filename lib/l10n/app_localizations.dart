@@ -973,6 +973,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login with'**
   String get useFingerprintSettings;
+
+  /// The message shown when a feature is not implemented yet
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is not implemented yet.'**
+  String get notImplemented;
 }
 
 class _AppLocalizationsDelegate

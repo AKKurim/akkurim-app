@@ -473,4 +473,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get useFingerprintSettings => 'Login with';
+
+  @override
+  String get notImplemented => 'This feature is not implemented yet.';
 }

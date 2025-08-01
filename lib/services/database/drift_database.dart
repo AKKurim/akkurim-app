@@ -43,6 +43,45 @@ import '../../models/online_db/web_post.dart';
 
 part 'drift_database.g.dart';
 
+final modelMap = {
+  'app_settings': database.appSetting,
+  'sync_queue': database.syncQueue,
+  'athlete_guardian': database.athleteGuardian,
+  'athlete_meet_event': database.athleteMeetEvent,
+  'athlete_registration_meet_event': database.athleteRegistrationMeetEvent,
+  'athlete_sign_up_form': database.athleteSignUpForm,
+  'athlete': database.athlete,
+  'category': database.category,
+  'club': database.club,
+  'discipline_type': database.disciplineType,
+  'discipline': database.discipline,
+  'file': database.file,
+  'group_athlete': database.groupAthlete,
+  'group_trainer': database.groupTrainer,
+  'group': database.group,
+  'guardian': database.guardian,
+  'helper': database.helper,
+  'item_type': database.itemType,
+  'item': database.item,
+  'meet_event': database.meetEvent,
+  'meet': database.meet,
+  'payment': database.payment,
+  'points': database.points,
+  'remote_config': database.remoteConfig,
+  'request_file': database.requestFile,
+  'request': database.request,
+  'response': database.response,
+  'school_year': database.schoolYear,
+  'sign_up_form': database.signUpForm,
+  'sign_up_form_group': database.signUpFormGroup,
+  'trainer': database.trainer,
+  'training_athlete': database.trainingAthlete,
+  'training_time': database.trainingTime,
+  'training_trainer': database.trainingTrainer,
+  'training': database.training,
+  'web_post': database.webPost,
+};
+
 @DriftDatabase(
   tables: [
     AppSetting,
@@ -100,12 +139,14 @@ class AppDatabase extends _$AppDatabase {
         },
         onUpgrade: (Migrator m, int from, int to) async {
           if (from != 6 && to != 9) {
-            print('Skipping upgrade from $from to $to');
             return;
           }
           print('Upgrading database from $from to $to');
           try {
-            //await m.drop(item); // Drop all tables first
+            for (final String table in modelMap.keys) {
+              print('Dropping table: $table');
+              await m.deleteTable(table);
+            }
             await m.createAll();
           } catch (e) {
             print('Error creating tables: $e');
