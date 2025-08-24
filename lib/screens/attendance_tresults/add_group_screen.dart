@@ -101,7 +101,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
           .compareTo(b.simpleAthlete.athlete.lastName);
     });
     List<TrainerView> allTrainers = ref.watch(trainerPProvider).when(
-          data: (data) => data,
+          data: (data) => data.where((trainer) {
+            return trainer.trainer.deletedAt == null &&
+                trainer.simpleAthlete.athlete.status == 'active';
+          }).toList(),
           error: (error, stackTrace) => [],
           loading: () => [],
         );

@@ -6616,9 +6616,9 @@ class $GuardianTable extends Guardian
   static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
   @override
   late final GeneratedColumn<String> phone = GeneratedColumn<String>(
-      'phone', aliasedName, false,
+      'phone', aliasedName, true,
       type: DriftSqlType.string,
-      requiredDuringInsert: true,
+      requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
@@ -6692,8 +6692,6 @@ class $GuardianTable extends Guardian
     if (data.containsKey('phone')) {
       context.handle(
           _phoneMeta, phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta));
-    } else if (isInserting) {
-      context.missing(_phoneMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -6731,7 +6729,7 @@ class $GuardianTable extends Guardian
       email: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}email'])!,
       phone: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}phone'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}phone']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -6753,7 +6751,7 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
   final String firstName;
   final String lastName;
   final String email;
-  final String phone;
+  final String? phone;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;
@@ -6763,7 +6761,7 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
       required this.firstName,
       required this.lastName,
       required this.email,
-      required this.phone,
+      this.phone,
       required this.createdAt,
       required this.updatedAt,
       this.deletedAt});
@@ -6777,7 +6775,9 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
     map['first_name'] = Variable<String>(firstName);
     map['last_name'] = Variable<String>(lastName);
     map['email'] = Variable<String>(email);
-    map['phone'] = Variable<String>(phone);
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     if (!nullToAbsent || deletedAt != null) {
@@ -6795,7 +6795,8 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
       firstName: Value(firstName),
       lastName: Value(lastName),
       email: Value(email),
-      phone: Value(phone),
+      phone:
+          phone == null && nullToAbsent ? const Value.absent() : Value(phone),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deletedAt: deletedAt == null && nullToAbsent
@@ -6813,7 +6814,7 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
       firstName: serializer.fromJson<String>(json['firstName']),
       lastName: serializer.fromJson<String>(json['lastName']),
       email: serializer.fromJson<String>(json['email']),
-      phone: serializer.fromJson<String>(json['phone']),
+      phone: serializer.fromJson<String?>(json['phone']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
@@ -6828,7 +6829,7 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
       'firstName': serializer.toJson<String>(firstName),
       'lastName': serializer.toJson<String>(lastName),
       'email': serializer.toJson<String>(email),
-      'phone': serializer.toJson<String>(phone),
+      'phone': serializer.toJson<String?>(phone),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
@@ -6841,7 +6842,7 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
           String? firstName,
           String? lastName,
           String? email,
-          String? phone,
+          Value<String?> phone = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt,
           Value<DateTime?> deletedAt = const Value.absent()}) =>
@@ -6851,7 +6852,7 @@ class GuardianData extends DataClass implements Insertable<GuardianData> {
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         email: email ?? this.email,
-        phone: phone ?? this.phone,
+        phone: phone.present ? phone.value : this.phone,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
@@ -6911,7 +6912,7 @@ class GuardianCompanion extends UpdateCompanion<GuardianData> {
   final Value<String> firstName;
   final Value<String> lastName;
   final Value<String> email;
-  final Value<String> phone;
+  final Value<String?> phone;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<DateTime?> deletedAt;
@@ -6934,7 +6935,7 @@ class GuardianCompanion extends UpdateCompanion<GuardianData> {
     required String firstName,
     required String lastName,
     required String email,
-    required String phone,
+    this.phone = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
     this.deletedAt = const Value.absent(),
@@ -6943,7 +6944,6 @@ class GuardianCompanion extends UpdateCompanion<GuardianData> {
         firstName = Value(firstName),
         lastName = Value(lastName),
         email = Value(email),
-        phone = Value(phone),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt);
   static Insertable<GuardianData> custom({
@@ -6978,7 +6978,7 @@ class GuardianCompanion extends UpdateCompanion<GuardianData> {
       Value<String>? firstName,
       Value<String>? lastName,
       Value<String>? email,
-      Value<String>? phone,
+      Value<String?>? phone,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<DateTime?>? deletedAt,
@@ -20258,7 +20258,7 @@ typedef $$GuardianTableCreateCompanionBuilder = GuardianCompanion Function({
   required String firstName,
   required String lastName,
   required String email,
-  required String phone,
+  Value<String?> phone,
   required DateTime createdAt,
   required DateTime updatedAt,
   Value<DateTime?> deletedAt,
@@ -20270,7 +20270,7 @@ typedef $$GuardianTableUpdateCompanionBuilder = GuardianCompanion Function({
   Value<String> firstName,
   Value<String> lastName,
   Value<String> email,
-  Value<String> phone,
+  Value<String?> phone,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<DateTime?> deletedAt,
@@ -20416,7 +20416,7 @@ class $$GuardianTableTableManager extends RootTableManager<
             Value<String> firstName = const Value.absent(),
             Value<String> lastName = const Value.absent(),
             Value<String> email = const Value.absent(),
-            Value<String> phone = const Value.absent(),
+            Value<String?> phone = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -20440,7 +20440,7 @@ class $$GuardianTableTableManager extends RootTableManager<
             required String firstName,
             required String lastName,
             required String email,
-            required String phone,
+            Value<String?> phone = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
             Value<DateTime?> deletedAt = const Value.absent(),

@@ -6,7 +6,7 @@ part of 'filter_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$athleteStatusesHash() => r'e67545eeef95219793e6766d23f45826d2f53bd3';
+String _$athleteStatusesHash() => r'ed1708959b539a28405b2c256b3ebf50b153c49d';
 
 /// See also [athleteStatuses].
 @ProviderFor(athleteStatuses)

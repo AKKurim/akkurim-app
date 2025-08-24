@@ -214,7 +214,7 @@ class MemberProfile extends ConsumerWidget {
                                       leftPadding: 16,
                                       title:
                                           AppLocalizations.of(context)!.phone,
-                                      value: guardian.phone,
+                                      value: guardian.phone ?? '',
                                       snackBarText:
                                           AppLocalizations.of(context)!
                                               .phoneCopied,

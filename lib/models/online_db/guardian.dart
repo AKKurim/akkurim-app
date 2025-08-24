@@ -6,7 +6,7 @@ class Guardian extends Table {
   TextColumn get firstName => text()();
   TextColumn get lastName => text()();
   TextColumn get email => text().unique()();
-  TextColumn get phone => text().unique()();
+  TextColumn get phone => text().unique().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
   DateTimeColumn get deletedAt => dateTime().nullable()();

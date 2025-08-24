@@ -206,7 +206,7 @@ GuardianCompanion buildGuardianCompanion(Map<String, dynamic> row) =>
       firstName: Value(row['first_name']),
       lastName: Value(row['last_name']),
       email: Value(row['email']),
-      phone: Value(row['phone']),
+      phone: row['phone'] != null ? Value(row['phone']) : const Value.absent(),
       createdAt: Value(DateTime.parse(row['created_at'])),
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
