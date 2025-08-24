@@ -1,3 +1,5 @@
+import 'package:ak_kurim_app/models/online_db/athlete.dart';
+import 'package:ak_kurim_app/models/views/meet_event_view.dart';
 import 'package:pdf/pdf.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -19,19 +21,28 @@ Future<void> generateAndShareMeetPdf(
   final pdf = pw.Document(
     theme: myTheme,
   );
-
   pdf.addPage(
-    pw.Page(
+    pw.MultiPage(
+      pageFormat: PdfPageFormat.a4,
+      margin: const pw.EdgeInsets.all(12),
       build: (pw.Context context) {
         // Split athletes into two columns
-        final athletes = meet.athletesWithEvents;
-        final half = (athletes.length / 2).ceil();
-        final leftColumn = athletes.sublist(0, half);
-        final rightColumn = athletes.sublist(half);
+        List<AthleteWithMeetEvents> athletes = meet.athletesWithEvents;
+        athletes.sort((a, b) =>
+            a.athlete.athlete.lastName.compareTo(b.athlete.athlete.lastName));
+        List<AthleteWithMeetEvents> leftColumn = [];
+        List<AthleteWithMeetEvents> rightColumn = [];
+        for (int i = 0; i < athletes.length; i++) {
+          if (i % 2 == 0) {
+            leftColumn.add(athletes[i]);
+          } else {
+            rightColumn.add(athletes[i]);
+          }
+        }
 
         pw.Widget athleteBox(athlete) {
           return pw.Container(
-            margin: const pw.EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+            margin: const pw.EdgeInsets.symmetric(vertical: 4, horizontal: 4),
             padding: const pw.EdgeInsets.all(8),
             decoration: pw.BoxDecoration(
               border: pw.Border.all(color: PdfColors.grey, width: 1),
@@ -51,11 +62,11 @@ Future<void> generateAndShareMeetPdf(
                   pw.Text(
                     athlete.events
                         .map((event) =>
-                            '${meet.isMultiDay ? '${TimeHelper.getWeekDayName(event.meetEvent.startAt, context_)} ' : ''}${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && athlete.isDoubleDiscipline(event.discipline!.id) ? '(${event.meetEvent.phase})' : ''}')
+                            '${meet.isMultiDay ? '${TimeHelper.getWeekDayName(event.meetEvent.startAt, context_)} ' : ''}${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.shortDescription} ${event.meetEvent.phase != null && athlete.isDoubleDiscipline(event.discipline!.id) ? '(${event.meetEvent.phase.replaceAll('Kvalifikace', 'Kval')})' : ''}')
                         .join('\n'),
                     style: pw.TextStyle(
                       fontSize: 16,
-                      fontWeight: pw.FontWeight.bold,
+                      //fontWeight: pw.FontWeight.bold,
                     ),
                   ),
               ],
@@ -63,24 +74,56 @@ Future<void> generateAndShareMeetPdf(
           );
         }
 
-        return pw.Row(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Expanded(
-              child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: leftColumn.map(athleteBox).toList(),
+        return [
+          pw.Padding(
+            padding: const pw.EdgeInsets.only(left: 16),
+            child: pw.Text(
+              meet.meet.name,
+              style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+            ),
+          ),
+          pw.SizedBox(height: 8),
+          if (!meet.isMultiDay)
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(left: 16),
+              child: pw.Text(
+                TimeHelper.getFullDateWithTime(meet.meet.startAt, context_,
+                    endTime: meet.meet.endAt),
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
               ),
             ),
-            pw.SizedBox(width: 12),
-            pw.Expanded(
-              child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: rightColumn.map(athleteBox).toList(),
+          if (meet.isMultiDay)
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(left: 16),
+              child: pw.Text(
+                '${TimeHelper.getFullDateWithTime(meet.meet.startAt, context_)} => ${TimeHelper.getFullDateWithTime(meet.meet.endAt, context_)}',
+                style:
+                    pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
               ),
             ),
-          ],
-        );
+          ...List.generate(
+            leftColumn.length,
+            (index) => pw.SizedBox(
+              width: double.infinity,
+              child: pw.Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                mainAxisSize: pw.MainAxisSize.max,
+                children: [
+                  pw.Expanded(
+                    child: athleteBox(leftColumn[index]),
+                  ),
+                  pw.SizedBox(width: 8),
+                  pw.Expanded(
+                    child: rightColumn.length > index
+                        ? athleteBox(rightColumn[index])
+                        : pw.Container(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ];
       },
     ),
   );
@@ -96,10 +139,8 @@ Future<void> generateAndShareMeetPdf(
   );
   final result = await SharePlus.instance.share(params);
   if (result.status == ShareResultStatus.success) {
-    print('PDF shared successfully');
     // delete the file after sharing
     await outputFile.delete();
-    print('File deleted after sharing');
   }
 }
 
