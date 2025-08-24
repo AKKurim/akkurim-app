@@ -255,7 +255,7 @@ MeetEventCompanion buildMeetEventCompanion(Map<String, dynamic> row) =>
       categoryId: Value(row['category_id']),
       startAt: Value(DateTime.parse(row['start_at'])),
       phase: row['phase'] != null ? Value(row['phase']) : const Value.absent(),
-      count: Value(row['count']),
+      count: row['count'] != null ? Value(row['count']) : const Value.absent(),
       createdAt: row['created_at'] != null
           ? Value(DateTime.parse(row['created_at']))
           : const Value.absent(),
@@ -356,6 +356,7 @@ SignUpFormCompanion buildSignUpFormCompanion(Map<String, dynamic> row) =>
       status: Value(row['status']),
       schoolYearId: Value(row['school_year_id']),
       timesPerWeek: Value(row['times_per_week']),
+      daysInWeek: Value(row['days_in_week']),
       createdAt: Value(DateTime.parse(row['created_at'])),
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null

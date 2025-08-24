@@ -8726,8 +8726,8 @@ class $MeetEventTable extends MeetEvent
   static const VerificationMeta _countMeta = const VerificationMeta('count');
   @override
   late final GeneratedColumn<int> count = GeneratedColumn<int>(
-      'count', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      'count', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -8809,8 +8809,6 @@ class $MeetEventTable extends MeetEvent
     if (data.containsKey('count')) {
       context.handle(
           _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
-    } else if (isInserting) {
-      context.missing(_countMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -8846,7 +8844,7 @@ class $MeetEventTable extends MeetEvent
       phase: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}phase']),
       count: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}count'])!,
+          .read(DriftSqlType.int, data['${effectivePrefix}count']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at']),
       updatedAt: attachedDatabase.typeMapping
@@ -8869,7 +8867,7 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
   final int categoryId;
   final DateTime startAt;
   final String? phase;
-  final int count;
+  final int? count;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final DateTime? deletedAt;
@@ -8880,7 +8878,7 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
       required this.categoryId,
       required this.startAt,
       this.phase,
-      required this.count,
+      this.count,
       this.createdAt,
       this.updatedAt,
       this.deletedAt});
@@ -8895,7 +8893,9 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
     if (!nullToAbsent || phase != null) {
       map['phase'] = Variable<String>(phase);
     }
-    map['count'] = Variable<int>(count);
+    if (!nullToAbsent || count != null) {
+      map['count'] = Variable<int>(count);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime>(createdAt);
     }
@@ -8917,7 +8917,8 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
       startAt: Value(startAt),
       phase:
           phase == null && nullToAbsent ? const Value.absent() : Value(phase),
-      count: Value(count),
+      count:
+          count == null && nullToAbsent ? const Value.absent() : Value(count),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -8940,7 +8941,7 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
       categoryId: serializer.fromJson<int>(json['categoryId']),
       startAt: serializer.fromJson<DateTime>(json['startAt']),
       phase: serializer.fromJson<String?>(json['phase']),
-      count: serializer.fromJson<int>(json['count']),
+      count: serializer.fromJson<int?>(json['count']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
@@ -8956,7 +8957,7 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
       'categoryId': serializer.toJson<int>(categoryId),
       'startAt': serializer.toJson<DateTime>(startAt),
       'phase': serializer.toJson<String?>(phase),
-      'count': serializer.toJson<int>(count),
+      'count': serializer.toJson<int?>(count),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
@@ -8970,7 +8971,7 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
           int? categoryId,
           DateTime? startAt,
           Value<String?> phase = const Value.absent(),
-          int? count,
+          Value<int?> count = const Value.absent(),
           Value<DateTime?> createdAt = const Value.absent(),
           Value<DateTime?> updatedAt = const Value.absent(),
           Value<DateTime?> deletedAt = const Value.absent()}) =>
@@ -8981,7 +8982,7 @@ class MeetEventData extends DataClass implements Insertable<MeetEventData> {
         categoryId: categoryId ?? this.categoryId,
         startAt: startAt ?? this.startAt,
         phase: phase.present ? phase.value : this.phase,
-        count: count ?? this.count,
+        count: count.present ? count.value : this.count,
         createdAt: createdAt.present ? createdAt.value : this.createdAt,
         updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
         deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
@@ -9047,7 +9048,7 @@ class MeetEventCompanion extends UpdateCompanion<MeetEventData> {
   final Value<int> categoryId;
   final Value<DateTime> startAt;
   final Value<String?> phase;
-  final Value<int> count;
+  final Value<int?> count;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<DateTime?> deletedAt;
@@ -9072,7 +9073,7 @@ class MeetEventCompanion extends UpdateCompanion<MeetEventData> {
     required int categoryId,
     required DateTime startAt,
     this.phase = const Value.absent(),
-    required int count,
+    this.count = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
@@ -9081,8 +9082,7 @@ class MeetEventCompanion extends UpdateCompanion<MeetEventData> {
         meetId = Value(meetId),
         disciplineId = Value(disciplineId),
         categoryId = Value(categoryId),
-        startAt = Value(startAt),
-        count = Value(count);
+        startAt = Value(startAt);
   static Insertable<MeetEventData> custom({
     Expression<String>? id,
     Expression<String>? meetId,
@@ -9118,7 +9118,7 @@ class MeetEventCompanion extends UpdateCompanion<MeetEventData> {
       Value<int>? categoryId,
       Value<DateTime>? startAt,
       Value<String?>? phase,
-      Value<int>? count,
+      Value<int?>? count,
       Value<DateTime?>? createdAt,
       Value<DateTime?>? updatedAt,
       Value<DateTime?>? deletedAt,
@@ -13295,6 +13295,12 @@ class $SignUpFormTable extends SignUpForm
   late final GeneratedColumn<int> timesPerWeek = GeneratedColumn<int>(
       'times_per_week', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _daysInWeekMeta =
+      const VerificationMeta('daysInWeek');
+  @override
+  late final GeneratedColumn<String> daysInWeek = GeneratedColumn<String>(
+      'days_in_week', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -13336,6 +13342,7 @@ class $SignUpFormTable extends SignUpForm
         status,
         schoolYearId,
         timesPerWeek,
+        daysInWeek,
         createdAt,
         updatedAt,
         deletedAt
@@ -13483,6 +13490,14 @@ class $SignUpFormTable extends SignUpForm
     } else if (isInserting) {
       context.missing(_timesPerWeekMeta);
     }
+    if (data.containsKey('days_in_week')) {
+      context.handle(
+          _daysInWeekMeta,
+          daysInWeek.isAcceptableOrUnknown(
+              data['days_in_week']!, _daysInWeekMeta));
+    } else if (isInserting) {
+      context.missing(_daysInWeekMeta);
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -13550,6 +13565,8 @@ class $SignUpFormTable extends SignUpForm
           .read(DriftSqlType.string, data['${effectivePrefix}school_year_id'])!,
       timesPerWeek: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}times_per_week'])!,
+      daysInWeek: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}days_in_week'])!,
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -13587,6 +13604,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
   final String status;
   final String schoolYearId;
   final int timesPerWeek;
+  final String daysInWeek;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt;
@@ -13612,6 +13630,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
       required this.status,
       required this.schoolYearId,
       required this.timesPerWeek,
+      required this.daysInWeek,
       required this.createdAt,
       required this.updatedAt,
       this.deletedAt});
@@ -13653,6 +13672,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
     map['status'] = Variable<String>(status);
     map['school_year_id'] = Variable<String>(schoolYearId);
     map['times_per_week'] = Variable<int>(timesPerWeek);
+    map['days_in_week'] = Variable<String>(daysInWeek);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     if (!nullToAbsent || deletedAt != null) {
@@ -13694,6 +13714,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
       status: Value(status),
       schoolYearId: Value(schoolYearId),
       timesPerWeek: Value(timesPerWeek),
+      daysInWeek: Value(daysInWeek),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deletedAt: deletedAt == null && nullToAbsent
@@ -13730,6 +13751,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
       status: serializer.fromJson<String>(json['status']),
       schoolYearId: serializer.fromJson<String>(json['schoolYearId']),
       timesPerWeek: serializer.fromJson<int>(json['timesPerWeek']),
+      daysInWeek: serializer.fromJson<String>(json['daysInWeek']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
@@ -13760,6 +13782,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
       'status': serializer.toJson<String>(status),
       'schoolYearId': serializer.toJson<String>(schoolYearId),
       'timesPerWeek': serializer.toJson<int>(timesPerWeek),
+      'daysInWeek': serializer.toJson<String>(daysInWeek),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
@@ -13788,6 +13811,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
           String? status,
           String? schoolYearId,
           int? timesPerWeek,
+          String? daysInWeek,
           DateTime? createdAt,
           DateTime? updatedAt,
           Value<DateTime?> deletedAt = const Value.absent()}) =>
@@ -13819,6 +13843,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
         status: status ?? this.status,
         schoolYearId: schoolYearId ?? this.schoolYearId,
         timesPerWeek: timesPerWeek ?? this.timesPerWeek,
+        daysInWeek: daysInWeek ?? this.daysInWeek,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
@@ -13867,6 +13892,8 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
       timesPerWeek: data.timesPerWeek.present
           ? data.timesPerWeek.value
           : this.timesPerWeek,
+      daysInWeek:
+          data.daysInWeek.present ? data.daysInWeek.value : this.daysInWeek,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
@@ -13897,6 +13924,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
           ..write('status: $status, ')
           ..write('schoolYearId: $schoolYearId, ')
           ..write('timesPerWeek: $timesPerWeek, ')
+          ..write('daysInWeek: $daysInWeek, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt')
@@ -13927,6 +13955,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
         status,
         schoolYearId,
         timesPerWeek,
+        daysInWeek,
         createdAt,
         updatedAt,
         deletedAt
@@ -13956,6 +13985,7 @@ class SignUpFormData extends DataClass implements Insertable<SignUpFormData> {
           other.status == this.status &&
           other.schoolYearId == this.schoolYearId &&
           other.timesPerWeek == this.timesPerWeek &&
+          other.daysInWeek == this.daysInWeek &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.deletedAt == this.deletedAt);
@@ -13983,6 +14013,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
   final Value<String> status;
   final Value<String> schoolYearId;
   final Value<int> timesPerWeek;
+  final Value<String> daysInWeek;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<DateTime?> deletedAt;
@@ -14009,6 +14040,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
     this.status = const Value.absent(),
     this.schoolYearId = const Value.absent(),
     this.timesPerWeek = const Value.absent(),
+    this.daysInWeek = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
@@ -14036,6 +14068,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
     required String status,
     required String schoolYearId,
     required int timesPerWeek,
+    required String daysInWeek,
     required DateTime createdAt,
     required DateTime updatedAt,
     this.deletedAt = const Value.absent(),
@@ -14054,6 +14087,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
         status = Value(status),
         schoolYearId = Value(schoolYearId),
         timesPerWeek = Value(timesPerWeek),
+        daysInWeek = Value(daysInWeek),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt);
   static Insertable<SignUpFormData> custom({
@@ -14078,6 +14112,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
     Expression<String>? status,
     Expression<String>? schoolYearId,
     Expression<int>? timesPerWeek,
+    Expression<String>? daysInWeek,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? deletedAt,
@@ -14107,6 +14142,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
       if (status != null) 'status': status,
       if (schoolYearId != null) 'school_year_id': schoolYearId,
       if (timesPerWeek != null) 'times_per_week': timesPerWeek,
+      if (daysInWeek != null) 'days_in_week': daysInWeek,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
@@ -14136,6 +14172,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
       Value<String>? status,
       Value<String>? schoolYearId,
       Value<int>? timesPerWeek,
+      Value<String>? daysInWeek,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<DateTime?>? deletedAt,
@@ -14162,6 +14199,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
       status: status ?? this.status,
       schoolYearId: schoolYearId ?? this.schoolYearId,
       timesPerWeek: timesPerWeek ?? this.timesPerWeek,
+      daysInWeek: daysInWeek ?? this.daysInWeek,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
@@ -14235,6 +14273,9 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
     if (timesPerWeek.present) {
       map['times_per_week'] = Variable<int>(timesPerWeek.value);
     }
+    if (daysInWeek.present) {
+      map['days_in_week'] = Variable<String>(daysInWeek.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -14274,6 +14315,7 @@ class SignUpFormCompanion extends UpdateCompanion<SignUpFormData> {
           ..write('status: $status, ')
           ..write('schoolYearId: $schoolYearId, ')
           ..write('timesPerWeek: $timesPerWeek, ')
+          ..write('daysInWeek: $daysInWeek, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
@@ -21233,7 +21275,7 @@ typedef $$MeetEventTableCreateCompanionBuilder = MeetEventCompanion Function({
   required int categoryId,
   required DateTime startAt,
   Value<String?> phase,
-  required int count,
+  Value<int?> count,
   Value<DateTime?> createdAt,
   Value<DateTime?> updatedAt,
   Value<DateTime?> deletedAt,
@@ -21246,7 +21288,7 @@ typedef $$MeetEventTableUpdateCompanionBuilder = MeetEventCompanion Function({
   Value<int> categoryId,
   Value<DateTime> startAt,
   Value<String?> phase,
-  Value<int> count,
+  Value<int?> count,
   Value<DateTime?> createdAt,
   Value<DateTime?> updatedAt,
   Value<DateTime?> deletedAt,
@@ -21406,7 +21448,7 @@ class $$MeetEventTableTableManager extends RootTableManager<
             Value<int> categoryId = const Value.absent(),
             Value<DateTime> startAt = const Value.absent(),
             Value<String?> phase = const Value.absent(),
-            Value<int> count = const Value.absent(),
+            Value<int?> count = const Value.absent(),
             Value<DateTime?> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -21432,7 +21474,7 @@ class $$MeetEventTableTableManager extends RootTableManager<
             required int categoryId,
             required DateTime startAt,
             Value<String?> phase = const Value.absent(),
-            required int count,
+            Value<int?> count = const Value.absent(),
             Value<DateTime?> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -23427,6 +23469,7 @@ typedef $$SignUpFormTableCreateCompanionBuilder = SignUpFormCompanion Function({
   required String status,
   required String schoolYearId,
   required int timesPerWeek,
+  required String daysInWeek,
   required DateTime createdAt,
   required DateTime updatedAt,
   Value<DateTime?> deletedAt,
@@ -23454,6 +23497,7 @@ typedef $$SignUpFormTableUpdateCompanionBuilder = SignUpFormCompanion Function({
   Value<String> status,
   Value<String> schoolYearId,
   Value<int> timesPerWeek,
+  Value<String> daysInWeek,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<DateTime?> deletedAt,
@@ -23539,6 +23583,9 @@ class $$SignUpFormTableFilterComposer
 
   ColumnFilters<int> get timesPerWeek => $composableBuilder(
       column: $table.timesPerWeek, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get daysInWeek => $composableBuilder(
+      column: $table.daysInWeek, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -23632,6 +23679,9 @@ class $$SignUpFormTableOrderingComposer
       column: $table.timesPerWeek,
       builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get daysInWeek => $composableBuilder(
+      column: $table.daysInWeek, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
@@ -23714,6 +23764,9 @@ class $$SignUpFormTableAnnotationComposer
   GeneratedColumn<int> get timesPerWeek => $composableBuilder(
       column: $table.timesPerWeek, builder: (column) => column);
 
+  GeneratedColumn<String> get daysInWeek => $composableBuilder(
+      column: $table.daysInWeek, builder: (column) => column);
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -23771,6 +23824,7 @@ class $$SignUpFormTableTableManager extends RootTableManager<
             Value<String> status = const Value.absent(),
             Value<String> schoolYearId = const Value.absent(),
             Value<int> timesPerWeek = const Value.absent(),
+            Value<String> daysInWeek = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -23798,6 +23852,7 @@ class $$SignUpFormTableTableManager extends RootTableManager<
             status: status,
             schoolYearId: schoolYearId,
             timesPerWeek: timesPerWeek,
+            daysInWeek: daysInWeek,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deletedAt: deletedAt,
@@ -23825,6 +23880,7 @@ class $$SignUpFormTableTableManager extends RootTableManager<
             required String status,
             required String schoolYearId,
             required int timesPerWeek,
+            required String daysInWeek,
             required DateTime createdAt,
             required DateTime updatedAt,
             Value<DateTime?> deletedAt = const Value.absent(),
@@ -23852,6 +23908,7 @@ class $$SignUpFormTableTableManager extends RootTableManager<
             status: status,
             schoolYearId: schoolYearId,
             timesPerWeek: timesPerWeek,
+            daysInWeek: daysInWeek,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deletedAt: deletedAt,

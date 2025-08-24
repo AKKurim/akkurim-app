@@ -110,6 +110,9 @@ flutter:
   generate: true
   assets:
     - shorebird.yaml
+    - lib/assets/Roboto-Regular.ttf
+    - lib/assets/Roboto-Bold.ttf
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

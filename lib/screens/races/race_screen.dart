@@ -58,7 +58,6 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
         .compareTo(b.athlete.athlete.lastName.toLowerCase()));
 
     if (meet != null) {
-      final id = meet.meet.id.split('-').last;
       return Scaffold(
         appBar: AppBar(
           title: Text(meet.meet.name),
@@ -68,11 +67,11 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
             Row(
               children: [
                 const SizedBox(width: 16),
-                Text(id),
+                Text(meet.meet.externalId!),
                 const Spacer(),
                 TextButton.icon(
                   onPressed: () {
-                    generateAndShareMeetPdf(meet: meet);
+                    generateAndShareMeetPdf(meet: meet, context_: context);
                   },
                   label: const Text('PDF'),
                   icon: const Icon(Icons.share_sharp),
@@ -88,7 +87,9 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                 // button to open proposition URL
                 TextButton(
                   onPressed: () {
-                    launchUrl(Config.propositionUrl(id));
+                    if (meet.meet.type.contains('CAS')) {
+                      launchUrl(Config.propositionUrl(meet.meet.externalId!));
+                    }
                   },
                   style: TextButton.styleFrom(
                       foregroundColor:
@@ -106,7 +107,9 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                 const Spacer(),
                 TextButton(
                   onPressed: () {
-                    launchUrl(Config.resultsUrl(id));
+                    if (meet.meet.type.contains('CAS')) {
+                      launchUrl(Config.resultsUrl(meet.meet.externalId!));
+                    }
                   },
                   style: TextButton.styleFrom(
                       foregroundColor:

@@ -7,7 +7,7 @@ class MeetEvent extends Table {
   IntColumn get categoryId => integer()();
   DateTimeColumn get startAt => dateTime()();
   TextColumn get phase => text().nullable()();
-  IntColumn get count => integer()();
+  IntColumn get count => integer().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
   DateTimeColumn get deletedAt => dateTime().nullable()();

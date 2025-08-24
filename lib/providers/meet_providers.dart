@@ -218,7 +218,7 @@ class MeetProvidersP extends _$MeetProvidersP {
                 tbl.deletedAt.isNull() &
                 (tbl.startAt.isBetweenValues(startDate, endDate) |
                     tbl.endAt.isBetweenValues(startDate, endDate)) &
-                tbl.id.contains('CAS'),
+                tbl.type.contains('CAS'),
           )
           ..orderBy(
             [
