@@ -120,6 +120,7 @@ class TrainingResultsP extends _$TrainingResultsP {
                 wind: athleteEvent.wind,
                 pbSb: athleteEvent.pbSb,
                 points: athleteEvent.points,
+                bib: athleteEvent.bib,
               );
             }
           }

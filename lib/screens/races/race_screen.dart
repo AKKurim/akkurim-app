@@ -226,7 +226,8 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                               )),
                           child: ListTile(
                             title: Text(
-                                '${athlete.athlete.athlete.lastName} ${athlete.athlete.athlete.firstName}',
+                                '${athlete.athlete.athlete.lastName} ${athlete.athlete.athlete.firstName}'
+                                '${athlete.events.any((e) => e.bib != null && e.bib!.isNotEmpty) ? ' (${athlete.events.firstWhere((e) => e.bib != null && e.bib!.isNotEmpty).bib})' : ''}',
                                 style: athlete.events.isNotEmpty
                                     ? TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -236,7 +237,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                 ? Text(
                                     athlete.events
                                         .map((event) =>
-                                            '${meet.isMultiDay ? '${TimeHelper.getWeekDayName(event.meetEvent.startAt, context)} ' : ''}${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && athlete.isDoubleDiscipline(event.discipline!.id) ? '(${event.meetEvent.phase})' : ''}')
+                                            '${meet.isMultiDay ? '${TimeHelper.getWeekDayName(event.meetEvent.startAt, context)} ' : ''}${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.description} ${event.meetEvent.phase != null && (athlete.isDoubleDiscipline(event.discipline!.id) || meet.meet.name.contains('EKAG')) ? '(${event.meetEvent.phase!.replaceAll("Kvalifikace", "Kval")})' : ''}')
                                         .join('\n'),
                                     style: TextStyle(
                                         fontSize: 16,

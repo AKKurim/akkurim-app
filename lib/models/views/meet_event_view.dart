@@ -9,6 +9,7 @@ class MeetEventViewWithoutAthletes {
   String? wind;
   String? pbSb;
   String? points;
+  String? bib;
 
   MeetEventViewWithoutAthletes({
     required this.meetEvent,
@@ -18,6 +19,7 @@ class MeetEventViewWithoutAthletes {
     this.wind,
     this.pbSb,
     this.points,
+    this.bib,
   });
 }
 
@@ -80,12 +82,14 @@ class ResultView {
   String? wind;
   String? pbSb;
   String? points;
+  String? bib;
 
   ResultView({
     this.result,
     this.wind,
     this.pbSb,
     this.points,
+    this.bib,
   });
 
   @override
@@ -96,11 +100,16 @@ class ResultView {
         other.result == result &&
         other.wind == wind &&
         other.pbSb == pbSb &&
-        other.points == points;
+        other.points == points &&
+        other.bib == bib;
   }
 
   @override
   int get hashCode {
-    return result.hashCode ^ wind.hashCode ^ pbSb.hashCode ^ points.hashCode;
+    return result.hashCode ^
+        wind.hashCode ^
+        pbSb.hashCode ^
+        points.hashCode ^
+        bib.hashCode;
   }
 }

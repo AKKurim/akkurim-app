@@ -71,6 +71,7 @@ class FullMeetView {
           wind: event.athletesWithResults[athlete]?.wind,
           pbSb: event.athletesWithResults[athlete]?.pbSb,
           points: event.athletesWithResults[athlete]?.points,
+          bib: event.athletesWithResults[athlete]?.bib,
         ));
       }
     }

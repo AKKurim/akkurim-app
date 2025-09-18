@@ -7,6 +7,7 @@ class AthleteMeetEvent extends Table {
   TextColumn get wind => text().nullable()();
   TextColumn get pbSb => text().nullable()();
   TextColumn get points => text().nullable()();
+  TextColumn get bib => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
   DateTimeColumn get deletedAt => dateTime().nullable()();

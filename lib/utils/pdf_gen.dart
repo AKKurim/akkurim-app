@@ -52,7 +52,8 @@ Future<void> generateAndShareMeetPdf(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
                 pw.Text(
-                  '${athlete.athlete.athlete.lastName} ${athlete.athlete.athlete.firstName}',
+                  '${athlete.athlete.athlete.lastName} ${athlete.athlete.athlete.firstName}'
+                  '${athlete.events.any((e) => e.bib != null && e.bib!.isNotEmpty) ? ' (${athlete.events.firstWhere((e) => e.bib != null && e.bib!.isNotEmpty).bib})' : ''}',
                   style: athlete.events.isNotEmpty
                       ? pw.TextStyle(
                           fontWeight: pw.FontWeight.bold, fontSize: 18)
@@ -62,7 +63,7 @@ Future<void> generateAndShareMeetPdf(
                   pw.Text(
                     athlete.events
                         .map((event) =>
-                            '${meet.isMultiDay ? '${TimeHelper.getWeekDayName(event.meetEvent.startAt, context_)} ' : ''}${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.shortDescription} ${event.meetEvent.phase != null && athlete.isDoubleDiscipline(event.discipline!.id) ? '(${event.meetEvent.phase.replaceAll('Kvalifikace', 'Kval')})' : ''}')
+                            '${meet.isMultiDay ? '${TimeHelper.getWeekDayName(event.meetEvent.startAt, context_)} ' : ''}${TimeHelper.getMinHourFromDateTime(event.meetEvent.startAt)} - ${event.discipline?.shortDescription} ${event.meetEvent.phase != null && (athlete.isDoubleDiscipline(event.discipline!.id) || meet.meet.name.contains('EKAG')) ? '(${event.meetEvent.phase.replaceAll('Kvalifikace', 'Kval')})' : ''}')
                         .join('\n'),
                     style: pw.TextStyle(
                       fontSize: 16,

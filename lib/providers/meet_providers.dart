@@ -59,7 +59,7 @@ class FullMeetProviderP extends _$FullMeetProviderP {
       final meet = rows.first.readTable(db.meet);
       var events = rows.map((row) {
         final meetEv = row.readTableOrNull(db.meetEvent);
-        return meetEv != null
+        return meetEv != null && meetEv.deletedAt == null
             ? MeetEventView(
                 meetEvent: meetEv,
                 discipline: row.readTable(db.discipline),
@@ -130,6 +130,7 @@ class FullMeetProviderP extends _$FullMeetProviderP {
               wind: athleteEvent.wind,
               pbSb: athleteEvent.pbSb,
               points: athleteEvent.points,
+              bib: athleteEvent.bib,
             );
           }
         }
@@ -247,7 +248,7 @@ class MeetProvidersP extends _$MeetProvidersP {
         final meet = entry.value.first.readTable(db.meet);
         var events = entry.value.map((row) {
           final meetEv = row.readTableOrNull(db.meetEvent);
-          return meetEv != null
+          return meetEv != null && meetEv.deletedAt == null
               ? MeetEventView(
                   meetEvent: meetEv,
                   discipline: row.readTable(db.discipline),
@@ -318,6 +319,7 @@ class MeetProvidersP extends _$MeetProvidersP {
                 wind: athleteEvent.wind,
                 pbSb: athleteEvent.pbSb,
                 points: athleteEvent.points,
+                bib: athleteEvent.bib,
               );
             }
           }
