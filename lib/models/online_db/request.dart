@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
+import '_base_model.dart';
 
-class Request extends Table {
+class Request extends Table with BaseModel {
   TextColumn get id => text().withLength(min: 36, max: 36)();
   TextColumn get type => text()();
   TextColumn get status => text()();
@@ -8,9 +9,7 @@ class Request extends Table {
   TextColumn get itemId => text().withLength(min: 36, max: 36).nullable()();
   TextColumn get name => text()();
   TextColumn get description => text()();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get updatedAt => dateTime()();
-  DateTimeColumn get deletedAt => dateTime().nullable()();
+  
 
   @override
   Set<Column> get primaryKey => {id};

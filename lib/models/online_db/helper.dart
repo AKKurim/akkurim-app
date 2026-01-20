@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
+import '_base_model.dart';
 
-class Helper extends Table {
+class Helper extends Table with BaseModel {
   TextColumn get id => text().withLength(min: 36, max: 36)();
   TextColumn get status => text()();
   TextColumn get bankNumber => text().nullable()();
@@ -14,9 +15,7 @@ class Helper extends Table {
   TextColumn get zip => text().nullable()();
   TextColumn get qualification => text().nullable()();
   TextColumn get preferrence => text().nullable()();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get updatedAt => dateTime()();
-  DateTimeColumn get deletedAt => dateTime().nullable()();
+  
 
   @override
   Set<Column> get primaryKey => {id};

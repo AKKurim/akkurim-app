@@ -1,14 +1,13 @@
 import 'package:drift/drift.dart';
+import '_base_model.dart';
 
-class RemoteConfig extends Table {
+class RemoteConfig extends Table with BaseModel {
   IntColumn get id => integer()();
   TextColumn get urgentMessage => text().nullable()();
   TextColumn get minimumAppVersion => text()();
   DateTimeColumn get showFrom => dateTime()();
   DateTimeColumn get showTo => dateTime()();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get updatedAt => dateTime()();
-  DateTimeColumn get deletedAt => dateTime().nullable()();
+  
 
   @override
   Set<Column> get primaryKey => {id};

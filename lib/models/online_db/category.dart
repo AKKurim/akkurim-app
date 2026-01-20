@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
+import '_base_model.dart';
 
-class Category extends Table {
+class Category extends Table with BaseModel {
   IntColumn get id => integer()();
   IntColumn get sex => integer()();
   TextColumn get description => text()();
@@ -8,9 +9,7 @@ class Category extends Table {
   TextColumn get descriptionEn => text()();
   TextColumn get shortDescriptionEn => text()();
   TextColumn get age => text()();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get updatedAt => dateTime()();
-  DateTimeColumn get deletedAt => dateTime().nullable()();
+  
 
   @override
   Set<Column> get primaryKey => {id};

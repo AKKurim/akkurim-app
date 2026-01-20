@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
+import '_base_model.dart';
 
-class Athlete extends Table {
+class Athlete extends Table with BaseModel {
   TextColumn get id => text().withLength(min: 36, max: 36)();
   TextColumn get bankNumber => text().nullable()();
   TextColumn get birthNumber => text().unique()();
@@ -17,9 +18,7 @@ class Athlete extends Table {
   TextColumn get profileImageId =>
       text().unique().withLength(min: 36, max: 36).nullable()();
   TextColumn get status => text()();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get updatedAt => dateTime()();
-  DateTimeColumn get deletedAt => dateTime().nullable()();
+  
 
   @override
   Set<Column> get primaryKey => {id};

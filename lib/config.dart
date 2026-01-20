@@ -4,8 +4,9 @@ import 'package:flutter/foundation.dart';
 
 class Config {
   bool get isDebug => kDebugMode;
-  static const String baseUrl =
-      'https://${kDebugMode ? 'dev' : ''}api.akkurim.cz';
+  static const String baseUrl = kDebugMode
+      ? 'http://192.168.0.9:8000'
+      : 'https://api.akkurim.cz';
   static const String apiVersion = '/v1';
 
   static const String appName = 'Athletics Club Manager';
