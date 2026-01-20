@@ -47,7 +47,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: Config.appName,
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       routerConfig: router,
       localizationsDelegates: [
         AppLocalizations.delegate,
