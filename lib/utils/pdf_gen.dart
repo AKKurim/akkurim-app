@@ -1,4 +1,3 @@
-import 'package:ak_kurim_app/models/online_db/athlete.dart';
 import 'package:ak_kurim_app/models/views/meet_event_view.dart';
 import 'package:pdf/pdf.dart';
 import 'package:diacritic/diacritic.dart';

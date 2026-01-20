@@ -8,7 +8,6 @@ import './api_service.dart';
 import '../database/drift_database.dart';
 import '../database/companion_builder_map.dart';
 import '../../models/other/sync_state.dart';
-import '../database/drift_database.dart';
 import '../../utils/utils.dart';
 import 'package:drift/drift.dart';
 import 'dart:convert';
