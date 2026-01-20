@@ -34,6 +34,9 @@ AthleteGuardianCompanion buildAthleteGuardianCompanion(
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 AthleteMeetEventCompanion buildAthleteMeetEventCompanion(
@@ -53,6 +56,9 @@ AthleteMeetEventCompanion buildAthleteMeetEventCompanion(
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 AthleteSignUpFormCompanion buildAthleteSignUpFormCompanion(
@@ -64,6 +70,9 @@ AthleteSignUpFormCompanion buildAthleteSignUpFormCompanion(
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -94,6 +103,9 @@ AthleteCompanion buildAthleteCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 CategoryCompanion buildCategoryCompanion(Map<String, dynamic> row) =>
@@ -110,6 +122,9 @@ CategoryCompanion buildCategoryCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 ClubCompanion buildClubCompanion(Map<String, dynamic> row) => ClubCompanion(
@@ -120,6 +135,9 @@ ClubCompanion buildClubCompanion(Map<String, dynamic> row) => ClubCompanion(
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -142,6 +160,9 @@ DisciplineTypeCompanion buildDisciplineTypeCompanion(
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 DisciplineCompanion buildDisciplineCompanion(Map<String, dynamic> row) =>
@@ -158,6 +179,9 @@ DisciplineCompanion buildDisciplineCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 GroupAthleteCompanion buildGroupAthleteCompanion(Map<String, dynamic> row) =>
@@ -169,6 +193,9 @@ GroupAthleteCompanion buildGroupAthleteCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 GroupTrainerCompanion buildGroupTrainerCompanion(Map<String, dynamic> row) =>
@@ -179,6 +206,9 @@ GroupTrainerCompanion buildGroupTrainerCompanion(Map<String, dynamic> row) =>
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -195,6 +225,9 @@ GroupCompanion buildGroupCompanion(Map<String, dynamic> row) => GroupCompanion(
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -213,6 +246,9 @@ GuardianCompanion buildGuardianCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 ItemTypeCompanion buildItemTypeCompanion(Map<String, dynamic> row) =>
@@ -224,6 +260,9 @@ ItemTypeCompanion buildItemTypeCompanion(Map<String, dynamic> row) =>
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -246,6 +285,9 @@ ItemCompanion buildItemCompanion(Map<String, dynamic> row) => ItemCompanion(
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 MeetEventCompanion buildMeetEventCompanion(Map<String, dynamic> row) =>
@@ -265,6 +307,9 @@ MeetEventCompanion buildMeetEventCompanion(Map<String, dynamic> row) =>
           : const Value.absent(),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -297,6 +342,9 @@ MeetCompanion buildMeetCompanion(Map<String, dynamic> row) => MeetCompanion(
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 RemoteConfigCompanion buildRemoteConfigCompanion(Map<String, dynamic> row) =>
@@ -313,6 +361,9 @@ RemoteConfigCompanion buildRemoteConfigCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 SchoolYearCompanion buildSchoolYearCompanion(Map<String, dynamic> row) =>
@@ -323,6 +374,9 @@ SchoolYearCompanion buildSchoolYearCompanion(Map<String, dynamic> row) =>
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -363,6 +417,9 @@ SignUpFormCompanion buildSignUpFormCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 TrainerCompanion buildTrainerCompanion(Map<String, dynamic> row) =>
@@ -380,6 +437,9 @@ TrainerCompanion buildTrainerCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 TrainingAthleteCompanion buildTrainingAthleteCompanion(
@@ -392,6 +452,9 @@ TrainingAthleteCompanion buildTrainingAthleteCompanion(
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -408,6 +471,9 @@ TrainingTimeCompanion buildTrainingTimeCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 TrainingTrainerCompanion buildTrainingTrainerCompanion(
@@ -422,6 +488,9 @@ TrainingTrainerCompanion buildTrainingTrainerCompanion(
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -439,6 +508,9 @@ TrainingCompanion buildTrainingCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 WebPostCompanion buildWebPostCompanion(Map<String, dynamic> row) =>
@@ -453,6 +525,9 @@ WebPostCompanion buildWebPostCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 AthleteRegistrationMeetEventCompanion
@@ -466,6 +541,9 @@ AthleteRegistrationMeetEventCompanion
           deletedAt: row['deleted_at'] != null
               ? Value(DateTime.parse(row['deleted_at']))
               : const Value.absent(),
+          lastUpdatedBy: row['last_updated_by'] != null
+              ? Value(row['last_updated_by'])
+              : const Value.absent(),
         );
 
 FileCompanion buildFileCompanion(Map<String, dynamic> row) => FileCompanion(
@@ -478,6 +556,9 @@ FileCompanion buildFileCompanion(Map<String, dynamic> row) => FileCompanion(
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -510,6 +591,9 @@ HelperCompanion buildHelperCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 PaymentCompanion buildPaymentCompanion(Map<String, dynamic> row) =>
@@ -529,6 +613,9 @@ PaymentCompanion buildPaymentCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 PointsCompanion buildPointsCompanion(Map<String, dynamic> row) =>
@@ -542,6 +629,9 @@ PointsCompanion buildPointsCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 RequestFileCompanion buildRequestFileCompanion(Map<String, dynamic> row) =>
@@ -553,6 +643,9 @@ RequestFileCompanion buildRequestFileCompanion(Map<String, dynamic> row) =>
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
@@ -575,6 +668,9 @@ RequestCompanion buildRequestCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 ResponseCompanion buildResponseCompanion(Map<String, dynamic> row) =>
@@ -595,6 +691,9 @@ ResponseCompanion buildResponseCompanion(Map<String, dynamic> row) =>
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
           : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
     );
 
 SignUpFormGroupCompanion buildSignUpFormGroupCompanion(
@@ -606,6 +705,9 @@ SignUpFormGroupCompanion buildSignUpFormGroupCompanion(
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
           ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
           : const Value.absent(),
     );
 
