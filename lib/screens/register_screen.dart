@@ -1,7 +1,6 @@
 import 'package:ak_kurim_app/models/auth/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../services/auth/auth_service.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
@@ -9,8 +8,8 @@ import '../widgets/settings/locale_dropdown.dart';
 import '../models/auth/progress_enum.dart';
 import '../providers/app_settings_provider.dart';
 
-class LoginScreen extends HookConsumerWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends HookConsumerWidget {
+  const RegisterScreen({super.key});
 
   void showFingerprintPromptDelay(
     BuildContext context,
@@ -23,12 +22,12 @@ class LoginScreen extends HookConsumerWidget {
         (authData != null && authData.state != ProgressEnum.initial)) {
       return;
     }
-    final authService = ref.read(authServiceProvider.notifier);
-    await authService.promptForBiometricLogin(
-      localizedReason: AppLocalizations.of(context)!.loginWithFingerprint,
-      androidTitle: AppLocalizations.of(context)!.loginWithFingerprintAndroid,
-      cancelButton: AppLocalizations.of(context)!.cancelButton,
-    );
+    // final authService = ref.read(authServiceProvider.notifier);
+    // await authService.promptForBiometricLogin(
+    //   localizedReason: AppLocalizations.of(context)!.loginWithFingerprint,
+    //   androidTitle: AppLocalizations.of(context)!.loginWithFingerprintAndroid,
+    //   cancelButton: AppLocalizations.of(context)!.cancelButton,
+    // );
   }
 
   @override
@@ -45,8 +44,8 @@ class LoginScreen extends HookConsumerWidget {
       if (next.value?.state == ProgressEnum.error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-                next.value?.error ?? AppLocalizations.of(context)!.loginFailed),
+            content: Text(next.value?.error ??
+                AppLocalizations.of(context)!.registerFailed),
             backgroundColor: Colors.red,
           ),
         );
@@ -56,18 +55,12 @@ class LoginScreen extends HookConsumerWidget {
           data: (value) => value,
           orElse: () => null,
         );
-    showFingerprintPromptDelay(
-        context, ref, const Duration(milliseconds: 300), authData);
+    // showFingerprintPromptDelay(
+    //     context, ref, const Duration(milliseconds: 300), authData);
 
     return Scaffold(
       appBar: AppBar(
-        leading: // switch to register screen
-            IconButton(
-          icon: const Icon(Icons.person_add),
-          onPressed: () {
-            context.push('/register');
-          },
-        ),
+        leading: null,
         actions: [LocaleDropdown()],
       ),
       body: Stack(
@@ -119,12 +112,12 @@ class LoginScreen extends HookConsumerWidget {
                         foregroundColor: WidgetStateProperty.all(Colors.white),
                       ),
                       onPressed: () {
-                        ref.read(authServiceProvider.notifier).login(
+                        ref.read(authServiceProvider.notifier).register(
                               email: emailController.text,
                               password: passwordController.text,
                             );
                       },
-                      child: Text(AppLocalizations.of(context)!.login,
+                      child: Text(AppLocalizations.of(context)!.register,
                           style: const TextStyle(fontSize: 18)),
                     ),
                     if (appSettings?.useFingerprint == true)

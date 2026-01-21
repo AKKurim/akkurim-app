@@ -476,4 +476,11 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get notImplemented => 'Tato funkce ještě není implementována.';
+
+  @override
+  String get register => 'Registrovat';
+
+  @override
+  String get registerFailed =>
+      'Registrace se nezdařila. Zkontrolujte své údaje a síťové připojení.';
 }

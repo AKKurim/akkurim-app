@@ -34,13 +34,14 @@ class Utils {
   }
 
   static String tzOffsetMap(String tz) {
+    // TODO check for daylight saving time
     switch (tz) {
       case 'UTC':
         return 'Z';
       case 'Europe/Prague':
-        return '+02:00';
+        return '+01:00';
       case 'Europe/Berlin':
-        return '+02:00';
+        return '+01:00';
     }
     // TODO: Add more timezones from wiki
     print('tz: $tz');

@@ -623,5 +623,13 @@
     "notImplemented" : "This feature is not implemented yet.",
     "@notImplemented" : {
         "description": "The message shown when a feature is not implemented yet"
+    },
+    "register": "Register",
+    "@register": {
+        "description": "The label for the register button"
+    },
+    "registerFailed": "Registration failed. Please check your details and network.",
+    "@registerFailed": {
+        "description": "The message shown when registration fails"
     }
 }

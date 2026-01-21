@@ -9,6 +9,7 @@ import './providers/remote_config_provider.dart';
 import './services/auth/auth_service.dart';
 import '../models/auth/progress_enum.dart';
 import './screens/login_screen.dart';
+import './screens/register_screen.dart';
 import './providers/package_info_provider.dart';
 import './screens/force_update_screen.dart';
 import './screens/home_screen.dart';
@@ -64,7 +65,8 @@ GoRouter router(Ref ref) {
       // Auth redirects
       final loggingIn =
           location.startsWith('/splash') || location.startsWith('/login');
-      if (authData?.state != ProgressEnum.authenticated) {
+      if (authData?.state != ProgressEnum.authenticated &&
+          !location.startsWith('/register')) {
         return loggingIn ? null : '/login';
       } else {
         return loggingIn ? '/home' : null;
@@ -81,6 +83,10 @@ GoRouter router(Ref ref) {
         name: 'login',
         builder: (context, state) => const LoginScreen(),
       ),
+      GoRoute(
+          path: '/register',
+          name: 'register',
+          builder: (context, state) => const RegisterScreen()),
       GoRoute(
         path: '/force-update',
         name: 'force-update',

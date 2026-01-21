@@ -146,5 +146,7 @@
     "loginWithFingerprint": "Pro přihlášení použijte otisk prstu",
     "loginWithFingerprintAndroid": "Přiložte prst na snímač otisků prstů",
     "useFingerprintSettings": "Přihlášení pomocí",
-    "notImplemented": "Tato funkce ještě není implementována."
+    "notImplemented": "Tato funkce ještě není implementována.",
+    "register": "Registrovat",
+    "registerFailed": "Registrace se nezdařila. Zkontrolujte své údaje a síťové připojení."
 }

@@ -979,6 +979,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This feature is not implemented yet.'**
   String get notImplemented;
+
+  /// The label for the register button
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// The message shown when registration fails
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed. Please check your details and network.'**
+  String get registerFailed;
 }
 
 class _AppLocalizationsDelegate

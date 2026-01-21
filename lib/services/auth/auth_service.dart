@@ -182,6 +182,43 @@ class AuthService extends _$AuthService {
     state = AsyncValue.data(AuthState(ProgressEnum.initial, []));
   }
 
+  Future<void> register(
+      {required String email,
+      required String password,
+      String tenantId = "kurim"}) async {
+    state =
+        AsyncValue.data(AuthState(ProgressEnum.loading, [RoleEnum.unknown]));
+    ApiService apiService = ApiService.instance;
+
+    var res = await apiService.postRequest(
+      "/auth/signup",
+      data: {
+        "formFields": [
+          {"id": "email", "value": email},
+          {"id": "password", "value": password},
+          {"id": "tenant", "value": tenantId},
+        ],
+      },
+    ).onError((error, stackTrace) {
+      return Response(
+        requestOptions: RequestOptions(path: ""),
+        statusCode: 500,
+        statusMessage: "Network or server error",
+      );
+    });
+    if (res.statusCode != 200) {
+      state = AsyncValue.data(
+          AuthState(ProgressEnum.error, [], error: res.statusMessage));
+      return;
+    }
+
+    Map<String, dynamic> body = res.data;
+    if (body["status"]!.contains("OK")) {
+      await login(email: email, password: password);
+    }
+    // TODO handle errors similar to login later
+  }
+
   Future<void> promptForBiometricSave({
     required String localizedReason,
     required String androidTitle,

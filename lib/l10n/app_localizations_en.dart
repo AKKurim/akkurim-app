@@ -476,4 +476,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notImplemented => 'This feature is not implemented yet.';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get registerFailed =>
+      'Registration failed. Please check your details and network.';
 }
