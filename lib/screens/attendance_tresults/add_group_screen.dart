@@ -105,7 +105,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
             return trainer.trainer.deletedAt == null &&
                 trainer.simpleAthlete.athlete.status == 'active';
           }).toList(),
-          error: (error, stackTrace) => [],
+          error: (error, stackTrace) {
+            print('Error loading trainers: $error--------');
+            return [];
+          },
           loading: () => [],
         );
     allTrainers.sort((a, b) {
