@@ -125,6 +125,8 @@ class GroupsP extends _$GroupsP {
     required SchoolYearData schoolYear,
     required List<TrainerView> trainers,
     required List<SimpleAthleteView> athletes,
+    required int durationSummer,
+    required int durationWinter,
     String? trainingTimeId,
     String? groupId,
     List<String>? previousAthletesIds,
@@ -142,9 +144,9 @@ class GroupsP extends _$GroupsP {
               id: Value(trainingTimeId),
               day: Value(day),
               summerTime: Value(summerTime.toString()),
-              winterTime: Value(
-                winterTime.toString(),
-              ),
+              winterTime: Value(winterTime.toString()),
+              durationSummer: Value(durationSummer),
+              durationWinter: Value(durationWinter),
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),
               lastUpdatedBy: Value(auth.asData!.value.email),
@@ -174,6 +176,7 @@ class GroupsP extends _$GroupsP {
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(null),
             lastUpdatedBy: Value(auth.asData!.value.email),
+            system: Value(0),
           ),
         );
     await sync.addToSyncQueue(
@@ -185,6 +188,7 @@ class GroupsP extends _$GroupsP {
         'table': 'group',
       }),
     );
+    // TODO fix the router issue causing double navigation back
 
     List<GroupTrainerData> updatedGroupTrainer = [];
     for (final trainer in trainers) {

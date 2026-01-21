@@ -215,8 +215,23 @@ class AuthService extends _$AuthService {
     Map<String, dynamic> body = res.data;
     if (body["status"]!.contains("OK")) {
       await login(email: email, password: password);
+      return;
     }
-    // TODO handle errors similar to login later
+
+    if (body["status"]!.contains("SIGN_UP_NOT_ALLOWED")) {
+      state = AsyncValue.data(AuthState(ProgressEnum.error, [],
+          error: "Sign up not allowed for this email"));
+      return;
+    }
+    String errorString = "";
+    for (Map<String, dynamic> error in body["formFields"]!) {
+      if (error["error"] != null) {
+        errorString += "${error["id"]}: ${error["error"]}!\n";
+      }
+    }
+    state =
+        AsyncValue.data(AuthState(ProgressEnum.error, [], error: errorString));
+    return;
   }
 
   Future<void> promptForBiometricSave({
@@ -322,5 +337,5 @@ class AuthService extends _$AuthService {
     }
     await login(email: email, password: password);
   }
-  // TODO fix the initial promp for biometric login
+  // TODO fix the initial prompt for biometric login
 }

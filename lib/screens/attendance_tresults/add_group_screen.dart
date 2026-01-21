@@ -35,6 +35,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   late String trainingDay;
   late TimeOfDay selectedSummerTime;
   late TimeOfDay selectedWinterTime;
+  late int durationSummer;
+  late int durationWinter;
 
   late final TextEditingController nameController;
   late final List<String> previousTrainersIds;
@@ -70,14 +72,21 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       );
       trainingDay = widget.groupView.trainingTime!.day;
       trainingTime = widget.groupView.trainingTime;
+      durationSummer = widget.groupView.trainingTime!.durationSummer;
+      durationWinter = widget.groupView.trainingTime!.durationWinter;
     } else {
       previousTrainersIds = [];
       previousAthletesIds = [];
       selectedSummerTime = TimeOfDay.now();
       selectedWinterTime = TimeOfDay.now();
+      durationSummer = 90;
+      durationWinter = 60;
+      trainingDay = '';
+      //trainingTime = null;
     }
   }
 
+  // TODO add ui for duration selection
   @override
   void dispose() {
     nameController.dispose();
@@ -142,6 +151,17 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
     );
 
     saveGroup() {
+      // check if training day is unitialized
+      if (trainingDay.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('sobek'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
       ref.read(groupsPProvider.notifier).saveGroup(
             name: nameController.text,
             day: trainingDay,
@@ -156,6 +176,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
             trainingTimeId: trainingTime?.id,
             previousAthletesIds: previousAthletesIds,
             previousTrainersIds: previousTrainersIds,
+            durationSummer: durationSummer,
+            durationWinter: durationWinter,
           );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -284,6 +306,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                     minute: parsedTime.minute,
                                   );
                                   trainingTime = selectedTrainingTime;
+                                } else {
+                                  trainingTime = null;
                                 }
                               });
                             }),
