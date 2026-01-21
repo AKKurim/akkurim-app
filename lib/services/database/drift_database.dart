@@ -23,6 +23,7 @@ import '../../models/online_db/guardian.dart';
 import '../../models/online_db/helper.dart';
 import '../../models/online_db/item_type.dart';
 import '../../models/online_db/item.dart';
+import '../../models/online_db/meet_trainer.dart';
 import '../../models/online_db/meet_event.dart';
 import '../../models/online_db/meet.dart';
 import '../../models/online_db/payment.dart';
@@ -64,6 +65,7 @@ final modelMap = {
   'item_type': database.itemType,
   'item': database.item,
   'meet_event': database.meetEvent,
+  'meet_trainer': database.meetTrainer,
   'meet': database.meet,
   'payment': database.payment,
   'points': database.points,
@@ -105,6 +107,7 @@ final modelMap = {
     ItemType,
     Item,
     MeetEvent,
+    MeetTrainer,
     Meet,
     Payment,
     Points,

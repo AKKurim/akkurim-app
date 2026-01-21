@@ -10126,6 +10126,452 @@ class MeetEventCompanion extends UpdateCompanion<MeetEventData> {
   }
 }
 
+class $MeetTrainerTable extends MeetTrainer
+    with TableInfo<$MeetTrainerTable, MeetTrainerData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MeetTrainerTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _deletedAtMeta =
+      const VerificationMeta('deletedAt');
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+      'deleted_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _lastUpdatedByMeta =
+      const VerificationMeta('lastUpdatedBy');
+  @override
+  late final GeneratedColumn<String> lastUpdatedBy = GeneratedColumn<String>(
+      'last_updated_by', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _meetIdMeta = const VerificationMeta('meetId');
+  @override
+  late final GeneratedColumn<String> meetId = GeneratedColumn<String>(
+      'meet_id', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _trainerIdMeta =
+      const VerificationMeta('trainerId');
+  @override
+  late final GeneratedColumn<String> trainerId = GeneratedColumn<String>(
+      'trainer_id', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+      'status', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _presenceMeta =
+      const VerificationMeta('presence');
+  @override
+  late final GeneratedColumn<String> presence = GeneratedColumn<String>(
+      'presence', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        createdAt,
+        updatedAt,
+        deletedAt,
+        lastUpdatedBy,
+        meetId,
+        trainerId,
+        status,
+        presence
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'meet_trainer';
+  @override
+  VerificationContext validateIntegrity(Insertable<MeetTrainerData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(_deletedAtMeta,
+          deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta));
+    }
+    if (data.containsKey('last_updated_by')) {
+      context.handle(
+          _lastUpdatedByMeta,
+          lastUpdatedBy.isAcceptableOrUnknown(
+              data['last_updated_by']!, _lastUpdatedByMeta));
+    }
+    if (data.containsKey('meet_id')) {
+      context.handle(_meetIdMeta,
+          meetId.isAcceptableOrUnknown(data['meet_id']!, _meetIdMeta));
+    } else if (isInserting) {
+      context.missing(_meetIdMeta);
+    }
+    if (data.containsKey('trainer_id')) {
+      context.handle(_trainerIdMeta,
+          trainerId.isAcceptableOrUnknown(data['trainer_id']!, _trainerIdMeta));
+    } else if (isInserting) {
+      context.missing(_trainerIdMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    }
+    if (data.containsKey('presence')) {
+      context.handle(_presenceMeta,
+          presence.isAcceptableOrUnknown(data['presence']!, _presenceMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {meetId, trainerId};
+  @override
+  MeetTrainerData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MeetTrainerData(
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      deletedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deleted_at']),
+      lastUpdatedBy: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}last_updated_by']),
+      meetId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}meet_id'])!,
+      trainerId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}trainer_id'])!,
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}status']),
+      presence: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}presence']),
+    );
+  }
+
+  @override
+  $MeetTrainerTable createAlias(String alias) {
+    return $MeetTrainerTable(attachedDatabase, alias);
+  }
+}
+
+class MeetTrainerData extends DataClass implements Insertable<MeetTrainerData> {
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final String? lastUpdatedBy;
+  final String meetId;
+  final String trainerId;
+  final String? status;
+  final String? presence;
+  const MeetTrainerData(
+      {required this.createdAt,
+      required this.updatedAt,
+      this.deletedAt,
+      this.lastUpdatedBy,
+      required this.meetId,
+      required this.trainerId,
+      this.status,
+      this.presence});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    if (!nullToAbsent || lastUpdatedBy != null) {
+      map['last_updated_by'] = Variable<String>(lastUpdatedBy);
+    }
+    map['meet_id'] = Variable<String>(meetId);
+    map['trainer_id'] = Variable<String>(trainerId);
+    if (!nullToAbsent || status != null) {
+      map['status'] = Variable<String>(status);
+    }
+    if (!nullToAbsent || presence != null) {
+      map['presence'] = Variable<String>(presence);
+    }
+    return map;
+  }
+
+  MeetTrainerCompanion toCompanion(bool nullToAbsent) {
+    return MeetTrainerCompanion(
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      lastUpdatedBy: lastUpdatedBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastUpdatedBy),
+      meetId: Value(meetId),
+      trainerId: Value(trainerId),
+      status:
+          status == null && nullToAbsent ? const Value.absent() : Value(status),
+      presence: presence == null && nullToAbsent
+          ? const Value.absent()
+          : Value(presence),
+    );
+  }
+
+  factory MeetTrainerData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MeetTrainerData(
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      lastUpdatedBy: serializer.fromJson<String?>(json['lastUpdatedBy']),
+      meetId: serializer.fromJson<String>(json['meetId']),
+      trainerId: serializer.fromJson<String>(json['trainerId']),
+      status: serializer.fromJson<String?>(json['status']),
+      presence: serializer.fromJson<String?>(json['presence']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'lastUpdatedBy': serializer.toJson<String?>(lastUpdatedBy),
+      'meetId': serializer.toJson<String>(meetId),
+      'trainerId': serializer.toJson<String>(trainerId),
+      'status': serializer.toJson<String?>(status),
+      'presence': serializer.toJson<String?>(presence),
+    };
+  }
+
+  MeetTrainerData copyWith(
+          {DateTime? createdAt,
+          DateTime? updatedAt,
+          Value<DateTime?> deletedAt = const Value.absent(),
+          Value<String?> lastUpdatedBy = const Value.absent(),
+          String? meetId,
+          String? trainerId,
+          Value<String?> status = const Value.absent(),
+          Value<String?> presence = const Value.absent()}) =>
+      MeetTrainerData(
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+        lastUpdatedBy:
+            lastUpdatedBy.present ? lastUpdatedBy.value : this.lastUpdatedBy,
+        meetId: meetId ?? this.meetId,
+        trainerId: trainerId ?? this.trainerId,
+        status: status.present ? status.value : this.status,
+        presence: presence.present ? presence.value : this.presence,
+      );
+  MeetTrainerData copyWithCompanion(MeetTrainerCompanion data) {
+    return MeetTrainerData(
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      lastUpdatedBy: data.lastUpdatedBy.present
+          ? data.lastUpdatedBy.value
+          : this.lastUpdatedBy,
+      meetId: data.meetId.present ? data.meetId.value : this.meetId,
+      trainerId: data.trainerId.present ? data.trainerId.value : this.trainerId,
+      status: data.status.present ? data.status.value : this.status,
+      presence: data.presence.present ? data.presence.value : this.presence,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MeetTrainerData(')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('lastUpdatedBy: $lastUpdatedBy, ')
+          ..write('meetId: $meetId, ')
+          ..write('trainerId: $trainerId, ')
+          ..write('status: $status, ')
+          ..write('presence: $presence')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(createdAt, updatedAt, deletedAt,
+      lastUpdatedBy, meetId, trainerId, status, presence);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MeetTrainerData &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.lastUpdatedBy == this.lastUpdatedBy &&
+          other.meetId == this.meetId &&
+          other.trainerId == this.trainerId &&
+          other.status == this.status &&
+          other.presence == this.presence);
+}
+
+class MeetTrainerCompanion extends UpdateCompanion<MeetTrainerData> {
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<String?> lastUpdatedBy;
+  final Value<String> meetId;
+  final Value<String> trainerId;
+  final Value<String?> status;
+  final Value<String?> presence;
+  final Value<int> rowid;
+  const MeetTrainerCompanion({
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.lastUpdatedBy = const Value.absent(),
+    this.meetId = const Value.absent(),
+    this.trainerId = const Value.absent(),
+    this.status = const Value.absent(),
+    this.presence = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MeetTrainerCompanion.insert({
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.lastUpdatedBy = const Value.absent(),
+    required String meetId,
+    required String trainerId,
+    this.status = const Value.absent(),
+    this.presence = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        meetId = Value(meetId),
+        trainerId = Value(trainerId);
+  static Insertable<MeetTrainerData> custom({
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<String>? lastUpdatedBy,
+    Expression<String>? meetId,
+    Expression<String>? trainerId,
+    Expression<String>? status,
+    Expression<String>? presence,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (lastUpdatedBy != null) 'last_updated_by': lastUpdatedBy,
+      if (meetId != null) 'meet_id': meetId,
+      if (trainerId != null) 'trainer_id': trainerId,
+      if (status != null) 'status': status,
+      if (presence != null) 'presence': presence,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MeetTrainerCompanion copyWith(
+      {Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<DateTime?>? deletedAt,
+      Value<String?>? lastUpdatedBy,
+      Value<String>? meetId,
+      Value<String>? trainerId,
+      Value<String?>? status,
+      Value<String?>? presence,
+      Value<int>? rowid}) {
+    return MeetTrainerCompanion(
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      lastUpdatedBy: lastUpdatedBy ?? this.lastUpdatedBy,
+      meetId: meetId ?? this.meetId,
+      trainerId: trainerId ?? this.trainerId,
+      status: status ?? this.status,
+      presence: presence ?? this.presence,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (lastUpdatedBy.present) {
+      map['last_updated_by'] = Variable<String>(lastUpdatedBy.value);
+    }
+    if (meetId.present) {
+      map['meet_id'] = Variable<String>(meetId.value);
+    }
+    if (trainerId.present) {
+      map['trainer_id'] = Variable<String>(trainerId.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (presence.present) {
+      map['presence'] = Variable<String>(presence.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MeetTrainerCompanion(')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('lastUpdatedBy: $lastUpdatedBy, ')
+          ..write('meetId: $meetId, ')
+          ..write('trainerId: $trainerId, ')
+          ..write('status: $status, ')
+          ..write('presence: $presence, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $MeetTable extends Meet with TableInfo<$MeetTable, MeetData> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -18650,6 +19096,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ItemTypeTable itemType = $ItemTypeTable(this);
   late final $ItemTable item = $ItemTable(this);
   late final $MeetEventTable meetEvent = $MeetEventTable(this);
+  late final $MeetTrainerTable meetTrainer = $MeetTrainerTable(this);
   late final $MeetTable meet = $MeetTable(this);
   late final $PaymentTable payment = $PaymentTable(this);
   late final $PointsTable points = $PointsTable(this);
@@ -18695,6 +19142,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         itemType,
         item,
         meetEvent,
+        meetTrainer,
         meet,
         payment,
         points,
@@ -23537,6 +23985,225 @@ typedef $$MeetEventTableProcessedTableManager = ProcessedTableManager<
     ),
     MeetEventData,
     PrefetchHooks Function()>;
+typedef $$MeetTrainerTableCreateCompanionBuilder = MeetTrainerCompanion
+    Function({
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<DateTime?> deletedAt,
+  Value<String?> lastUpdatedBy,
+  required String meetId,
+  required String trainerId,
+  Value<String?> status,
+  Value<String?> presence,
+  Value<int> rowid,
+});
+typedef $$MeetTrainerTableUpdateCompanionBuilder = MeetTrainerCompanion
+    Function({
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<DateTime?> deletedAt,
+  Value<String?> lastUpdatedBy,
+  Value<String> meetId,
+  Value<String> trainerId,
+  Value<String?> status,
+  Value<String?> presence,
+  Value<int> rowid,
+});
+
+class $$MeetTrainerTableFilterComposer
+    extends Composer<_$AppDatabase, $MeetTrainerTable> {
+  $$MeetTrainerTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get lastUpdatedBy => $composableBuilder(
+      column: $table.lastUpdatedBy, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get meetId => $composableBuilder(
+      column: $table.meetId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get trainerId => $composableBuilder(
+      column: $table.trainerId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get presence => $composableBuilder(
+      column: $table.presence, builder: (column) => ColumnFilters(column));
+}
+
+class $$MeetTrainerTableOrderingComposer
+    extends Composer<_$AppDatabase, $MeetTrainerTable> {
+  $$MeetTrainerTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get lastUpdatedBy => $composableBuilder(
+      column: $table.lastUpdatedBy,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get meetId => $composableBuilder(
+      column: $table.meetId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get trainerId => $composableBuilder(
+      column: $table.trainerId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get presence => $composableBuilder(
+      column: $table.presence, builder: (column) => ColumnOrderings(column));
+}
+
+class $$MeetTrainerTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MeetTrainerTable> {
+  $$MeetTrainerTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get lastUpdatedBy => $composableBuilder(
+      column: $table.lastUpdatedBy, builder: (column) => column);
+
+  GeneratedColumn<String> get meetId =>
+      $composableBuilder(column: $table.meetId, builder: (column) => column);
+
+  GeneratedColumn<String> get trainerId =>
+      $composableBuilder(column: $table.trainerId, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get presence =>
+      $composableBuilder(column: $table.presence, builder: (column) => column);
+}
+
+class $$MeetTrainerTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $MeetTrainerTable,
+    MeetTrainerData,
+    $$MeetTrainerTableFilterComposer,
+    $$MeetTrainerTableOrderingComposer,
+    $$MeetTrainerTableAnnotationComposer,
+    $$MeetTrainerTableCreateCompanionBuilder,
+    $$MeetTrainerTableUpdateCompanionBuilder,
+    (
+      MeetTrainerData,
+      BaseReferences<_$AppDatabase, $MeetTrainerTable, MeetTrainerData>
+    ),
+    MeetTrainerData,
+    PrefetchHooks Function()> {
+  $$MeetTrainerTableTableManager(_$AppDatabase db, $MeetTrainerTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MeetTrainerTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MeetTrainerTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MeetTrainerTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<DateTime?> deletedAt = const Value.absent(),
+            Value<String?> lastUpdatedBy = const Value.absent(),
+            Value<String> meetId = const Value.absent(),
+            Value<String> trainerId = const Value.absent(),
+            Value<String?> status = const Value.absent(),
+            Value<String?> presence = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MeetTrainerCompanion(
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            deletedAt: deletedAt,
+            lastUpdatedBy: lastUpdatedBy,
+            meetId: meetId,
+            trainerId: trainerId,
+            status: status,
+            presence: presence,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<DateTime?> deletedAt = const Value.absent(),
+            Value<String?> lastUpdatedBy = const Value.absent(),
+            required String meetId,
+            required String trainerId,
+            Value<String?> status = const Value.absent(),
+            Value<String?> presence = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MeetTrainerCompanion.insert(
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            deletedAt: deletedAt,
+            lastUpdatedBy: lastUpdatedBy,
+            meetId: meetId,
+            trainerId: trainerId,
+            status: status,
+            presence: presence,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$MeetTrainerTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $MeetTrainerTable,
+    MeetTrainerData,
+    $$MeetTrainerTableFilterComposer,
+    $$MeetTrainerTableOrderingComposer,
+    $$MeetTrainerTableAnnotationComposer,
+    $$MeetTrainerTableCreateCompanionBuilder,
+    $$MeetTrainerTableUpdateCompanionBuilder,
+    (
+      MeetTrainerData,
+      BaseReferences<_$AppDatabase, $MeetTrainerTable, MeetTrainerData>
+    ),
+    MeetTrainerData,
+    PrefetchHooks Function()>;
 typedef $$MeetTableCreateCompanionBuilder = MeetCompanion Function({
   required DateTime createdAt,
   required DateTime updatedAt,
@@ -27524,6 +28191,8 @@ class $AppDatabaseManager {
   $$ItemTableTableManager get item => $$ItemTableTableManager(_db, _db.item);
   $$MeetEventTableTableManager get meetEvent =>
       $$MeetEventTableTableManager(_db, _db.meetEvent);
+  $$MeetTrainerTableTableManager get meetTrainer =>
+      $$MeetTrainerTableTableManager(_db, _db.meetTrainer);
   $$MeetTableTableManager get meet => $$MeetTableTableManager(_db, _db.meet);
   $$PaymentTableTableManager get payment =>
       $$PaymentTableTableManager(_db, _db.payment);

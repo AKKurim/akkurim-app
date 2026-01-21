@@ -313,6 +313,25 @@ MeetEventCompanion buildMeetEventCompanion(Map<String, dynamic> row) =>
           : const Value.absent(),
     );
 
+MeetTrainerCompanion buildMeetTrainerCompanion(Map<String, dynamic> row) =>
+    MeetTrainerCompanion(
+      meetId: Value(row['meet_id']),
+      trainerId: Value(row['trainer_id']),
+      status:
+          row['status'] != null ? Value(row['status']) : const Value.absent(),
+      presence: row['presence'] != null
+          ? Value(row['presence'])
+          : const Value.absent(),
+      createdAt: Value(DateTime.parse(row['created_at'])),
+      updatedAt: Value(DateTime.parse(row['updated_at'])),
+      deletedAt: row['deleted_at'] != null
+          ? Value(DateTime.parse(row['deleted_at']))
+          : const Value.absent(),
+      lastUpdatedBy: row['last_updated_by'] != null
+          ? Value(row['last_updated_by'])
+          : const Value.absent(),
+    );
+
 MeetCompanion buildMeetCompanion(Map<String, dynamic> row) => MeetCompanion(
       id: Value(row['id']),
       type: Value(row['type']),
@@ -732,6 +751,7 @@ final Map<String, Function> companionMap = {
   'item_type': buildItemTypeCompanion,
   'item': buildItemCompanion,
   'meet_event': buildMeetEventCompanion,
+  'meet_trainer': buildMeetTrainerCompanion,
   'meet': buildMeetCompanion,
   'payment': buildPaymentCompanion,
   'points': buildPointsCompanion,
