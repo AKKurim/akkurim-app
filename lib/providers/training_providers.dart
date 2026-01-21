@@ -16,6 +16,7 @@ import 'package:collection/collection.dart';
 import '../utils/utils.dart';
 import 'package:uuid/uuid.dart';
 import '../services/network/sync_service.dart';
+import '../services/auth/auth_service.dart';
 import 'dart:convert';
 
 part 'training_providers.g.dart';
@@ -100,6 +101,7 @@ class TrainingsP extends _$TrainingsP {
       GroupView group, DateTime from, DateTime to, int trainingDuration) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
     final groupId = group.group.id;
 
     // Create a list of dates between from and to
@@ -134,6 +136,7 @@ class TrainingsP extends _$TrainingsP {
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),
               deletedAt: Value(null),
+              lastUpdatedBy: Value(auth.asData!.value.email),
             ),
           );
       trainingData.add(training);
@@ -161,6 +164,7 @@ class TrainingsP extends _$TrainingsP {
   Future<void> deleteTraining(TrainingView training) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
     var trainingToDelete = Utils.convertMapKeysToSnakeCase(
       training.training.toJson(),
     );
@@ -170,6 +174,7 @@ class TrainingsP extends _$TrainingsP {
         training.training.createdAt.toUtc().toIso8601String();
     trainingToDelete['datetime_'] =
         training.training.startAt.toUtc().toIso8601String();
+    trainingToDelete['last_updated_by'] = auth.asData!.value.email;
 
     await db.into(db.training).insertOnConflictUpdate(
           buildTrainingCompanion(trainingToDelete),
@@ -196,6 +201,7 @@ class TrainingsP extends _$TrainingsP {
   ) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
 
     if (note != null) {
       final updatedTraining = await db.into(db.training).insertReturning(
@@ -209,6 +215,7 @@ class TrainingsP extends _$TrainingsP {
               createdAt: Value(training.training.createdAt),
               updatedAt: Value(DateTime.now()),
               deletedAt: Value(null),
+              lastUpdatedBy: Value(auth.asData!.value.email),
             ),
           );
       await sync.addToSyncQueue(
@@ -242,6 +249,7 @@ class TrainingsP extends _$TrainingsP {
                   createdAt: Value(DateTime.now().toUtc()),
                   updatedAt: Value(DateTime.now().toUtc()),
                   deletedAt: Value(null),
+                  lastUpdatedBy: Value(auth.asData!.value.email),
                 ),
               );
       trainingTrainerData.add(trainingTrainer);
@@ -279,6 +287,7 @@ class TrainingsP extends _$TrainingsP {
                   createdAt: Value(DateTime.now().toUtc()),
                   updatedAt: Value(DateTime.now().toUtc()),
                   deletedAt: Value(null),
+                  lastUpdatedBy: Value(auth.asData!.value.email),
                 ),
               );
       trainingAthleteData.add(trainingAthlete);

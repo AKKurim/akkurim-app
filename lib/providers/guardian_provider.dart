@@ -4,6 +4,7 @@ import '../services/database/drift_database.dart';
 import 'package:drift/drift.dart';
 import './db_provider.dart';
 import '../services/network/sync_service.dart';
+import '../services/auth/auth_service.dart';
 import '../utils/utils.dart';
 import 'dart:convert';
 
@@ -26,6 +27,7 @@ class GuardiansP extends _$GuardiansP {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
     final id_ = id ?? const Uuid().v1();
+    final auth = ref.read(authServiceProvider);
 
     final guard = await db.into(db.guardian).insertReturning(
           mode: InsertMode.insertOrReplace,
@@ -37,6 +39,7 @@ class GuardiansP extends _$GuardiansP {
             phone: Value(phone),
             createdAt: Value(DateTime.now().toUtc()),
             updatedAt: Value(DateTime.now().toUtc()),
+            lastUpdatedBy: Value(auth.asData!.value.email),
           ),
         );
     await sync.addToSyncQueue(

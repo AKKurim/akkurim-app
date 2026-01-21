@@ -17684,41 +17684,33 @@ class $TrainingTable extends Training
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  static const VerificationMeta _startAtMeta =
+      const VerificationMeta('startAt');
   @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> startAt = GeneratedColumn<DateTime>(
+      'start_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _groupIdMeta =
+      const VerificationMeta('groupId');
+  @override
+  late final GeneratedColumn<String> groupId = GeneratedColumn<String>(
+      'group_id', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   static const VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
   @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
       'description', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _groupIdMeta =
-      const VerificationMeta('groupId');
+  static const VerificationMeta _durationMinutesMeta =
+      const VerificationMeta('durationMinutes');
   @override
-  late final GeneratedColumn<String> groupId = GeneratedColumn<String>(
-      'group_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _trainerIdMeta =
-      const VerificationMeta('trainerId');
-  @override
-  late final GeneratedColumn<String> trainerId = GeneratedColumn<String>(
-      'trainer_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _trainingTimeIdMeta =
-      const VerificationMeta('trainingTimeId');
-  @override
-  late final GeneratedColumn<String> trainingTimeId = GeneratedColumn<String>(
-      'training_time_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _disciplineIdMeta =
-      const VerificationMeta('disciplineId');
-  @override
-  late final GeneratedColumn<String> disciplineId = GeneratedColumn<String>(
-      'discipline_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<int> durationMinutes = GeneratedColumn<int>(
+      'duration_minutes', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
         createdAt,
@@ -17726,12 +17718,10 @@ class $TrainingTable extends Training
         deletedAt,
         lastUpdatedBy,
         id,
-        name,
-        description,
+        startAt,
         groupId,
-        trainerId,
-        trainingTimeId,
-        disciplineId
+        description,
+        durationMinutes
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -17770,9 +17760,17 @@ class $TrainingTable extends Training
     } else if (isInserting) {
       context.missing(_idMeta);
     }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    if (data.containsKey('start_at')) {
+      context.handle(_startAtMeta,
+          startAt.isAcceptableOrUnknown(data['start_at']!, _startAtMeta));
+    } else if (isInserting) {
+      context.missing(_startAtMeta);
+    }
+    if (data.containsKey('group_id')) {
+      context.handle(_groupIdMeta,
+          groupId.isAcceptableOrUnknown(data['group_id']!, _groupIdMeta));
+    } else if (isInserting) {
+      context.missing(_groupIdMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -17780,25 +17778,13 @@ class $TrainingTable extends Training
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
     }
-    if (data.containsKey('group_id')) {
-      context.handle(_groupIdMeta,
-          groupId.isAcceptableOrUnknown(data['group_id']!, _groupIdMeta));
-    }
-    if (data.containsKey('trainer_id')) {
-      context.handle(_trainerIdMeta,
-          trainerId.isAcceptableOrUnknown(data['trainer_id']!, _trainerIdMeta));
-    }
-    if (data.containsKey('training_time_id')) {
+    if (data.containsKey('duration_minutes')) {
       context.handle(
-          _trainingTimeIdMeta,
-          trainingTimeId.isAcceptableOrUnknown(
-              data['training_time_id']!, _trainingTimeIdMeta));
-    }
-    if (data.containsKey('discipline_id')) {
-      context.handle(
-          _disciplineIdMeta,
-          disciplineId.isAcceptableOrUnknown(
-              data['discipline_id']!, _disciplineIdMeta));
+          _durationMinutesMeta,
+          durationMinutes.isAcceptableOrUnknown(
+              data['duration_minutes']!, _durationMinutesMeta));
+    } else if (isInserting) {
+      context.missing(_durationMinutesMeta);
     }
     return context;
   }
@@ -17819,18 +17805,14 @@ class $TrainingTable extends Training
           .read(DriftSqlType.string, data['${effectivePrefix}last_updated_by']),
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name']),
+      startAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}start_at'])!,
+      groupId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}group_id'])!,
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      groupId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}group_id']),
-      trainerId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}trainer_id']),
-      trainingTimeId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}training_time_id']),
-      disciplineId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}discipline_id']),
+      durationMinutes: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}duration_minutes'])!,
     );
   }
 
@@ -17846,24 +17828,20 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
   final DateTime? deletedAt;
   final String? lastUpdatedBy;
   final String id;
-  final String? name;
+  final DateTime startAt;
+  final String groupId;
   final String? description;
-  final String? groupId;
-  final String? trainerId;
-  final String? trainingTimeId;
-  final String? disciplineId;
+  final int durationMinutes;
   const TrainingData(
       {required this.createdAt,
       required this.updatedAt,
       this.deletedAt,
       this.lastUpdatedBy,
       required this.id,
-      this.name,
+      required this.startAt,
+      required this.groupId,
       this.description,
-      this.groupId,
-      this.trainerId,
-      this.trainingTimeId,
-      this.disciplineId});
+      required this.durationMinutes});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -17876,24 +17854,12 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       map['last_updated_by'] = Variable<String>(lastUpdatedBy);
     }
     map['id'] = Variable<String>(id);
-    if (!nullToAbsent || name != null) {
-      map['name'] = Variable<String>(name);
-    }
+    map['start_at'] = Variable<DateTime>(startAt);
+    map['group_id'] = Variable<String>(groupId);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
-    if (!nullToAbsent || groupId != null) {
-      map['group_id'] = Variable<String>(groupId);
-    }
-    if (!nullToAbsent || trainerId != null) {
-      map['trainer_id'] = Variable<String>(trainerId);
-    }
-    if (!nullToAbsent || trainingTimeId != null) {
-      map['training_time_id'] = Variable<String>(trainingTimeId);
-    }
-    if (!nullToAbsent || disciplineId != null) {
-      map['discipline_id'] = Variable<String>(disciplineId);
-    }
+    map['duration_minutes'] = Variable<int>(durationMinutes);
     return map;
   }
 
@@ -17908,22 +17874,12 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           ? const Value.absent()
           : Value(lastUpdatedBy),
       id: Value(id),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      startAt: Value(startAt),
+      groupId: Value(groupId),
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
-      groupId: groupId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(groupId),
-      trainerId: trainerId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(trainerId),
-      trainingTimeId: trainingTimeId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(trainingTimeId),
-      disciplineId: disciplineId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(disciplineId),
+      durationMinutes: Value(durationMinutes),
     );
   }
 
@@ -17936,12 +17892,10 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       lastUpdatedBy: serializer.fromJson<String?>(json['lastUpdatedBy']),
       id: serializer.fromJson<String>(json['id']),
-      name: serializer.fromJson<String?>(json['name']),
+      startAt: serializer.fromJson<DateTime>(json['startAt']),
+      groupId: serializer.fromJson<String>(json['groupId']),
       description: serializer.fromJson<String?>(json['description']),
-      groupId: serializer.fromJson<String?>(json['groupId']),
-      trainerId: serializer.fromJson<String?>(json['trainerId']),
-      trainingTimeId: serializer.fromJson<String?>(json['trainingTimeId']),
-      disciplineId: serializer.fromJson<String?>(json['disciplineId']),
+      durationMinutes: serializer.fromJson<int>(json['durationMinutes']),
     );
   }
   @override
@@ -17953,12 +17907,10 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'lastUpdatedBy': serializer.toJson<String?>(lastUpdatedBy),
       'id': serializer.toJson<String>(id),
-      'name': serializer.toJson<String?>(name),
+      'startAt': serializer.toJson<DateTime>(startAt),
+      'groupId': serializer.toJson<String>(groupId),
       'description': serializer.toJson<String?>(description),
-      'groupId': serializer.toJson<String?>(groupId),
-      'trainerId': serializer.toJson<String?>(trainerId),
-      'trainingTimeId': serializer.toJson<String?>(trainingTimeId),
-      'disciplineId': serializer.toJson<String?>(disciplineId),
+      'durationMinutes': serializer.toJson<int>(durationMinutes),
     };
   }
 
@@ -17968,12 +17920,10 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           Value<DateTime?> deletedAt = const Value.absent(),
           Value<String?> lastUpdatedBy = const Value.absent(),
           String? id,
-          Value<String?> name = const Value.absent(),
+          DateTime? startAt,
+          String? groupId,
           Value<String?> description = const Value.absent(),
-          Value<String?> groupId = const Value.absent(),
-          Value<String?> trainerId = const Value.absent(),
-          Value<String?> trainingTimeId = const Value.absent(),
-          Value<String?> disciplineId = const Value.absent()}) =>
+          int? durationMinutes}) =>
       TrainingData(
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -17981,14 +17931,10 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
         lastUpdatedBy:
             lastUpdatedBy.present ? lastUpdatedBy.value : this.lastUpdatedBy,
         id: id ?? this.id,
-        name: name.present ? name.value : this.name,
+        startAt: startAt ?? this.startAt,
+        groupId: groupId ?? this.groupId,
         description: description.present ? description.value : this.description,
-        groupId: groupId.present ? groupId.value : this.groupId,
-        trainerId: trainerId.present ? trainerId.value : this.trainerId,
-        trainingTimeId:
-            trainingTimeId.present ? trainingTimeId.value : this.trainingTimeId,
-        disciplineId:
-            disciplineId.present ? disciplineId.value : this.disciplineId,
+        durationMinutes: durationMinutes ?? this.durationMinutes,
       );
   TrainingData copyWithCompanion(TrainingCompanion data) {
     return TrainingData(
@@ -17999,17 +17945,13 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           ? data.lastUpdatedBy.value
           : this.lastUpdatedBy,
       id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
+      startAt: data.startAt.present ? data.startAt.value : this.startAt,
+      groupId: data.groupId.present ? data.groupId.value : this.groupId,
       description:
           data.description.present ? data.description.value : this.description,
-      groupId: data.groupId.present ? data.groupId.value : this.groupId,
-      trainerId: data.trainerId.present ? data.trainerId.value : this.trainerId,
-      trainingTimeId: data.trainingTimeId.present
-          ? data.trainingTimeId.value
-          : this.trainingTimeId,
-      disciplineId: data.disciplineId.present
-          ? data.disciplineId.value
-          : this.disciplineId,
+      durationMinutes: data.durationMinutes.present
+          ? data.durationMinutes.value
+          : this.durationMinutes,
     );
   }
 
@@ -18021,29 +17963,17 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           ..write('deletedAt: $deletedAt, ')
           ..write('lastUpdatedBy: $lastUpdatedBy, ')
           ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('description: $description, ')
+          ..write('startAt: $startAt, ')
           ..write('groupId: $groupId, ')
-          ..write('trainerId: $trainerId, ')
-          ..write('trainingTimeId: $trainingTimeId, ')
-          ..write('disciplineId: $disciplineId')
+          ..write('description: $description, ')
+          ..write('durationMinutes: $durationMinutes')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      createdAt,
-      updatedAt,
-      deletedAt,
-      lastUpdatedBy,
-      id,
-      name,
-      description,
-      groupId,
-      trainerId,
-      trainingTimeId,
-      disciplineId);
+  int get hashCode => Object.hash(createdAt, updatedAt, deletedAt,
+      lastUpdatedBy, id, startAt, groupId, description, durationMinutes);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -18053,12 +17983,10 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           other.deletedAt == this.deletedAt &&
           other.lastUpdatedBy == this.lastUpdatedBy &&
           other.id == this.id &&
-          other.name == this.name &&
-          other.description == this.description &&
+          other.startAt == this.startAt &&
           other.groupId == this.groupId &&
-          other.trainerId == this.trainerId &&
-          other.trainingTimeId == this.trainingTimeId &&
-          other.disciplineId == this.disciplineId);
+          other.description == this.description &&
+          other.durationMinutes == this.durationMinutes);
 }
 
 class TrainingCompanion extends UpdateCompanion<TrainingData> {
@@ -18067,12 +17995,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
   final Value<DateTime?> deletedAt;
   final Value<String?> lastUpdatedBy;
   final Value<String> id;
-  final Value<String?> name;
+  final Value<DateTime> startAt;
+  final Value<String> groupId;
   final Value<String?> description;
-  final Value<String?> groupId;
-  final Value<String?> trainerId;
-  final Value<String?> trainingTimeId;
-  final Value<String?> disciplineId;
+  final Value<int> durationMinutes;
   final Value<int> rowid;
   const TrainingCompanion({
     this.createdAt = const Value.absent(),
@@ -18080,12 +18006,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
     this.deletedAt = const Value.absent(),
     this.lastUpdatedBy = const Value.absent(),
     this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.description = const Value.absent(),
+    this.startAt = const Value.absent(),
     this.groupId = const Value.absent(),
-    this.trainerId = const Value.absent(),
-    this.trainingTimeId = const Value.absent(),
-    this.disciplineId = const Value.absent(),
+    this.description = const Value.absent(),
+    this.durationMinutes = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TrainingCompanion.insert({
@@ -18094,28 +18018,27 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
     this.deletedAt = const Value.absent(),
     this.lastUpdatedBy = const Value.absent(),
     required String id,
-    this.name = const Value.absent(),
+    required DateTime startAt,
+    required String groupId,
     this.description = const Value.absent(),
-    this.groupId = const Value.absent(),
-    this.trainerId = const Value.absent(),
-    this.trainingTimeId = const Value.absent(),
-    this.disciplineId = const Value.absent(),
+    required int durationMinutes,
     this.rowid = const Value.absent(),
   })  : createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
-        id = Value(id);
+        id = Value(id),
+        startAt = Value(startAt),
+        groupId = Value(groupId),
+        durationMinutes = Value(durationMinutes);
   static Insertable<TrainingData> custom({
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? deletedAt,
     Expression<String>? lastUpdatedBy,
     Expression<String>? id,
-    Expression<String>? name,
-    Expression<String>? description,
+    Expression<DateTime>? startAt,
     Expression<String>? groupId,
-    Expression<String>? trainerId,
-    Expression<String>? trainingTimeId,
-    Expression<String>? disciplineId,
+    Expression<String>? description,
+    Expression<int>? durationMinutes,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -18124,12 +18047,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
       if (deletedAt != null) 'deleted_at': deletedAt,
       if (lastUpdatedBy != null) 'last_updated_by': lastUpdatedBy,
       if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
+      if (startAt != null) 'start_at': startAt,
       if (groupId != null) 'group_id': groupId,
-      if (trainerId != null) 'trainer_id': trainerId,
-      if (trainingTimeId != null) 'training_time_id': trainingTimeId,
-      if (disciplineId != null) 'discipline_id': disciplineId,
+      if (description != null) 'description': description,
+      if (durationMinutes != null) 'duration_minutes': durationMinutes,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -18140,12 +18061,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
       Value<DateTime?>? deletedAt,
       Value<String?>? lastUpdatedBy,
       Value<String>? id,
-      Value<String?>? name,
+      Value<DateTime>? startAt,
+      Value<String>? groupId,
       Value<String?>? description,
-      Value<String?>? groupId,
-      Value<String?>? trainerId,
-      Value<String?>? trainingTimeId,
-      Value<String?>? disciplineId,
+      Value<int>? durationMinutes,
       Value<int>? rowid}) {
     return TrainingCompanion(
       createdAt: createdAt ?? this.createdAt,
@@ -18153,12 +18072,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
       deletedAt: deletedAt ?? this.deletedAt,
       lastUpdatedBy: lastUpdatedBy ?? this.lastUpdatedBy,
       id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
+      startAt: startAt ?? this.startAt,
       groupId: groupId ?? this.groupId,
-      trainerId: trainerId ?? this.trainerId,
-      trainingTimeId: trainingTimeId ?? this.trainingTimeId,
-      disciplineId: disciplineId ?? this.disciplineId,
+      description: description ?? this.description,
+      durationMinutes: durationMinutes ?? this.durationMinutes,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -18181,23 +18098,17 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
     if (id.present) {
       map['id'] = Variable<String>(id.value);
     }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
+    if (startAt.present) {
+      map['start_at'] = Variable<DateTime>(startAt.value);
     }
     if (groupId.present) {
       map['group_id'] = Variable<String>(groupId.value);
     }
-    if (trainerId.present) {
-      map['trainer_id'] = Variable<String>(trainerId.value);
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
     }
-    if (trainingTimeId.present) {
-      map['training_time_id'] = Variable<String>(trainingTimeId.value);
-    }
-    if (disciplineId.present) {
-      map['discipline_id'] = Variable<String>(disciplineId.value);
+    if (durationMinutes.present) {
+      map['duration_minutes'] = Variable<int>(durationMinutes.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -18213,12 +18124,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
           ..write('deletedAt: $deletedAt, ')
           ..write('lastUpdatedBy: $lastUpdatedBy, ')
           ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('description: $description, ')
+          ..write('startAt: $startAt, ')
           ..write('groupId: $groupId, ')
-          ..write('trainerId: $trainerId, ')
-          ..write('trainingTimeId: $trainingTimeId, ')
-          ..write('disciplineId: $disciplineId, ')
+          ..write('description: $description, ')
+          ..write('durationMinutes: $durationMinutes, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -27121,12 +27030,10 @@ typedef $$TrainingTableCreateCompanionBuilder = TrainingCompanion Function({
   Value<DateTime?> deletedAt,
   Value<String?> lastUpdatedBy,
   required String id,
-  Value<String?> name,
+  required DateTime startAt,
+  required String groupId,
   Value<String?> description,
-  Value<String?> groupId,
-  Value<String?> trainerId,
-  Value<String?> trainingTimeId,
-  Value<String?> disciplineId,
+  required int durationMinutes,
   Value<int> rowid,
 });
 typedef $$TrainingTableUpdateCompanionBuilder = TrainingCompanion Function({
@@ -27135,12 +27042,10 @@ typedef $$TrainingTableUpdateCompanionBuilder = TrainingCompanion Function({
   Value<DateTime?> deletedAt,
   Value<String?> lastUpdatedBy,
   Value<String> id,
-  Value<String?> name,
+  Value<DateTime> startAt,
+  Value<String> groupId,
   Value<String?> description,
-  Value<String?> groupId,
-  Value<String?> trainerId,
-  Value<String?> trainingTimeId,
-  Value<String?> disciplineId,
+  Value<int> durationMinutes,
   Value<int> rowid,
 });
 
@@ -27168,24 +27073,18 @@ class $$TrainingTableFilterComposer
   ColumnFilters<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
+  ColumnFilters<DateTime> get startAt => $composableBuilder(
+      column: $table.startAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get groupId => $composableBuilder(
       column: $table.groupId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get trainerId => $composableBuilder(
-      column: $table.trainerId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get trainingTimeId => $composableBuilder(
-      column: $table.trainingTimeId,
+  ColumnFilters<int> get durationMinutes => $composableBuilder(
+      column: $table.durationMinutes,
       builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get disciplineId => $composableBuilder(
-      column: $table.disciplineId, builder: (column) => ColumnFilters(column));
 }
 
 class $$TrainingTableOrderingComposer
@@ -27213,24 +27112,17 @@ class $$TrainingTableOrderingComposer
   ColumnOrderings<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<DateTime> get startAt => $composableBuilder(
+      column: $table.startAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get groupId => $composableBuilder(
       column: $table.groupId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get trainerId => $composableBuilder(
-      column: $table.trainerId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get trainingTimeId => $composableBuilder(
-      column: $table.trainingTimeId,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get disciplineId => $composableBuilder(
-      column: $table.disciplineId,
+  ColumnOrderings<int> get durationMinutes => $composableBuilder(
+      column: $table.durationMinutes,
       builder: (column) => ColumnOrderings(column));
 }
 
@@ -27258,23 +27150,17 @@ class $$TrainingTableAnnotationComposer
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
+  GeneratedColumn<DateTime> get startAt =>
+      $composableBuilder(column: $table.startAt, builder: (column) => column);
 
   GeneratedColumn<String> get groupId =>
       $composableBuilder(column: $table.groupId, builder: (column) => column);
 
-  GeneratedColumn<String> get trainerId =>
-      $composableBuilder(column: $table.trainerId, builder: (column) => column);
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
 
-  GeneratedColumn<String> get trainingTimeId => $composableBuilder(
-      column: $table.trainingTimeId, builder: (column) => column);
-
-  GeneratedColumn<String> get disciplineId => $composableBuilder(
-      column: $table.disciplineId, builder: (column) => column);
+  GeneratedColumn<int> get durationMinutes => $composableBuilder(
+      column: $table.durationMinutes, builder: (column) => column);
 }
 
 class $$TrainingTableTableManager extends RootTableManager<
@@ -27305,12 +27191,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             Value<DateTime?> deletedAt = const Value.absent(),
             Value<String?> lastUpdatedBy = const Value.absent(),
             Value<String> id = const Value.absent(),
-            Value<String?> name = const Value.absent(),
+            Value<DateTime> startAt = const Value.absent(),
+            Value<String> groupId = const Value.absent(),
             Value<String?> description = const Value.absent(),
-            Value<String?> groupId = const Value.absent(),
-            Value<String?> trainerId = const Value.absent(),
-            Value<String?> trainingTimeId = const Value.absent(),
-            Value<String?> disciplineId = const Value.absent(),
+            Value<int> durationMinutes = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               TrainingCompanion(
@@ -27319,12 +27203,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             deletedAt: deletedAt,
             lastUpdatedBy: lastUpdatedBy,
             id: id,
-            name: name,
-            description: description,
+            startAt: startAt,
             groupId: groupId,
-            trainerId: trainerId,
-            trainingTimeId: trainingTimeId,
-            disciplineId: disciplineId,
+            description: description,
+            durationMinutes: durationMinutes,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -27333,12 +27215,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             Value<DateTime?> deletedAt = const Value.absent(),
             Value<String?> lastUpdatedBy = const Value.absent(),
             required String id,
-            Value<String?> name = const Value.absent(),
+            required DateTime startAt,
+            required String groupId,
             Value<String?> description = const Value.absent(),
-            Value<String?> groupId = const Value.absent(),
-            Value<String?> trainerId = const Value.absent(),
-            Value<String?> trainingTimeId = const Value.absent(),
-            Value<String?> disciplineId = const Value.absent(),
+            required int durationMinutes,
             Value<int> rowid = const Value.absent(),
           }) =>
               TrainingCompanion.insert(
@@ -27347,12 +27227,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             deletedAt: deletedAt,
             lastUpdatedBy: lastUpdatedBy,
             id: id,
-            name: name,
-            description: description,
+            startAt: startAt,
             groupId: groupId,
-            trainerId: trainerId,
-            trainingTimeId: trainingTimeId,
-            disciplineId: disciplineId,
+            description: description,
+            durationMinutes: durationMinutes,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0

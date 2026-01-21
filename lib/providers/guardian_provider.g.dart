@@ -6,7 +6,7 @@ part of 'guardian_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$guardiansPHash() => r'7021037a80a347a95f0b0a06184071a58c10e9a7';
+String _$guardiansPHash() => r'289b594d7b3415b95448035078451398784e589a';
 
 /// See also [GuardiansP].
 @ProviderFor(GuardiansP)

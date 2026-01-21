@@ -6,7 +6,7 @@ part of 'training_results_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$trainingResultsPHash() => r'6305f431cc7e9ff4af22f747ca05a843b4b8c08d';
+String _$trainingResultsPHash() => r'19a14c325ba9ac1cdcf36998696aa7dc6e7975f8';
 
 /// See also [TrainingResultsP].
 @ProviderFor(TrainingResultsP)

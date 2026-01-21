@@ -15,6 +15,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import '../services/database/companion_builder_map.dart';
 import '../services/network/sync_service.dart';
+import '../services/auth/auth_service.dart';
 
 part 'groups_provider.g.dart';
 
@@ -131,6 +132,7 @@ class GroupsP extends _$GroupsP {
   }) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
 
     if (trainingTimeId == null) {
       trainingTimeId = Uuid().v1();
@@ -145,6 +147,7 @@ class GroupsP extends _$GroupsP {
               ),
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),
+              lastUpdatedBy: Value(auth.asData!.value.email),
             ),
           );
       await sync.addToSyncQueue(
@@ -170,6 +173,7 @@ class GroupsP extends _$GroupsP {
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(null),
+            lastUpdatedBy: Value(auth.asData!.value.email),
           ),
         );
     await sync.addToSyncQueue(
@@ -206,7 +210,8 @@ class GroupsP extends _$GroupsP {
                   trainerId: trainerId,
                   createdAt: DateTime.now(),
                   updatedAt: DateTime.now(),
-                  deletedAt: DateTime.now().toUtc()),
+                  deletedAt: DateTime.now().toUtc(),
+                  lastUpdatedBy: auth.asData!.value.email),
             );
         updatedGroupTrainer.add(deletedTrainer);
       }
@@ -248,12 +253,12 @@ class GroupsP extends _$GroupsP {
             await db.into(db.groupAthlete).insertReturning(
                   mode: InsertMode.insertOrReplace,
                   GroupAthleteData(
-                    groupId: newGroup.id,
-                    athleteId: athleteId,
-                    createdAt: DateTime.now(),
-                    updatedAt: DateTime.now(),
-                    deletedAt: DateTime.now(),
-                  ),
+                      groupId: newGroup.id,
+                      athleteId: athleteId,
+                      createdAt: DateTime.now(),
+                      updatedAt: DateTime.now(),
+                      deletedAt: DateTime.now(),
+                      lastUpdatedBy: auth.asData!.value.email),
                 );
         updatedGroupAthlete.add(deletedGroupAthlete);
       }
@@ -280,6 +285,8 @@ class GroupsP extends _$GroupsP {
     groupToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
     groupToDelete['created_at'] =
         group.group.createdAt.toUtc().toIso8601String();
+    groupToDelete['last_updated_by'] =
+        ref.read(authServiceProvider).asData!.value.email;
 
     await db.into(db.group).insertOnConflictUpdate(
           buildGroupCompanion(groupToDelete),

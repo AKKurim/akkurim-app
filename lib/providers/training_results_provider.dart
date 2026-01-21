@@ -137,6 +137,7 @@ class TrainingResultsP extends _$TrainingResultsP {
   Future<void> deleteTrainingResult(FullMeetView meet) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
     final updated = await db.into(db.meet).insertReturning(
           mode: InsertMode.insertOrReplace,
           MeetCompanion(
@@ -149,6 +150,7 @@ class TrainingResultsP extends _$TrainingResultsP {
             createdAt: Value(meet.meet.createdAt),
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(DateTime.now()),
+            lastUpdatedBy: Value(auth.asData!.value.email),
           ),
         );
 
@@ -188,6 +190,7 @@ class TrainingResultsP extends _$TrainingResultsP {
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: const Value(null),
+            lastUpdatedBy: Value(auth.email),
           ),
         );
     await sync.addToSyncQueue(
@@ -213,6 +216,7 @@ class TrainingResultsP extends _$TrainingResultsP {
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: const Value(null),
+            lastUpdatedBy: Value(auth.email),
           ),
         );
     await sync.addToSyncQueue(
@@ -237,6 +241,7 @@ class TrainingResultsP extends _$TrainingResultsP {
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),
               deletedAt: const Value(null),
+              lastUpdatedBy: Value(auth.email),
             ),
           );
       athleteMeetEvents.add(data);
@@ -264,15 +269,17 @@ class TrainingResultsP extends _$TrainingResultsP {
   ) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = await ref.read(authServiceProvider.future);
     final updated = await db.into(db.athleteMeetEvent).insertReturning(
           mode: InsertMode.insertOrReplace,
           AthleteMeetEventCompanion(
             athleteId: Value(athleteId),
             meetEventId: Value(meetEvent.id),
             result: Value(result),
-            createdAt: Value(meetEvent.createdAt!),
+            createdAt: Value(meetEvent.createdAt),
             updatedAt: Value(DateTime.now()),
             deletedAt: const Value(null),
+            lastUpdatedBy: Value(auth.email),
           ),
         );
 

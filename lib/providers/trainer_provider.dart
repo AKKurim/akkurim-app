@@ -50,13 +50,37 @@ class TrainerP extends _$TrainerP {
 @riverpod
 Stream<TrainerView> currentTrainer(Ref ref) async* {
   final authService = await ref.watch(authServiceProvider.future);
-  final trainers = await ref.watch(trainerPProvider.future);
-
-  final trainerEmail = authService.email ?? '';
-  final trainer = trainers.firstWhere(
-    (trainer) => trainer.simpleAthlete.athlete.email == trainerEmail,
-    // throw error if not found
-    orElse: () => throw Exception('Trainer not found'),
+  final db = ref.watch(dbProvider);
+  final query = (db.select(db.athlete)
+        ..where(
+          (tbl) => tbl.email.equals(authService.email ?? ''),
+        ))
+      .join(
+    [
+      leftOuterJoin(
+        db.trainer,
+        db.athlete.id.equalsExp(db.trainer.athleteId),
+      ),
+      leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
+    ],
   );
-  yield trainer;
+
+  yield* query.watch().map((rows) {
+    return rows
+        .map((row) {
+          final trainer = row.readTable(db.trainer);
+          final athlete = row.readTableOrNull(db.athlete);
+          final club = row.readTableOrNull(db.club);
+
+          return TrainerView(
+            trainer: trainer,
+            simpleAthlete: SimpleAthleteView(
+              athlete: athlete!,
+              club: club,
+            ),
+          );
+        })
+        .toList()
+        .first;
+  });
 }

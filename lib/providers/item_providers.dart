@@ -9,6 +9,7 @@ import '../services/network/sync_service.dart';
 import 'dart:convert';
 import '../utils/utils.dart';
 import '../services/database/companion_builder_map.dart';
+import '../services/auth/auth_service.dart';
 import './simple_athletes_provider.dart';
 
 part 'item_providers.g.dart';
@@ -69,6 +70,7 @@ class ItemProviderP extends _$ItemProviderP {
       {String? athleteId}) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
     // try to find existing item
     final existingItem = await (db.select(db.item)
           ..where(
@@ -91,6 +93,7 @@ class ItemProviderP extends _$ItemProviderP {
                 : Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(null),
+            lastUpdatedBy: Value(auth.asData!.value.email),
           ),
         );
 
@@ -108,10 +111,12 @@ class ItemProviderP extends _$ItemProviderP {
   Future<void> deleteItem(ItemData item) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
     var itemToDelete = Utils.convertMapKeysToSnakeCase(item.toJson());
     itemToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
     itemToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
     itemToDelete['created_at'] = item.createdAt.toUtc().toIso8601String();
+    itemToDelete['last_updated_by'] = auth.asData!.value.email;
 
     await db
         .into(db.item)
@@ -142,6 +147,7 @@ class ItemTypeP extends _$ItemTypeP {
   Future<void> addItemType(String name, String type) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
     final new_ = await db.into(db.itemType).insertReturning(
           mode: InsertMode.insertOrReplace,
           ItemTypeCompanion(
@@ -151,6 +157,7 @@ class ItemTypeP extends _$ItemTypeP {
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(null),
+            lastUpdatedBy: Value(auth.asData!.value.email),
           ),
         );
 

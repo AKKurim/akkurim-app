@@ -6,7 +6,7 @@ import '../services/network/sync_service.dart';
 import 'dart:convert';
 import 'package:drift/drift.dart';
 import '../utils/utils.dart';
-//import '../services/auth/auth_service.dart';
+import '../services/auth/auth_service.dart';
 import '../models/views/result_view.dart';
 
 part 'full_athlete_provider.g.dart';
@@ -95,10 +95,14 @@ class FullAthleteP extends _$FullAthleteP {
   Future<void> updateAthleteStatus(
       String athleteId, String statusString) async {
     final db = ref.read(dbProvider);
+    final auth = await ref.read(authServiceProvider.future);
     await (db.update(db.athlete)..where((tbl) => tbl.id.equals(athleteId)))
-        .write(AthleteCompanion(
-      status: Value(statusString.toLowerCase().trim()),
-    ));
+        .write(
+      AthleteCompanion(
+        status: Value(statusString.toLowerCase().trim()),
+        lastUpdatedBy: Value(auth.email),
+      ),
+    );
     var data = await (db.select(db.athlete)
           ..where(
             (tbl) => tbl.deletedAt.isNull() & tbl.id.equals(athleteId),
@@ -138,30 +142,31 @@ class FullAthleteP extends _$FullAthleteP {
       bool? delete}) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
-    //final auth = ref.read(authServiceProvider);
+    final auth = ref.read(authServiceProvider);
+
     var updated = await db.into(db.athlete).insertReturning(
           mode: InsertMode.insertOrReplace,
           AthleteCompanion(
-            id: Value(athleteId),
-            bankNumber:
-                Value(bankNumber?.isNotEmpty == true ? bankNumber : null),
-            birthNumber: Value(birthNumber),
-            firstName: Value(firstName),
-            lastName: Value(lastName),
-            email: Value(email.isNotEmpty ? email : null),
-            phone: Value(phone.isNotEmpty ? phone : null),
-            street: Value(street),
-            city: Value(city),
-            zip: Value(zip),
-            note: Value(note),
-            status: Value(statusString.toLowerCase().trim()),
-            updatedAt: Value(DateTime.now()),
-            ean: Value(ean),
-            clubId: Value(clubId ?? 'kurim'), // TODO default club is Kurim
-            profileImageId: Value(profileImageId),
-            createdAt: Value(createdAt ?? DateTime.now()),
-            deletedAt: Value(delete == true ? DateTime.now() : null),
-          ),
+              id: Value(athleteId),
+              bankNumber:
+                  Value(bankNumber?.isNotEmpty == true ? bankNumber : null),
+              birthNumber: Value(birthNumber),
+              firstName: Value(firstName),
+              lastName: Value(lastName),
+              email: Value(email.isNotEmpty ? email : null),
+              phone: Value(phone.isNotEmpty ? phone : null),
+              street: Value(street),
+              city: Value(city),
+              zip: Value(zip),
+              note: Value(note),
+              status: Value(statusString.toLowerCase().trim()),
+              updatedAt: Value(DateTime.now()),
+              ean: Value(ean),
+              clubId: Value(clubId ?? 'kurim'), // TODO default club is Kurim
+              profileImageId: Value(profileImageId),
+              createdAt: Value(createdAt ?? DateTime.now()),
+              deletedAt: Value(delete == true ? DateTime.now() : null),
+              lastUpdatedBy: Value(auth.asData!.value.email)),
         );
     await sync.addToSyncQueue(
       '/sync/athlete',

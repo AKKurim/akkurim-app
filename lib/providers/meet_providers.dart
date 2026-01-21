@@ -14,6 +14,7 @@ import 'package:drift/drift.dart';
 import 'package:collection/collection.dart';
 import '../utils/utils.dart';
 import '../services/database/companion_builder_map.dart';
+import '../services/auth/auth_service.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
@@ -146,11 +147,13 @@ class FullMeetProviderP extends _$FullMeetProviderP {
   Future<void> deleteMeetEvent(MeetEventData meet) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
 
     var meetEventToDelete = Utils.convertMapKeysToSnakeCase(meet.toJson());
     meetEventToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
     meetEventToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
-    meetEventToDelete['created_at'] = meet.createdAt!.toUtc().toIso8601String();
+    meetEventToDelete['created_at'] = meet.createdAt.toUtc().toIso8601String();
+    meetEventToDelete['last_updated_by'] = auth.asData!.value.email;
 
     await db.into(db.meetEvent).insertOnConflictUpdate(
           buildMeetEventCompanion(meetEventToDelete),
@@ -176,6 +179,7 @@ class FullMeetProviderP extends _$FullMeetProviderP {
   }) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
 
     final meeetEvent = await db.into(db.meetEvent).insertReturning(
         mode: InsertMode.insertOrReplace,
@@ -189,6 +193,7 @@ class FullMeetProviderP extends _$FullMeetProviderP {
           createdAt: Value(DateTime.now().toUtc()),
           updatedAt: Value(DateTime.now().toUtc()),
           deletedAt: const Value(null),
+          lastUpdatedBy: Value(auth.asData!.value.email),
         ));
 
     await sync.addToSyncQueue(
@@ -336,11 +341,13 @@ class MeetProvidersP extends _$MeetProvidersP {
   Future<void> deleteMeetEvent(MeetEventData meet) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
 
     var meetEventToDelete = Utils.convertMapKeysToSnakeCase(meet.toJson());
     meetEventToDelete['deleted_at'] = DateTime.now().toUtc().toIso8601String();
     meetEventToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
-    meetEventToDelete['created_at'] = meet.createdAt!.toUtc().toIso8601String();
+    meetEventToDelete['created_at'] = meet.createdAt.toUtc().toIso8601String();
+    meetEventToDelete['last_updated_by'] = auth.asData!.value.email;
 
     await db.into(db.meetEvent).insertOnConflictUpdate(
           buildMeetEventCompanion(meetEventToDelete),
@@ -366,6 +373,7 @@ class MeetProvidersP extends _$MeetProvidersP {
   }) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
 
     final meeetEvent = await db.into(db.meetEvent).insertReturning(
         mode: InsertMode.insertOrReplace,
@@ -379,6 +387,7 @@ class MeetProvidersP extends _$MeetProvidersP {
           createdAt: Value(DateTime.now().toUtc()),
           updatedAt: Value(DateTime.now().toUtc()),
           deletedAt: const Value(null),
+          lastUpdatedBy: Value(auth.asData!.value.email),
         ));
 
     await sync.addToSyncQueue(
