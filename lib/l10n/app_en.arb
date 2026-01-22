@@ -626,10 +626,22 @@
     },
     "register": "Register",
     "@register": {
+        "description": "The label for the register screen"
+    },
+    "registerButton": "Register",
+    "@registerButton": {
         "description": "The label for the register button"
     },
     "registerFailed": "Registration failed. Please check your details and network.",
     "@registerFailed": {
         "description": "The message shown when registration fails"
+    },
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "@passwordsDoNotMatch": {
+        "description": "The message shown when the passwords do not match during registration"
+    },
+    "loginScreenTitle": "Login",
+    "@loginScreenTitle": {
+        "description": "The title of the login screen"
     }
 }

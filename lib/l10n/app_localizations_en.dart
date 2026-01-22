@@ -481,6 +481,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get register => 'Register';
 
   @override
+  String get registerButton => 'Register';
+
+  @override
   String get registerFailed =>
       'Registration failed. Please check your details and network.';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match.';
+
+  @override
+  String get loginScreenTitle => 'Login';
 }

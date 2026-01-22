@@ -68,6 +68,7 @@ class LoginScreen extends HookConsumerWidget {
             context.push('/register');
           },
         ),
+        title: Text(AppLocalizations.of(context)!.loginScreenTitle),
         actions: [LocaleDropdown()],
       ),
       body: Stack(

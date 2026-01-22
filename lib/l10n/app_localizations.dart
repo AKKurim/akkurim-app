@@ -980,17 +980,35 @@ abstract class AppLocalizations {
   /// **'This feature is not implemented yet.'**
   String get notImplemented;
 
-  /// The label for the register button
+  /// The label for the register screen
   ///
   /// In en, this message translates to:
   /// **'Register'**
   String get register;
+
+  /// The label for the register button
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get registerButton;
 
   /// The message shown when registration fails
   ///
   /// In en, this message translates to:
   /// **'Registration failed. Please check your details and network.'**
   String get registerFailed;
+
+  /// The message shown when the passwords do not match during registration
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get passwordsDoNotMatch;
+
+  /// The title of the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginScreenTitle;
 }
 
 class _AppLocalizationsDelegate

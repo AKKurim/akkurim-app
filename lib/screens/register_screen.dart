@@ -34,6 +34,7 @@ class RegisterScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
+    final confirmPasswordController = useTextEditingController();
     var showPaassword = useState(false);
     final authData = ref.watch(authServiceProvider).maybeWhen(
           data: (value) => value,
@@ -61,6 +62,7 @@ class RegisterScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: null,
+        title: Text(AppLocalizations.of(context)!.register),
         actions: [LocaleDropdown()],
       ),
       body: Stack(
@@ -102,6 +104,14 @@ class RegisterScreen extends HookConsumerWidget {
                     ),
                   ],
                 ),
+                TextField(
+                  controller: confirmPasswordController,
+                  obscureText: !showPaassword.value,
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.password,
+                    // hide the password input
+                  ),
+                ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -112,12 +122,24 @@ class RegisterScreen extends HookConsumerWidget {
                         foregroundColor: WidgetStateProperty.all(Colors.white),
                       ),
                       onPressed: () {
+                        if (passwordController.text !=
+                            confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppLocalizations.of(context)!
+                                  .passwordsDoNotMatch),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          return;
+                        }
+
                         ref.read(authServiceProvider.notifier).register(
                               email: emailController.text,
                               password: passwordController.text,
                             );
                       },
-                      child: Text(AppLocalizations.of(context)!.register,
+                      child: Text(AppLocalizations.of(context)!.registerButton,
                           style: const TextStyle(fontSize: 18)),
                     ),
                     if (appSettings?.useFingerprint == true)
