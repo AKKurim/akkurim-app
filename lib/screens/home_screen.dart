@@ -17,13 +17,17 @@ import '../providers/remote_config_provider.dart';
 import '../providers/new_update_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../config.dart';
+import '../services/auth/auth_service.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../models/auth/role_enum.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authServiceProvider);
+    final authData = auth.asData?.value;
     final now = DateTime.now();
     final selected = useState(now);
     // get previous, current and next week range for smooth scrolling
@@ -194,8 +198,13 @@ class HomeScreen extends HookConsumerWidget {
               ),
               weekendTextStyle: const TextStyle(color: Colors.red),
             ),
-            onFormatChanged: (format) =>
-                showBirthdays.value = !showBirthdays.value,
+            onFormatChanged: (format) {
+              if (authData == null ||
+                  !authData.roles.contains(RoleEnum.admin)) {
+                return;
+              }
+              showBirthdays.value = !showBirthdays.value;
+            },
             selectedDayPredicate: (day) => isSameDay(day, selected.value),
             onPageChanged: (focusedDay) {
               if (now.year == focusedDay.year &&
