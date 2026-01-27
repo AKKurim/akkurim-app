@@ -58,6 +58,7 @@ class _TakeTrainingResultsScreenState
 
   @override
   Widget build(BuildContext context) {
+    print('${widget.meet.athletesCount} athletes to take results for.');
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.meet.meet.name} - ${TimeHelper.getDayMonthYear(

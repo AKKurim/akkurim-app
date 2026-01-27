@@ -58,7 +58,6 @@ class TrainingResultsP extends _$TrainingResultsP {
 
     yield* query.watch().map((rows) {
       final grouped = groupBy(rows, (row) => row.readTable(db.meet).id);
-      print('Grouped meets count: ${grouped.length}');
 
       return grouped.entries.map((entry) {
         final meet = entry.value.first.readTable(db.meet);
@@ -67,7 +66,8 @@ class TrainingResultsP extends _$TrainingResultsP {
           final event = row.readTableOrNull(db.meetEvent);
           final discipline = row.readTableOrNull(db.discipline);
           final category = row.readTableOrNull(db.category);
-          if (event == null || discipline == null || category == null) {
+          // remove the cateogry check here since it is training
+          if (event == null || discipline == null) {
             continue;
           }
           events.add(MeetEventView(
