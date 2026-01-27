@@ -41,7 +41,7 @@ final trainingTimesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TrainingTimesRef = AutoDisposeStreamProviderRef<List<TrainingTimeData>>;
-String _$trainingsPHash() => r'c0ed1843d5020207ef78b1012113dbe1aad0c93c';
+String _$trainingHash() => r'ab11251865ac45d4f34f7fc5846448cfb0dcb32c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -63,6 +63,135 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [training].
+@ProviderFor(training)
+const trainingProvider = TrainingFamily();
+
+/// See also [training].
+class TrainingFamily extends Family<AsyncValue<TrainingView>> {
+  /// See also [training].
+  const TrainingFamily();
+
+  /// See also [training].
+  TrainingProvider call(
+    String trainingId,
+  ) {
+    return TrainingProvider(
+      trainingId,
+    );
+  }
+
+  @override
+  TrainingProvider getProviderOverride(
+    covariant TrainingProvider provider,
+  ) {
+    return call(
+      provider.trainingId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'trainingProvider';
+}
+
+/// See also [training].
+class TrainingProvider extends AutoDisposeStreamProvider<TrainingView> {
+  /// See also [training].
+  TrainingProvider(
+    String trainingId,
+  ) : this._internal(
+          (ref) => training(
+            ref as TrainingRef,
+            trainingId,
+          ),
+          from: trainingProvider,
+          name: r'trainingProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$trainingHash,
+          dependencies: TrainingFamily._dependencies,
+          allTransitiveDependencies: TrainingFamily._allTransitiveDependencies,
+          trainingId: trainingId,
+        );
+
+  TrainingProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.trainingId,
+  }) : super.internal();
+
+  final String trainingId;
+
+  @override
+  Override overrideWith(
+    Stream<TrainingView> Function(TrainingRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: TrainingProvider._internal(
+        (ref) => create(ref as TrainingRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        trainingId: trainingId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<TrainingView> createElement() {
+    return _TrainingProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TrainingProvider && other.trainingId == trainingId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, trainingId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin TrainingRef on AutoDisposeStreamProviderRef<TrainingView> {
+  /// The parameter `trainingId` of this provider.
+  String get trainingId;
+}
+
+class _TrainingProviderElement
+    extends AutoDisposeStreamProviderElement<TrainingView> with TrainingRef {
+  _TrainingProviderElement(super.provider);
+
+  @override
+  String get trainingId => (origin as TrainingProvider).trainingId;
+}
+
+String _$trainingsPHash() => r'5908ada301ca634c1913993972cf0fd00d14eb78';
 
 abstract class _$TrainingsP
     extends BuildlessAutoDisposeStreamNotifier<List<TrainingView>> {

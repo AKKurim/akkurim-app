@@ -9,8 +9,10 @@ import '../../widgets/save_button.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TakeAttendance extends ConsumerStatefulWidget {
-  final TrainingView training;
-  const TakeAttendance({super.key, required this.training});
+  final String trainingId;
+  final TrainingView? preloadedTraining;
+  const TakeAttendance(
+      {super.key, required this.trainingId, this.preloadedTraining});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _TakeAttendanceState();
@@ -20,24 +22,31 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
   late Map<SimpleAthleteView, String> athleteAttendance;
   late Map<TrainerView, String> trainerAttendance;
   final TextEditingController _trainingNoteController = TextEditingController();
+  TrainingView? _training;
 
   @override
   void initState() {
     super.initState();
-    athleteAttendance = widget.training.athleteAttendance.isNotEmpty
-        ? widget.training.athleteAttendance
-        : {for (var athlete in widget.training.group.athletes) athlete: ''};
-    trainerAttendance = widget.training.trainerAttendance.isNotEmpty
-        ? widget.training.trainerAttendance
-        : {for (var trainer in widget.training.group.trainers) trainer: ''};
-    _trainingNoteController.text = widget.training.training.description ?? '';
+    _training = widget.preloadedTraining ??
+        ref.watch(trainingProvider(widget.trainingId)).maybeWhen(
+              orElse: () => null,
+              data: (data) => data,
+            );
+
+    athleteAttendance = _training?.athleteAttendance.isNotEmpty == true
+        ? _training!.athleteAttendance
+        : {for (var athlete in _training!.group.athletes) athlete: ''};
+    trainerAttendance = _training?.trainerAttendance.isNotEmpty == true
+        ? _training!.trainerAttendance
+        : {for (var trainer in _training!.group.trainers) trainer: ''};
+    _trainingNoteController.text = _training?.training.description ?? '';
   }
 
   void saveTrainingData() {
     ref
         .read(trainingsPProvider(range: TimeHelper.emptyRange()).notifier)
         .saveAttendance(
-          widget.training,
+          _training!,
           athleteAttendance,
           trainerAttendance,
           _trainingNoteController.text,
@@ -63,10 +72,10 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text(widget.training.group.group.name),
+                        title: Text(_training!.group.group.name),
                         trailing: Text(
                           TimeHelper.getFullDateWithTime(
-                              widget.training.training.startAt, context,
+                              _training!.training.startAt, context,
                               withDay: false),
                           style: const TextStyle(
                             fontSize: 14,

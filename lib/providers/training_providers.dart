@@ -27,14 +27,9 @@ class TrainingsP extends _$TrainingsP {
   Stream<List<TrainingView>> build({required DateTimeRange range}) async* {
     final db = ref.read(dbProvider);
 
-    // Keep the stream alive by listening to these providers
-    ref.listen(groupsPProvider, (_, __) {});
-    ref.listen(simpleAthletesPProvider, (_, __) {});
-    ref.listen(trainerPProvider, (_, __) {});
-
-    final groups = await ref.read(groupsPProvider.future);
-    final athletes = await ref.read(simpleAthletesPProvider.future);
-    final trainers = await ref.read(trainerPProvider.future);
+    final groups = await ref.watch(groupsPProvider.future);
+    final athletes = await ref.watch(simpleAthletesPProvider.future);
+    final trainers = await ref.watch(trainerPProvider.future);
     final groupIds = groups.map((g) => g.group.id).toList();
 
     final query = (db.select(db.training)
@@ -332,4 +327,73 @@ Stream<List<SchoolYearData>> schoolYears(Ref ref) async* {
 Stream<List<TrainingTimeData>> trainingTimes(Ref ref) async* {
   final db = ref.read(dbProvider);
   yield* db.select(db.trainingTime).watch();
+}
+
+@riverpod
+Stream<TrainingView> training(Ref ref, String trainingId) async* {
+  final db = ref.read(dbProvider);
+
+  final groups = await ref.watch(groupsPProvider.future);
+  final athletes = await ref.watch(simpleAthletesPProvider.future);
+  final trainers = await ref.watch(trainerPProvider.future);
+  final groupIds = groups.map((g) => g.group.id).toList();
+
+  final query = (db.select(db.training)
+        ..where((t) => t.groupId.isIn(groupIds))
+        ..where((t) => t.id.equals(trainingId))
+        ..where((t) => t.deletedAt.isNull())
+        ..orderBy([
+          (tbl) => OrderingTerm(
+                expression: tbl.startAt,
+                mode: OrderingMode.asc,
+              ),
+        ]))
+      .join([
+    leftOuterJoin(
+      db.trainingAthlete,
+      db.trainingAthlete.trainingId.equalsExp(db.training.id),
+    ),
+    leftOuterJoin(
+      db.trainingTrainer,
+      db.trainingTrainer.trainingId.equalsExp(db.training.id),
+    ),
+  ]);
+
+  yield* query.watch().map((rows) {
+    final training = rows.first.readTable(db.training);
+    final group = groups.firstWhere(
+      (g) => g.group.id == training.groupId,
+      orElse: () =>
+          throw Exception('Group ${training.groupId} not found in groups list'),
+    );
+    final athleteAttendance = <SimpleAthleteView, String>{};
+    final trainerAttendance = <TrainerView, String>{};
+
+    for (final row in rows) {
+      final athleteId = row.readTableOrNull(db.trainingAthlete)?.athleteId;
+      final trainerId = row.readTableOrNull(db.trainingTrainer)?.trainerId;
+
+      if (athleteId != null) {
+        final athlete = athletes.firstWhere((a) => a.athlete.id == athleteId,
+            orElse: () => throw Exception(
+                'Athlete with ID $athleteId not found in athletes list'));
+        athleteAttendance[athlete] =
+            row.readTableOrNull(db.trainingAthlete)?.presence ?? '';
+      }
+
+      if (trainerId != null) {
+        final trainer = trainers.firstWhere((t) => t.trainer.id == trainerId,
+            orElse: () => throw Exception(
+                'Trainer with ID $trainerId not found in trainers list'));
+        trainerAttendance[trainer] =
+            row.readTableOrNull(db.trainingTrainer)?.presence ?? '';
+      }
+    }
+    return TrainingView(
+      training: training,
+      group: group,
+      athleteAttendance: athleteAttendance,
+      trainerAttendance: trainerAttendance,
+    );
+  });
 }

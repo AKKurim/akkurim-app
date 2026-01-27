@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/app_settings_provider.dart';
@@ -6,7 +7,6 @@ import '../../models/views/training_view.dart';
 import '../../providers/groups_provider.dart';
 import '../../models/views/group_view.dart';
 import '../../utils/utils.dart';
-import 'take_attendance.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TrainingsScreen extends ConsumerWidget {
@@ -119,13 +119,8 @@ class TrainingTile extends ConsumerWidget {
             },
             child: ListTile(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => TakeAttendance(
-                      training: training,
-                    ),
-                  ),
-                );
+                context.push('/take-attendance/${training.training.id}',
+                    extra: training);
               },
               title: Text(training.group.group.name),
               subtitle: Text(training.group.trainers
