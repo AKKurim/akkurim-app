@@ -422,4 +422,14 @@ class TimeHelper {
       end: DateTime(1970, 1, 1),
     );
   }
+
+  static bool isSummerTimeZone(DateTime date) {
+    // In Czech Republic, summer time starts last Sunday in March and ends last Sunday in October
+    final lastSundayInMarch = DateTime(date.year, 3, 31)
+        .subtract(Duration(days: DateTime(date.year, 3, 31).weekday % 7));
+    final lastSundayInOctober = DateTime(date.year, 10, 31)
+        .subtract(Duration(days: DateTime(date.year, 10, 31).weekday % 7));
+    return date.isAfter(lastSundayInMarch) &&
+        date.isBefore(lastSundayInOctober);
+  }
 }

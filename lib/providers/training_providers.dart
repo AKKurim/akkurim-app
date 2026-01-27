@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:ak_kurim_app/services/database/companion_builder_map.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -101,8 +103,13 @@ class TrainingsP extends _$TrainingsP {
     });
   }
 
-  Future<void> createTrainings(
-      GroupView group, DateTime from, DateTime to, int trainingDuration) async {
+  Future<void> createTrainings({
+    required GroupView group,
+    required DateTime from,
+    required DateTime to,
+    required int durationSummer,
+    required int durationWinter,
+  }) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
     final auth = ref.read(authServiceProvider);
@@ -110,18 +117,28 @@ class TrainingsP extends _$TrainingsP {
 
     // Create a list of dates between from and to
     final dates = <DateTime>[];
+    final durations = <int>[];
     final int weekday =
         TimeHelper.getWeekDayFromString(group.trainingTime!.day);
     DateTime currentDate = from;
     while (currentDate.isBefore(to) || currentDate.isAtSameMomentAs(to)) {
       if (currentDate.weekday == weekday) {
-        TimeHelper time = TimeHelper.fromString(group.trainingTime!.summerTime);
+        // we need a helper func to determine time based on summer/winter time
+        final bool isSummerTime =
+            TimeHelper.isSummerTimeZone(currentDate.copyWith(
+          hour: 12,
+        ));
+        TimeHelper time = TimeHelper.fromString(isSummerTime
+            ? group.trainingTime!.summerTime
+            : group.trainingTime!.winterTime);
         dates.add(currentDate.copyWith(
             hour: time.hour,
             minute: time.minute,
             second: 0,
             millisecond: 0,
             microsecond: 0));
+        final trainingDuration = isSummerTime ? durationSummer : durationWinter;
+        durations.add(trainingDuration);
       }
       currentDate = currentDate.add(const Duration(days: 1));
     }
@@ -136,7 +153,7 @@ class TrainingsP extends _$TrainingsP {
               startAt: Value(date),
               description:
                   Value(''), // description is set when taking attendance
-              durationMinutes: Value(trainingDuration),
+              durationMinutes: Value(durations[dates.indexOf(date)]),
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),
               deletedAt: Value(null),
