@@ -26,9 +26,15 @@ class TrainingsP extends _$TrainingsP {
   @override
   Stream<List<TrainingView>> build({required DateTimeRange range}) async* {
     final db = ref.read(dbProvider);
-    final groups = await ref.watch(groupsPProvider.future);
-    final athletes = await ref.watch(simpleAthletesPProvider.future);
-    final trainers = await ref.watch(trainerPProvider.future);
+
+    // Keep the stream alive by listening to these providers
+    ref.listen(groupsPProvider, (_, __) {});
+    ref.listen(simpleAthletesPProvider, (_, __) {});
+    ref.listen(trainerPProvider, (_, __) {});
+
+    final groups = await ref.read(groupsPProvider.future);
+    final athletes = await ref.read(simpleAthletesPProvider.future);
+    final trainers = await ref.read(trainerPProvider.future);
     final groupIds = groups.map((g) => g.group.id).toList();
 
     final query = (db.select(db.training)
@@ -57,10 +63,13 @@ class TrainingsP extends _$TrainingsP {
         rows,
         (row) => row.readTable(db.training).id,
       );
-
-      return grouped.entries.map((entry) {
+      final trainingViews = grouped.entries.map((entry) {
         final training = entry.value.first.readTable(db.training);
-        final group = groups.firstWhere((g) => g.group.id == training.groupId);
+        final group = groups.firstWhere(
+          (g) => g.group.id == training.groupId,
+          orElse: () => throw Exception(
+              'Group ${training.groupId} not found in groups list'),
+        );
         final athleteAttendance = <SimpleAthleteView, String>{};
         final trainerAttendance = <TrainerView, String>{};
 
@@ -86,7 +95,6 @@ class TrainingsP extends _$TrainingsP {
                 row.readTableOrNull(db.trainingTrainer)?.presence ?? '';
           }
         }
-
         return TrainingView(
           training: training,
           group: group,
@@ -94,6 +102,7 @@ class TrainingsP extends _$TrainingsP {
           trainerAttendance: trainerAttendance,
         );
       }).toList();
+      return trainingViews;
     });
   }
 

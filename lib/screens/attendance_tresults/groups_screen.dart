@@ -17,7 +17,6 @@ class GroupsScreen extends ConsumerWidget {
 
     groups.sort((a, b) =>
         a.group.name.toLowerCase().compareTo(b.group.name.toLowerCase()));
-
     // final allGroups = ref.watch(allGroupDataProvider).when(
     //     data: (data) => data,
     //     error: (error, stackTrace) => [],

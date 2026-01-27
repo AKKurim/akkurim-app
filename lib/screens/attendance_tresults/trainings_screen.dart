@@ -15,19 +15,23 @@ class TrainingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
+    final range = DateTimeRange(
+      start: DateTime(now.year, now.month, now.day)
+          .subtract(const Duration(days: 1)),
+      end: DateTime(now.year, now.month, now.day).add(const Duration(days: 30)),
+    );
     final List<TrainingView> trainings = ref
-        .watch(trainingsPProvider(
-            range: DateTimeRange(
-                start: now.subtract(const Duration(days: 1)),
-                end: now.add(
-                  const Duration(days: 30),
-                ))))
+        .watch(
+          trainingsPProvider(
+            range: range,
+          ),
+        )
         .when(
           data: (data) => data,
-          error: (error, stackTrace) => [],
+          error: (error, stackTrace) =>
+              throw Exception('Error loading trainings: $error, $stackTrace'),
           loading: () => [],
         );
-
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -74,7 +78,8 @@ class TrainingTile extends ConsumerWidget {
             const Icon(Icons.access_time),
             const SizedBox(width: 8),
             Text(
-                '${TimeHelper.getFullDateWithTime(training.training.startAt, context)})',
+                TimeHelper.getFullDateWithTime(
+                    training.training.startAt, context),
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ],
