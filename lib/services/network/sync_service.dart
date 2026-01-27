@@ -28,7 +28,9 @@ class SyncService extends _$SyncService {
   }
 
   ConnectivityResult _getConnectivityResult(List<ConnectivityResult> data) {
-    if (data.contains(ConnectivityResult.wifi)) {
+    if (data.contains(ConnectivityResult.wifi) ||
+        data.contains(ConnectivityResult.ethernet) ||
+        data.contains(ConnectivityResult.vpn)) {
       return ConnectivityResult.wifi;
     }
     if (data.contains(ConnectivityResult.mobile)) {

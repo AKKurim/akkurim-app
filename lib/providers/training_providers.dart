@@ -172,7 +172,7 @@ class TrainingsP extends _$TrainingsP {
     trainingToDelete['updated_at'] = DateTime.now().toUtc().toIso8601String();
     trainingToDelete['created_at'] =
         training.training.createdAt.toUtc().toIso8601String();
-    trainingToDelete['datetime_'] =
+    trainingToDelete['start_at'] =
         training.training.startAt.toUtc().toIso8601String();
     trainingToDelete['last_updated_by'] = auth.asData!.value.email;
 
