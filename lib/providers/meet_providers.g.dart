@@ -42,7 +42,7 @@ final allCategoriesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllCategoriesRef = AutoDisposeStreamProviderRef<List<CategoryData>>;
-String _$fullMeetProviderPHash() => r'f1062f996b5e887dcc4424fd29dba2038408415b';
+String _$fullMeetProviderPHash() => r'5881b349683d59bd95085b5dc9314c5f779e9eda';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -68,11 +68,11 @@ class _SystemHash {
 abstract class _$FullMeetProviderP
     extends BuildlessAutoDisposeStreamNotifier<FullMeetView> {
   late final String meetId;
-  late final FullMeetView? preloaded;
+  late final FullMeetView? preloadedMeet;
 
   Stream<FullMeetView> build({
     required String meetId,
-    FullMeetView? preloaded,
+    FullMeetView? preloadedMeet,
   });
 }
 
@@ -88,11 +88,11 @@ class FullMeetProviderPFamily extends Family<AsyncValue<FullMeetView>> {
   /// See also [FullMeetProviderP].
   FullMeetProviderPProvider call({
     required String meetId,
-    FullMeetView? preloaded,
+    FullMeetView? preloadedMeet,
   }) {
     return FullMeetProviderPProvider(
       meetId: meetId,
-      preloaded: preloaded,
+      preloadedMeet: preloadedMeet,
     );
   }
 
@@ -102,7 +102,7 @@ class FullMeetProviderPFamily extends Family<AsyncValue<FullMeetView>> {
   ) {
     return call(
       meetId: provider.meetId,
-      preloaded: provider.preloaded,
+      preloadedMeet: provider.preloadedMeet,
     );
   }
 
@@ -127,11 +127,11 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
   /// See also [FullMeetProviderP].
   FullMeetProviderPProvider({
     required String meetId,
-    FullMeetView? preloaded,
+    FullMeetView? preloadedMeet,
   }) : this._internal(
           () => FullMeetProviderP()
             ..meetId = meetId
-            ..preloaded = preloaded,
+            ..preloadedMeet = preloadedMeet,
           from: fullMeetProviderPProvider,
           name: r'fullMeetProviderPProvider',
           debugGetCreateSourceHash:
@@ -142,7 +142,7 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
           allTransitiveDependencies:
               FullMeetProviderPFamily._allTransitiveDependencies,
           meetId: meetId,
-          preloaded: preloaded,
+          preloadedMeet: preloadedMeet,
         );
 
   FullMeetProviderPProvider._internal(
@@ -153,11 +153,11 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.meetId,
-    required this.preloaded,
+    required this.preloadedMeet,
   }) : super.internal();
 
   final String meetId;
-  final FullMeetView? preloaded;
+  final FullMeetView? preloadedMeet;
 
   @override
   Stream<FullMeetView> runNotifierBuild(
@@ -165,7 +165,7 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
   ) {
     return notifier.build(
       meetId: meetId,
-      preloaded: preloaded,
+      preloadedMeet: preloadedMeet,
     );
   }
 
@@ -176,14 +176,14 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
       override: FullMeetProviderPProvider._internal(
         () => create()
           ..meetId = meetId
-          ..preloaded = preloaded,
+          ..preloadedMeet = preloadedMeet,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         meetId: meetId,
-        preloaded: preloaded,
+        preloadedMeet: preloadedMeet,
       ),
     );
   }
@@ -198,14 +198,14 @@ class FullMeetProviderPProvider extends AutoDisposeStreamNotifierProviderImpl<
   bool operator ==(Object other) {
     return other is FullMeetProviderPProvider &&
         other.meetId == meetId &&
-        other.preloaded == preloaded;
+        other.preloadedMeet == preloadedMeet;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, meetId.hashCode);
-    hash = _SystemHash.combine(hash, preloaded.hashCode);
+    hash = _SystemHash.combine(hash, preloadedMeet.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -218,8 +218,8 @@ mixin FullMeetProviderPRef
   /// The parameter `meetId` of this provider.
   String get meetId;
 
-  /// The parameter `preloaded` of this provider.
-  FullMeetView? get preloaded;
+  /// The parameter `preloadedMeet` of this provider.
+  FullMeetView? get preloadedMeet;
 }
 
 class _FullMeetProviderPProviderElement
@@ -230,8 +230,8 @@ class _FullMeetProviderPProviderElement
   @override
   String get meetId => (origin as FullMeetProviderPProvider).meetId;
   @override
-  FullMeetView? get preloaded =>
-      (origin as FullMeetProviderPProvider).preloaded;
+  FullMeetView? get preloadedMeet =>
+      (origin as FullMeetProviderPProvider).preloadedMeet;
 }
 
 String _$meetProvidersPHash() => r'5f255628408a740838aff3d73b4ca6b6221e83f2';

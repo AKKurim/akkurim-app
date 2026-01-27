@@ -46,7 +46,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
   Widget build(BuildContext context) {
     final FullMeetView? meet = ref
         .watch(fullMeetProviderPProvider(
-            meetId: widget.meetId, preloaded: widget.preloadedMeet))
+            meetId: widget.meetId, preloadedMeet: widget.preloadedMeet))
         .when(
           data: (data) => data,
           error: (error, stackTrace) => throw error,

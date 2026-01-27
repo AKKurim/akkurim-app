@@ -21,7 +21,11 @@ part 'training_results_provider.g.dart';
 @riverpod
 class TrainingResultsP extends _$TrainingResultsP {
   @override
-  Stream<List<FullMeetView>> build() async* {
+  Stream<List<FullMeetView>> build({FullMeetView? preloadedMeet}) async* {
+    if (preloadedMeet != null) {
+      yield [preloadedMeet];
+    }
+
     final db = ref.read(dbProvider);
     final monthYear = ref.watch(selectedMonthYearPProvider);
     final DateTime startDate = DateTime(monthYear.year, monthYear.month, 1);

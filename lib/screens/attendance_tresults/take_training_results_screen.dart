@@ -8,8 +8,10 @@ import '../../widgets/save_button.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TakeTrainingResultsScreen extends ConsumerStatefulWidget {
-  final FullMeetView meet;
-  const TakeTrainingResultsScreen({super.key, required this.meet});
+  final String meetId;
+  final FullMeetView? preloadedMeet;
+  const TakeTrainingResultsScreen(
+      {super.key, required this.meetId, this.preloadedMeet});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -19,12 +21,22 @@ class TakeTrainingResultsScreen extends ConsumerStatefulWidget {
 class _TakeTrainingResultsScreenState
     extends ConsumerState<TakeTrainingResultsScreen> {
   late Map<AthleteWithMeetEvents, TextEditingController> athletes;
+  FullMeetView? _meet;
 
   @override
   void initState() {
     super.initState();
+    _meet = widget.preloadedMeet ??
+        ref
+            .read(trainingResultsPProvider(preloadedMeet: widget.preloadedMeet))
+            .maybeWhen(
+              data: (meets) =>
+                  meets.firstWhere((m) => m.meet.id == widget.meetId),
+              orElse: () => null,
+            );
+
     athletes = {};
-    for (AthleteWithMeetEvents athl in widget.meet.athletesWithEvents) {
+    for (AthleteWithMeetEvents athl in _meet?.athletesWithEvents ?? []) {
       athletes[athl] = TextEditingController(text: athl.events[0].result ?? '');
     }
   }
@@ -43,8 +55,11 @@ class _TakeTrainingResultsScreenState
       final controller = entry.value;
       final result = controller.text;
       if (result.isNotEmpty) {
-        ref.read(trainingResultsPProvider.notifier).saveTrainingResult(
-            athlete.athlete.athlete.id, athlete.events[0].meetEvent, result);
+        ref
+            .read(trainingResultsPProvider(preloadedMeet: widget.preloadedMeet)
+                .notifier)
+            .saveTrainingResult(athlete.athlete.athlete.id,
+                athlete.events[0].meetEvent, result);
       }
     }
     Navigator.pop(context);
@@ -58,11 +73,11 @@ class _TakeTrainingResultsScreenState
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.meet.athletesCount} athletes to take results for.');
+    print('${_meet?.athletesCount} athletes to take results for.');
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.meet.meet.name} - ${TimeHelper.getDayMonthYear(
-          widget.meet.meet.startAt,
+        title: Text('${_meet?.meet.name} - ${TimeHelper.getDayMonthYear(
+          _meet?.meet.startAt ?? DateTime.now(),
         )}'),
       ),
       body: Stack(

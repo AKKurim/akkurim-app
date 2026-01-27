@@ -1,5 +1,6 @@
 import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:ak_kurim_app/screens/attendance_tresults/take_attendance.dart';
+import 'package:ak_kurim_app/screens/attendance_tresults/training_results_screen.dart';
 import 'package:ak_kurim_app/screens/member/member_profile.dart';
 import 'package:ak_kurim_app/screens/storage/add_item_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ import './screens/splash_screen.dart';
 import './screens/attendance_tresults/_attendance_screen_manager.dart';
 import './screens/_scaffold_with_navbar.dart';
 import 'models/views/training_view.dart';
+import 'screens/attendance_tresults/take_training_results_screen.dart';
 import 'screens/member/member_edit_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/races/race_screen.dart';
@@ -240,14 +242,26 @@ GoRouter router(Ref ref) {
         ],
       ),
       GoRoute(
-          path: '/take-attendance/:id',
-          name: 'take-attendance',
+        path: '/take-attendance/:id',
+        name: 'take-attendance',
+        builder: (context, state) {
+          final String id = state.pathParameters['id'] ?? '';
+          final TrainingView? training = state.extra as TrainingView?;
+          return TakeAttendance(
+            trainingId: id,
+            preloadedTraining: training,
+          );
+        },
+      ),
+      GoRoute(
+          path: '/take-training-results/:id',
+          name: 'take-training-results',
           builder: (context, state) {
             final String id = state.pathParameters['id'] ?? '';
-            final TrainingView? training = state.extra as TrainingView?;
-            return TakeAttendance(
-              trainingId: id,
-              preloadedTraining: training,
+            final FullMeetView? meet = state.extra as FullMeetView?;
+            return TakeTrainingResultsScreen(
+              meetId: id,
+              preloadedMeet: meet,
             );
           }),
     ],

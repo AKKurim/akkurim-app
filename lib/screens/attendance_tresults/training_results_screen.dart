@@ -1,5 +1,6 @@
 import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:ak_kurim_app/widgets/month_year_selecter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/meet_providers.dart';
@@ -17,12 +18,13 @@ class TrainingResultsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<FullMeetView> meets = ref.watch(trainingResultsPProvider).when(
-          data: (data) => data,
-          error: (error, stackTrace) =>
-              throw Exception('Error loading meets: $error, $stackTrace'),
-          loading: () => [],
-        );
+    final List<FullMeetView> meets =
+        ref.watch(trainingResultsPProvider(preloadedMeet: null)).when(
+              data: (data) => data,
+              error: (error, stackTrace) =>
+                  throw Exception('Error loading meets: $error, $stackTrace'),
+              loading: () => [],
+            );
 
     return Scaffold(
       body: RefreshIndicator(
@@ -59,7 +61,9 @@ class TrainingResultsScreen extends ConsumerWidget {
                                 TextButton(
                                   onPressed: () {
                                     ref
-                                        .read(trainingResultsPProvider.notifier)
+                                        .read(trainingResultsPProvider(
+                                                preloadedMeet: null)
+                                            .notifier)
                                         .deleteTrainingResult(
                                           meet,
                                         );
@@ -85,12 +89,9 @@ class TrainingResultsScreen extends ConsumerWidget {
                         subtitle: Text(
                             '${TimeHelper.getWeekDayName(meet.meet.startAt, context)} ${TimeHelper.getDayMonthYear(meet.meet.startAt)}'),
                         onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => TakeTrainingResultsScreen(
-                                meet: meet,
-                              ),
-                            ),
+                          context.push(
+                            '/take-training-results/${meet.meet.id}',
+                            extra: meet,
                           );
                         },
                         shape: RoundedRectangleBorder(
@@ -228,7 +229,8 @@ class _CreateTrainingResultFormState
                     _nameController.text.isNotEmpty == true)
                 ? () {
                     ref
-                        .read(trainingResultsPProvider.notifier)
+                        .read(trainingResultsPProvider(preloadedMeet: null)
+                            .notifier)
                         .createTrainingResult(
                           _date!,
                           _selectedGroup!,
