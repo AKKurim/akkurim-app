@@ -313,3 +313,9 @@ Stream<List<GroupData>> allGroupData(Ref ref) async* {
   final db = ref.read(dbProvider);
   yield* db.select(db.group).watch();
 }
+
+@riverpod
+Stream<GroupView> group(Ref ref, String groupId) async* {
+  final groups = await ref.read(groupsPProvider.future);
+  yield groups.where((group) => group.group.id == groupId).first;
+}

@@ -643,5 +643,9 @@
     "loginScreenTitle": "Login",
     "@loginScreenTitle": {
         "description": "The title of the login screen"
+    },
+    "editGroup": "Edit Group",
+    "@editGroup": {
+        "description": "The label for the edit group button"
     }
 }

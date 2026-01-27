@@ -492,4 +492,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get loginScreenTitle => 'Přihlášení';
+
+  @override
+  String get editGroup => 'Upravit skupinu';
 }

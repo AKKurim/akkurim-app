@@ -4,17 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 import '../providers/simple_athletes_provider.dart';
 import '../providers/trainer_provider.dart';
-import 'package:ak_kurim_app/models/views/group_view.dart';
 import '../widgets/sync_icon.dart';
 
 import 'attendance_tresults/add_group_screen.dart';
-import '../models/views/trainer_view.dart';
 import 'attendance_tresults/trainings_screen.dart';
 import 'attendance_tresults/training_results_screen.dart';
 import '../services/auth/auth_service.dart';
 import '../models/auth/role_enum.dart';
 import '../providers/tab_index_provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class ScaffoldWithNavBar extends ConsumerWidget {
   const ScaffoldWithNavBar({required this.navigationShell, super.key});
@@ -104,10 +103,11 @@ class ScaffoldWithNavBar extends ConsumerWidget {
         onDestinationSelected: _onItemTapped,
       ),
       floatingActionButton: buildFab(
-          currentIndex: navigationShell.currentIndex,
-          context: context,
-          ref: ref,
-          trainerData: trainerData),
+        currentIndex: navigationShell.currentIndex,
+        context: context,
+        ref: ref,
+        //trainerData: trainerData
+      ),
     );
   }
 
@@ -121,7 +121,7 @@ FloatingActionButton? buildFab({
   required int currentIndex,
   required BuildContext context,
   required WidgetRef ref,
-  required TrainerView? trainerData,
+  //required TrainerView? trainerData,
 }) {
   final int tabIndex = ref.watch(tabIndexPProvider);
   return currentIndex == 1 || currentIndex == 3 || currentIndex == 4
@@ -138,7 +138,7 @@ FloatingActionButton? buildFab({
                       context,
                       MaterialPageRoute(
                         builder: (context) => AddGroupScreen(
-                          groupView: GroupView.empty(trainer: trainerData!),
+                          groupId: const Uuid().v1(),
                           editMode: false,
                         ),
                       ),

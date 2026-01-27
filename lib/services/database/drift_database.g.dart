@@ -2661,9 +2661,7 @@ class $AthleteTable extends Athlete with TableInfo<$AthleteTable, AthleteData> {
   @override
   late final GeneratedColumn<String> phone = GeneratedColumn<String>(
       'phone', aliasedName, true,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _eanMeta = const VerificationMeta('ean');
   @override
   late final GeneratedColumn<String> ean = GeneratedColumn<String>(

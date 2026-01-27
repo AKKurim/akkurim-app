@@ -1,5 +1,5 @@
 import 'package:ak_kurim_app/models/views/group_view.dart';
-import 'package:ak_kurim_app/screens/attendance_tresults/add_group_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../../providers/groups_provider.dart';
@@ -117,15 +117,7 @@ class GroupTile extends ConsumerWidget {
           },
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddGroupScreen(
-                groupView: group,
-                editMode: true,
-              ),
-            ),
-          );
+          context.push('/group/${group.group.id}/edit', extra: group);
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

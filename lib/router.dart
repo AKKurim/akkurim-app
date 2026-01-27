@@ -1,3 +1,4 @@
+import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:ak_kurim_app/screens/member/member_profile.dart';
 import 'package:ak_kurim_app/screens/storage/add_item_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ import 'screens/member/member_edit_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/races/race_screen.dart';
 import './models/views/full_meet_view.dart';
+import './screens/attendance_tresults/add_group_screen.dart';
 
 part 'router.g.dart';
 
@@ -208,7 +210,33 @@ GoRouter router(Ref ref) {
                 );
               }),
         ],
-      )
+      ),
+      GoRoute(
+        path: '/group/:id',
+        name: 'add-group',
+        builder: (context, state) {
+          final String id = state.pathParameters['id'] ?? '';
+          return AddGroupScreen(
+            groupId: id,
+            editMode: false,
+          );
+        },
+        routes: [
+          GoRoute(
+            path: '/edit',
+            name: 'edit-group',
+            builder: (context, state) {
+              final String id = state.pathParameters['id'] ?? '';
+              final GroupView? group = state.extra as GroupView?;
+              return AddGroupScreen(
+                groupId: id,
+                editMode: true,
+                preloadedGroup: group,
+              );
+            },
+          ),
+        ],
+      ),
     ],
   );
 }

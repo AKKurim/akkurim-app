@@ -1009,6 +1009,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get loginScreenTitle;
+
+  /// The label for the edit group button
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Group'**
+  String get editGroup;
 }
 
 class _AppLocalizationsDelegate

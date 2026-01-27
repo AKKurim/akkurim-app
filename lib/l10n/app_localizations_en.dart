@@ -492,4 +492,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginScreenTitle => 'Login';
+
+  @override
+  String get editGroup => 'Edit Group';
 }

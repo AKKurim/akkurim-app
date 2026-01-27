@@ -15,12 +15,14 @@ import '../../widgets/save_button.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class AddGroupScreen extends ConsumerStatefulWidget {
-  final GroupView groupView;
+  final String groupId;
   final bool editMode;
+  final GroupView? preloadedGroup;
   const AddGroupScreen({
     super.key,
-    required this.groupView,
+    required this.groupId,
     required this.editMode,
+    this.preloadedGroup,
   });
 
   @override
@@ -46,34 +48,34 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   void initState() {
     super.initState();
     nameController = TextEditingController(
-      text: widget.groupView.group.name,
+      text: widget.preloadedGroup?.group.name ?? '',
     );
 
     if (widget.editMode) {
-      previousTrainersIds = widget.groupView.trainers.map((trainer) {
+      previousTrainersIds = widget.preloadedGroup!.trainers.map((trainer) {
         return trainer.trainer.id;
       }).toList();
-      previousAthletesIds = widget.groupView.athletes.map((athlete) {
+      previousAthletesIds = widget.preloadedGroup!.athletes.map((athlete) {
         return athlete.athlete.id;
       }).toList();
       TimeHelper parsedTime = TimeHelper.fromString(
-        widget.groupView.trainingTime!.summerTime,
+        widget.preloadedGroup!.trainingTime!.summerTime,
       );
       selectedSummerTime = TimeOfDay(
         hour: parsedTime.hour,
         minute: parsedTime.minute,
       );
       parsedTime = TimeHelper.fromString(
-        widget.groupView.trainingTime!.winterTime,
+        widget.preloadedGroup!.trainingTime!.winterTime,
       );
       selectedWinterTime = TimeOfDay(
         hour: parsedTime.hour,
         minute: parsedTime.minute,
       );
-      trainingDay = widget.groupView.trainingTime!.day;
-      trainingTime = widget.groupView.trainingTime;
-      durationSummer = widget.groupView.trainingTime!.durationSummer;
-      durationWinter = widget.groupView.trainingTime!.durationWinter;
+      trainingDay = widget.preloadedGroup!.trainingTime!.day;
+      trainingTime = widget.preloadedGroup!.trainingTime;
+      durationSummer = widget.preloadedGroup!.trainingTime!.durationSummer;
+      durationWinter = widget.preloadedGroup!.trainingTime!.durationWinter;
     } else {
       previousTrainersIds = [];
       previousAthletesIds = [];
@@ -103,8 +105,15 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
     final List<TrainingTimeData> allTrainingTimes = ref
         .watch(trainingTimesProvider)
         .when(data: (data) => data, error: (e, s) => [], loading: () => []);
+    final group = widget.editMode
+        ? widget.preloadedGroup ??
+            ref.watch(groupProvider(widget.groupId)).maybeWhen(
+                  orElse: () => null,
+                  data: (data) => data,
+                )
+        : GroupView.empty(trainer: currentTrainerView!);
 
-    List<TrainerView> trainers = widget.groupView.trainers;
+    List<TrainerView> trainers = group?.trainers ?? [];
     trainers.sort((a, b) {
       return a.simpleAthlete.athlete.lastName
           .compareTo(b.simpleAthlete.athlete.lastName);
@@ -124,7 +133,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       return a.simpleAthlete.athlete.lastName
           .compareTo(b.simpleAthlete.athlete.lastName);
     });
-    List<SimpleAthleteView> athletes = widget.groupView.athletes;
+    List<SimpleAthleteView> athletes = group?.athletes ?? [];
     athletes.sort((a, b) {
       return a.athlete.lastName.compareTo(b.athlete.lastName);
     });
@@ -143,7 +152,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
           loading: () => [],
         );
     SchoolYearData selectedSchoolYear = schoolYears.firstWhere(
-      (element) => element.id == widget.groupView.group.schoolYearId,
+      (element) => element.id == group?.group.schoolYearId,
       orElse: () => schoolYears.firstWhere(
         (element) => element.name == Utils.getCurrentSchoolYearString(),
         orElse: () => schoolYears.first,
@@ -155,7 +164,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       if (trainingDay.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('sobek'),
+            content: Text('selectTrainingDayError'),
             duration: Duration(seconds: 2),
             backgroundColor: Colors.red,
           ),
@@ -172,7 +181,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
             schoolYear: selectedSchoolYear,
             trainers: trainers,
             athletes: athletes,
-            groupId: widget.editMode ? widget.groupView.group.id : null,
+            groupId: widget.editMode ? group?.group.id : null,
             trainingTimeId: trainingTime?.id,
             previousAthletesIds: previousAthletesIds,
             previousTrainersIds: previousTrainersIds,
@@ -191,7 +200,9 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.addGroup),
+        title: widget.editMode
+            ? Text(AppLocalizations.of(context)!.editGroup)
+            : Text(AppLocalizations.of(context)!.addGroup),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -250,7 +261,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                       children: [
                         DropdownMenu(
                             initialSelection: widget.editMode
-                                ? widget.groupView.trainingTime!.day
+                                ? group?.trainingTime!.day
                                 : null,
                             hintText: 'Day...',
                             dropdownMenuEntries: [
