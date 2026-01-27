@@ -34,7 +34,7 @@ class TrainingResultsP extends _$TrainingResultsP {
             (tbl) =>
                 tbl.deletedAt.isNull() &
                 tbl.startAt.isBetweenValues(startDate, endDate) &
-                tbl.id.contains('TRA'),
+                tbl.type.contains('training'),
           )
           ..orderBy(
             [
@@ -58,6 +58,7 @@ class TrainingResultsP extends _$TrainingResultsP {
 
     yield* query.watch().map((rows) {
       final grouped = groupBy(rows, (row) => row.readTable(db.meet).id);
+      print('Grouped meets count: ${grouped.length}');
 
       return grouped.entries.map((entry) {
         final meet = entry.value.first.readTable(db.meet);
