@@ -266,31 +266,31 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             hintText: 'Day...',
                             dropdownMenuEntries: [
                               DropdownMenuEntry<String>(
-                                label: 'Monday',
+                                label: AppLocalizations.of(context)!.monday,
                                 value: 'Monday',
                               ),
                               DropdownMenuEntry<String>(
-                                label: 'Tuesday',
+                                label: AppLocalizations.of(context)!.tuesday,
                                 value: 'Tuesday',
                               ),
                               DropdownMenuEntry<String>(
-                                label: 'Wednesday',
+                                label: AppLocalizations.of(context)!.wednesday,
                                 value: 'Wednesday',
                               ),
                               DropdownMenuEntry<String>(
-                                label: 'Thursday',
+                                label: AppLocalizations.of(context)!.thursday,
                                 value: 'Thursday',
                               ),
                               DropdownMenuEntry<String>(
-                                label: 'Friday',
+                                label: AppLocalizations.of(context)!.friday,
                                 value: 'Friday',
                               ),
                               DropdownMenuEntry<String>(
-                                label: 'Saturday',
+                                label: AppLocalizations.of(context)!.saturday,
                                 value: 'Saturday',
                               ),
                               DropdownMenuEntry<String>(
-                                label: 'Sunday',
+                                label: AppLocalizations.of(context)!.sunday,
                                 value: 'Sunday',
                               ),
                             ],
