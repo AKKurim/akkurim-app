@@ -522,6 +522,18 @@ TrainingCompanion buildTrainingCompanion(Map<String, dynamic> row) =>
           ? Value(row['description'])
           : const Value.absent(),
       durationMinutes: Value(row['duration_minutes']),
+      location: row['location'] != null
+          ? Value(row['location'])
+          : const Value.absent(),
+      trainingType: row['training_type'] != null
+          ? Value(row['training_type'])
+          : const Value.absent(),
+      cancelledReason: row['cancelled_reason'] != null
+          ? Value(row['cancelled_reason'])
+          : const Value.absent(),
+      attendanceTakenAt: row['attendance_taken_at'] != null
+          ? Value(DateTime.parse(row['attendance_taken_at']))
+          : const Value.absent(),
       createdAt: Value(DateTime.parse(row['created_at'])),
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null

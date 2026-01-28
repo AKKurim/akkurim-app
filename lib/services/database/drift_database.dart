@@ -133,7 +133,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -141,18 +141,23 @@ class AppDatabase extends _$AppDatabase {
           await m.createAll();
         },
         onUpgrade: (Migrator m, int from, int to) async {
-          if (from != 6 && to != 9) {
+          if (from < 9) {
             return;
           }
-          print('Upgrading database from $from to $to');
           try {
             for (final String table in modelMap.keys) {
-              print('Dropping table: $table');
               await m.deleteTable(table);
             }
             await m.createAll();
           } catch (e) {
-            print('Error creating tables: $e');
+            throw Exception('Migration failed: $e');
+          }
+          if (from < 10) {
+            // Add columns one by one
+            await m.addColumn(training, training.location);
+            await m.addColumn(training, training.trainingType);
+            await m.addColumn(training, training.cancelledReason);
+            await m.addColumn(training, training.attendanceTakenAt);
           }
         },
       );

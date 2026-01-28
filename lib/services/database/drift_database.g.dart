@@ -18155,6 +18155,30 @@ class $TrainingTable extends Training
   late final GeneratedColumn<int> durationMinutes = GeneratedColumn<int>(
       'duration_minutes', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _locationMeta =
+      const VerificationMeta('location');
+  @override
+  late final GeneratedColumn<String> location = GeneratedColumn<String>(
+      'location', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _trainingTypeMeta =
+      const VerificationMeta('trainingType');
+  @override
+  late final GeneratedColumn<String> trainingType = GeneratedColumn<String>(
+      'training_type', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _cancelledReasonMeta =
+      const VerificationMeta('cancelledReason');
+  @override
+  late final GeneratedColumn<String> cancelledReason = GeneratedColumn<String>(
+      'cancelled_reason', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _attendanceTakenAtMeta =
+      const VerificationMeta('attendanceTakenAt');
+  @override
+  late final GeneratedColumn<DateTime> attendanceTakenAt =
+      GeneratedColumn<DateTime>('attendance_taken_at', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         createdAt,
@@ -18165,7 +18189,11 @@ class $TrainingTable extends Training
         startAt,
         groupId,
         description,
-        durationMinutes
+        durationMinutes,
+        location,
+        trainingType,
+        cancelledReason,
+        attendanceTakenAt
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -18230,6 +18258,28 @@ class $TrainingTable extends Training
     } else if (isInserting) {
       context.missing(_durationMinutesMeta);
     }
+    if (data.containsKey('location')) {
+      context.handle(_locationMeta,
+          location.isAcceptableOrUnknown(data['location']!, _locationMeta));
+    }
+    if (data.containsKey('training_type')) {
+      context.handle(
+          _trainingTypeMeta,
+          trainingType.isAcceptableOrUnknown(
+              data['training_type']!, _trainingTypeMeta));
+    }
+    if (data.containsKey('cancelled_reason')) {
+      context.handle(
+          _cancelledReasonMeta,
+          cancelledReason.isAcceptableOrUnknown(
+              data['cancelled_reason']!, _cancelledReasonMeta));
+    }
+    if (data.containsKey('attendance_taken_at')) {
+      context.handle(
+          _attendanceTakenAtMeta,
+          attendanceTakenAt.isAcceptableOrUnknown(
+              data['attendance_taken_at']!, _attendanceTakenAtMeta));
+    }
     return context;
   }
 
@@ -18257,6 +18307,14 @@ class $TrainingTable extends Training
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
       durationMinutes: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}duration_minutes'])!,
+      location: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}location']),
+      trainingType: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}training_type']),
+      cancelledReason: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}cancelled_reason']),
+      attendanceTakenAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}attendance_taken_at']),
     );
   }
 
@@ -18276,6 +18334,10 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
   final String groupId;
   final String? description;
   final int durationMinutes;
+  final String? location;
+  final String? trainingType;
+  final String? cancelledReason;
+  final DateTime? attendanceTakenAt;
   const TrainingData(
       {required this.createdAt,
       required this.updatedAt,
@@ -18285,7 +18347,11 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       required this.startAt,
       required this.groupId,
       this.description,
-      required this.durationMinutes});
+      required this.durationMinutes,
+      this.location,
+      this.trainingType,
+      this.cancelledReason,
+      this.attendanceTakenAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -18304,6 +18370,18 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       map['description'] = Variable<String>(description);
     }
     map['duration_minutes'] = Variable<int>(durationMinutes);
+    if (!nullToAbsent || location != null) {
+      map['location'] = Variable<String>(location);
+    }
+    if (!nullToAbsent || trainingType != null) {
+      map['training_type'] = Variable<String>(trainingType);
+    }
+    if (!nullToAbsent || cancelledReason != null) {
+      map['cancelled_reason'] = Variable<String>(cancelledReason);
+    }
+    if (!nullToAbsent || attendanceTakenAt != null) {
+      map['attendance_taken_at'] = Variable<DateTime>(attendanceTakenAt);
+    }
     return map;
   }
 
@@ -18324,6 +18402,18 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           ? const Value.absent()
           : Value(description),
       durationMinutes: Value(durationMinutes),
+      location: location == null && nullToAbsent
+          ? const Value.absent()
+          : Value(location),
+      trainingType: trainingType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(trainingType),
+      cancelledReason: cancelledReason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cancelledReason),
+      attendanceTakenAt: attendanceTakenAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(attendanceTakenAt),
     );
   }
 
@@ -18340,6 +18430,11 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       groupId: serializer.fromJson<String>(json['groupId']),
       description: serializer.fromJson<String?>(json['description']),
       durationMinutes: serializer.fromJson<int>(json['durationMinutes']),
+      location: serializer.fromJson<String?>(json['location']),
+      trainingType: serializer.fromJson<String?>(json['trainingType']),
+      cancelledReason: serializer.fromJson<String?>(json['cancelledReason']),
+      attendanceTakenAt:
+          serializer.fromJson<DateTime?>(json['attendanceTakenAt']),
     );
   }
   @override
@@ -18355,6 +18450,10 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       'groupId': serializer.toJson<String>(groupId),
       'description': serializer.toJson<String?>(description),
       'durationMinutes': serializer.toJson<int>(durationMinutes),
+      'location': serializer.toJson<String?>(location),
+      'trainingType': serializer.toJson<String?>(trainingType),
+      'cancelledReason': serializer.toJson<String?>(cancelledReason),
+      'attendanceTakenAt': serializer.toJson<DateTime?>(attendanceTakenAt),
     };
   }
 
@@ -18367,7 +18466,11 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           DateTime? startAt,
           String? groupId,
           Value<String?> description = const Value.absent(),
-          int? durationMinutes}) =>
+          int? durationMinutes,
+          Value<String?> location = const Value.absent(),
+          Value<String?> trainingType = const Value.absent(),
+          Value<String?> cancelledReason = const Value.absent(),
+          Value<DateTime?> attendanceTakenAt = const Value.absent()}) =>
       TrainingData(
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -18379,6 +18482,15 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
         groupId: groupId ?? this.groupId,
         description: description.present ? description.value : this.description,
         durationMinutes: durationMinutes ?? this.durationMinutes,
+        location: location.present ? location.value : this.location,
+        trainingType:
+            trainingType.present ? trainingType.value : this.trainingType,
+        cancelledReason: cancelledReason.present
+            ? cancelledReason.value
+            : this.cancelledReason,
+        attendanceTakenAt: attendanceTakenAt.present
+            ? attendanceTakenAt.value
+            : this.attendanceTakenAt,
       );
   TrainingData copyWithCompanion(TrainingCompanion data) {
     return TrainingData(
@@ -18396,6 +18508,16 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
       durationMinutes: data.durationMinutes.present
           ? data.durationMinutes.value
           : this.durationMinutes,
+      location: data.location.present ? data.location.value : this.location,
+      trainingType: data.trainingType.present
+          ? data.trainingType.value
+          : this.trainingType,
+      cancelledReason: data.cancelledReason.present
+          ? data.cancelledReason.value
+          : this.cancelledReason,
+      attendanceTakenAt: data.attendanceTakenAt.present
+          ? data.attendanceTakenAt.value
+          : this.attendanceTakenAt,
     );
   }
 
@@ -18410,14 +18532,30 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           ..write('startAt: $startAt, ')
           ..write('groupId: $groupId, ')
           ..write('description: $description, ')
-          ..write('durationMinutes: $durationMinutes')
+          ..write('durationMinutes: $durationMinutes, ')
+          ..write('location: $location, ')
+          ..write('trainingType: $trainingType, ')
+          ..write('cancelledReason: $cancelledReason, ')
+          ..write('attendanceTakenAt: $attendanceTakenAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(createdAt, updatedAt, deletedAt,
-      lastUpdatedBy, id, startAt, groupId, description, durationMinutes);
+  int get hashCode => Object.hash(
+      createdAt,
+      updatedAt,
+      deletedAt,
+      lastUpdatedBy,
+      id,
+      startAt,
+      groupId,
+      description,
+      durationMinutes,
+      location,
+      trainingType,
+      cancelledReason,
+      attendanceTakenAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -18430,7 +18568,11 @@ class TrainingData extends DataClass implements Insertable<TrainingData> {
           other.startAt == this.startAt &&
           other.groupId == this.groupId &&
           other.description == this.description &&
-          other.durationMinutes == this.durationMinutes);
+          other.durationMinutes == this.durationMinutes &&
+          other.location == this.location &&
+          other.trainingType == this.trainingType &&
+          other.cancelledReason == this.cancelledReason &&
+          other.attendanceTakenAt == this.attendanceTakenAt);
 }
 
 class TrainingCompanion extends UpdateCompanion<TrainingData> {
@@ -18443,6 +18585,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
   final Value<String> groupId;
   final Value<String?> description;
   final Value<int> durationMinutes;
+  final Value<String?> location;
+  final Value<String?> trainingType;
+  final Value<String?> cancelledReason;
+  final Value<DateTime?> attendanceTakenAt;
   final Value<int> rowid;
   const TrainingCompanion({
     this.createdAt = const Value.absent(),
@@ -18454,6 +18600,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
     this.groupId = const Value.absent(),
     this.description = const Value.absent(),
     this.durationMinutes = const Value.absent(),
+    this.location = const Value.absent(),
+    this.trainingType = const Value.absent(),
+    this.cancelledReason = const Value.absent(),
+    this.attendanceTakenAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TrainingCompanion.insert({
@@ -18466,6 +18616,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
     required String groupId,
     this.description = const Value.absent(),
     required int durationMinutes,
+    this.location = const Value.absent(),
+    this.trainingType = const Value.absent(),
+    this.cancelledReason = const Value.absent(),
+    this.attendanceTakenAt = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
@@ -18483,6 +18637,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
     Expression<String>? groupId,
     Expression<String>? description,
     Expression<int>? durationMinutes,
+    Expression<String>? location,
+    Expression<String>? trainingType,
+    Expression<String>? cancelledReason,
+    Expression<DateTime>? attendanceTakenAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -18495,6 +18653,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
       if (groupId != null) 'group_id': groupId,
       if (description != null) 'description': description,
       if (durationMinutes != null) 'duration_minutes': durationMinutes,
+      if (location != null) 'location': location,
+      if (trainingType != null) 'training_type': trainingType,
+      if (cancelledReason != null) 'cancelled_reason': cancelledReason,
+      if (attendanceTakenAt != null) 'attendance_taken_at': attendanceTakenAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -18509,6 +18671,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
       Value<String>? groupId,
       Value<String?>? description,
       Value<int>? durationMinutes,
+      Value<String?>? location,
+      Value<String?>? trainingType,
+      Value<String?>? cancelledReason,
+      Value<DateTime?>? attendanceTakenAt,
       Value<int>? rowid}) {
     return TrainingCompanion(
       createdAt: createdAt ?? this.createdAt,
@@ -18520,6 +18686,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
       groupId: groupId ?? this.groupId,
       description: description ?? this.description,
       durationMinutes: durationMinutes ?? this.durationMinutes,
+      location: location ?? this.location,
+      trainingType: trainingType ?? this.trainingType,
+      cancelledReason: cancelledReason ?? this.cancelledReason,
+      attendanceTakenAt: attendanceTakenAt ?? this.attendanceTakenAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -18554,6 +18724,18 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
     if (durationMinutes.present) {
       map['duration_minutes'] = Variable<int>(durationMinutes.value);
     }
+    if (location.present) {
+      map['location'] = Variable<String>(location.value);
+    }
+    if (trainingType.present) {
+      map['training_type'] = Variable<String>(trainingType.value);
+    }
+    if (cancelledReason.present) {
+      map['cancelled_reason'] = Variable<String>(cancelledReason.value);
+    }
+    if (attendanceTakenAt.present) {
+      map['attendance_taken_at'] = Variable<DateTime>(attendanceTakenAt.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -18572,6 +18754,10 @@ class TrainingCompanion extends UpdateCompanion<TrainingData> {
           ..write('groupId: $groupId, ')
           ..write('description: $description, ')
           ..write('durationMinutes: $durationMinutes, ')
+          ..write('location: $location, ')
+          ..write('trainingType: $trainingType, ')
+          ..write('cancelledReason: $cancelledReason, ')
+          ..write('attendanceTakenAt: $attendanceTakenAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -27699,6 +27885,10 @@ typedef $$TrainingTableCreateCompanionBuilder = TrainingCompanion Function({
   required String groupId,
   Value<String?> description,
   required int durationMinutes,
+  Value<String?> location,
+  Value<String?> trainingType,
+  Value<String?> cancelledReason,
+  Value<DateTime?> attendanceTakenAt,
   Value<int> rowid,
 });
 typedef $$TrainingTableUpdateCompanionBuilder = TrainingCompanion Function({
@@ -27711,6 +27901,10 @@ typedef $$TrainingTableUpdateCompanionBuilder = TrainingCompanion Function({
   Value<String> groupId,
   Value<String?> description,
   Value<int> durationMinutes,
+  Value<String?> location,
+  Value<String?> trainingType,
+  Value<String?> cancelledReason,
+  Value<DateTime?> attendanceTakenAt,
   Value<int> rowid,
 });
 
@@ -27749,6 +27943,20 @@ class $$TrainingTableFilterComposer
 
   ColumnFilters<int> get durationMinutes => $composableBuilder(
       column: $table.durationMinutes,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get location => $composableBuilder(
+      column: $table.location, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get trainingType => $composableBuilder(
+      column: $table.trainingType, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get cancelledReason => $composableBuilder(
+      column: $table.cancelledReason,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get attendanceTakenAt => $composableBuilder(
+      column: $table.attendanceTakenAt,
       builder: (column) => ColumnFilters(column));
 }
 
@@ -27789,6 +27997,21 @@ class $$TrainingTableOrderingComposer
   ColumnOrderings<int> get durationMinutes => $composableBuilder(
       column: $table.durationMinutes,
       builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get location => $composableBuilder(
+      column: $table.location, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get trainingType => $composableBuilder(
+      column: $table.trainingType,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get cancelledReason => $composableBuilder(
+      column: $table.cancelledReason,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get attendanceTakenAt => $composableBuilder(
+      column: $table.attendanceTakenAt,
+      builder: (column) => ColumnOrderings(column));
 }
 
 class $$TrainingTableAnnotationComposer
@@ -27826,6 +28049,18 @@ class $$TrainingTableAnnotationComposer
 
   GeneratedColumn<int> get durationMinutes => $composableBuilder(
       column: $table.durationMinutes, builder: (column) => column);
+
+  GeneratedColumn<String> get location =>
+      $composableBuilder(column: $table.location, builder: (column) => column);
+
+  GeneratedColumn<String> get trainingType => $composableBuilder(
+      column: $table.trainingType, builder: (column) => column);
+
+  GeneratedColumn<String> get cancelledReason => $composableBuilder(
+      column: $table.cancelledReason, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get attendanceTakenAt => $composableBuilder(
+      column: $table.attendanceTakenAt, builder: (column) => column);
 }
 
 class $$TrainingTableTableManager extends RootTableManager<
@@ -27860,6 +28095,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             Value<String> groupId = const Value.absent(),
             Value<String?> description = const Value.absent(),
             Value<int> durationMinutes = const Value.absent(),
+            Value<String?> location = const Value.absent(),
+            Value<String?> trainingType = const Value.absent(),
+            Value<String?> cancelledReason = const Value.absent(),
+            Value<DateTime?> attendanceTakenAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               TrainingCompanion(
@@ -27872,6 +28111,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             groupId: groupId,
             description: description,
             durationMinutes: durationMinutes,
+            location: location,
+            trainingType: trainingType,
+            cancelledReason: cancelledReason,
+            attendanceTakenAt: attendanceTakenAt,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -27884,6 +28127,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             required String groupId,
             Value<String?> description = const Value.absent(),
             required int durationMinutes,
+            Value<String?> location = const Value.absent(),
+            Value<String?> trainingType = const Value.absent(),
+            Value<String?> cancelledReason = const Value.absent(),
+            Value<DateTime?> attendanceTakenAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               TrainingCompanion.insert(
@@ -27896,6 +28143,10 @@ class $$TrainingTableTableManager extends RootTableManager<
             groupId: groupId,
             description: description,
             durationMinutes: durationMinutes,
+            location: location,
+            trainingType: trainingType,
+            cancelledReason: cancelledReason,
+            attendanceTakenAt: attendanceTakenAt,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0

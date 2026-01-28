@@ -191,7 +191,7 @@ class _TrainingProviderElement
   String get trainingId => (origin as TrainingProvider).trainingId;
 }
 
-String _$trainingsPHash() => r'5908ada301ca634c1913993972cf0fd00d14eb78';
+String _$trainingsPHash() => r'6b8edee8484a3983014dd12c79ce40903c2cd006';
 
 abstract class _$TrainingsP
     extends BuildlessAutoDisposeStreamNotifier<List<TrainingView>> {
