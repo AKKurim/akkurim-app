@@ -647,5 +647,43 @@
     "editGroup": "Edit Group",
     "@editGroup": {
         "description": "The label for the edit group button"
+    },
+    "notSelectedDayError": "You must select a training day.",
+    "@notSelectedDayError": {
+        "description": "The error message shown when no training day is selected"
+    },
+    "groupName": "Group Name",
+    "@groupName": {
+        "description": "The label for the group name input field"
+    },
+    "groupNameCannotBeEmpty": "Group name cannot be empty.",
+    "@groupNameCannotBeEmpty": {
+        "description": "The error message shown when the group name is empty"
+    },
+    "duration": "Duration",
+    "@duration": {
+        "description": "The label for duration"
+    },
+    "dayHint" : "Day...",
+    "@dayHint" : {
+        "description": "The hint text for the day selection"
+    },
+    "schoolYearHint": "School Year...",
+    "@schoolYearHint": {
+        "description": "The hint text for the school year selection"
+    },
+    "durationInvalidRange": "Duration must be between {min} and {max} minutes.",
+    "@durationInvalidRange": {
+        "description": "The error message shown when the duration is out of valid range",
+        "placeholders": {
+            "min": {
+                "description": "The minimum duration",
+                "type": "int"
+            },
+            "max": {
+                "description": "The maximum duration",
+                "type": "int"
+            }
+        }
     }
 }

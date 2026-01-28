@@ -33,18 +33,18 @@ class Utils {
     return false;
   }
 
-  static String tzOffsetMap(String tz) {
+  static String tzOffsetMap(String tz, DateTime dateTime) {
     // TODO check for daylight saving time
     switch (tz) {
       case 'UTC':
         return 'Z';
       case 'Europe/Prague':
-        return '+01:00';
-      case 'Europe/Berlin':
+        if (TimeHelper.isSummerTimeZone(dateTime)) {
+          return '+02:00';
+        }
         return '+01:00';
     }
     // TODO: Add more timezones from wiki
-    print('tz: $tz');
     return '+00:00';
   }
 
@@ -215,7 +215,6 @@ class TimeHelper {
 
     final parts = time.split(':');
     if (parts.length != 2 && parts.length != 3) {
-      print('Invalid time format: $time');
       throw FormatException('Invalid time format');
     }
     final hour = int.parse(parts[0]);

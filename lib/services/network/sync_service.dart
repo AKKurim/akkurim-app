@@ -154,6 +154,7 @@ class SyncService extends _$SyncService {
     final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
     lastUpdated += Utils.tzOffsetMap(
       currentTimeZone,
+      DateTime.parse(lastUpdated),
     );
     return lastUpdated;
   }
@@ -216,7 +217,6 @@ class SyncService extends _$SyncService {
           return data.id;
         }
       } catch (error) {
-        print("Error: $error");
         return null;
       }
     }).toList();

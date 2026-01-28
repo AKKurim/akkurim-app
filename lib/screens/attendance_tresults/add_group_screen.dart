@@ -1,6 +1,7 @@
 import 'package:ak_kurim_app/models/views/trainer_view.dart';
 import 'package:ak_kurim_app/services/database/drift_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/views/group_view.dart';
 import '../../models/views/simple_athlete_view.dart';
@@ -30,6 +31,8 @@ class AddGroupScreen extends ConsumerStatefulWidget {
 }
 
 class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
+  static const int minDuration = 1; // minutes
+  static const int maxDuration = 720; // 12 hours in minutes
   bool saved = false;
   bool _showAllTrainers = false;
   bool _showAllAthletes = false;
@@ -41,6 +44,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   late int durationWinter;
 
   late final TextEditingController nameController;
+  late final TextEditingController durationSummerController;
+  late final TextEditingController durationWinterController;
   late final List<String> previousTrainersIds;
   late final List<String> previousAthletesIds;
 
@@ -76,6 +81,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       trainingTime = widget.preloadedGroup!.trainingTime;
       durationSummer = widget.preloadedGroup!.trainingTime!.durationSummer;
       durationWinter = widget.preloadedGroup!.trainingTime!.durationWinter;
+      durationSummerController =
+          TextEditingController(text: durationSummer.toString());
+      durationWinterController =
+          TextEditingController(text: durationWinter.toString());
     } else {
       previousTrainersIds = [];
       previousAthletesIds = [];
@@ -83,15 +92,20 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       selectedWinterTime = TimeOfDay.now();
       durationSummer = 90;
       durationWinter = 60;
+      durationSummerController =
+          TextEditingController(text: durationSummer.toString());
+      durationWinterController =
+          TextEditingController(text: durationWinter.toString());
       trainingDay = '';
       //trainingTime = null;
     }
   }
 
-  // TODO add ui for duration selection
   @override
   void dispose() {
     nameController.dispose();
+    durationSummerController.dispose();
+    durationWinterController.dispose();
     super.dispose();
   }
 
@@ -124,7 +138,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                 trainer.simpleAthlete.athlete.status == 'active';
           }).toList(),
           error: (error, stackTrace) {
-            print('Error loading trainers: $error--------');
             return [];
           },
           loading: () => [],
@@ -164,13 +177,39 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       if (trainingDay.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('selectTrainingDayError'),
+            content: Text(AppLocalizations.of(context)!.notSelectedDayError),
             duration: Duration(seconds: 2),
             backgroundColor: Colors.red,
           ),
         );
         return;
       }
+      if (nameController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.groupNameCannotBeEmpty),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+      // validate duration ranges
+      if (durationSummer < minDuration ||
+          durationSummer > maxDuration ||
+          durationWinter < minDuration ||
+          durationWinter > maxDuration) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!
+                .durationInvalidRange(minDuration, maxDuration)),
+            duration: Duration(seconds: 3),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
       ref.read(groupsPProvider.notifier).saveGroup(
             name: nameController.text,
             day: trainingDay,
@@ -253,8 +292,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                   children: [
                     TextField(
                       controller: nameController,
-                      decoration:
-                          const InputDecoration(labelText: 'Group Name'),
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.groupName),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -263,7 +302,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             initialSelection: widget.editMode
                                 ? group?.trainingTime!.day
                                 : null,
-                            hintText: 'Day...',
+                            hintText: AppLocalizations.of(context)!.dayHint,
                             dropdownMenuEntries: [
                               DropdownMenuEntry<String>(
                                 label: AppLocalizations.of(context)!.monday,
@@ -317,6 +356,15 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                     minute: parsedTime.minute,
                                   );
                                   trainingTime = selectedTrainingTime;
+                                  // update durations from selected training time
+                                  durationSummer =
+                                      selectedTrainingTime.durationSummer;
+                                  durationWinter =
+                                      selectedTrainingTime.durationWinter;
+                                  durationSummerController.text =
+                                      durationSummer.toString();
+                                  durationWinterController.text =
+                                      durationWinter.toString();
                                 } else {
                                   trainingTime = null;
                                 }
@@ -331,7 +379,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                       value: e,
                                     ))
                                 .toList(),
-                            hintText: 'School Year...',
+                            hintText:
+                                AppLocalizations.of(context)!.schoolYearHint,
                             onSelected: (value) {
                               setState(() {
                                 selectedSchoolYear = value!;
@@ -385,6 +434,68 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.primary,
                               )),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.wb_sunny, color: Colors.yellow),
+                              const Icon(Icons.timer),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: TextField(
+                                  controller: durationSummerController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        '${AppLocalizations.of(context)!.duration} (min)',
+                                  ),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      durationSummer =
+                                          int.tryParse(val) ?? durationSummer;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.ac_unit, color: Colors.blue),
+                              const Icon(Icons.timer),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: TextField(
+                                  controller: durationWinterController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        '${AppLocalizations.of(context)!.duration} (min)',
+                                  ),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      durationWinter =
+                                          int.tryParse(val) ?? durationWinter;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

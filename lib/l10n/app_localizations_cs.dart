@@ -495,4 +495,27 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get editGroup => 'Upravit skupinu';
+
+  @override
+  String get notSelectedDayError => 'You must select a training day.';
+
+  @override
+  String get groupName => 'Název skupiny';
+
+  @override
+  String get groupNameCannotBeEmpty => 'Název skupiny nesmí být prázdný.';
+
+  @override
+  String get duration => 'Doba trvání';
+
+  @override
+  String get dayHint => 'Den...';
+
+  @override
+  String get schoolYearHint => 'Školní rok...';
+
+  @override
+  String durationInvalidRange(int min, int max) {
+    return 'Doba trvání musí být mezi $min a $max minutami.';
+  }
 }

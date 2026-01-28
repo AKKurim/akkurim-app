@@ -1,6 +1,5 @@
 import 'package:ak_kurim_app/models/views/group_view.dart';
 import 'package:ak_kurim_app/screens/attendance_tresults/take_attendance.dart';
-import 'package:ak_kurim_app/screens/attendance_tresults/training_results_screen.dart';
 import 'package:ak_kurim_app/screens/member/member_profile.dart';
 import 'package:ak_kurim_app/screens/storage/add_item_screen.dart';
 import 'package:flutter/material.dart';

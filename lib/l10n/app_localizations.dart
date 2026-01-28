@@ -1015,6 +1015,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Group'**
   String get editGroup;
+
+  /// The error message shown when no training day is selected
+  ///
+  /// In en, this message translates to:
+  /// **'You must select a training day.'**
+  String get notSelectedDayError;
+
+  /// The label for the group name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Group Name'**
+  String get groupName;
+
+  /// The error message shown when the group name is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Group name cannot be empty.'**
+  String get groupNameCannotBeEmpty;
+
+  /// The label for duration
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// The hint text for the day selection
+  ///
+  /// In en, this message translates to:
+  /// **'Day...'**
+  String get dayHint;
+
+  /// The hint text for the school year selection
+  ///
+  /// In en, this message translates to:
+  /// **'School Year...'**
+  String get schoolYearHint;
+
+  /// The error message shown when the duration is out of valid range
+  ///
+  /// In en, this message translates to:
+  /// **'Duration must be between {min} and {max} minutes.'**
+  String durationInvalidRange(int min, int max);
 }
 
 class _AppLocalizationsDelegate

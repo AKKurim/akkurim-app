@@ -188,7 +188,6 @@ class GroupsP extends _$GroupsP {
         'table': 'group',
       }),
     );
-    // TODO fix the router issue causing double navigation back
 
     List<GroupTrainerData> updatedGroupTrainer = [];
     for (final trainer in trainers) {

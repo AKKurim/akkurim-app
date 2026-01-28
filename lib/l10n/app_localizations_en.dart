@@ -495,4 +495,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editGroup => 'Edit Group';
+
+  @override
+  String get notSelectedDayError => 'You must select a training day.';
+
+  @override
+  String get groupName => 'Group Name';
+
+  @override
+  String get groupNameCannotBeEmpty => 'Group name cannot be empty.';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get dayHint => 'Day...';
+
+  @override
+  String get schoolYearHint => 'School Year...';
+
+  @override
+  String durationInvalidRange(int min, int max) {
+    return 'Duration must be between $min and $max minutes.';
+  }
 }

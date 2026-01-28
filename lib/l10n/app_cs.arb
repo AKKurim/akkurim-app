@@ -152,5 +152,12 @@
     "registerFailed": "Registrace se nezdařila. Zkontrolujte své údaje a síťové připojení.",
     "passwordsDoNotMatch": "Hesla se neshodují.",
     "loginScreenTitle": "Přihlášení",
-    "editGroup": "Upravit skupinu"
+    "editGroup": "Upravit skupinu",
+    "notSelectedDay": "Musíte vybrat den tréninku.",
+    "groupName": "Název skupiny",
+    "groupNameCannotBeEmpty": "Název skupiny nesmí být prázdný.",
+    "dayHint": "Den...",
+    "schoolYearHint": "Školní rok...",
+    "duration": "Doba trvání",
+    "durationInvalidRange": "Doba trvání musí být mezi {min} a {max} minutami."
 }

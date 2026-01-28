@@ -10,7 +10,6 @@ import 'package:diacritic/diacritic.dart';
 import '../../providers/training_results_provider.dart';
 import '../../models/views/full_meet_view.dart';
 import '../../utils/utils.dart';
-import 'take_training_results_screen.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
 class TrainingResultsScreen extends ConsumerWidget {
