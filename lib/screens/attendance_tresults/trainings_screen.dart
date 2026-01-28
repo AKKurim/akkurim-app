@@ -79,7 +79,10 @@ class TrainingTile extends ConsumerWidget {
             const SizedBox(width: 8),
             Text(
                 TimeHelper.getFullDateWithTime(
-                    training.training.startAt, context),
+                    training.training.startAt, context,
+                    endTime: training.training.startAt.add(
+                      Duration(minutes: training.training.durationMinutes),
+                    )),
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ],
@@ -88,7 +91,6 @@ class TrainingTile extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: GestureDetector(
             onLongPress: () {
-              // show alert dialog to delete training
               showDialog(
                 context: context,
                 builder: (context) {
@@ -236,10 +238,13 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
                         .read(trainingsPProvider(range: TimeHelper.emptyRange())
                             .notifier)
                         .createTrainings(
-                          _selectedGroup!,
-                          _dateRange!.start,
-                          _dateRange!.end,
-                          90, // TODO: Get training duration from user input
+                          group: _selectedGroup!,
+                          from: _dateRange!.start,
+                          to: _dateRange!.end,
+                          durationSummer:
+                              _selectedGroup!.trainingTime!.durationSummer,
+                          durationWinter:
+                              _selectedGroup!.trainingTime!.durationWinter,
                         );
                     Navigator.of(context).pop(); // Dismiss sheet
                     ScaffoldMessenger.of(context).showSnackBar(
