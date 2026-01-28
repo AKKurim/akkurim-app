@@ -1,2 +1,2 @@
-shorebird patch --platforms=android --release-version=2.4.1+1
+shorebird patch --platforms=android --release-version=2.4.2+1
 change trainings provider to use the new DateRange model
