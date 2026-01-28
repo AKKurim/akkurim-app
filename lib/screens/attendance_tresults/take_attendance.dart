@@ -76,7 +76,10 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                         trailing: Text(
                           TimeHelper.getFullDateWithTime(
                               _training!.training.startAt, context,
-                              withDay: false),
+                              withDay: false,
+                              endTime: _training!.training.startAt.add(Duration(
+                                  minutes:
+                                      _training!.training.durationMinutes))),
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
