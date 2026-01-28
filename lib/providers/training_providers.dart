@@ -121,7 +121,8 @@ class TrainingsP extends _$TrainingsP {
     final int weekday =
         TimeHelper.getWeekDayFromString(group.trainingTime!.day);
     DateTime currentDate = from;
-    while (currentDate.isBefore(to) || currentDate.isAtSameMomentAs(to)) {
+    while (currentDate.isBefore(to.add(const Duration(days: 1))) ||
+        currentDate.isAtSameMomentAs(to)) {
       if (currentDate.weekday == weekday) {
         // we need a helper func to determine time based on summer/winter time
         final bool isSummerTime =
