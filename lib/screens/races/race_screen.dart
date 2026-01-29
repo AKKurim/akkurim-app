@@ -322,7 +322,7 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                                             SizedBox(
                                               width: 36,
                                               child: Text(
-                                                'pb?',
+                                                'pb',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontSize: 16,
