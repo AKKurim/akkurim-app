@@ -142,17 +142,17 @@ class AppDatabase extends _$AppDatabase {
         },
         onUpgrade: (Migrator m, int from, int to) async {
           if (from < 9) {
-            return;
-          }
-          try {
-            for (final String table in modelMap.keys) {
-              await m.deleteTable(table);
+            try {
+              for (final String table in modelMap.keys) {
+                await m.deleteTable(table);
+              }
+              await m.createAll();
+            } catch (e) {
+              throw Exception('Migration failed: $e');
             }
-            await m.createAll();
-          } catch (e) {
-            throw Exception('Migration failed: $e');
           }
-          if (from < 10) {
+
+          if (from == 9) {
             // Add columns one by one
             await m.addColumn(training, training.location);
             await m.addColumn(training, training.trainingType);
