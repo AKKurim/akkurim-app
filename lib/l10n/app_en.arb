@@ -556,11 +556,11 @@
     "@result" : {
         "description": "The label for the result"
     },
-    "wind" : "Wind",
+    "wind" : "wind",
     "@wind" : {
         "description": "The label for the wind condition"
     },
-    "points" : "Pts",
+    "points" : "pts",
     "@points" : {
         "description": "The label for points"
     },
