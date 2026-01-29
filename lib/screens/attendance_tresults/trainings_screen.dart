@@ -222,7 +222,7 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
                       data: (locale) => locale.locale,
                     ),
                 context: context,
-                firstDate: now,
+                firstDate: now.subtract(const Duration(days: 30)),
                 lastDate: now.add(const Duration(days: 365)),
               );
               if (picked != null) {
