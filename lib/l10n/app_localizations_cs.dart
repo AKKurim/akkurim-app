@@ -423,10 +423,10 @@ class AppLocalizationsCs extends AppLocalizations {
   String get result => 'Výkon';
 
   @override
-  String get wind => 'Vítr';
+  String get wind => 'vítr';
 
   @override
-  String get points => 'Body';
+  String get points => 'body';
 
   @override
   String get showBirthdays => 'Zobrazit narozeniny';

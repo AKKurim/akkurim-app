@@ -425,10 +425,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get result => 'Result';
 
   @override
-  String get wind => 'Wind';
+  String get wind => 'wind';
 
   @override
-  String get points => 'Pts';
+  String get points => 'pts';
 
   @override
   String get showBirthdays => 'Show Birthdays';

@@ -881,13 +881,13 @@ abstract class AppLocalizations {
   /// The label for the wind condition
   ///
   /// In en, this message translates to:
-  /// **'Wind'**
+  /// **'wind'**
   String get wind;
 
   /// The label for points
   ///
   /// In en, this message translates to:
-  /// **'Pts'**
+  /// **'pts'**
   String get points;
 
   /// The label for the show birthdays option
