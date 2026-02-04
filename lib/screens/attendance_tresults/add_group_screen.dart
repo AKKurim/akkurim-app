@@ -461,6 +461,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                     setState(() {
                                       durationSummer =
                                           int.tryParse(val) ?? durationSummer;
+                                      trainingTime = null;
                                     });
                                   },
                                 ),
@@ -490,6 +491,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                     setState(() {
                                       durationWinter =
                                           int.tryParse(val) ?? durationWinter;
+                                      trainingTime = null;
                                     });
                                   },
                                 ),
