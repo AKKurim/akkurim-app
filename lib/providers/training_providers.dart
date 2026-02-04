@@ -236,6 +236,7 @@ class TrainingsP extends _$TrainingsP {
               updatedAt: Value(DateTime.now()),
               deletedAt: Value(null),
               lastUpdatedBy: Value(auth.asData!.value.email),
+              attendanceTakenAt: Value(DateTime.now().toUtc()),
             ),
           );
       await sync.addToSyncQueue(
