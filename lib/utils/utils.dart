@@ -196,7 +196,7 @@ class Utils {
     if (mod == 10) {
       mod = 0;
     }
-    final controlDigit = int.parse(birthNumber.substring(8, 9));
+    final controlDigit = int.parse(birthNumber.substring(9, 10));
     return mod == controlDigit;
   }
 }
