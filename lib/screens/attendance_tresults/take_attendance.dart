@@ -65,7 +65,8 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
             tooltip: 'Edit training',
             icon: const Icon(Icons.edit),
             onPressed: () async {
-              context.push('/edit-training/${widget.trainingId}', extra: _training);
+              context.push('/edit-training/${widget.trainingId}',
+                  extra: _training);
               setState(() {});
             },
           ),
@@ -84,18 +85,28 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                     children: [
                       ListTile(
                         title: Text(_training!.group.group.name),
-                        trailing: Text(
-                          TimeHelper.getFullDateWithTime(
-                              _training!.training.startAt, context,
-                              withDay: false,
-                              endTime: _training!.training.startAt.add(Duration(
-                                  minutes:
-                                      _training!.training.durationMinutes))),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        trailing: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              TimeHelper.getFullDateWithoutTime(
+                                  _training!.training.startAt, context),
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                                '${TimeHelper.getMinHourFromDateTime(_training!.training.startAt)} - ${TimeHelper.getMinHourFromDateTime(_training!.training.startAt.add(
+                                  Duration(
+                                      minutes:
+                                          _training!.training.durationMinutes),
+                                ))}',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                          ],
                         ),
+                        subtitle: Text(
+                            '${AppLocalizations.of(context)!.location}: ${_training!.training.location ?? '?'}'),
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             width: 2,
