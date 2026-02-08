@@ -685,5 +685,21 @@
                 "type": "int"
             }
         }
+    },
+    "hideDetails": "Hide Details",
+    "@hideDetails": {
+        "description": "The label for the hide details button"
+    },
+    "showDetails": "Show Details",
+    "@showDetails": {
+        "description": "The label for the show details button"
+    },
+    "locationSummer": "Location (summer)",
+    "@locationSummer": {
+        "description": "The label for the location during summer"
+    },
+    "locationWinter": "Location (winter)",
+    "@locationWinter": {
+        "description": "The label for the location during winter"
     }
 }

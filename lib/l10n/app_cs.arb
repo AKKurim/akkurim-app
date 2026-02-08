@@ -159,5 +159,9 @@
     "dayHint": "Den...",
     "schoolYearHint": "Školní rok...",
     "duration": "Doba trvání",
-    "durationInvalidRange": "Doba trvání musí být mezi {min} a {max} minutami."
+    "durationInvalidRange": "Doba trvání musí být mezi {min} a {max} minutami.",
+    "hideDetails": "Skrýt detaily",
+    "showDetails": "Zobrazit detaily",
+    "locationSummer": "Místo (léto)",
+    "locationWinter": "Místo (zima)"
 }

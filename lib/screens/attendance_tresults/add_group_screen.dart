@@ -35,6 +35,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   bool saved = false;
   bool _showAllTrainers = false;
   bool _showAllAthletes = false;
+  bool _showMetadata = true;
   late String trainingDay;
   late TimeOfDay selectedSummerTime;
   late TimeOfDay selectedWinterTime;
@@ -42,8 +43,11 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   late int durationWinter;
 
   late final TextEditingController nameController;
+  late final TextEditingController descriptionController;
   late final TextEditingController durationSummerController;
   late final TextEditingController durationWinterController;
+  late final TextEditingController defaultLocationSummerController;
+  late final TextEditingController defaultLocationWinterController;
   late final List<String> previousTrainersIds;
   late final List<String> previousAthletesIds;
 
@@ -52,6 +56,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
     super.initState();
     nameController = TextEditingController(
       text: widget.preloadedGroup?.group.name ?? '',
+    );
+
+    descriptionController = TextEditingController(
+      text: widget.preloadedGroup?.group.description ?? '',
     );
 
     if (widget.editMode) {
@@ -82,6 +90,10 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
           TextEditingController(text: durationSummer.toString());
       durationWinterController =
           TextEditingController(text: durationWinter.toString());
+      defaultLocationSummerController = TextEditingController(
+          text: widget.preloadedGroup!.group.defaultLocationSummer ?? '');
+      defaultLocationWinterController = TextEditingController(
+          text: widget.preloadedGroup!.group.defaultLocationWinter ?? '');
     } else {
       previousTrainersIds = [];
       previousAthletesIds = [];
@@ -93,6 +105,9 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
           TextEditingController(text: durationSummer.toString());
       durationWinterController =
           TextEditingController(text: durationWinter.toString());
+      descriptionController = TextEditingController(text: '');
+      defaultLocationSummerController = TextEditingController(text: '');
+      defaultLocationWinterController = TextEditingController(text: '');
       trainingDay = '';
       //trainingTime = null;
     }
@@ -101,8 +116,11 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   @override
   void dispose() {
     nameController.dispose();
+    descriptionController.dispose();
     durationSummerController.dispose();
     durationWinterController.dispose();
+    defaultLocationSummerController.dispose();
+    defaultLocationWinterController.dispose();
     super.dispose();
   }
 
@@ -206,6 +224,7 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
 
       ref.read(groupsPProvider.notifier).saveGroup(
             name: nameController.text,
+            description: descriptionController.text,
             day: trainingDay,
             summerTime:
                 TimeHelper(selectedSummerTime.hour, selectedSummerTime.minute),
@@ -219,6 +238,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
             previousTrainersIds: previousTrainersIds,
             durationSummer: durationSummer,
             durationWinter: durationWinter,
+            defaultLocationSummer: defaultLocationSummerController.text,
+            defaultLocationWinter: defaultLocationWinterController.text,
           );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -283,180 +304,238 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    TextField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.groupName),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        DropdownMenu(
-                            initialSelection:
-                                widget.editMode ? group?.group.dayOfWeek : null,
-                            hintText: AppLocalizations.of(context)!.dayHint,
-                            dropdownMenuEntries: [
-                              DropdownMenuEntry<String>(
-                                label: AppLocalizations.of(context)!.monday,
-                                value: 'Monday',
-                              ),
-                              DropdownMenuEntry<String>(
-                                label: AppLocalizations.of(context)!.tuesday,
-                                value: 'Tuesday',
-                              ),
-                              DropdownMenuEntry<String>(
-                                label: AppLocalizations.of(context)!.wednesday,
-                                value: 'Wednesday',
-                              ),
-                              DropdownMenuEntry<String>(
-                                label: AppLocalizations.of(context)!.thursday,
-                                value: 'Thursday',
-                              ),
-                              DropdownMenuEntry<String>(
-                                label: AppLocalizations.of(context)!.friday,
-                                value: 'Friday',
-                              ),
-                              DropdownMenuEntry<String>(
-                                label: AppLocalizations.of(context)!.saturday,
-                                value: 'Saturday',
-                              ),
-                              DropdownMenuEntry<String>(
-                                label: AppLocalizations.of(context)!.sunday,
-                                value: 'Sunday',
-                              ),
-                            ],
-                            onSelected: (value) {
-                              setState(() {
-                                trainingDay = value!;
-                              });
-                            }),
-                        const Expanded(child: SizedBox()),
-                        DropdownMenu(
-                            initialSelection: selectedSchoolYear,
-                            dropdownMenuEntries: schoolYears
-                                .map((e) => DropdownMenuEntry<SchoolYearData>(
-                                      label: e.name,
-                                      value: e,
-                                    ))
-                                .toList(),
-                            hintText:
-                                AppLocalizations.of(context)!.schoolYearHint,
-                            onSelected: (value) {
-                              setState(() {
-                                selectedSchoolYear = value!;
-                              });
-                            }),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.wb_sunny, color: Colors.yellow),
-                        const Icon(Icons.access_time),
-                        TextButton(
-                          onPressed: () async {
-                            TimeOfDay? time = await showTimePicker(
-                              context: context,
-                              initialTime: selectedSummerTime,
-                            );
-                            if (time != null) {
-                              setState(() {
-                                selectedSummerTime = time;
-                              });
-                            }
-                          },
-                          child: Text(selectedSummerTime.format(context),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              )),
-                        ),
-                        Expanded(child: const SizedBox()),
-                        const Icon(Icons.ac_unit, color: Colors.blue),
-                        const Icon(Icons.access_time),
-                        TextButton(
-                          onPressed: () async {
-                            TimeOfDay? time = await showTimePicker(
-                              context: context,
-                              initialTime: selectedWinterTime,
-                            );
-                            if (time != null) {
-                              setState(() {
-                                selectedWinterTime = time;
-                              });
-                            }
-                          },
-                          child: Text(selectedWinterTime.format(context),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              )),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
                     Row(
                       children: [
                         Expanded(
-                          child: Row(
-                            children: [
-                              const Icon(Icons.wb_sunny, color: Colors.yellow),
-                              const Icon(Icons.timer),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: TextField(
-                                  controller: durationSummerController,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  decoration: InputDecoration(
-                                    labelText:
-                                        '${AppLocalizations.of(context)!.duration} (min)',
-                                  ),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      durationSummer =
-                                          int.tryParse(val) ?? durationSummer;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
+                          child: TextField(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                                labelText:
+                                    AppLocalizations.of(context)!.groupName),
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              const Icon(Icons.ac_unit, color: Colors.blue),
-                              const Icon(Icons.timer),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: TextField(
-                                  controller: durationWinterController,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  decoration: InputDecoration(
-                                    labelText:
-                                        '${AppLocalizations.of(context)!.duration} (min)',
-                                  ),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      durationWinter =
-                                          int.tryParse(val) ?? durationWinter;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                        const SizedBox(width: 8),
+                        TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              _showMetadata = !_showMetadata;
+                            });
+                          },
+                          icon: Icon(_showMetadata
+                              ? Icons.expand_less
+                              : Icons.expand_more),
+                          label: Text(_showMetadata
+                              ? AppLocalizations.of(context)!.hideDetails
+                              : AppLocalizations.of(context)!.showDetails),
                         ),
                       ],
                     ),
+                    if (_showMetadata) ...[
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: descriptionController,
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.description,
+                        ),
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          DropdownMenu(
+                              initialSelection: widget.editMode
+                                  ? group?.group.dayOfWeek
+                                  : null,
+                              hintText: AppLocalizations.of(context)!.dayHint,
+                              dropdownMenuEntries: [
+                                DropdownMenuEntry<String>(
+                                  label: AppLocalizations.of(context)!.monday,
+                                  value: 'Monday',
+                                ),
+                                DropdownMenuEntry<String>(
+                                  label: AppLocalizations.of(context)!.tuesday,
+                                  value: 'Tuesday',
+                                ),
+                                DropdownMenuEntry<String>(
+                                  label:
+                                      AppLocalizations.of(context)!.wednesday,
+                                  value: 'Wednesday',
+                                ),
+                                DropdownMenuEntry<String>(
+                                  label: AppLocalizations.of(context)!.thursday,
+                                  value: 'Thursday',
+                                ),
+                                DropdownMenuEntry<String>(
+                                  label: AppLocalizations.of(context)!.friday,
+                                  value: 'Friday',
+                                ),
+                                DropdownMenuEntry<String>(
+                                  label: AppLocalizations.of(context)!.saturday,
+                                  value: 'Saturday',
+                                ),
+                                DropdownMenuEntry<String>(
+                                  label: AppLocalizations.of(context)!.sunday,
+                                  value: 'Sunday',
+                                ),
+                              ],
+                              onSelected: (value) {
+                                setState(() {
+                                  trainingDay = value!;
+                                });
+                              }),
+                          const Expanded(child: SizedBox()),
+                          DropdownMenu(
+                              initialSelection: selectedSchoolYear,
+                              dropdownMenuEntries: schoolYears
+                                  .map((e) => DropdownMenuEntry<SchoolYearData>(
+                                        label: e.name,
+                                        value: e,
+                                      ))
+                                  .toList(),
+                              hintText:
+                                  AppLocalizations.of(context)!.schoolYearHint,
+                              onSelected: (value) {
+                                setState(() {
+                                  selectedSchoolYear = value!;
+                                });
+                              }),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: defaultLocationSummerController,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .locationSummer,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: TextField(
+                              controller: defaultLocationWinterController,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .locationWinter,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.wb_sunny, color: Colors.yellow),
+                          const Icon(Icons.access_time),
+                          TextButton(
+                            onPressed: () async {
+                              TimeOfDay? time = await showTimePicker(
+                                context: context,
+                                initialTime: selectedSummerTime,
+                              );
+                              if (time != null) {
+                                setState(() {
+                                  selectedSummerTime = time;
+                                });
+                              }
+                            },
+                            child: Text(selectedSummerTime.format(context),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
+                          ),
+                          Expanded(child: const SizedBox()),
+                          const Icon(Icons.ac_unit, color: Colors.blue),
+                          const Icon(Icons.access_time),
+                          TextButton(
+                            onPressed: () async {
+                              TimeOfDay? time = await showTimePicker(
+                                context: context,
+                                initialTime: selectedWinterTime,
+                              );
+                              if (time != null) {
+                                setState(() {
+                                  selectedWinterTime = time;
+                                });
+                              }
+                            },
+                            child: Text(selectedWinterTime.format(context),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const Icon(Icons.wb_sunny,
+                                    color: Colors.yellow),
+                                const Icon(Icons.timer),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: TextField(
+                                    controller: durationSummerController,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    decoration: InputDecoration(
+                                      labelText:
+                                          '${AppLocalizations.of(context)!.duration} (min)',
+                                    ),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        durationSummer =
+                                            int.tryParse(val) ?? durationSummer;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const Icon(Icons.ac_unit, color: Colors.blue),
+                                const Icon(Icons.timer),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: TextField(
+                                    controller: durationWinterController,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    decoration: InputDecoration(
+                                      labelText:
+                                          '${AppLocalizations.of(context)!.duration} (min)',
+                                    ),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        durationWinter =
+                                            int.tryParse(val) ?? durationWinter;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                     Container(
                       color: Theme.of(context).colorScheme.surface,
                       child: Row(

@@ -518,4 +518,16 @@ class AppLocalizationsCs extends AppLocalizations {
   String durationInvalidRange(int min, int max) {
     return 'Doba trvání musí být mezi $min a $max minutami.';
   }
+
+  @override
+  String get hideDetails => 'Skrýt detaily';
+
+  @override
+  String get showDetails => 'Zobrazit detaily';
+
+  @override
+  String get locationSummer => 'Místo (léto)';
+
+  @override
+  String get locationWinter => 'Místo (zima)';
 }

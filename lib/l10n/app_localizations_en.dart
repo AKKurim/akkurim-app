@@ -518,4 +518,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String durationInvalidRange(int min, int max) {
     return 'Duration must be between $min and $max minutes.';
   }
+
+  @override
+  String get hideDetails => 'Hide Details';
+
+  @override
+  String get showDetails => 'Show Details';
+
+  @override
+  String get locationSummer => 'Location (summer)';
+
+  @override
+  String get locationWinter => 'Location (winter)';
 }

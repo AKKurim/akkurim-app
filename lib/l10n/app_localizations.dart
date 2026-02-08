@@ -1057,6 +1057,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Duration must be between {min} and {max} minutes.'**
   String durationInvalidRange(int min, int max);
+
+  /// The label for the hide details button
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Details'**
+  String get hideDetails;
+
+  /// The label for the show details button
+  ///
+  /// In en, this message translates to:
+  /// **'Show Details'**
+  String get showDetails;
+
+  /// The label for the location during summer
+  ///
+  /// In en, this message translates to:
+  /// **'Location (summer)'**
+  String get locationSummer;
+
+  /// The label for the location during winter
+  ///
+  /// In en, this message translates to:
+  /// **'Location (winter)'**
+  String get locationWinter;
 }
 
 class _AppLocalizationsDelegate
