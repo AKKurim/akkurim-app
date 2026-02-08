@@ -241,10 +241,6 @@ class _CreateTrainingFormState extends ConsumerState<CreateTrainingForm> {
                           group: _selectedGroup!,
                           from: _dateRange!.start,
                           to: _dateRange!.end,
-                          durationSummer:
-                              _selectedGroup!.group!.durationSummer!,
-                          durationWinter:
-                              _selectedGroup!.group!.durationWinter!,
                         );
                     Navigator.of(context).pop(); // Dismiss sheet
                     ScaffoldMessenger.of(context).showSnackBar(

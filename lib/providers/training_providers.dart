@@ -105,8 +105,6 @@ class TrainingsP extends _$TrainingsP {
     required GroupView group,
     required DateTime from,
     required DateTime to,
-    required int durationSummer,
-    required int durationWinter,
   }) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
@@ -116,6 +114,7 @@ class TrainingsP extends _$TrainingsP {
     // Create a list of dates between from and to
     final dates = <DateTime>[];
     final durations = <int>[];
+    final locations = <String?>[];
     final int weekday = TimeHelper.getWeekDayFromString(group.group.dayOfWeek!);
     DateTime currentDate = from;
     while (currentDate.isBefore(to.add(const Duration(days: 1))) ||
@@ -134,8 +133,14 @@ class TrainingsP extends _$TrainingsP {
             second: 0,
             millisecond: 0,
             microsecond: 0));
-        final trainingDuration = isSummerTime ? durationSummer : durationWinter;
-        durations.add(trainingDuration);
+        final trainingDuration = isSummerTime
+            ? group.group.durationSummer
+            : group.group.durationWinter;
+        durations
+            .add(trainingDuration ?? 60); // default to 60 minutes if not set
+        locations.add(isSummerTime
+            ? group.group.defaultLocationSummer
+            : group.group.defaultLocationWinter);
       }
       currentDate = currentDate.add(const Duration(days: 1));
     }
@@ -151,6 +156,7 @@ class TrainingsP extends _$TrainingsP {
               description:
                   Value(''), // description is set when taking attendance
               durationMinutes: Value(durations[dates.indexOf(date)]),
+              location: Value(locations[dates.indexOf(date)]),
               createdAt: Value(DateTime.now()),
               updatedAt: Value(DateTime.now()),
               deletedAt: Value(null),
