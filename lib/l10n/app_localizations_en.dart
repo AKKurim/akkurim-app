@@ -526,8 +526,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showDetails => 'Show Details';
 
   @override
+  String get location => 'Location';
+
+  @override
   String get locationSummer => 'Location (summer)';
 
   @override
   String get locationWinter => 'Location (winter)';
+
+  @override
+  String get editTraining => 'Edit Training';
+
+  @override
+  String get trainingEdited => 'Training edited successfully.';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get change => 'Change';
 }

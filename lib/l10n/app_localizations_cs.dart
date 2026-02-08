@@ -526,8 +526,23 @@ class AppLocalizationsCs extends AppLocalizations {
   String get showDetails => 'Zobrazit detaily';
 
   @override
+  String get location => 'Místo';
+
+  @override
   String get locationSummer => 'Místo (léto)';
 
   @override
   String get locationWinter => 'Místo (zima)';
+
+  @override
+  String get editTraining => 'Upravit trénink';
+
+  @override
+  String get trainingEdited => 'Trénink byl úspěšně upraven.';
+
+  @override
+  String get edit => 'Upravit';
+
+  @override
+  String get change => 'Změnit';
 }

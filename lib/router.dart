@@ -28,6 +28,7 @@ import 'screens/settings_screen.dart';
 import 'screens/races/race_screen.dart';
 import './models/views/full_meet_view.dart';
 import './screens/attendance_tresults/add_group_screen.dart';
+import './screens/attendance_tresults/edit_training_screen.dart';
 
 part 'router.g.dart';
 
@@ -247,6 +248,18 @@ GoRouter router(Ref ref) {
           final String id = state.pathParameters['id'] ?? '';
           final TrainingView? training = state.extra as TrainingView?;
           return TakeAttendance(
+            trainingId: id,
+            preloadedTraining: training,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/edit-training/:id',
+        name: 'edit-training',
+        builder: (context, state) {
+          final String id = state.pathParameters['id'] ?? '';
+          final TrainingView? training = state.extra as TrainingView?;
+          return EditTrainingScreen(
             trainingId: id,
             preloadedTraining: training,
           );

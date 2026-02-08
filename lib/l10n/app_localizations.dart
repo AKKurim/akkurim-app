@@ -1070,6 +1070,12 @@ abstract class AppLocalizations {
   /// **'Show Details'**
   String get showDetails;
 
+  /// The label for the location
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
   /// The label for the location during summer
   ///
   /// In en, this message translates to:
@@ -1081,6 +1087,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Location (winter)'**
   String get locationWinter;
+
+  /// The title for the edit training screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Training'**
+  String get editTraining;
+
+  /// The message shown when a training is edited successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Training edited successfully.'**
+  String get trainingEdited;
+
+  /// The label for the edit button
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// The label for the change button
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get change;
 }
 
 class _AppLocalizationsDelegate

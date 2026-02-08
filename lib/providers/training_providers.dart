@@ -330,6 +330,47 @@ class TrainingsP extends _$TrainingsP {
       ),
     );
   }
+
+  Future<void> saveTrainingDetails({
+    required TrainingView training,
+    required DateTime startAt,
+    required int durationMinutes,
+    String? description,
+    String? location,
+    String? cancelledReason,
+  }) async {
+    final db = ref.read(dbProvider);
+    final sync = ref.read(syncServiceProvider.notifier);
+    final auth = ref.read(authServiceProvider);
+
+    final updatedTraining = await db.into(db.training).insertReturning(
+          mode: InsertMode.insertOrReplace,
+          TrainingCompanion(
+            id: Value(training.training.id),
+            startAt: Value(startAt),
+            groupId: Value(training.training.groupId),
+            description: Value(description ?? training.training.description),
+            durationMinutes: Value(durationMinutes),
+            location: Value(location ?? training.training.location),
+            cancelledReason:
+                Value(cancelledReason ?? training.training.cancelledReason),
+            createdAt: Value(training.training.createdAt),
+            updatedAt: Value(DateTime.now()),
+            deletedAt: Value(null),
+            lastUpdatedBy: Value(auth.asData!.value.email),
+          ),
+        );
+
+    await sync.addToSyncQueue(
+      '/sync/training',
+      'post',
+      json.encode({
+        'data': [Utils.convertMapKeysToSnakeCase(updatedTraining.toJson())],
+        'primary_keys': ['id'],
+        'table': 'training',
+      }),
+    );
+  }
 }
 
 @riverpod

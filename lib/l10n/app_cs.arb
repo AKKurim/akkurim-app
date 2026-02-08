@@ -162,6 +162,11 @@
     "durationInvalidRange": "Doba trvání musí být mezi {min} a {max} minutami.",
     "hideDetails": "Skrýt detaily",
     "showDetails": "Zobrazit detaily",
+    "location": "Místo",
     "locationSummer": "Místo (léto)",
-    "locationWinter": "Místo (zima)"
+    "locationWinter": "Místo (zima)",
+    "editTraining": "Upravit trénink",
+    "trainingEdited": "Trénink byl úspěšně upraven.",
+    "edit": "Upravit",
+    "change": "Změnit"
 }

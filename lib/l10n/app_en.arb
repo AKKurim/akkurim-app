@@ -694,6 +694,10 @@
     "@showDetails": {
         "description": "The label for the show details button"
     },
+    "location": "Location",
+    "@location": {
+        "description": "The label for the location"
+    },
     "locationSummer": "Location (summer)",
     "@locationSummer": {
         "description": "The label for the location during summer"
@@ -701,5 +705,21 @@
     "locationWinter": "Location (winter)",
     "@locationWinter": {
         "description": "The label for the location during winter"
+    },
+    "editTraining": "Edit Training",
+    "@editTraining": {
+        "description": "The title for the edit training screen"
+    },
+    "trainingEdited": "Training edited successfully.",
+    "@trainingEdited": {    
+        "description": "The message shown when a training is edited successfully"
+    },
+    "edit": "Edit",
+    "@edit": {
+        "description": "The label for the edit button"
+    },
+    "change": "Change",
+    "@change": {
+        "description": "The label for the change button"
     }
 }

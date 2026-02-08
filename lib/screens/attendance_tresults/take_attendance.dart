@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/training_providers.dart';
+import 'package:go_router/go_router.dart';
 import '../../models/views/training_view.dart';
 import '../../models/views/simple_athlete_view.dart';
 import '../../models/views/trainer_view.dart';
@@ -59,6 +60,16 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.takeAttendance),
+        actions: [
+          IconButton(
+            tooltip: 'Edit training',
+            icon: const Icon(Icons.edit),
+            onPressed: () async {
+              context.push('/edit-training/${widget.trainingId}', extra: _training);
+              setState(() {});
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: [
