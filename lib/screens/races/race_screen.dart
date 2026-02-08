@@ -270,6 +270,8 @@ class _RaceScreenState extends ConsumerState<RaceScreen>
                               ),
                             ),
                             child: ListTile(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
                               onTap: () => context.push(
                                   '/member/${athlete.athlete.athlete.id}/2'),
                               title: Text(
