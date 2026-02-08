@@ -73,13 +73,14 @@ class GroupsP extends _$GroupsP {
         final trainers = rows
             .map((row) {
               final trainer = row.readTableOrNull(db.trainer);
+              if (trainer == null) return null;
               final simpleAthlete = allTrainers.firstWhereOrNull(
-                (trainer_) => trainer_.trainer.athleteId == trainer!.athleteId,
+                (trainer_) => trainer_.trainer.athleteId == trainer.athleteId,
               );
-              return (trainer != null)
+              return (simpleAthlete != null)
                   ? TrainerView(
                       trainer: trainer,
-                      simpleAthlete: simpleAthlete!.simpleAthlete,
+                      simpleAthlete: simpleAthlete.simpleAthlete,
                     )
                   : null;
             })
