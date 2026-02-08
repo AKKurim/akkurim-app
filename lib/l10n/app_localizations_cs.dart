@@ -497,7 +497,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get editGroup => 'Upravit skupinu';
 
   @override
-  String get notSelectedDayError => 'You must select a training day.';
+  String get notSelectedDayError => 'Musíte vybrat den tréninku.';
 
   @override
   String get groupName => 'Název skupiny';

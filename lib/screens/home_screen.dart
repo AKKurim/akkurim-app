@@ -174,7 +174,8 @@ class HomeScreen extends HookConsumerWidget {
               CalendarFormat.twoWeeks: '',
             },
             headerStyle: HeaderStyle(
-              formatButtonVisible: true,
+              formatButtonVisible:
+                  (authData?.roles.contains(RoleEnum.admin) ?? false),
               formatButtonShowsNext: false,
               formatButtonTextStyle: const TextStyle(color: Colors.white),
               formatButtonDecoration: BoxDecoration(
