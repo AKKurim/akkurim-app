@@ -11,7 +11,6 @@ import '../../providers/training_providers.dart';
 import '../../providers/filter_providers.dart';
 import '../../widgets/search_bar.dart';
 import '../../utils/utils.dart';
-import 'package:collection/collection.dart';
 import '../../widgets/save_button.dart';
 import 'package:ak_kurim_app/l10n/app_localizations.dart';
 
@@ -36,7 +35,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
   bool saved = false;
   bool _showAllTrainers = false;
   bool _showAllAthletes = false;
-  late TrainingTimeData? trainingTime;
   late String trainingDay;
   late TimeOfDay selectedSummerTime;
   late TimeOfDay selectedWinterTime;
@@ -64,23 +62,22 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
         return athlete.athlete.id;
       }).toList();
       TimeHelper parsedTime = TimeHelper.fromString(
-        widget.preloadedGroup!.trainingTime!.summerTime,
+        widget.preloadedGroup!.group.summerTime ?? '00:00',
       );
       selectedSummerTime = TimeOfDay(
         hour: parsedTime.hour,
         minute: parsedTime.minute,
       );
       parsedTime = TimeHelper.fromString(
-        widget.preloadedGroup!.trainingTime!.winterTime,
+        widget.preloadedGroup!.group.winterTime ?? '00:00',
       );
       selectedWinterTime = TimeOfDay(
         hour: parsedTime.hour,
         minute: parsedTime.minute,
       );
-      trainingDay = widget.preloadedGroup!.trainingTime!.day;
-      trainingTime = widget.preloadedGroup!.trainingTime;
-      durationSummer = widget.preloadedGroup!.trainingTime!.durationSummer;
-      durationWinter = widget.preloadedGroup!.trainingTime!.durationWinter;
+      trainingDay = widget.preloadedGroup!.group.dayOfWeek ?? '';
+      durationSummer = widget.preloadedGroup!.group.durationSummer ?? 0;
+      durationWinter = widget.preloadedGroup!.group.durationWinter ?? 0;
       durationSummerController =
           TextEditingController(text: durationSummer.toString());
       durationWinterController =
@@ -116,9 +113,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
       orElse: () => null,
       data: (data) => data,
     );
-    final List<TrainingTimeData> allTrainingTimes = ref
-        .watch(trainingTimesProvider)
-        .when(data: (data) => data, error: (e, s) => [], loading: () => []);
     final group = widget.editMode
         ? widget.preloadedGroup ??
             ref.watch(groupProvider(widget.groupId)).maybeWhen(
@@ -221,7 +215,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
             trainers: trainers,
             athletes: athletes,
             groupId: widget.editMode ? group?.group.id : null,
-            trainingTimeId: trainingTime?.id,
             previousAthletesIds: previousAthletesIds,
             previousTrainersIds: previousTrainersIds,
             durationSummer: durationSummer,
@@ -299,9 +292,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                     Row(
                       children: [
                         DropdownMenu(
-                            initialSelection: widget.editMode
-                                ? group?.trainingTime!.day
-                                : null,
+                            initialSelection:
+                                widget.editMode ? group?.group.dayOfWeek : null,
                             hintText: AppLocalizations.of(context)!.dayHint,
                             dropdownMenuEntries: [
                               DropdownMenuEntry<String>(
@@ -336,38 +328,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             onSelected: (value) {
                               setState(() {
                                 trainingDay = value!;
-                                TrainingTimeData? selectedTrainingTime =
-                                    allTrainingTimes.firstWhereOrNull(
-                                  (element) => element.day == trainingDay,
-                                );
-                                if (selectedTrainingTime != null) {
-                                  TimeHelper parsedTime = TimeHelper.fromString(
-                                    selectedTrainingTime.summerTime,
-                                  );
-                                  selectedSummerTime = TimeOfDay(
-                                    hour: parsedTime.hour,
-                                    minute: parsedTime.minute,
-                                  );
-                                  parsedTime = TimeHelper.fromString(
-                                    selectedTrainingTime.winterTime,
-                                  );
-                                  selectedWinterTime = TimeOfDay(
-                                    hour: parsedTime.hour,
-                                    minute: parsedTime.minute,
-                                  );
-                                  trainingTime = selectedTrainingTime;
-                                  // update durations from selected training time
-                                  durationSummer =
-                                      selectedTrainingTime.durationSummer;
-                                  durationWinter =
-                                      selectedTrainingTime.durationWinter;
-                                  durationSummerController.text =
-                                      durationSummer.toString();
-                                  durationWinterController.text =
-                                      durationWinter.toString();
-                                } else {
-                                  trainingTime = null;
-                                }
                               });
                             }),
                         const Expanded(child: SizedBox()),
@@ -401,7 +361,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             if (time != null) {
                               setState(() {
                                 selectedSummerTime = time;
-                                trainingTime = null;
                               });
                             }
                           },
@@ -424,7 +383,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             if (time != null) {
                               setState(() {
                                 selectedWinterTime = time;
-                                trainingTime = null;
                               });
                             }
                           },
@@ -461,7 +419,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                     setState(() {
                                       durationSummer =
                                           int.tryParse(val) ?? durationSummer;
-                                      trainingTime = null;
                                     });
                                   },
                                 ),
@@ -491,7 +448,6 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                                     setState(() {
                                       durationWinter =
                                           int.tryParse(val) ?? durationWinter;
-                                      trainingTime = null;
                                     });
                                   },
                                 ),

@@ -23,94 +23,101 @@ class StorageScreen extends ConsumerWidget {
     }
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ListView(
-        children: groupedItems.entries.map(
-          (entry) {
-            final type = entry.key;
-            final items = entry.value;
+      child: Column(
+        children: [
+          Text('coming soon...'),
+          ListView(
+            children: groupedItems.entries.map(
+              (entry) {
+                final type = entry.key;
+                final items = entry.value;
 
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                side: const BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-              ),
-              elevation: 5,
-              margin: const EdgeInsets.symmetric(vertical: 6),
-              child: Theme(
-                data: Theme.of(context)
-                    .copyWith(dividerColor: Colors.transparent),
-                child: ExpansionTile(
-                  title: Text(
-                    type.name,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
                   ),
-                  tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-                  childrenPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  children: items.map(
-                    (item) {
-                      return GestureDetector(
-                        onLongPress: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(AppLocalizations.of(context)!
-                                    .confirmDeleteItem),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child:
-                                        Text(AppLocalizations.of(context)!.no),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      ref
-                                          .read(itemProviderPProvider.notifier)
-                                          .deleteItem(item.item);
-                                      Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            AppLocalizations.of(context)!
-                                                .itemDeleted,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child:
-                                        Text(AppLocalizations.of(context)!.yes),
-                                  ),
-                                ],
-                              );
-                            }),
-                        child: ListTile(
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 0),
-                          title: Text(item.item.name),
-                          subtitle: Text(item.athlete != null
-                              ? item.athlete!.fullName
-                              : '-'),
-                          trailing: const Icon(Icons.swap_horiz),
-                          onTap: () {
-                            _openAthleteSelector(context, item, ref);
-                          },
-                        ),
-                      );
-                    },
-                  ).toList(),
-                ),
-              ),
-            );
-          },
-        ).toList(),
+                  elevation: 5,
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  child: Theme(
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
+                    child: ExpansionTile(
+                      title: Text(
+                        type.name,
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                      ),
+                      tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                      childrenPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 4),
+                      children: items.map(
+                        (item) {
+                          return GestureDetector(
+                            onLongPress: () => showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(AppLocalizations.of(context)!
+                                        .confirmDeleteItem),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                            AppLocalizations.of(context)!.no),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          ref
+                                              .read(itemProviderPProvider
+                                                  .notifier)
+                                              .deleteItem(item.item);
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                AppLocalizations.of(context)!
+                                                    .itemDeleted,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                            AppLocalizations.of(context)!.yes),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                            child: ListTile(
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 0),
+                              title: Text(item.item.name),
+                              subtitle: Text(item.athlete != null
+                                  ? item.athlete!.fullName
+                                  : '-'),
+                              trailing: const Icon(Icons.swap_horiz),
+                              onTap: () {
+                                _openAthleteSelector(context, item, ref);
+                              },
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ),
+                );
+              },
+            ).toList(),
+          ),
+        ],
       ),
     );
   }

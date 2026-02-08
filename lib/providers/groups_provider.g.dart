@@ -173,7 +173,7 @@ class _GroupProviderElement extends AutoDisposeStreamProviderElement<GroupView>
   String get groupId => (origin as GroupProvider).groupId;
 }
 
-String _$groupsPHash() => r'f61af4ab3225bb0db5d1a83af218ea62413ffe6c';
+String _$groupsPHash() => r'6ccdd317012c70ae5456b1aa81b07b3c1c19a5a2';
 
 /// See also [GroupsP].
 @ProviderFor(GroupsP)

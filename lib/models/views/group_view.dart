@@ -7,14 +7,12 @@ class GroupView {
   List<SimpleAthleteView> athletes;
   List<TrainerView> trainers;
   SchoolYearData? schoolYear;
-  TrainingTimeData? trainingTime;
 
   GroupView({
     required this.group,
     required this.athletes,
     required this.trainers,
     this.schoolYear,
-    this.trainingTime,
   });
 
   factory GroupView.empty({required TrainerView trainer}) {
@@ -23,7 +21,6 @@ class GroupView {
         id: '',
         name: '',
         schoolYearId: '',
-        trainingTimeId: '',
         system: 0,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -32,7 +29,6 @@ class GroupView {
       athletes: [],
       trainers: [trainer],
       schoolYear: null,
-      trainingTime: null,
     );
   }
 

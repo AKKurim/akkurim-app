@@ -78,7 +78,7 @@ final modelMap = {
   'sign_up_form_group': database.signUpFormGroup,
   'trainer': database.trainer,
   'training_athlete': database.trainingAthlete,
-  'training_time': database.trainingTime,
+  //'training_time': database.trainingTime,
   'training_trainer': database.trainingTrainer,
   'training': database.training,
   'web_post': database.webPost,
@@ -120,7 +120,7 @@ final modelMap = {
     SignUpForm,
     Trainer,
     TrainingAthlete,
-    TrainingTime,
+    //TrainingTime,
     TrainingTrainer,
     Training,
     WebPost,
@@ -133,7 +133,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -158,6 +158,35 @@ class AppDatabase extends _$AppDatabase {
             await m.addColumn(training, training.trainingType);
             await m.addColumn(training, training.cancelledReason);
             await m.addColumn(training, training.attendanceTakenAt);
+          }
+
+          if (from == 10) {
+            print(
+                'Migrating from version 10 to 11: Adding training time columns to group and removing training_time_id---');
+            //Add columns one by one
+            await m.addColumn(group, group.dayOfWeek);
+            await m.addColumn(group, group.summerTime);
+            await m.addColumn(group, group.winterTime);
+            await m.addColumn(group, group.durationSummer);
+            await m.addColumn(group, group.durationWinter);
+            await m.addColumn(group, group.defaultLocationSummer);
+            await m.addColumn(group, group.defaultLocationWinter);
+
+            await customStatement('''
+            UPDATE "group"
+            SET
+              day_of_week = (SELECT day FROM training_time WHERE training_time.id = "group".training_time_id),
+              summer_time = (SELECT summer_time FROM training_time WHERE training_time.id = "group".training_time_id),
+              winter_time = (SELECT winter_time FROM training_time WHERE training_time.id = "group".training_time_id),
+              duration_summer = (SELECT duration_summer FROM training_time WHERE training_time.id = "group".training_time_id),
+              duration_winter = (SELECT duration_winter FROM training_time WHERE training_time.id = "group".training_time_id)
+            WHERE training_time_id IS NOT NULL;
+          ''');
+
+            // Remove the training_time_id column
+            await m.dropColumn(group, 'training_time_id');
+            await m.deleteTable('training_time');
+            print('Migration from version 10 to 11 completed successfully---');
           }
         },
       );

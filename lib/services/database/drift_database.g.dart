@@ -6763,15 +6763,6 @@ class $GroupTable extends Group with TableInfo<$GroupTable, GroupData> {
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
       'description', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _trainingTimeIdMeta =
-      const VerificationMeta('trainingTimeId');
-  @override
-  late final GeneratedColumn<String> trainingTimeId = GeneratedColumn<String>(
-      'training_time_id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
   static const VerificationMeta _schoolYearIdMeta =
       const VerificationMeta('schoolYearId');
   @override
@@ -6781,6 +6772,48 @@ class $GroupTable extends Group with TableInfo<$GroupTable, GroupData> {
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
+  static const VerificationMeta _dayOfWeekMeta =
+      const VerificationMeta('dayOfWeek');
+  @override
+  late final GeneratedColumn<String> dayOfWeek = GeneratedColumn<String>(
+      'day_of_week', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _summerTimeMeta =
+      const VerificationMeta('summerTime');
+  @override
+  late final GeneratedColumn<String> summerTime = GeneratedColumn<String>(
+      'summer_time', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _winterTimeMeta =
+      const VerificationMeta('winterTime');
+  @override
+  late final GeneratedColumn<String> winterTime = GeneratedColumn<String>(
+      'winter_time', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _durationSummerMeta =
+      const VerificationMeta('durationSummer');
+  @override
+  late final GeneratedColumn<int> durationSummer = GeneratedColumn<int>(
+      'duration_summer', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _durationWinterMeta =
+      const VerificationMeta('durationWinter');
+  @override
+  late final GeneratedColumn<int> durationWinter = GeneratedColumn<int>(
+      'duration_winter', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _defaultLocationSummerMeta =
+      const VerificationMeta('defaultLocationSummer');
+  @override
+  late final GeneratedColumn<String> defaultLocationSummer =
+      GeneratedColumn<String>('default_location_summer', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _defaultLocationWinterMeta =
+      const VerificationMeta('defaultLocationWinter');
+  @override
+  late final GeneratedColumn<String> defaultLocationWinter =
+      GeneratedColumn<String>('default_location_winter', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         createdAt,
@@ -6791,8 +6824,14 @@ class $GroupTable extends Group with TableInfo<$GroupTable, GroupData> {
         system,
         name,
         description,
-        trainingTimeId,
-        schoolYearId
+        schoolYearId,
+        dayOfWeek,
+        summerTime,
+        winterTime,
+        durationSummer,
+        durationWinter,
+        defaultLocationSummer,
+        defaultLocationWinter
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -6849,14 +6888,6 @@ class $GroupTable extends Group with TableInfo<$GroupTable, GroupData> {
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
     }
-    if (data.containsKey('training_time_id')) {
-      context.handle(
-          _trainingTimeIdMeta,
-          trainingTimeId.isAcceptableOrUnknown(
-              data['training_time_id']!, _trainingTimeIdMeta));
-    } else if (isInserting) {
-      context.missing(_trainingTimeIdMeta);
-    }
     if (data.containsKey('school_year_id')) {
       context.handle(
           _schoolYearIdMeta,
@@ -6864,6 +6895,48 @@ class $GroupTable extends Group with TableInfo<$GroupTable, GroupData> {
               data['school_year_id']!, _schoolYearIdMeta));
     } else if (isInserting) {
       context.missing(_schoolYearIdMeta);
+    }
+    if (data.containsKey('day_of_week')) {
+      context.handle(
+          _dayOfWeekMeta,
+          dayOfWeek.isAcceptableOrUnknown(
+              data['day_of_week']!, _dayOfWeekMeta));
+    }
+    if (data.containsKey('summer_time')) {
+      context.handle(
+          _summerTimeMeta,
+          summerTime.isAcceptableOrUnknown(
+              data['summer_time']!, _summerTimeMeta));
+    }
+    if (data.containsKey('winter_time')) {
+      context.handle(
+          _winterTimeMeta,
+          winterTime.isAcceptableOrUnknown(
+              data['winter_time']!, _winterTimeMeta));
+    }
+    if (data.containsKey('duration_summer')) {
+      context.handle(
+          _durationSummerMeta,
+          durationSummer.isAcceptableOrUnknown(
+              data['duration_summer']!, _durationSummerMeta));
+    }
+    if (data.containsKey('duration_winter')) {
+      context.handle(
+          _durationWinterMeta,
+          durationWinter.isAcceptableOrUnknown(
+              data['duration_winter']!, _durationWinterMeta));
+    }
+    if (data.containsKey('default_location_summer')) {
+      context.handle(
+          _defaultLocationSummerMeta,
+          defaultLocationSummer.isAcceptableOrUnknown(
+              data['default_location_summer']!, _defaultLocationSummerMeta));
+    }
+    if (data.containsKey('default_location_winter')) {
+      context.handle(
+          _defaultLocationWinterMeta,
+          defaultLocationWinter.isAcceptableOrUnknown(
+              data['default_location_winter']!, _defaultLocationWinterMeta));
     }
     return context;
   }
@@ -6890,10 +6963,24 @@ class $GroupTable extends Group with TableInfo<$GroupTable, GroupData> {
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      trainingTimeId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}training_time_id'])!,
       schoolYearId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}school_year_id'])!,
+      dayOfWeek: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}day_of_week']),
+      summerTime: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}summer_time']),
+      winterTime: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}winter_time']),
+      durationSummer: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}duration_summer']),
+      durationWinter: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}duration_winter']),
+      defaultLocationSummer: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}default_location_summer']),
+      defaultLocationWinter: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}default_location_winter']),
     );
   }
 
@@ -6912,8 +6999,14 @@ class GroupData extends DataClass implements Insertable<GroupData> {
   final int system;
   final String name;
   final String? description;
-  final String trainingTimeId;
   final String schoolYearId;
+  final String? dayOfWeek;
+  final String? summerTime;
+  final String? winterTime;
+  final int? durationSummer;
+  final int? durationWinter;
+  final String? defaultLocationSummer;
+  final String? defaultLocationWinter;
   const GroupData(
       {required this.createdAt,
       required this.updatedAt,
@@ -6923,8 +7016,14 @@ class GroupData extends DataClass implements Insertable<GroupData> {
       required this.system,
       required this.name,
       this.description,
-      required this.trainingTimeId,
-      required this.schoolYearId});
+      required this.schoolYearId,
+      this.dayOfWeek,
+      this.summerTime,
+      this.winterTime,
+      this.durationSummer,
+      this.durationWinter,
+      this.defaultLocationSummer,
+      this.defaultLocationWinter});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -6942,8 +7041,28 @@ class GroupData extends DataClass implements Insertable<GroupData> {
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
-    map['training_time_id'] = Variable<String>(trainingTimeId);
     map['school_year_id'] = Variable<String>(schoolYearId);
+    if (!nullToAbsent || dayOfWeek != null) {
+      map['day_of_week'] = Variable<String>(dayOfWeek);
+    }
+    if (!nullToAbsent || summerTime != null) {
+      map['summer_time'] = Variable<String>(summerTime);
+    }
+    if (!nullToAbsent || winterTime != null) {
+      map['winter_time'] = Variable<String>(winterTime);
+    }
+    if (!nullToAbsent || durationSummer != null) {
+      map['duration_summer'] = Variable<int>(durationSummer);
+    }
+    if (!nullToAbsent || durationWinter != null) {
+      map['duration_winter'] = Variable<int>(durationWinter);
+    }
+    if (!nullToAbsent || defaultLocationSummer != null) {
+      map['default_location_summer'] = Variable<String>(defaultLocationSummer);
+    }
+    if (!nullToAbsent || defaultLocationWinter != null) {
+      map['default_location_winter'] = Variable<String>(defaultLocationWinter);
+    }
     return map;
   }
 
@@ -6963,8 +7082,28 @@ class GroupData extends DataClass implements Insertable<GroupData> {
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
-      trainingTimeId: Value(trainingTimeId),
       schoolYearId: Value(schoolYearId),
+      dayOfWeek: dayOfWeek == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dayOfWeek),
+      summerTime: summerTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(summerTime),
+      winterTime: winterTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(winterTime),
+      durationSummer: durationSummer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(durationSummer),
+      durationWinter: durationWinter == null && nullToAbsent
+          ? const Value.absent()
+          : Value(durationWinter),
+      defaultLocationSummer: defaultLocationSummer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultLocationSummer),
+      defaultLocationWinter: defaultLocationWinter == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultLocationWinter),
     );
   }
 
@@ -6980,8 +7119,16 @@ class GroupData extends DataClass implements Insertable<GroupData> {
       system: serializer.fromJson<int>(json['system']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String?>(json['description']),
-      trainingTimeId: serializer.fromJson<String>(json['trainingTimeId']),
       schoolYearId: serializer.fromJson<String>(json['schoolYearId']),
+      dayOfWeek: serializer.fromJson<String?>(json['dayOfWeek']),
+      summerTime: serializer.fromJson<String?>(json['summerTime']),
+      winterTime: serializer.fromJson<String?>(json['winterTime']),
+      durationSummer: serializer.fromJson<int?>(json['durationSummer']),
+      durationWinter: serializer.fromJson<int?>(json['durationWinter']),
+      defaultLocationSummer:
+          serializer.fromJson<String?>(json['defaultLocationSummer']),
+      defaultLocationWinter:
+          serializer.fromJson<String?>(json['defaultLocationWinter']),
     );
   }
   @override
@@ -6996,8 +7143,16 @@ class GroupData extends DataClass implements Insertable<GroupData> {
       'system': serializer.toJson<int>(system),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String?>(description),
-      'trainingTimeId': serializer.toJson<String>(trainingTimeId),
       'schoolYearId': serializer.toJson<String>(schoolYearId),
+      'dayOfWeek': serializer.toJson<String?>(dayOfWeek),
+      'summerTime': serializer.toJson<String?>(summerTime),
+      'winterTime': serializer.toJson<String?>(winterTime),
+      'durationSummer': serializer.toJson<int?>(durationSummer),
+      'durationWinter': serializer.toJson<int?>(durationWinter),
+      'defaultLocationSummer':
+          serializer.toJson<String?>(defaultLocationSummer),
+      'defaultLocationWinter':
+          serializer.toJson<String?>(defaultLocationWinter),
     };
   }
 
@@ -7010,8 +7165,14 @@ class GroupData extends DataClass implements Insertable<GroupData> {
           int? system,
           String? name,
           Value<String?> description = const Value.absent(),
-          String? trainingTimeId,
-          String? schoolYearId}) =>
+          String? schoolYearId,
+          Value<String?> dayOfWeek = const Value.absent(),
+          Value<String?> summerTime = const Value.absent(),
+          Value<String?> winterTime = const Value.absent(),
+          Value<int?> durationSummer = const Value.absent(),
+          Value<int?> durationWinter = const Value.absent(),
+          Value<String?> defaultLocationSummer = const Value.absent(),
+          Value<String?> defaultLocationWinter = const Value.absent()}) =>
       GroupData(
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -7022,8 +7183,20 @@ class GroupData extends DataClass implements Insertable<GroupData> {
         system: system ?? this.system,
         name: name ?? this.name,
         description: description.present ? description.value : this.description,
-        trainingTimeId: trainingTimeId ?? this.trainingTimeId,
         schoolYearId: schoolYearId ?? this.schoolYearId,
+        dayOfWeek: dayOfWeek.present ? dayOfWeek.value : this.dayOfWeek,
+        summerTime: summerTime.present ? summerTime.value : this.summerTime,
+        winterTime: winterTime.present ? winterTime.value : this.winterTime,
+        durationSummer:
+            durationSummer.present ? durationSummer.value : this.durationSummer,
+        durationWinter:
+            durationWinter.present ? durationWinter.value : this.durationWinter,
+        defaultLocationSummer: defaultLocationSummer.present
+            ? defaultLocationSummer.value
+            : this.defaultLocationSummer,
+        defaultLocationWinter: defaultLocationWinter.present
+            ? defaultLocationWinter.value
+            : this.defaultLocationWinter,
       );
   GroupData copyWithCompanion(GroupCompanion data) {
     return GroupData(
@@ -7038,12 +7211,26 @@ class GroupData extends DataClass implements Insertable<GroupData> {
       name: data.name.present ? data.name.value : this.name,
       description:
           data.description.present ? data.description.value : this.description,
-      trainingTimeId: data.trainingTimeId.present
-          ? data.trainingTimeId.value
-          : this.trainingTimeId,
       schoolYearId: data.schoolYearId.present
           ? data.schoolYearId.value
           : this.schoolYearId,
+      dayOfWeek: data.dayOfWeek.present ? data.dayOfWeek.value : this.dayOfWeek,
+      summerTime:
+          data.summerTime.present ? data.summerTime.value : this.summerTime,
+      winterTime:
+          data.winterTime.present ? data.winterTime.value : this.winterTime,
+      durationSummer: data.durationSummer.present
+          ? data.durationSummer.value
+          : this.durationSummer,
+      durationWinter: data.durationWinter.present
+          ? data.durationWinter.value
+          : this.durationWinter,
+      defaultLocationSummer: data.defaultLocationSummer.present
+          ? data.defaultLocationSummer.value
+          : this.defaultLocationSummer,
+      defaultLocationWinter: data.defaultLocationWinter.present
+          ? data.defaultLocationWinter.value
+          : this.defaultLocationWinter,
     );
   }
 
@@ -7058,8 +7245,14 @@ class GroupData extends DataClass implements Insertable<GroupData> {
           ..write('system: $system, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
-          ..write('trainingTimeId: $trainingTimeId, ')
-          ..write('schoolYearId: $schoolYearId')
+          ..write('schoolYearId: $schoolYearId, ')
+          ..write('dayOfWeek: $dayOfWeek, ')
+          ..write('summerTime: $summerTime, ')
+          ..write('winterTime: $winterTime, ')
+          ..write('durationSummer: $durationSummer, ')
+          ..write('durationWinter: $durationWinter, ')
+          ..write('defaultLocationSummer: $defaultLocationSummer, ')
+          ..write('defaultLocationWinter: $defaultLocationWinter')
           ..write(')'))
         .toString();
   }
@@ -7074,8 +7267,14 @@ class GroupData extends DataClass implements Insertable<GroupData> {
       system,
       name,
       description,
-      trainingTimeId,
-      schoolYearId);
+      schoolYearId,
+      dayOfWeek,
+      summerTime,
+      winterTime,
+      durationSummer,
+      durationWinter,
+      defaultLocationSummer,
+      defaultLocationWinter);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -7088,8 +7287,14 @@ class GroupData extends DataClass implements Insertable<GroupData> {
           other.system == this.system &&
           other.name == this.name &&
           other.description == this.description &&
-          other.trainingTimeId == this.trainingTimeId &&
-          other.schoolYearId == this.schoolYearId);
+          other.schoolYearId == this.schoolYearId &&
+          other.dayOfWeek == this.dayOfWeek &&
+          other.summerTime == this.summerTime &&
+          other.winterTime == this.winterTime &&
+          other.durationSummer == this.durationSummer &&
+          other.durationWinter == this.durationWinter &&
+          other.defaultLocationSummer == this.defaultLocationSummer &&
+          other.defaultLocationWinter == this.defaultLocationWinter);
 }
 
 class GroupCompanion extends UpdateCompanion<GroupData> {
@@ -7101,8 +7306,14 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
   final Value<int> system;
   final Value<String> name;
   final Value<String?> description;
-  final Value<String> trainingTimeId;
   final Value<String> schoolYearId;
+  final Value<String?> dayOfWeek;
+  final Value<String?> summerTime;
+  final Value<String?> winterTime;
+  final Value<int?> durationSummer;
+  final Value<int?> durationWinter;
+  final Value<String?> defaultLocationSummer;
+  final Value<String?> defaultLocationWinter;
   final Value<int> rowid;
   const GroupCompanion({
     this.createdAt = const Value.absent(),
@@ -7113,8 +7324,14 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
     this.system = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
-    this.trainingTimeId = const Value.absent(),
     this.schoolYearId = const Value.absent(),
+    this.dayOfWeek = const Value.absent(),
+    this.summerTime = const Value.absent(),
+    this.winterTime = const Value.absent(),
+    this.durationSummer = const Value.absent(),
+    this.durationWinter = const Value.absent(),
+    this.defaultLocationSummer = const Value.absent(),
+    this.defaultLocationWinter = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   GroupCompanion.insert({
@@ -7126,15 +7343,20 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
     required int system,
     required String name,
     this.description = const Value.absent(),
-    required String trainingTimeId,
     required String schoolYearId,
+    this.dayOfWeek = const Value.absent(),
+    this.summerTime = const Value.absent(),
+    this.winterTime = const Value.absent(),
+    this.durationSummer = const Value.absent(),
+    this.durationWinter = const Value.absent(),
+    this.defaultLocationSummer = const Value.absent(),
+    this.defaultLocationWinter = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
         id = Value(id),
         system = Value(system),
         name = Value(name),
-        trainingTimeId = Value(trainingTimeId),
         schoolYearId = Value(schoolYearId);
   static Insertable<GroupData> custom({
     Expression<DateTime>? createdAt,
@@ -7145,8 +7367,14 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
     Expression<int>? system,
     Expression<String>? name,
     Expression<String>? description,
-    Expression<String>? trainingTimeId,
     Expression<String>? schoolYearId,
+    Expression<String>? dayOfWeek,
+    Expression<String>? summerTime,
+    Expression<String>? winterTime,
+    Expression<int>? durationSummer,
+    Expression<int>? durationWinter,
+    Expression<String>? defaultLocationSummer,
+    Expression<String>? defaultLocationWinter,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -7158,8 +7386,16 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
       if (system != null) 'system': system,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
-      if (trainingTimeId != null) 'training_time_id': trainingTimeId,
       if (schoolYearId != null) 'school_year_id': schoolYearId,
+      if (dayOfWeek != null) 'day_of_week': dayOfWeek,
+      if (summerTime != null) 'summer_time': summerTime,
+      if (winterTime != null) 'winter_time': winterTime,
+      if (durationSummer != null) 'duration_summer': durationSummer,
+      if (durationWinter != null) 'duration_winter': durationWinter,
+      if (defaultLocationSummer != null)
+        'default_location_summer': defaultLocationSummer,
+      if (defaultLocationWinter != null)
+        'default_location_winter': defaultLocationWinter,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -7173,8 +7409,14 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
       Value<int>? system,
       Value<String>? name,
       Value<String?>? description,
-      Value<String>? trainingTimeId,
       Value<String>? schoolYearId,
+      Value<String?>? dayOfWeek,
+      Value<String?>? summerTime,
+      Value<String?>? winterTime,
+      Value<int?>? durationSummer,
+      Value<int?>? durationWinter,
+      Value<String?>? defaultLocationSummer,
+      Value<String?>? defaultLocationWinter,
       Value<int>? rowid}) {
     return GroupCompanion(
       createdAt: createdAt ?? this.createdAt,
@@ -7185,8 +7427,16 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
       system: system ?? this.system,
       name: name ?? this.name,
       description: description ?? this.description,
-      trainingTimeId: trainingTimeId ?? this.trainingTimeId,
       schoolYearId: schoolYearId ?? this.schoolYearId,
+      dayOfWeek: dayOfWeek ?? this.dayOfWeek,
+      summerTime: summerTime ?? this.summerTime,
+      winterTime: winterTime ?? this.winterTime,
+      durationSummer: durationSummer ?? this.durationSummer,
+      durationWinter: durationWinter ?? this.durationWinter,
+      defaultLocationSummer:
+          defaultLocationSummer ?? this.defaultLocationSummer,
+      defaultLocationWinter:
+          defaultLocationWinter ?? this.defaultLocationWinter,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -7218,11 +7468,31 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
-    if (trainingTimeId.present) {
-      map['training_time_id'] = Variable<String>(trainingTimeId.value);
-    }
     if (schoolYearId.present) {
       map['school_year_id'] = Variable<String>(schoolYearId.value);
+    }
+    if (dayOfWeek.present) {
+      map['day_of_week'] = Variable<String>(dayOfWeek.value);
+    }
+    if (summerTime.present) {
+      map['summer_time'] = Variable<String>(summerTime.value);
+    }
+    if (winterTime.present) {
+      map['winter_time'] = Variable<String>(winterTime.value);
+    }
+    if (durationSummer.present) {
+      map['duration_summer'] = Variable<int>(durationSummer.value);
+    }
+    if (durationWinter.present) {
+      map['duration_winter'] = Variable<int>(durationWinter.value);
+    }
+    if (defaultLocationSummer.present) {
+      map['default_location_summer'] =
+          Variable<String>(defaultLocationSummer.value);
+    }
+    if (defaultLocationWinter.present) {
+      map['default_location_winter'] =
+          Variable<String>(defaultLocationWinter.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -7241,8 +7511,14 @@ class GroupCompanion extends UpdateCompanion<GroupData> {
           ..write('system: $system, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
-          ..write('trainingTimeId: $trainingTimeId, ')
           ..write('schoolYearId: $schoolYearId, ')
+          ..write('dayOfWeek: $dayOfWeek, ')
+          ..write('summerTime: $summerTime, ')
+          ..write('winterTime: $winterTime, ')
+          ..write('durationSummer: $durationSummer, ')
+          ..write('durationWinter: $durationWinter, ')
+          ..write('defaultLocationSummer: $defaultLocationSummer, ')
+          ..write('defaultLocationWinter: $defaultLocationWinter, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -17131,547 +17407,6 @@ class TrainingAthleteCompanion extends UpdateCompanion<TrainingAthleteData> {
   }
 }
 
-class $TrainingTimeTable extends TrainingTime
-    with TableInfo<$TrainingTimeTable, TrainingTimeData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TrainingTimeTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
-  @override
-  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _deletedAtMeta =
-      const VerificationMeta('deletedAt');
-  @override
-  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
-      'deleted_at', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _lastUpdatedByMeta =
-      const VerificationMeta('lastUpdatedBy');
-  @override
-  late final GeneratedColumn<String> lastUpdatedBy = GeneratedColumn<String>(
-      'last_updated_by', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _dayMeta = const VerificationMeta('day');
-  @override
-  late final GeneratedColumn<String> day = GeneratedColumn<String>(
-      'day', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _summerTimeMeta =
-      const VerificationMeta('summerTime');
-  @override
-  late final GeneratedColumn<String> summerTime = GeneratedColumn<String>(
-      'summer_time', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _winterTimeMeta =
-      const VerificationMeta('winterTime');
-  @override
-  late final GeneratedColumn<String> winterTime = GeneratedColumn<String>(
-      'winter_time', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _durationSummerMeta =
-      const VerificationMeta('durationSummer');
-  @override
-  late final GeneratedColumn<int> durationSummer = GeneratedColumn<int>(
-      'duration_summer', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _durationWinterMeta =
-      const VerificationMeta('durationWinter');
-  @override
-  late final GeneratedColumn<int> durationWinter = GeneratedColumn<int>(
-      'duration_winter', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns => [
-        createdAt,
-        updatedAt,
-        deletedAt,
-        lastUpdatedBy,
-        id,
-        day,
-        summerTime,
-        winterTime,
-        durationSummer,
-        durationWinter
-      ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'training_time';
-  @override
-  VerificationContext validateIntegrity(Insertable<TrainingTimeData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
-    }
-    if (data.containsKey('deleted_at')) {
-      context.handle(_deletedAtMeta,
-          deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta));
-    }
-    if (data.containsKey('last_updated_by')) {
-      context.handle(
-          _lastUpdatedByMeta,
-          lastUpdatedBy.isAcceptableOrUnknown(
-              data['last_updated_by']!, _lastUpdatedByMeta));
-    }
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
-    }
-    if (data.containsKey('day')) {
-      context.handle(
-          _dayMeta, day.isAcceptableOrUnknown(data['day']!, _dayMeta));
-    } else if (isInserting) {
-      context.missing(_dayMeta);
-    }
-    if (data.containsKey('summer_time')) {
-      context.handle(
-          _summerTimeMeta,
-          summerTime.isAcceptableOrUnknown(
-              data['summer_time']!, _summerTimeMeta));
-    } else if (isInserting) {
-      context.missing(_summerTimeMeta);
-    }
-    if (data.containsKey('winter_time')) {
-      context.handle(
-          _winterTimeMeta,
-          winterTime.isAcceptableOrUnknown(
-              data['winter_time']!, _winterTimeMeta));
-    } else if (isInserting) {
-      context.missing(_winterTimeMeta);
-    }
-    if (data.containsKey('duration_summer')) {
-      context.handle(
-          _durationSummerMeta,
-          durationSummer.isAcceptableOrUnknown(
-              data['duration_summer']!, _durationSummerMeta));
-    } else if (isInserting) {
-      context.missing(_durationSummerMeta);
-    }
-    if (data.containsKey('duration_winter')) {
-      context.handle(
-          _durationWinterMeta,
-          durationWinter.isAcceptableOrUnknown(
-              data['duration_winter']!, _durationWinterMeta));
-    } else if (isInserting) {
-      context.missing(_durationWinterMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  TrainingTimeData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return TrainingTimeData(
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
-      deletedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}deleted_at']),
-      lastUpdatedBy: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}last_updated_by']),
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      day: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}day'])!,
-      summerTime: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}summer_time'])!,
-      winterTime: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}winter_time'])!,
-      durationSummer: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}duration_summer'])!,
-      durationWinter: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}duration_winter'])!,
-    );
-  }
-
-  @override
-  $TrainingTimeTable createAlias(String alias) {
-    return $TrainingTimeTable(attachedDatabase, alias);
-  }
-}
-
-class TrainingTimeData extends DataClass
-    implements Insertable<TrainingTimeData> {
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final DateTime? deletedAt;
-  final String? lastUpdatedBy;
-  final String id;
-  final String day;
-  final String summerTime;
-  final String winterTime;
-  final int durationSummer;
-  final int durationWinter;
-  const TrainingTimeData(
-      {required this.createdAt,
-      required this.updatedAt,
-      this.deletedAt,
-      this.lastUpdatedBy,
-      required this.id,
-      required this.day,
-      required this.summerTime,
-      required this.winterTime,
-      required this.durationSummer,
-      required this.durationWinter});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['created_at'] = Variable<DateTime>(createdAt);
-    map['updated_at'] = Variable<DateTime>(updatedAt);
-    if (!nullToAbsent || deletedAt != null) {
-      map['deleted_at'] = Variable<DateTime>(deletedAt);
-    }
-    if (!nullToAbsent || lastUpdatedBy != null) {
-      map['last_updated_by'] = Variable<String>(lastUpdatedBy);
-    }
-    map['id'] = Variable<String>(id);
-    map['day'] = Variable<String>(day);
-    map['summer_time'] = Variable<String>(summerTime);
-    map['winter_time'] = Variable<String>(winterTime);
-    map['duration_summer'] = Variable<int>(durationSummer);
-    map['duration_winter'] = Variable<int>(durationWinter);
-    return map;
-  }
-
-  TrainingTimeCompanion toCompanion(bool nullToAbsent) {
-    return TrainingTimeCompanion(
-      createdAt: Value(createdAt),
-      updatedAt: Value(updatedAt),
-      deletedAt: deletedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deletedAt),
-      lastUpdatedBy: lastUpdatedBy == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastUpdatedBy),
-      id: Value(id),
-      day: Value(day),
-      summerTime: Value(summerTime),
-      winterTime: Value(winterTime),
-      durationSummer: Value(durationSummer),
-      durationWinter: Value(durationWinter),
-    );
-  }
-
-  factory TrainingTimeData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TrainingTimeData(
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
-      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
-      lastUpdatedBy: serializer.fromJson<String?>(json['lastUpdatedBy']),
-      id: serializer.fromJson<String>(json['id']),
-      day: serializer.fromJson<String>(json['day']),
-      summerTime: serializer.fromJson<String>(json['summerTime']),
-      winterTime: serializer.fromJson<String>(json['winterTime']),
-      durationSummer: serializer.fromJson<int>(json['durationSummer']),
-      durationWinter: serializer.fromJson<int>(json['durationWinter']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'updatedAt': serializer.toJson<DateTime>(updatedAt),
-      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
-      'lastUpdatedBy': serializer.toJson<String?>(lastUpdatedBy),
-      'id': serializer.toJson<String>(id),
-      'day': serializer.toJson<String>(day),
-      'summerTime': serializer.toJson<String>(summerTime),
-      'winterTime': serializer.toJson<String>(winterTime),
-      'durationSummer': serializer.toJson<int>(durationSummer),
-      'durationWinter': serializer.toJson<int>(durationWinter),
-    };
-  }
-
-  TrainingTimeData copyWith(
-          {DateTime? createdAt,
-          DateTime? updatedAt,
-          Value<DateTime?> deletedAt = const Value.absent(),
-          Value<String?> lastUpdatedBy = const Value.absent(),
-          String? id,
-          String? day,
-          String? summerTime,
-          String? winterTime,
-          int? durationSummer,
-          int? durationWinter}) =>
-      TrainingTimeData(
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
-        lastUpdatedBy:
-            lastUpdatedBy.present ? lastUpdatedBy.value : this.lastUpdatedBy,
-        id: id ?? this.id,
-        day: day ?? this.day,
-        summerTime: summerTime ?? this.summerTime,
-        winterTime: winterTime ?? this.winterTime,
-        durationSummer: durationSummer ?? this.durationSummer,
-        durationWinter: durationWinter ?? this.durationWinter,
-      );
-  TrainingTimeData copyWithCompanion(TrainingTimeCompanion data) {
-    return TrainingTimeData(
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
-      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
-      lastUpdatedBy: data.lastUpdatedBy.present
-          ? data.lastUpdatedBy.value
-          : this.lastUpdatedBy,
-      id: data.id.present ? data.id.value : this.id,
-      day: data.day.present ? data.day.value : this.day,
-      summerTime:
-          data.summerTime.present ? data.summerTime.value : this.summerTime,
-      winterTime:
-          data.winterTime.present ? data.winterTime.value : this.winterTime,
-      durationSummer: data.durationSummer.present
-          ? data.durationSummer.value
-          : this.durationSummer,
-      durationWinter: data.durationWinter.present
-          ? data.durationWinter.value
-          : this.durationWinter,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TrainingTimeData(')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('lastUpdatedBy: $lastUpdatedBy, ')
-          ..write('id: $id, ')
-          ..write('day: $day, ')
-          ..write('summerTime: $summerTime, ')
-          ..write('winterTime: $winterTime, ')
-          ..write('durationSummer: $durationSummer, ')
-          ..write('durationWinter: $durationWinter')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      createdAt,
-      updatedAt,
-      deletedAt,
-      lastUpdatedBy,
-      id,
-      day,
-      summerTime,
-      winterTime,
-      durationSummer,
-      durationWinter);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is TrainingTimeData &&
-          other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt &&
-          other.deletedAt == this.deletedAt &&
-          other.lastUpdatedBy == this.lastUpdatedBy &&
-          other.id == this.id &&
-          other.day == this.day &&
-          other.summerTime == this.summerTime &&
-          other.winterTime == this.winterTime &&
-          other.durationSummer == this.durationSummer &&
-          other.durationWinter == this.durationWinter);
-}
-
-class TrainingTimeCompanion extends UpdateCompanion<TrainingTimeData> {
-  final Value<DateTime> createdAt;
-  final Value<DateTime> updatedAt;
-  final Value<DateTime?> deletedAt;
-  final Value<String?> lastUpdatedBy;
-  final Value<String> id;
-  final Value<String> day;
-  final Value<String> summerTime;
-  final Value<String> winterTime;
-  final Value<int> durationSummer;
-  final Value<int> durationWinter;
-  final Value<int> rowid;
-  const TrainingTimeCompanion({
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-    this.deletedAt = const Value.absent(),
-    this.lastUpdatedBy = const Value.absent(),
-    this.id = const Value.absent(),
-    this.day = const Value.absent(),
-    this.summerTime = const Value.absent(),
-    this.winterTime = const Value.absent(),
-    this.durationSummer = const Value.absent(),
-    this.durationWinter = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  TrainingTimeCompanion.insert({
-    required DateTime createdAt,
-    required DateTime updatedAt,
-    this.deletedAt = const Value.absent(),
-    this.lastUpdatedBy = const Value.absent(),
-    required String id,
-    required String day,
-    required String summerTime,
-    required String winterTime,
-    required int durationSummer,
-    required int durationWinter,
-    this.rowid = const Value.absent(),
-  })  : createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt),
-        id = Value(id),
-        day = Value(day),
-        summerTime = Value(summerTime),
-        winterTime = Value(winterTime),
-        durationSummer = Value(durationSummer),
-        durationWinter = Value(durationWinter);
-  static Insertable<TrainingTimeData> custom({
-    Expression<DateTime>? createdAt,
-    Expression<DateTime>? updatedAt,
-    Expression<DateTime>? deletedAt,
-    Expression<String>? lastUpdatedBy,
-    Expression<String>? id,
-    Expression<String>? day,
-    Expression<String>? summerTime,
-    Expression<String>? winterTime,
-    Expression<int>? durationSummer,
-    Expression<int>? durationWinter,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-      if (deletedAt != null) 'deleted_at': deletedAt,
-      if (lastUpdatedBy != null) 'last_updated_by': lastUpdatedBy,
-      if (id != null) 'id': id,
-      if (day != null) 'day': day,
-      if (summerTime != null) 'summer_time': summerTime,
-      if (winterTime != null) 'winter_time': winterTime,
-      if (durationSummer != null) 'duration_summer': durationSummer,
-      if (durationWinter != null) 'duration_winter': durationWinter,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  TrainingTimeCompanion copyWith(
-      {Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt,
-      Value<DateTime?>? deletedAt,
-      Value<String?>? lastUpdatedBy,
-      Value<String>? id,
-      Value<String>? day,
-      Value<String>? summerTime,
-      Value<String>? winterTime,
-      Value<int>? durationSummer,
-      Value<int>? durationWinter,
-      Value<int>? rowid}) {
-    return TrainingTimeCompanion(
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      deletedAt: deletedAt ?? this.deletedAt,
-      lastUpdatedBy: lastUpdatedBy ?? this.lastUpdatedBy,
-      id: id ?? this.id,
-      day: day ?? this.day,
-      summerTime: summerTime ?? this.summerTime,
-      winterTime: winterTime ?? this.winterTime,
-      durationSummer: durationSummer ?? this.durationSummer,
-      durationWinter: durationWinter ?? this.durationWinter,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime>(updatedAt.value);
-    }
-    if (deletedAt.present) {
-      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
-    }
-    if (lastUpdatedBy.present) {
-      map['last_updated_by'] = Variable<String>(lastUpdatedBy.value);
-    }
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (day.present) {
-      map['day'] = Variable<String>(day.value);
-    }
-    if (summerTime.present) {
-      map['summer_time'] = Variable<String>(summerTime.value);
-    }
-    if (winterTime.present) {
-      map['winter_time'] = Variable<String>(winterTime.value);
-    }
-    if (durationSummer.present) {
-      map['duration_summer'] = Variable<int>(durationSummer.value);
-    }
-    if (durationWinter.present) {
-      map['duration_winter'] = Variable<int>(durationWinter.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TrainingTimeCompanion(')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('lastUpdatedBy: $lastUpdatedBy, ')
-          ..write('id: $id, ')
-          ..write('day: $day, ')
-          ..write('summerTime: $summerTime, ')
-          ..write('winterTime: $winterTime, ')
-          ..write('durationSummer: $durationSummer, ')
-          ..write('durationWinter: $durationWinter, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $TrainingTrainerTable extends TrainingTrainer
     with TableInfo<$TrainingTrainerTable, TrainingTrainerData> {
   @override
@@ -19295,7 +19030,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TrainerTable trainer = $TrainerTable(this);
   late final $TrainingAthleteTable trainingAthlete =
       $TrainingAthleteTable(this);
-  late final $TrainingTimeTable trainingTime = $TrainingTimeTable(this);
   late final $TrainingTrainerTable trainingTrainer =
       $TrainingTrainerTable(this);
   late final $TrainingTable training = $TrainingTable(this);
@@ -19339,7 +19073,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         signUpForm,
         trainer,
         trainingAthlete,
-        trainingTime,
         trainingTrainer,
         training,
         webPost
@@ -22634,8 +22367,14 @@ typedef $$GroupTableCreateCompanionBuilder = GroupCompanion Function({
   required int system,
   required String name,
   Value<String?> description,
-  required String trainingTimeId,
   required String schoolYearId,
+  Value<String?> dayOfWeek,
+  Value<String?> summerTime,
+  Value<String?> winterTime,
+  Value<int?> durationSummer,
+  Value<int?> durationWinter,
+  Value<String?> defaultLocationSummer,
+  Value<String?> defaultLocationWinter,
   Value<int> rowid,
 });
 typedef $$GroupTableUpdateCompanionBuilder = GroupCompanion Function({
@@ -22647,8 +22386,14 @@ typedef $$GroupTableUpdateCompanionBuilder = GroupCompanion Function({
   Value<int> system,
   Value<String> name,
   Value<String?> description,
-  Value<String> trainingTimeId,
   Value<String> schoolYearId,
+  Value<String?> dayOfWeek,
+  Value<String?> summerTime,
+  Value<String?> winterTime,
+  Value<int?> durationSummer,
+  Value<int?> durationWinter,
+  Value<String?> defaultLocationSummer,
+  Value<String?> defaultLocationWinter,
   Value<int> rowid,
 });
 
@@ -22684,12 +22429,33 @@ class $$GroupTableFilterComposer extends Composer<_$AppDatabase, $GroupTable> {
   ColumnFilters<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get trainingTimeId => $composableBuilder(
-      column: $table.trainingTimeId,
-      builder: (column) => ColumnFilters(column));
-
   ColumnFilters<String> get schoolYearId => $composableBuilder(
       column: $table.schoolYearId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get dayOfWeek => $composableBuilder(
+      column: $table.dayOfWeek, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get summerTime => $composableBuilder(
+      column: $table.summerTime, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get winterTime => $composableBuilder(
+      column: $table.winterTime, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get durationSummer => $composableBuilder(
+      column: $table.durationSummer,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get durationWinter => $composableBuilder(
+      column: $table.durationWinter,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get defaultLocationSummer => $composableBuilder(
+      column: $table.defaultLocationSummer,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get defaultLocationWinter => $composableBuilder(
+      column: $table.defaultLocationWinter,
+      builder: (column) => ColumnFilters(column));
 }
 
 class $$GroupTableOrderingComposer
@@ -22726,12 +22492,33 @@ class $$GroupTableOrderingComposer
   ColumnOrderings<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get trainingTimeId => $composableBuilder(
-      column: $table.trainingTimeId,
-      builder: (column) => ColumnOrderings(column));
-
   ColumnOrderings<String> get schoolYearId => $composableBuilder(
       column: $table.schoolYearId,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get dayOfWeek => $composableBuilder(
+      column: $table.dayOfWeek, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get summerTime => $composableBuilder(
+      column: $table.summerTime, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get winterTime => $composableBuilder(
+      column: $table.winterTime, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get durationSummer => $composableBuilder(
+      column: $table.durationSummer,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get durationWinter => $composableBuilder(
+      column: $table.durationWinter,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get defaultLocationSummer => $composableBuilder(
+      column: $table.defaultLocationSummer,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get defaultLocationWinter => $composableBuilder(
+      column: $table.defaultLocationWinter,
       builder: (column) => ColumnOrderings(column));
 }
 
@@ -22768,11 +22555,29 @@ class $$GroupTableAnnotationComposer
   GeneratedColumn<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => column);
 
-  GeneratedColumn<String> get trainingTimeId => $composableBuilder(
-      column: $table.trainingTimeId, builder: (column) => column);
-
   GeneratedColumn<String> get schoolYearId => $composableBuilder(
       column: $table.schoolYearId, builder: (column) => column);
+
+  GeneratedColumn<String> get dayOfWeek =>
+      $composableBuilder(column: $table.dayOfWeek, builder: (column) => column);
+
+  GeneratedColumn<String> get summerTime => $composableBuilder(
+      column: $table.summerTime, builder: (column) => column);
+
+  GeneratedColumn<String> get winterTime => $composableBuilder(
+      column: $table.winterTime, builder: (column) => column);
+
+  GeneratedColumn<int> get durationSummer => $composableBuilder(
+      column: $table.durationSummer, builder: (column) => column);
+
+  GeneratedColumn<int> get durationWinter => $composableBuilder(
+      column: $table.durationWinter, builder: (column) => column);
+
+  GeneratedColumn<String> get defaultLocationSummer => $composableBuilder(
+      column: $table.defaultLocationSummer, builder: (column) => column);
+
+  GeneratedColumn<String> get defaultLocationWinter => $composableBuilder(
+      column: $table.defaultLocationWinter, builder: (column) => column);
 }
 
 class $$GroupTableTableManager extends RootTableManager<
@@ -22806,8 +22611,14 @@ class $$GroupTableTableManager extends RootTableManager<
             Value<int> system = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<String?> description = const Value.absent(),
-            Value<String> trainingTimeId = const Value.absent(),
             Value<String> schoolYearId = const Value.absent(),
+            Value<String?> dayOfWeek = const Value.absent(),
+            Value<String?> summerTime = const Value.absent(),
+            Value<String?> winterTime = const Value.absent(),
+            Value<int?> durationSummer = const Value.absent(),
+            Value<int?> durationWinter = const Value.absent(),
+            Value<String?> defaultLocationSummer = const Value.absent(),
+            Value<String?> defaultLocationWinter = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               GroupCompanion(
@@ -22819,8 +22630,14 @@ class $$GroupTableTableManager extends RootTableManager<
             system: system,
             name: name,
             description: description,
-            trainingTimeId: trainingTimeId,
             schoolYearId: schoolYearId,
+            dayOfWeek: dayOfWeek,
+            summerTime: summerTime,
+            winterTime: winterTime,
+            durationSummer: durationSummer,
+            durationWinter: durationWinter,
+            defaultLocationSummer: defaultLocationSummer,
+            defaultLocationWinter: defaultLocationWinter,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -22832,8 +22649,14 @@ class $$GroupTableTableManager extends RootTableManager<
             required int system,
             required String name,
             Value<String?> description = const Value.absent(),
-            required String trainingTimeId,
             required String schoolYearId,
+            Value<String?> dayOfWeek = const Value.absent(),
+            Value<String?> summerTime = const Value.absent(),
+            Value<String?> winterTime = const Value.absent(),
+            Value<int?> durationSummer = const Value.absent(),
+            Value<int?> durationWinter = const Value.absent(),
+            Value<String?> defaultLocationSummer = const Value.absent(),
+            Value<String?> defaultLocationWinter = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               GroupCompanion.insert(
@@ -22845,8 +22668,14 @@ class $$GroupTableTableManager extends RootTableManager<
             system: system,
             name: name,
             description: description,
-            trainingTimeId: trainingTimeId,
             schoolYearId: schoolYearId,
+            dayOfWeek: dayOfWeek,
+            summerTime: summerTime,
+            winterTime: winterTime,
+            durationSummer: durationSummer,
+            durationWinter: durationWinter,
+            defaultLocationSummer: defaultLocationSummer,
+            defaultLocationWinter: defaultLocationWinter,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
@@ -27417,259 +27246,6 @@ typedef $$TrainingAthleteTableProcessedTableManager = ProcessedTableManager<
     ),
     TrainingAthleteData,
     PrefetchHooks Function()>;
-typedef $$TrainingTimeTableCreateCompanionBuilder = TrainingTimeCompanion
-    Function({
-  required DateTime createdAt,
-  required DateTime updatedAt,
-  Value<DateTime?> deletedAt,
-  Value<String?> lastUpdatedBy,
-  required String id,
-  required String day,
-  required String summerTime,
-  required String winterTime,
-  required int durationSummer,
-  required int durationWinter,
-  Value<int> rowid,
-});
-typedef $$TrainingTimeTableUpdateCompanionBuilder = TrainingTimeCompanion
-    Function({
-  Value<DateTime> createdAt,
-  Value<DateTime> updatedAt,
-  Value<DateTime?> deletedAt,
-  Value<String?> lastUpdatedBy,
-  Value<String> id,
-  Value<String> day,
-  Value<String> summerTime,
-  Value<String> winterTime,
-  Value<int> durationSummer,
-  Value<int> durationWinter,
-  Value<int> rowid,
-});
-
-class $$TrainingTimeTableFilterComposer
-    extends Composer<_$AppDatabase, $TrainingTimeTable> {
-  $$TrainingTimeTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
-      column: $table.deletedAt, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get lastUpdatedBy => $composableBuilder(
-      column: $table.lastUpdatedBy, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get day => $composableBuilder(
-      column: $table.day, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get summerTime => $composableBuilder(
-      column: $table.summerTime, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get winterTime => $composableBuilder(
-      column: $table.winterTime, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<int> get durationSummer => $composableBuilder(
-      column: $table.durationSummer,
-      builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<int> get durationWinter => $composableBuilder(
-      column: $table.durationWinter,
-      builder: (column) => ColumnFilters(column));
-}
-
-class $$TrainingTimeTableOrderingComposer
-    extends Composer<_$AppDatabase, $TrainingTimeTable> {
-  $$TrainingTimeTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
-      column: $table.deletedAt, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get lastUpdatedBy => $composableBuilder(
-      column: $table.lastUpdatedBy,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get day => $composableBuilder(
-      column: $table.day, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get summerTime => $composableBuilder(
-      column: $table.summerTime, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get winterTime => $composableBuilder(
-      column: $table.winterTime, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<int> get durationSummer => $composableBuilder(
-      column: $table.durationSummer,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<int> get durationWinter => $composableBuilder(
-      column: $table.durationWinter,
-      builder: (column) => ColumnOrderings(column));
-}
-
-class $$TrainingTimeTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TrainingTimeTable> {
-  $$TrainingTimeTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get updatedAt =>
-      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get deletedAt =>
-      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
-
-  GeneratedColumn<String> get lastUpdatedBy => $composableBuilder(
-      column: $table.lastUpdatedBy, builder: (column) => column);
-
-  GeneratedColumn<String> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get day =>
-      $composableBuilder(column: $table.day, builder: (column) => column);
-
-  GeneratedColumn<String> get summerTime => $composableBuilder(
-      column: $table.summerTime, builder: (column) => column);
-
-  GeneratedColumn<String> get winterTime => $composableBuilder(
-      column: $table.winterTime, builder: (column) => column);
-
-  GeneratedColumn<int> get durationSummer => $composableBuilder(
-      column: $table.durationSummer, builder: (column) => column);
-
-  GeneratedColumn<int> get durationWinter => $composableBuilder(
-      column: $table.durationWinter, builder: (column) => column);
-}
-
-class $$TrainingTimeTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $TrainingTimeTable,
-    TrainingTimeData,
-    $$TrainingTimeTableFilterComposer,
-    $$TrainingTimeTableOrderingComposer,
-    $$TrainingTimeTableAnnotationComposer,
-    $$TrainingTimeTableCreateCompanionBuilder,
-    $$TrainingTimeTableUpdateCompanionBuilder,
-    (
-      TrainingTimeData,
-      BaseReferences<_$AppDatabase, $TrainingTimeTable, TrainingTimeData>
-    ),
-    TrainingTimeData,
-    PrefetchHooks Function()> {
-  $$TrainingTimeTableTableManager(_$AppDatabase db, $TrainingTimeTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$TrainingTimeTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$TrainingTimeTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$TrainingTimeTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-            Value<DateTime?> deletedAt = const Value.absent(),
-            Value<String?> lastUpdatedBy = const Value.absent(),
-            Value<String> id = const Value.absent(),
-            Value<String> day = const Value.absent(),
-            Value<String> summerTime = const Value.absent(),
-            Value<String> winterTime = const Value.absent(),
-            Value<int> durationSummer = const Value.absent(),
-            Value<int> durationWinter = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TrainingTimeCompanion(
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            lastUpdatedBy: lastUpdatedBy,
-            id: id,
-            day: day,
-            summerTime: summerTime,
-            winterTime: winterTime,
-            durationSummer: durationSummer,
-            durationWinter: durationWinter,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required DateTime createdAt,
-            required DateTime updatedAt,
-            Value<DateTime?> deletedAt = const Value.absent(),
-            Value<String?> lastUpdatedBy = const Value.absent(),
-            required String id,
-            required String day,
-            required String summerTime,
-            required String winterTime,
-            required int durationSummer,
-            required int durationWinter,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TrainingTimeCompanion.insert(
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            lastUpdatedBy: lastUpdatedBy,
-            id: id,
-            day: day,
-            summerTime: summerTime,
-            winterTime: winterTime,
-            durationSummer: durationSummer,
-            durationWinter: durationWinter,
-            rowid: rowid,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: null,
-        ));
-}
-
-typedef $$TrainingTimeTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $TrainingTimeTable,
-    TrainingTimeData,
-    $$TrainingTimeTableFilterComposer,
-    $$TrainingTimeTableOrderingComposer,
-    $$TrainingTimeTableAnnotationComposer,
-    $$TrainingTimeTableCreateCompanionBuilder,
-    $$TrainingTimeTableUpdateCompanionBuilder,
-    (
-      TrainingTimeData,
-      BaseReferences<_$AppDatabase, $TrainingTimeTable, TrainingTimeData>
-    ),
-    TrainingTimeData,
-    PrefetchHooks Function()>;
 typedef $$TrainingTrainerTableCreateCompanionBuilder = TrainingTrainerCompanion
     Function({
   required DateTime createdAt,
@@ -28465,8 +28041,6 @@ class $AppDatabaseManager {
       $$TrainerTableTableManager(_db, _db.trainer);
   $$TrainingAthleteTableTableManager get trainingAthlete =>
       $$TrainingAthleteTableTableManager(_db, _db.trainingAthlete);
-  $$TrainingTimeTableTableManager get trainingTime =>
-      $$TrainingTimeTableTableManager(_db, _db.trainingTime);
   $$TrainingTrainerTableTableManager get trainingTrainer =>
       $$TrainingTrainerTableTableManager(_db, _db.trainingTrainer);
   $$TrainingTableTableManager get training =>

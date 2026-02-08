@@ -219,8 +219,31 @@ GroupCompanion buildGroupCompanion(Map<String, dynamic> row) => GroupCompanion(
       description: row['description'] != null
           ? Value(row['description'])
           : const Value.absent(),
-      trainingTimeId: Value(row['training_time_id']),
+      // trainingTimeId: row['training_time_id'] != null
+      //     ? Value(row['training_time_id'])
+      //     : const Value.absent(),
       schoolYearId: Value(row['school_year_id']),
+      dayOfWeek: row['day_of_week'] != null
+          ? Value(row['day_of_week'])
+          : const Value.absent(),
+      summerTime: row['summer_time'] != null
+          ? Value(row['summer_time'])
+          : const Value.absent(),
+      winterTime: row['winter_time'] != null
+          ? Value(row['winter_time'])
+          : const Value.absent(),
+      durationSummer: row['duration_summer'] != null
+          ? Value(row['duration_summer'])
+          : const Value.absent(),
+      durationWinter: row['duration_winter'] != null
+          ? Value(row['duration_winter'])
+          : const Value.absent(),
+      defaultLocationSummer: row['default_location_summer'] != null
+          ? Value(row['default_location_summer'])
+          : const Value.absent(),
+      defaultLocationWinter: row['default_location_winter'] != null
+          ? Value(row['default_location_winter'])
+          : const Value.absent(),
       createdAt: Value(DateTime.parse(row['created_at'])),
       updatedAt: Value(DateTime.parse(row['updated_at'])),
       deletedAt: row['deleted_at'] != null
@@ -477,23 +500,23 @@ TrainingAthleteCompanion buildTrainingAthleteCompanion(
           : const Value.absent(),
     );
 
-TrainingTimeCompanion buildTrainingTimeCompanion(Map<String, dynamic> row) =>
-    TrainingTimeCompanion(
-      id: Value(row['id']),
-      day: Value(row['day']),
-      summerTime: Value(row['summer_time']),
-      winterTime: Value(row['winter_time']),
-      durationSummer: Value(row['duration_summer']),
-      durationWinter: Value(row['duration_winter']),
-      createdAt: Value(DateTime.parse(row['created_at'])),
-      updatedAt: Value(DateTime.parse(row['updated_at'])),
-      deletedAt: row['deleted_at'] != null
-          ? Value(DateTime.parse(row['deleted_at']))
-          : const Value.absent(),
-      lastUpdatedBy: row['last_updated_by'] != null
-          ? Value(row['last_updated_by'])
-          : const Value.absent(),
-    );
+// TrainingTimeCompanion buildTrainingTimeCompanion(Map<String, dynamic> row) =>
+//     TrainingTimeCompanion(
+//       id: Value(row['id']),
+//       day: Value(row['day']),
+//       summerTime: Value(row['summer_time']),
+//       winterTime: Value(row['winter_time']),
+//       durationSummer: Value(row['duration_summer']),
+//       durationWinter: Value(row['duration_winter']),
+//       createdAt: Value(DateTime.parse(row['created_at'])),
+//       updatedAt: Value(DateTime.parse(row['updated_at'])),
+//       deletedAt: row['deleted_at'] != null
+//           ? Value(DateTime.parse(row['deleted_at']))
+//           : const Value.absent(),
+//       lastUpdatedBy: row['last_updated_by'] != null
+//           ? Value(row['last_updated_by'])
+//           : const Value.absent(),
+//     );
 
 TrainingTrainerCompanion buildTrainingTrainerCompanion(
         Map<String, dynamic> row) =>
@@ -776,7 +799,7 @@ final Map<String, Function> companionMap = {
   'sign_up_form': buildSignUpFormCompanion,
   'trainer': buildTrainerCompanion,
   'training_athlete': buildTrainingAthleteCompanion,
-  'training_time': buildTrainingTimeCompanion,
+  //'training_time': buildTrainingTimeCompanion,
   'training_trainer': buildTrainingTrainerCompanion,
   'training': buildTrainingCompanion,
   'web_post': buildWebPostCompanion,

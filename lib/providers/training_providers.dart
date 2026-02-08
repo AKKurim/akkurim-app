@@ -116,8 +116,7 @@ class TrainingsP extends _$TrainingsP {
     // Create a list of dates between from and to
     final dates = <DateTime>[];
     final durations = <int>[];
-    final int weekday =
-        TimeHelper.getWeekDayFromString(group.trainingTime!.day);
+    final int weekday = TimeHelper.getWeekDayFromString(group.group.dayOfWeek!);
     DateTime currentDate = from;
     while (currentDate.isBefore(to.add(const Duration(days: 1))) ||
         currentDate.isAtSameMomentAs(to)) {
@@ -127,9 +126,8 @@ class TrainingsP extends _$TrainingsP {
             TimeHelper.isSummerTimeZone(currentDate.copyWith(
           hour: 12,
         ));
-        TimeHelper time = TimeHelper.fromString(isSummerTime
-            ? group.trainingTime!.summerTime
-            : group.trainingTime!.winterTime);
+        TimeHelper time = TimeHelper.fromString(
+            isSummerTime ? group.group.summerTime! : group.group.winterTime!);
         dates.add(currentDate.copyWith(
             hour: time.hour,
             minute: time.minute,
@@ -338,12 +336,6 @@ class TrainingsP extends _$TrainingsP {
 Stream<List<SchoolYearData>> schoolYears(Ref ref) async* {
   final db = ref.read(dbProvider);
   yield* db.select(db.schoolYear).watch();
-}
-
-@riverpod
-Stream<List<TrainingTimeData>> trainingTimes(Ref ref) async* {
-  final db = ref.read(dbProvider);
-  yield* db.select(db.trainingTime).watch();
 }
 
 @riverpod

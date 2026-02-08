@@ -23,24 +23,6 @@ final schoolYearsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SchoolYearsRef = AutoDisposeStreamProviderRef<List<SchoolYearData>>;
-String _$trainingTimesHash() => r'27c3f813d831227d12bbf80da3e2be58b8f7e666';
-
-/// See also [trainingTimes].
-@ProviderFor(trainingTimes)
-final trainingTimesProvider =
-    AutoDisposeStreamProvider<List<TrainingTimeData>>.internal(
-  trainingTimes,
-  name: r'trainingTimesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$trainingTimesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef TrainingTimesRef = AutoDisposeStreamProviderRef<List<TrainingTimeData>>;
 String _$trainingHash() => r'ab11251865ac45d4f34f7fc5846448cfb0dcb32c';
 
 /// Copied from Dart SDK
@@ -191,7 +173,7 @@ class _TrainingProviderElement
   String get trainingId => (origin as TrainingProvider).trainingId;
 }
 
-String _$trainingsPHash() => r'6b8edee8484a3983014dd12c79ce40903c2cd006';
+String _$trainingsPHash() => r'7c0787bfab6d1fef64570cbbac1d1f10f65b2944';
 
 abstract class _$TrainingsP
     extends BuildlessAutoDisposeStreamNotifier<List<TrainingView>> {

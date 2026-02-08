@@ -54,8 +54,6 @@ class GroupsP extends _$GroupsP {
         leftOuterJoin(db.club, db.club.id.equalsExp(db.athlete.clubId)),
         leftOuterJoin(
             db.schoolYear, db.schoolYear.id.equalsExp(db.group.schoolYearId)),
-        leftOuterJoin(db.trainingTime,
-            db.trainingTime.id.equalsExp(db.group.trainingTimeId)),
       ],
     )..where(db.groupTrainer.deletedAt.isNull() &
         db.groupAthlete.deletedAt.isNull());
@@ -71,7 +69,6 @@ class GroupsP extends _$GroupsP {
         final rows = entry.value;
         final group = rows.first.readTable(db.group);
         final schoolYear = rows.first.readTableOrNull(db.schoolYear);
-        final trainingTime = rows.first.readTableOrNull(db.trainingTime);
 
         final trainers = rows
             .map((row) {
@@ -110,7 +107,6 @@ class GroupsP extends _$GroupsP {
           trainers: trainers,
           athletes: athletes,
           schoolYear: schoolYear,
-          trainingTime: trainingTime,
         );
       }).toList();
       return groupViews;
@@ -127,41 +123,16 @@ class GroupsP extends _$GroupsP {
     required List<SimpleAthleteView> athletes,
     required int durationSummer,
     required int durationWinter,
-    String? trainingTimeId,
     String? groupId,
     List<String>? previousAthletesIds,
     List<String>? previousTrainersIds,
+    String? description,
+    String? defaultLocationSummer,
+    String? defaultLocationWinter,
   }) async {
     final db = ref.read(dbProvider);
     final sync = ref.read(syncServiceProvider.notifier);
     final auth = ref.read(authServiceProvider);
-
-    if (trainingTimeId == null) {
-      trainingTimeId = Uuid().v1();
-      final trainingTime = await db.into(db.trainingTime).insertReturning(
-            mode: InsertMode.insertOrReplace,
-            TrainingTimeCompanion(
-              id: Value(trainingTimeId),
-              day: Value(day),
-              summerTime: Value(summerTime.toString()),
-              winterTime: Value(winterTime.toString()),
-              durationSummer: Value(durationSummer),
-              durationWinter: Value(durationWinter),
-              createdAt: Value(DateTime.now()),
-              updatedAt: Value(DateTime.now()),
-              lastUpdatedBy: Value(auth.asData!.value.email),
-            ),
-          );
-      await sync.addToSyncQueue(
-        '/sync/training_time',
-        'post',
-        json.encode({
-          'data': [Utils.convertMapKeysToSnakeCase(trainingTime.toJson())],
-          'primary_keys': ['id'],
-          'table': 'training_time',
-        }),
-      );
-    }
 
     groupId ??= Uuid().v1();
     final newGroup = await db.into(db.group).insertReturning(
@@ -169,9 +140,15 @@ class GroupsP extends _$GroupsP {
           GroupCompanion(
             id: Value(groupId),
             name: Value(name),
-            description: Value(''),
+            description: Value(description ?? ''),
             schoolYearId: Value(schoolYear.id),
-            trainingTimeId: Value(trainingTimeId),
+            dayOfWeek: Value(day),
+            summerTime: Value(summerTime.toString()),
+            winterTime: Value(winterTime.toString()),
+            durationSummer: Value(durationSummer),
+            durationWinter: Value(durationWinter),
+            defaultLocationSummer: Value(defaultLocationSummer ?? ''),
+            defaultLocationWinter: Value(defaultLocationWinter ?? ''),
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
             deletedAt: Value(null),
