@@ -5,6 +5,7 @@ import '../../providers/app_settings_provider.dart';
 import '../../config.dart';
 import '../../providers/db_provider.dart';
 import './api_service.dart';
+import '../auth/auth_service.dart';
 import '../database/drift_database.dart';
 import '../database/companion_builder_map.dart';
 import '../../models/other/sync_state.dart';
@@ -341,13 +342,19 @@ class SyncService extends _$SyncService {
 
   Future<void> addToSyncQueue(String endpoint, String method, String data,
       {String type = 'json', bool sync = true}) async {
+    final auth = await ref.read(authServiceProvider.future);
     final db = ref.watch(dbProvider);
+    // add auth.email into the data, replace it if it already exists
+    Map<String, dynamic> dataMap = json.decode(data);
+    dataMap['updated_by'] = auth.email;
+    final String updatedData = json.encode(dataMap);
     await db.into(db.syncQueue).insert(
           SyncQueueCompanion(
             endpoint: Value(endpoint),
             method: Value(method),
             type: Value(type),
-            data: Value(data),
+            retryCount: Value(0),
+            data: Value(updatedData),
             createdAt: Value(DateTime.now()),
             updatedAt: Value(DateTime.now()),
           ),
