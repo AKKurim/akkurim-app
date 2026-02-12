@@ -105,7 +105,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
           street: street.text,
           city: city.text,
           zip: zip.text,
-          birthNumber: birthNumberStr,
+          birthNumber: birthNumber.text,
           note: note.text,
           statusString: status,
           ean: widget.editMode ? a?.athlete.ean : null,
