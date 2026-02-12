@@ -77,14 +77,38 @@ class TrainingTile extends ConsumerWidget {
             const Icon(Icons.calendar_today),
             const Icon(Icons.access_time),
             const SizedBox(width: 8),
-            Text(
-                TimeHelper.getFullDateWithTime(
-                    training.training.startAt, context,
+            Expanded(
+              child: Text(
+                  TimeHelper.getFullDateWithTime(
+                    training.training.startAt,
+                    context,
                     endTime: training.training.startAt.add(
                       Duration(minutes: training.training.durationMinutes),
-                    )),
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    ),
+                    timeNewLine:
+                        training.training.cancelledReason?.isNotEmpty == true,
+                  ),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+            if (training.training.cancelledReason?.isNotEmpty == true) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  AppLocalizations.of(context)!.cancelled,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
           ],
         ),
         Padding(
@@ -124,11 +148,37 @@ class TrainingTile extends ConsumerWidget {
                 context.push('/take-attendance/${training.training.id}',
                     extra: training);
               },
-              title: Text(training.group.group.name),
-              subtitle: Text(training.group.trainers
-                  .map((trainer) =>
-                      '${trainer.simpleAthlete.athlete.lastName} ${trainer.simpleAthlete.athlete.firstName}')
-                  .join(', ')),
+              title: Text(
+                training.group.group.name,
+                style: training.training.cancelledReason?.isNotEmpty == true
+                    ? const TextStyle(decoration: TextDecoration.lineThrough)
+                    : null,
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on, size: 16),
+                      const SizedBox(width: 4),
+                      Text(training.training.location ?? '?'),
+                    ],
+                  ),
+                  if (training.training.cancelledReason?.isNotEmpty == true)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        AppLocalizations.of(context)!.cancelledWithReason(
+                            training.training.cancelledReason!),
+                        style: TextStyle(
+                          color: Colors.red.shade700,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -145,11 +195,13 @@ class TrainingTile extends ConsumerWidget {
                           : Colors.red),
                 ],
               ),
-              // highlight active training
-              tileColor: TimeHelper.isSameDay(
-                      training.training.startAt, DateTime.now())
-                  ? Colors.green.withAlpha(100)
-                  : null,
+              // highlight active training or show cancelled state
+              tileColor: training.training.cancelledReason?.isNotEmpty == true
+                  ? Colors.red.withAlpha(50)
+                  : TimeHelper.isSameDay(
+                          training.training.startAt, DateTime.now())
+                      ? Colors.green.withAlpha(100)
+                      : null,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
                 side: BorderSide(

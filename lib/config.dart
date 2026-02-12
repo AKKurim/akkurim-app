@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 class Config {
   bool get isDebug => kDebugMode;
   static const String baseUrl = kDebugMode
-      ? 'http://192.168.0.9:8000'
+      //? 'http://192.168.0.9:8000'
+      ? 'https://api.akkurim.cz'
       : 'https://api.akkurim.cz';
   static const String apiVersion = '/v1';
 

@@ -327,8 +327,8 @@ class TimeHelper {
   }
 
   static String getFullDateWithTime(DateTime date, BuildContext context,
-      {bool withDay = true, DateTime? endTime}) {
-    return '${withDay ? getWeekDayName(date, context) : ''} ${getDayMonthYear(date)} (${getMinHourFromDateTime(date)}${endTime != null ? ' - ${getMinHourFromDateTime(endTime)}' : ''})';
+      {bool withDay = true, DateTime? endTime, bool timeNewLine = false}) {
+    return '${withDay ? getWeekDayName(date, context) : ''} ${getDayMonthYear(date)}${timeNewLine ? '\n' : ' '}(${getMinHourFromDateTime(date)}${endTime != null ? ' - ${getMinHourFromDateTime(endTime)}' : ''})';
   }
 
   static String getFullDateWithoutTime(

@@ -366,6 +366,32 @@
     "@createTraining" : {
         "description": "The label for the create training button"
     },
+    "cancelled" : "CANCELLED",
+    "@cancelled" : {
+        "description": "The label for cancelled training badge"
+    },
+    "cancelledWithReason" : "Cancelled: {reason}",
+    "@cancelledWithReason" : {
+        "description": "Text showing training cancellation with reason",
+        "placeholders": {
+            "reason": {
+                "type": "String",
+                "description": "The reason for cancellation"
+            }
+        }
+    },
+    "cancelReason" : "Cancel Reason",
+    "@cancelReason" : {
+        "description": "The label for the cancel reason input field"
+    },
+    "cancelReasonHint" : "Leave empty if training is not cancelled",
+    "@cancelReasonHint" : {
+        "description": "The hint text for the cancel reason input field"
+    },
+    "cancelWarningMessage" : "Warning: This training will be marked as CANCELLED",
+    "@cancelWarningMessage" : {
+        "description": "Warning message shown when cancelling a training"
+    },
     "trainingsCreated" : "Trainings created successfully.",
     "@trainingsCreated" : {
         "description": "The message shown when trainings are created successfully"

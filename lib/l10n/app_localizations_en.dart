@@ -288,6 +288,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createTraining => 'Create Training';
 
   @override
+  String get cancelled => 'CANCELLED';
+
+  @override
+  String cancelledWithReason(String reason) {
+    return 'Cancelled: $reason';
+  }
+
+  @override
+  String get cancelReason => 'Cancel Reason';
+
+  @override
+  String get cancelReasonHint => 'Leave empty if training is not cancelled';
+
+  @override
+  String get cancelWarningMessage =>
+      'Warning: This training will be marked as CANCELLED';
+
+  @override
   String get trainingsCreated => 'Trainings created successfully.';
 
   @override

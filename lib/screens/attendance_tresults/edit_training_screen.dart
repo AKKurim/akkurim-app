@@ -23,6 +23,7 @@ class _EditTrainingScreenState extends ConsumerState<EditTrainingScreen> {
   late int _duration;
   late TextEditingController _descriptionController;
   late TextEditingController _locationController;
+  late TextEditingController _cancelledReasonController;
 
   @override
   void initState() {
@@ -38,12 +39,20 @@ class _EditTrainingScreenState extends ConsumerState<EditTrainingScreen> {
         TextEditingController(text: _training?.training.description ?? '');
     _locationController =
         TextEditingController(text: _training?.training.location ?? '');
+    _cancelledReasonController =
+        TextEditingController(text: _training?.training.cancelledReason ?? '');
+
+    // Add listener to rebuild UI when cancel reason changes
+    _cancelledReasonController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
     _descriptionController.dispose();
     _locationController.dispose();
+    _cancelledReasonController.dispose();
     super.dispose();
   }
 
@@ -85,6 +94,9 @@ class _EditTrainingScreenState extends ConsumerState<EditTrainingScreen> {
           description: _descriptionController.text,
           durationMinutes: _duration,
           location: _locationController.text,
+          cancelledReason: _cancelledReasonController.text.isEmpty
+              ? null
+              : _cancelledReasonController.text,
         );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -110,7 +122,7 @@ class _EditTrainingScreenState extends ConsumerState<EditTrainingScreen> {
       ),
       body: Stack(
         children: [
-          Padding(
+          SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
@@ -139,12 +151,14 @@ class _EditTrainingScreenState extends ConsumerState<EditTrainingScreen> {
                 TextField(
                   controller: _descriptionController,
                   decoration: InputDecoration(
+                      icon: const Icon(Icons.description),
                       labelText: AppLocalizations.of(context)!.content),
                   maxLines: 3,
                 ),
                 const SizedBox(height: 8),
                 TextField(
                   decoration: InputDecoration(
+                      icon: const Icon(Icons.timer),
                       labelText: AppLocalizations.of(context)!.duration),
                   keyboardType: TextInputType.number,
                   controller: TextEditingController(text: _duration.toString()),
@@ -154,9 +168,57 @@ class _EditTrainingScreenState extends ConsumerState<EditTrainingScreen> {
                 TextField(
                   controller: _locationController,
                   decoration: InputDecoration(
+                      icon: const Icon(Icons.location_on),
                       labelText: AppLocalizations.of(context)!.location),
                 ),
-                const SizedBox(height: 64),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: _cancelledReasonController,
+                  decoration: InputDecoration(
+                      icon: const Icon(Icons.cancel, color: Colors.red),
+                      labelText: AppLocalizations.of(context)!.cancelReason,
+                      hintText: AppLocalizations.of(context)!.cancelReasonHint,
+                      border: _cancelledReasonController.text.isNotEmpty
+                          ? const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0))
+                          : null,
+                      focusedBorder: _cancelledReasonController.text.isNotEmpty
+                          ? const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0))
+                          : null),
+                  maxLines: 2,
+                ),
+                if (_cancelledReasonController.text.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      border: Border.all(color: Colors.red, width: 1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.warning, color: Colors.red, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            AppLocalizations.of(context)!.cancelWarningMessage,
+                            style: TextStyle(
+                              color: Colors.red.shade700,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 80),
               ],
             ),
           ),

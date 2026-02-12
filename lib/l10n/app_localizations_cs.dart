@@ -287,6 +287,24 @@ class AppLocalizationsCs extends AppLocalizations {
   String get createTraining => 'Vytvořit trénink';
 
   @override
+  String get cancelled => 'ZRUŠENO';
+
+  @override
+  String cancelledWithReason(String reason) {
+    return 'Zrušeno: $reason';
+  }
+
+  @override
+  String get cancelReason => 'Důvod zrušení';
+
+  @override
+  String get cancelReasonHint => 'Nechte prázdné, pokud trénink není zrušen';
+
+  @override
+  String get cancelWarningMessage =>
+      'Varování: Tento trénink bude označen jako ZRUŠEN';
+
+  @override
   String get trainingsCreated => 'Tréninky byly úspěšně vytvořeny.';
 
   @override

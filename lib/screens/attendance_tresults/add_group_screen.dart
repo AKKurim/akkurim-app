@@ -408,6 +408,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             child: TextField(
                               controller: defaultLocationSummerController,
                               decoration: InputDecoration(
+                                icon: const Icon(Icons.wb_sunny,
+                                    color: Colors.yellow),
                                 labelText: AppLocalizations.of(context)!
                                     .locationSummer,
                               ),
@@ -418,6 +420,8 @@ class _AddGroupScreenState extends ConsumerState<AddGroupScreen> {
                             child: TextField(
                               controller: defaultLocationWinterController,
                               decoration: InputDecoration(
+                                icon: const Icon(Icons.ac_unit,
+                                    color: Colors.blue),
                                 labelText: AppLocalizations.of(context)!
                                     .locationWinter,
                               ),

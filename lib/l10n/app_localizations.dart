@@ -620,6 +620,36 @@ abstract class AppLocalizations {
   /// **'Create Training'**
   String get createTraining;
 
+  /// The label for cancelled training badge
+  ///
+  /// In en, this message translates to:
+  /// **'CANCELLED'**
+  String get cancelled;
+
+  /// Text showing training cancellation with reason
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled: {reason}'**
+  String cancelledWithReason(String reason);
+
+  /// The label for the cancel reason input field
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Reason'**
+  String get cancelReason;
+
+  /// The hint text for the cancel reason input field
+  ///
+  /// In en, this message translates to:
+  /// **'Leave empty if training is not cancelled'**
+  String get cancelReasonHint;
+
+  /// Warning message shown when cancelling a training
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: This training will be marked as CANCELLED'**
+  String get cancelWarningMessage;
+
   /// The message shown when trainings are created successfully
   ///
   /// In en, this message translates to:
