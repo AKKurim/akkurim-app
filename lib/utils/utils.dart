@@ -186,6 +186,7 @@ class Utils {
   }
 
   static bool validateBirthNumber(String birthNumber) {
+    birthNumber = birthNumber.replaceAll('/', '');
     if (birthNumber.length != 10) {
       return false;
     }

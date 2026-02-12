@@ -85,8 +85,7 @@ class _MemberEditScreenState extends ConsumerState<MemberEditScreen> {
   }
 
   void saveMember({bool delete = false}) {
-    String birthNumberStr = birthNumber.text.replaceAll('/', '');
-    if (!Utils.validateBirthNumber(birthNumberStr) ||
+    if (!Utils.validateBirthNumber(birthNumber.text) ||
         (email.text.isNotEmpty && !email.text.contains('@'))) {
       // show error message
       ScaffoldMessenger.of(context).showSnackBar(
